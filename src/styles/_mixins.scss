@@ -1,0 +1,16 @@
+@import "variables";
+
+@mixin button-primary {
+  padding: $primary-btn-padding;
+  font-size: $primary-btn-font-size;
+  border-radius: $primary-btn-border-radius;
+  background-color: $primary-btn-bg-color;
+  color: $primary-btn-text-color;
+  box-shadow: $primary-btn-box-shadow;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background-color: $primary-btn-hover-bg-color;
+  }
+}
