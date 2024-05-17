@@ -3,15 +3,13 @@ import { FullscreenControl, NavigationControl } from "react-map-gl";
 import GeocoderControl from "../GeocoderControl/GeocoderControl";
 import style from "./MapControls.module.scss";
 import { initialView } from "../../constants";
-import { ReactComponent as MapDataIcon } from "../../icons/mapData.svg";
+import { ReactComponent as MapDataIcon } from "../../assets/svg/mapData.svg";
 import MapDataPanel from "../MapDataPanel/MapDataPanel";
 
 const MapControls = ({ county, setCounty, mapRef }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-
-  const toggleDataPanel = () => {
-    setIsPanelOpen(!isPanelOpen);
-  };
+  const openPanel = () => setIsPanelOpen(true);
+  const closePanel = () => setIsPanelOpen(false);
 
   const resetView = () => {
     setCounty(null);
@@ -35,12 +33,12 @@ const MapControls = ({ county, setCounty, mapRef }) => {
         position="top-left"
       />
 
-      <button onClick={toggleDataPanel} className={style.mapDataBtn}>
+      <button onClick={openPanel} className={style.mapDataBtn}>
         <MapDataIcon />
         Maps & Data
       </button>
 
-      {isPanelOpen && <MapDataPanel />}
+      {isPanelOpen && <MapDataPanel closePanel={closePanel} mapRef={mapRef} />}
 
       {county && (
         <button onClick={resetView} className={style.resetViewBtn}>
