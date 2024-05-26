@@ -1,3 +1,16 @@
+@import "../../styles/mixins";
+
+.openButton {
+  @include button-primary;
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 10px;
+}
+
 .panel {
   position: absolute;
   top: 10px;
@@ -7,6 +20,7 @@
   border-radius: 4px;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   padding: 10px;
+  z-index: 1;
 
   .heading {
     display: flex;
@@ -55,6 +69,7 @@
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         transition: box-shadow ease 0.3s;
         border-radius: 3px;
+        box-sizing: border-box;
       }
 
       span {
@@ -64,6 +79,12 @@
       &:hover {
         img {
           box-shadow: rgba(0, 0, 0, 0.44) 0px 3px 10px;
+        }
+      }
+
+      &.active {
+        img {
+          box-shadow: #7da7d8 0px 3px 12px;
         }
       }
     }

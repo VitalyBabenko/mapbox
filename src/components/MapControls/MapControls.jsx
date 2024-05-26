@@ -1,25 +1,19 @@
-import React, { useState } from "react";
 import { FullscreenControl, NavigationControl } from "react-map-gl";
 import GeocoderControl from "../GeocoderControl/GeocoderControl";
 import style from "./MapControls.module.scss";
-import { initialView } from "../../constants";
-import { ReactComponent as MapDataIcon } from "../../assets/svg/mapData.svg";
+import { INITIAL_VIEW } from "../../constants";
 import MapDataPanel from "../MapDataPanel/MapDataPanel";
+import { memo } from "react";
 
-const MapControls = ({ county, setCounty, mapRef }) => {
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const openPanel = () => setIsPanelOpen(true);
-  const closePanel = () => setIsPanelOpen(false);
-
+const MapControls = ({ mapRef, county, setCounty }) => {
   const resetView = () => {
-    setCounty(null);
     const map = mapRef.current.getMap();
-
     map.flyTo({
-      center: [initialView.longitude, initialView.latitude],
-      zoom: initialView.zoom,
+      center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
+      zoom: INITIAL_VIEW.ZOOM,
       essential: true,
     });
+    setCounty(null);
   };
 
   return (
@@ -33,12 +27,7 @@ const MapControls = ({ county, setCounty, mapRef }) => {
         position="top-left"
       />
 
-      <button onClick={openPanel} className={style.mapDataBtn}>
-        <MapDataIcon />
-        Maps & Data
-      </button>
-
-      {isPanelOpen && <MapDataPanel closePanel={closePanel} mapRef={mapRef} />}
+      <MapDataPanel mapRef={mapRef} />
 
       {county && (
         <button onClick={resetView} className={style.resetViewBtn}>
@@ -49,4 +38,4 @@ const MapControls = ({ county, setCounty, mapRef }) => {
   );
 };
 
-export default MapControls;
+export default memo(MapControls);
