@@ -1,19 +1,20 @@
-import { FullscreenControl, NavigationControl } from "react-map-gl";
+import { FullscreenControl, NavigationControl, useMap } from "react-map-gl";
 import GeocoderControl from "../GeocoderControl/GeocoderControl";
 import style from "./MapControls.module.scss";
 import { INITIAL_VIEW } from "../../constants";
 import MapDataPanel from "../MapDataPanel/MapDataPanel";
-import { memo } from "react";
 
-const MapControls = ({ mapRef, county, setCounty }) => {
+const MapControls = ({ mapRef, county, setCounty, setPlot }) => {
+  const { current: map } = useMap();
+
   const resetView = () => {
-    const map = mapRef.current.getMap();
     map.flyTo({
       center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
       zoom: INITIAL_VIEW.ZOOM,
       essential: true,
     });
     setCounty(null);
+    setPlot(null);
   };
 
   return (
@@ -38,4 +39,4 @@ const MapControls = ({ mapRef, county, setCounty }) => {
   );
 };
 
-export default memo(MapControls);
+export default MapControls;

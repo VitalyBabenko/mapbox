@@ -1,12 +1,11 @@
 import { Layer, Source, useMap } from "react-map-gl";
-import { data } from "../../data/genevaBoundaries";
 import { useEffect } from "react";
 import bbox from "@turf/bbox";
 
 const CountiesLayer = ({ hoverCounty, county }) => {
   const { current: map } = useMap();
-  const hoverCountyName = hoverCounty?.properties?.gdname || "";
-  const filterForHighlightCounty = ["in", "gdname", hoverCountyName];
+  const hoverCountyId = hoverCounty?.properties?.genid;
+  const filterForHoverCounty = ["in", "genid", hoverCountyId];
 
   useEffect(() => {
     if (!county) return;
@@ -22,10 +21,12 @@ const CountiesLayer = ({ hoverCounty, county }) => {
 
   if (county) return null;
   return (
-    <Source id="counties" type="geojson" data={data}>
+    <Source id="countiesSource" type="vector" url="mapbox://lamapch.9a3g6tja">
       <Layer
-        id="countiesFill"
+        id="counties"
+        source="countiesSource"
         type="fill"
+        source-layer="kanton_28-filt_reworked-a2cfbe"
         paint={{
           "fill-outline-color": "rgba(256,256,256,1)",
           "fill-color": "#2D73C5",
@@ -34,17 +35,18 @@ const CountiesLayer = ({ hoverCounty, county }) => {
         beforeId="poi-label"
       />
 
-      <Layer
-        id="countiesHighlighted"
-        type="fill"
-        source="counties"
-        paint={{
-          "fill-color": "#ed0e2c",
-          "fill-opacity": 0.6,
-        }}
-        filter={filterForHighlightCounty}
-        beforeId="poi-label"
-      />
+      {hoverCounty && (
+        <Layer
+          id="countiesHover"
+          type="fill"
+          source-layer="kanton_28-filt_reworked-a2cfbe"
+          paint={{
+            "fill-color": "#ed0e2c",
+            "fill-opacity": 0.6,
+          }}
+          filter={filterForHoverCounty}
+        />
+      )}
     </Source>
   );
 };
