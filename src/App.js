@@ -1,5 +1,5 @@
-import { Map } from "react-map-gl";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { Map, useMap } from "react-map-gl";
+import { memo, useCallback, useRef, useState } from "react";
 import MapControls from "./components/MapControls/MapControls.jsx";
 import { INITIAL_VIEW, MAP_STYLES } from "./constants/index.js";
 import CountiesLayer from "./components/CountiesLayer/CountiesLayer.jsx";
@@ -7,8 +7,10 @@ import PlotsLayer from "./components/PlotsLayer/PlotsLayer.jsx";
 import PlotsPanel from "./components/PlotsPanel/PlotsPanel.jsx";
 
 function App() {
+  const { current: map } = useMap();
   const mapRef = useRef(null);
   const [cursor, setCursor] = useState(null);
+  const [isMapLoading, setIsMapLoading] = useState(false);
 
   // county state
   const [county, setCounty] = useState(null);

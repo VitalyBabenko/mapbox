@@ -20,33 +20,22 @@ const CountiesLayer = ({ hoverCounty, county }) => {
     );
   }, [county]);
 
-  useEffect(() => {
-    const handleMapLoaded = () => {
-      setIsStyleLoaded(true);
-    };
-    map.on("style.load", handleMapLoaded);
-
-    return () => {
-      map.off("style.load", handleMapLoaded);
-    };
-  }, []);
-
+  if (county) return null;
   return (
-    <Source id="countiesSource" type="vector" url="mapbox://lamapch.9a3g6tja">
-      {isStyleLoaded && (
-        <Layer
-          id="counties"
-          type="fill"
-          source-layer="kanton_28-filt_reworked-a2cfbe"
-          paint={{
-            "fill-outline-color": "rgba(256,256,256,1)",
-            "fill-color": "#2D73C5",
-            "fill-opacity": 0.6,
-          }}
-          beforeId="admin-1-boundary"
-          layout={{ visibility: county ? "none" : "visible" }}
-        />
-      )}
+    <Source id="countySource" type="vector" url="mapbox://lamapch.9a3g6tja">
+      {/* {isStyleLoaded && ( */}
+      <Layer
+        id="counties"
+        type="fill"
+        source-layer="kanton_28-filt_reworked-a2cfbe"
+        paint={{
+          "fill-outline-color": "rgba(256,256,256,1)",
+          "fill-color": "#2D73C5",
+          "fill-opacity": 0.6,
+        }}
+        beforeId="poi-label"
+        layout={{ visibility: "visible" }}
+      />
 
       {hoverCounty && (
         <Layer
@@ -58,8 +47,8 @@ const CountiesLayer = ({ hoverCounty, county }) => {
             "fill-opacity": 0.6,
           }}
           filter={filterForHoverCounty}
-          beforeId="admin-1-boundary"
-          layout={{ visibility: county ? "none" : "visible" }}
+          beforeId="poi-label"
+          // layout={{ visibility: county ? "none" : "visible" }}
         />
       )}
     </Source>
