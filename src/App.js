@@ -57,9 +57,7 @@ function App() {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       cursor={cursor}
-      mapboxAccessToken={
-        "pk.eyJ1IjoibGFtYXBjaCIsImEiOiJjbHVmdm5iM2ExdnYxMmpwaXc3YjRqZXppIn0.WVlyJH_BxjCWEkxhBYt5MQ"
-      }
+      mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       interactiveLayerIds={["counties", "plots"]}
       mapStyle="mapbox://styles/lamapch/clwoz41jt011101r0bzo85ivl"
       attributionControl={false}

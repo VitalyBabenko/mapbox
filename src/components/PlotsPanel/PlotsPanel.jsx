@@ -8,6 +8,7 @@ import {
 import style from "./PlotsPanel.module.scss";
 import { useEffect, useState } from "react";
 import { service } from "../../service";
+import Loader from "../Loader/Loader";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
@@ -17,15 +18,23 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
   useEffect(() => {
     const getData = async () => {
+      setIsLoading(true);
       const info = await service.getPlotByEgrId(plot?.properties?.EGRID);
       console.log(info);
       setPlotInfo(info);
+      setIsLoading(false);
     };
 
     if (plot) getData();
   }, [plot]);
 
   if (!plot) return null;
+  if (isLoading)
+    return (
+      <div className={style.panelLoading}>
+        <Loader />
+      </div>
+    );
   return (
     <div className={style.panel}>
       <div className={style.heading}>
