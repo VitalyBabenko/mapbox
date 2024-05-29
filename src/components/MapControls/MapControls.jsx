@@ -4,7 +4,8 @@ import style from "./MapControls.module.scss";
 import { INITIAL_VIEW } from "../../constants";
 import MapDataPanel from "../MapDataPanel/MapDataPanel";
 
-const MapControls = ({ mapRef, county, setCounty, setPlot }) => {
+const MapControls = (props) => {
+  const { county, setCounty, setPlot } = props;
   const { current: map } = useMap();
 
   const resetView = () => {
@@ -28,7 +29,7 @@ const MapControls = ({ mapRef, county, setCounty, setPlot }) => {
         position="top-left"
       />
 
-      <MapDataPanel mapRef={mapRef} />
+      <MapDataPanel />
 
       {county && (
         <button onClick={resetView} className={style.resetViewBtn}>

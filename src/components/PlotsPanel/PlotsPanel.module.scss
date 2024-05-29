@@ -17,14 +17,16 @@
     margin-bottom: 20px;
 
     h2 {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 400;
       cursor: default;
     }
 
     .star {
+      width: 24px;
+      height: 24px;
+      padding: 1px;
       border-radius: 100%;
-      padding: 2.5px;
       cursor: pointer;
       box-sizing: border-box;
 

@@ -1,9 +1,10 @@
 import { Layer, Source, useMap } from "react-map-gl";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import bbox from "@turf/bbox";
 
 const CountiesLayer = ({ hoverCounty, county }) => {
   const { current: map } = useMap();
+  const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const hoverCountyId = hoverCounty?.properties?.genid;
   const filterForHoverCounty = ["in", "genid", hoverCountyId];
 
@@ -19,21 +20,33 @@ const CountiesLayer = ({ hoverCounty, county }) => {
     );
   }, [county]);
 
-  if (county) return null;
+  useEffect(() => {
+    const handleMapLoaded = () => {
+      setIsStyleLoaded(true);
+    };
+    map.on("style.load", handleMapLoaded);
+
+    return () => {
+      map.off("style.load", handleMapLoaded);
+    };
+  }, []);
+
   return (
     <Source id="countiesSource" type="vector" url="mapbox://lamapch.9a3g6tja">
-      <Layer
-        id="counties"
-        source="countiesSource"
-        type="fill"
-        source-layer="kanton_28-filt_reworked-a2cfbe"
-        paint={{
-          "fill-outline-color": "rgba(256,256,256,1)",
-          "fill-color": "#2D73C5",
-          "fill-opacity": 0.6,
-        }}
-        beforeId="poi-label"
-      />
+      {isStyleLoaded && (
+        <Layer
+          id="counties"
+          type="fill"
+          source-layer="kanton_28-filt_reworked-a2cfbe"
+          paint={{
+            "fill-outline-color": "rgba(256,256,256,1)",
+            "fill-color": "#2D73C5",
+            "fill-opacity": 0.6,
+          }}
+          beforeId="admin-1-boundary"
+          layout={{ visibility: county ? "none" : "visible" }}
+        />
+      )}
 
       {hoverCounty && (
         <Layer
@@ -45,6 +58,8 @@ const CountiesLayer = ({ hoverCounty, county }) => {
             "fill-opacity": 0.6,
           }}
           filter={filterForHoverCounty}
+          beforeId="admin-1-boundary"
+          layout={{ visibility: county ? "none" : "visible" }}
         />
       )}
     </Source>

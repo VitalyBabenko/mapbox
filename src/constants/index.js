@@ -12,22 +12,22 @@ export const INITIAL_VIEW = {
 export const MAP_STYLES = [
   {
     TITLE: "Light",
-    URL: "mapbox://styles/mapbox/light-v10",
+    URL: "mapbox://styles/lamapch/clwoz41jt011101r0bzo85ivl",
     IMAGE: lightMapPreview,
   },
   {
     TITLE: "Dark",
-    URL: "mapbox://styles/mapbox/dark-v10",
+    URL: "mapbox://styles/lamapch/clwrfixmy013601pnfpzzhfpr",
     IMAGE: darkMapPreview,
   },
   {
     TITLE: "Streets",
-    URL: "mapbox://styles/mapbox/streets-v12",
+    URL: "mapbox://styles/lamapch/clwrp200h00kl01po0jjj6hai",
     IMAGE: streetsMapPreview,
   },
   {
     TITLE: "Satellite",
-    URL: "mapbox://styles/mapbox/satellite-streets-v12",
+    URL: "mapbox://styles/lamapch/clwrojbwp017a01r0b3xj521f",
     IMAGE: satelliteMapPreview,
   },
 ];

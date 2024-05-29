@@ -1,10 +1,10 @@
-import { ReactComponent as StarIcon } from "../../assets/svg/star.svg";
-import { ReactComponent as CrossIcon } from "../../assets/svg/cross.svg";
 import {
   BiArea as AreaIcon,
   BiBuildings as BuildingIcon,
   BiTimeFive as ClockIcon,
+  BiStar as StarIcon,
 } from "react-icons/bi";
+import { AiOutlineClose as CrossIcon } from "react-icons/ai";
 import style from "./PlotsPanel.module.scss";
 import { useEffect, useState } from "react";
 import { service } from "../../service";
@@ -40,6 +40,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
       <div className={style.heading}>
         <h2>Plot {plot.id}</h2>
         <StarIcon className={style.star} />
+
         <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
       </div>
 
@@ -82,7 +83,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
         <ul className={style.addresses}>
           <h3>Address(es)</h3>
           {plotInfo.addresses.map(({ adresse }) => (
-            <li>{adresse}</li>
+            <li key={adresse}>{adresse}</li>
           ))}
         </ul>
       )}

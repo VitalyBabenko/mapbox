@@ -1,6 +1,6 @@
 import style from "./BuildingPanel.module.scss";
-import { ReactComponent as StarIcon } from "../../assets/svg/star.svg";
-import { ReactComponent as CrossIcon } from "../../assets/svg/cross.svg";
+import { BiStar as StarIcon } from "react-icons/bi";
+import { AiOutlineClose as CrossIcon } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { buildingsService } from "../../service/buildingsService";
 import Loader from "../Loader/Loader";

@@ -9,6 +9,7 @@
   align-items: center;
   gap: 5px;
   padding: 2.5px 10px;
+  font-size: 18px;
 }
 
 .panel {
@@ -29,13 +30,14 @@
     margin-bottom: 16px;
 
     h2 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 500;
       margin-right: auto;
       cursor: default;
     }
 
     .crossIcon {
+      width: 20px;
       border-radius: 2px;
       cursor: pointer;
 

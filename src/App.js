@@ -1,7 +1,7 @@
 import { Map } from "react-map-gl";
-import { memo, useCallback, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import MapControls from "./components/MapControls/MapControls.jsx";
-import { INITIAL_VIEW } from "./constants/index.js";
+import { INITIAL_VIEW, MAP_STYLES } from "./constants/index.js";
 import CountiesLayer from "./components/CountiesLayer/CountiesLayer.jsx";
 import PlotsLayer from "./components/PlotsLayer/PlotsLayer.jsx";
 import PlotsPanel from "./components/PlotsPanel/PlotsPanel.jsx";
@@ -59,7 +59,7 @@ function App() {
       cursor={cursor}
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       interactiveLayerIds={["counties", "plots"]}
-      mapStyle="mapbox://styles/lamapch/clwoz41jt011101r0bzo85ivl"
+      mapStyle={MAP_STYLES[0].URL}
       attributionControl={false}
       initialViewState={{
         latitude: INITIAL_VIEW.LATITUDE,
@@ -67,7 +67,11 @@ function App() {
         zoom: INITIAL_VIEW.ZOOM,
       }}
     >
-      <CountiesLayer hoverCounty={hoverCounty} county={county} />
+      <CountiesLayer
+        mapRef={mapRef}
+        hoverCounty={hoverCounty}
+        county={county}
+      />
       <PlotsLayer county={county} hoverPlot={hoverPlot} plot={plot} />
       <PlotsPanel plot={plot} setPlot={setPlot} />
 
