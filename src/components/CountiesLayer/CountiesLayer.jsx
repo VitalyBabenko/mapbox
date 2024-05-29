@@ -1,10 +1,9 @@
 import { Layer, Source, useMap } from "react-map-gl";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import bbox from "@turf/bbox";
 
 const CountiesLayer = ({ hoverCounty, county }) => {
   const { current: map } = useMap();
-  const [isStyleLoaded, setIsStyleLoaded] = useState(false);
   const hoverCountyId = hoverCounty?.properties?.genid;
   const filterForHoverCounty = ["in", "genid", hoverCountyId];
 
@@ -23,7 +22,6 @@ const CountiesLayer = ({ hoverCounty, county }) => {
   if (county) return null;
   return (
     <Source id="countySource" type="vector" url="mapbox://lamapch.9a3g6tja">
-      {/* {isStyleLoaded && ( */}
       <Layer
         id="counties"
         type="fill"
@@ -48,7 +46,6 @@ const CountiesLayer = ({ hoverCounty, county }) => {
           }}
           filter={filterForHoverCounty}
           beforeId="poi-label"
-          // layout={{ visibility: county ? "none" : "visible" }}
         />
       )}
     </Source>

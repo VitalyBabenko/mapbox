@@ -28,6 +28,10 @@ const PlotsPanel = ({ plot, setPlot }) => {
     if (plot) getData();
   }, [plot]);
 
+  const createNote = (e) => {
+    e.preventDefault();
+  };
+
   if (!plot) return null;
   if (isLoading)
     return (
@@ -38,11 +42,14 @@ const PlotsPanel = ({ plot, setPlot }) => {
   return (
     <div className={style.panel}>
       <div className={style.heading}>
-        <h2>Plot {plot.id}</h2>
+        <h2>Plot {plotInfo?.no_commune_no_parcelle}</h2>
         <StarIcon className={style.star} />
-
         <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
       </div>
+
+      <p className={style.commune}>
+        Commune: <span>{plotInfo.commune_name}</span>
+      </p>
 
       <ul className={style.specs}>
         {plotInfo?.surface_parcelle_m2 && (
@@ -72,16 +79,19 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <div className={style.divider}></div>
 
-      <label>
-        <h3>My notes</h3>
-        <input />
-      </label>
+      <form onSubmit={createNote} className={style.notes}>
+        <label>
+          <h3>My notes</h3>
+          <input />
+        </label>
+        <button>Send</button>
+      </form>
 
       <div className={style.divider}></div>
 
-      {plotInfo?.addresses && (
+      {plotInfo?.addresses.length && (
         <ul className={style.addresses}>
-          <h3>Address(es)</h3>
+          <h3>Address(es):</h3>
           {plotInfo.addresses.map(({ adresse }) => (
             <li key={adresse}>{adresse}</li>
           ))}

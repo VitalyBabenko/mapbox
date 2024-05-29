@@ -74,7 +74,9 @@ function App() {
         hoverCounty={hoverCounty}
         county={county}
       />
+
       <PlotsLayer county={county} hoverPlot={hoverPlot} plot={plot} />
+
       <PlotsPanel plot={plot} setPlot={setPlot} />
 
       <MapControls

@@ -5,7 +5,7 @@ import { INITIAL_VIEW } from "../../constants";
 import MapDataPanel from "../MapDataPanel/MapDataPanel";
 
 const MapControls = (props) => {
-  const { county, setCounty, setPlot } = props;
+  const { county, setCounty, setPlot, mapRef } = props;
   const { current: map } = useMap();
 
   const resetView = () => {
@@ -29,7 +29,7 @@ const MapControls = (props) => {
         position="top-left"
       />
 
-      <MapDataPanel />
+      <MapDataPanel mapRef={mapRef} />
 
       {county && (
         <button onClick={resetView} className={style.resetViewBtn}>

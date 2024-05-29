@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Layer, Source, useMap } from "react-map-gl";
+import { Layer, Source } from "react-map-gl";
 
 const PlotsLayer = ({ county, hoverPlot }) => {
   const countyName =
@@ -31,7 +30,7 @@ const PlotsLayer = ({ county, hoverPlot }) => {
         source-layer="CAD_PARCELLE_MENSU_WGS84-dor0ac"
         filter={plotsFilter}
         paint={{ "fill-color": "#2d73c5", "fill-opacity": 0.6 }}
-        beforeId="road-label-simple"
+        beforeId="poi-label"
       />
 
       {hoverPlot && (
@@ -44,7 +43,7 @@ const PlotsLayer = ({ county, hoverPlot }) => {
             "fill-color": "#ed0e2c",
             "fill-opacity": 0.6,
           }}
-          beforeId="road-label-simple"
+          beforeId="poi-label"
         />
       )}
     </Source>
@@ -52,16 +51,3 @@ const PlotsLayer = ({ county, hoverPlot }) => {
 };
 
 export default PlotsLayer;
-
-// [
-//   {
-//
-//     source: "composite",
-//     id: "Plots",
-//     paint: {
-//       "fill-color": "#2d73c5",
-//       "fill-opacity": 0.6,
-//     },
-//     "source-layer": "CAD_PARCELLE_MENSU_WGS84-dor0ac",
-//   },
-// ];

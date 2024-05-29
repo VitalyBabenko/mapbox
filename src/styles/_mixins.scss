@@ -14,3 +14,40 @@
     background-color: $primary-btn-hover-bg-color;
   }
 }
+
+@mixin button-black {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s, background-color 0.2s;
+  background-color: black;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(black, 0.8);
+  }
+
+  &:active {
+    background: black;
+  }
+}
+
+@mixin input-primary {
+  border: 1px solid #d1d5db;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: box-shadow 0.2s;
+  outline: none;
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+}
