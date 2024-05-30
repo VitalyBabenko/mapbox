@@ -5,19 +5,23 @@ const AddressesSection = ({ addresses }) => {
 
   if (!availableAddresses?.length) return null;
   return (
-    <ul className={style.section}>
-      <h3 className={style.title}>Address(es):</h3>
+    <>
+      <ul className={style.section}>
+        <h3 className={style.title}>Address(es):</h3>
 
-      {availableAddresses.map((item) => (
-        <li className={style.addressItem} key={item.adresse}>
-          <p>
-            {item.adresse},&nbsp;{item?.no_postal}
-          </p>
-          &nbsp;
-          <p>{item?.commune}</p>
-        </li>
-      ))}
-    </ul>
+        {availableAddresses.map((item) => (
+          <li className={style.addressItem} key={item.adresse}>
+            <p>
+              {item.adresse},&nbsp;{item?.no_postal}
+            </p>
+            &nbsp;
+            <p>{item?.commune}</p>
+          </li>
+        ))}
+      </ul>
+
+      <div className={style.divider}></div>
+    </>
   );
 };
 

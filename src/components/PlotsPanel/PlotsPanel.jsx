@@ -1,18 +1,14 @@
-import {
-  BiArea as AreaIcon,
-  BiBuildings as BuildingIcon,
-  BiTimeFive as ClockIcon,
-  BiStar as StarIcon,
-  BiBell as BellIcon,
-} from "react-icons/bi";
+import { BiStar as StarIcon, BiBell as BellIcon } from "react-icons/bi";
 import { AiOutlineClose as CrossIcon } from "react-icons/ai";
 import { LuConstruction as ConstructionIcon } from "react-icons/lu";
-import style from "./PlotsPanel.module.scss";
 import { memo, useEffect, useState } from "react";
 import { service } from "../../service";
 import Loader from "../Loader/Loader";
 import AddressesSection from "./AddressesSection/AddressesSection";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import SpecsSection from "./SpecsSection/SpecsSection";
+import style from "./PlotsPanel.module.scss";
+import OwnersSection from "./OwnersSection/OwnersSection";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
@@ -27,7 +23,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
       setIsLoading(true);
       const info = await service.getPlotByEgrId(plot?.properties?.EGRID);
       info?.error?.message ? setError(info.error.message) : setPlotInfo(info);
-
+      // console.log(info);
       setIsLoading(false);
     };
 
@@ -67,11 +63,11 @@ const PlotsPanel = ({ plot, setPlot }) => {
         <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
       </div>
 
-      {plotInfo?.egrid && (
+      {/* {plotInfo?.egrid && (
         <p className={style.egrid}>
           EGID: <span>{plotInfo?.egrid}</span>
         </p>
-      )}
+      )} */}
 
       {plotInfo?.commune_name && (
         <p className={style.commune}>
@@ -79,31 +75,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
         </p>
       )}
 
-      <ul className={style.specs}>
-        {plotInfo?.surface_parcelle_m2 && (
-          <li>
-            <AreaIcon size={40} />
-            <span>Plot surface:</span>
-            <p>{plotInfo?.surface_parcelle_m2} m²</p>
-          </li>
-        )}
-
-        {plotInfo?.addresses.length && (
-          <li>
-            <ClockIcon size={40} />
-            <p>not found</p>
-            <span>Construction year</span>
-          </li>
-        )}
-
-        {plotInfo?.addresses.length && (
-          <li>
-            <BuildingIcon size={40} />
-            <p>{plotInfo?.addresses.length}</p>
-            <span>Building(s)</span>
-          </li>
-        )}
-      </ul>
+      <SpecsSection plotInfo={plotInfo} />
 
       <div className={style.divider}></div>
 
@@ -118,6 +90,16 @@ const PlotsPanel = ({ plot, setPlot }) => {
       <div className={style.divider}></div>
 
       <AddressesSection addresses={plotInfo?.addresses} />
+
+      <OwnersSection ownershipInfo={plotInfo?.ownership_info} />
+
+      {/* {plotInfo?.construction_certs?.length && (
+        <div>
+          <ConstructionIcon size={40} />
+          <span>Living surface above ground (m2):</span>
+          <p>{plotInfo.surface_brut_de_plancher_hors_sol_m2} m²</p>
+        </div>
+      )} */}
 
       {/* {plotInfo?.derniere_modification && (
         <span className={style.lastEdits}>
