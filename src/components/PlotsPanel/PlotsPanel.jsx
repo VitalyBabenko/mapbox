@@ -3,25 +3,31 @@ import {
   BiBuildings as BuildingIcon,
   BiTimeFive as ClockIcon,
   BiStar as StarIcon,
+  BiBell as BellIcon,
 } from "react-icons/bi";
 import { AiOutlineClose as CrossIcon } from "react-icons/ai";
+import { LuConstruction as ConstructionIcon } from "react-icons/lu";
 import style from "./PlotsPanel.module.scss";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { service } from "../../service";
 import Loader from "../Loader/Loader";
+import AddressesSection from "./AddressesSection/AddressesSection";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const closePlotPanel = () => setPlot(null);
 
   useEffect(() => {
     const getData = async () => {
+      setError(null);
       setIsLoading(true);
       const info = await service.getPlotByEgrId(plot?.properties?.EGRID);
-      console.log(info);
-      setPlotInfo(info);
+      info?.error?.message ? setError(info.error.message) : setPlotInfo(info);
+
       setIsLoading(false);
     };
 
@@ -33,30 +39,52 @@ const PlotsPanel = ({ plot, setPlot }) => {
   };
 
   if (!plot) return null;
+
+  if (error)
+    return (
+      <div className={style.panel}>
+        <ErrorMessage
+          message="Plot information is unavailable. Please try again later."
+          onClose={() => setPlot(null)}
+        />
+      </div>
+    );
+
   if (isLoading)
     return (
-      <div className={style.panelLoading}>
+      <div className={style.panel}>
         <Loader />
       </div>
     );
+
   return (
     <div className={style.panel}>
       <div className={style.heading}>
         <h2>Plot {plotInfo?.no_commune_no_parcelle}</h2>
         <StarIcon className={style.star} />
+        <BellIcon />
+        <ConstructionIcon />
         <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
       </div>
 
-      <p className={style.commune}>
-        Commune: <span>{plotInfo.commune_name}</span>
-      </p>
+      {plotInfo?.egrid && (
+        <p className={style.egrid}>
+          EGID: <span>{plotInfo?.egrid}</span>
+        </p>
+      )}
+
+      {plotInfo?.commune_name && (
+        <p className={style.commune}>
+          Commune: <span>{plotInfo.commune_name}</span>
+        </p>
+      )}
 
       <ul className={style.specs}>
         {plotInfo?.surface_parcelle_m2 && (
           <li>
             <AreaIcon size={40} />
+            <span>Plot surface:</span>
             <p>{plotInfo?.surface_parcelle_m2} m²</p>
-            <span>Area</span>
           </li>
         )}
 
@@ -89,16 +117,15 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <div className={style.divider}></div>
 
-      {plotInfo?.addresses.length && (
-        <ul className={style.addresses}>
-          <h3>Address(es):</h3>
-          {plotInfo.addresses.map(({ adresse }) => (
-            <li key={adresse}>{adresse}</li>
-          ))}
-        </ul>
-      )}
+      <AddressesSection addresses={plotInfo?.addresses} />
+
+      {/* {plotInfo?.derniere_modification && (
+        <span className={style.lastEdits}>
+          {plotInfo.derniere_modification}
+        </span>
+      )} */}
     </div>
   );
 };
 
-export default PlotsPanel;
+export default memo(PlotsPanel);

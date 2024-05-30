@@ -24,7 +24,8 @@
       cursor: default;
     }
 
-    .star {
+    .star,
+    svg {
       width: 24px;
       height: 24px;
       padding: 1px;
@@ -116,10 +117,11 @@
     }
   }
 
-  .addresses li {
+  .addresses {
     font-size: 16px;
 
-    &::first-letter {
+    p::first-letter {
+      // display: inline;
       text-transform: uppercase;
     }
   }
