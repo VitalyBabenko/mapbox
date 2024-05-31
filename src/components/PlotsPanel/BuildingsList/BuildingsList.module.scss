@@ -1,0 +1,17 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .buildingItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-left: 2.5px solid rgb(17, 24, 39, 1);
+    padding-left: 10px;
+
+    p span {
+      font-weight: 500;
+    }
+  }
+}

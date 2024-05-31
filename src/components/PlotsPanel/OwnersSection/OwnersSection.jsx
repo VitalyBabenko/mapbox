@@ -15,8 +15,6 @@ const OwnersSection = ({ ownershipInfo }) => {
           <li key={owner?.name} className={style.ownerItem}>
             {owner?.name && <p className={style.name}> {owner.name}</p>}
 
-            {/* {console.log(last_transaction)} */}
-
             {owner?.date_de_naissance && (
               <span>
                 Date of birth: {convertTimeFormat(owner?.date_de_naissance)}
@@ -27,6 +25,8 @@ const OwnersSection = ({ ownershipInfo }) => {
           </li>
         ))}
       </ul>
+
+      <div className={style.divider}></div>
     </>
   );
 };

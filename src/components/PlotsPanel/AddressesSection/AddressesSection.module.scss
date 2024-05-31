@@ -1,20 +1,41 @@
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px !important;
+}
+
 .section {
   display: flex;
   flex-direction: column;
   font-size: 16px;
-
-  .title {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 8px;
-  }
+  gap: 24px;
 
   .addressItem {
-    margin-bottom: 5px;
-    display: flex;
+    border-radius: 4px;
+    padding: 18px;
+    border: 1px solid #d1d5db;
 
-    p::first-letter {
-      text-transform: uppercase;
+    h3 {
+      font-size: 20px;
+      margin-bottom: 5px;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    .commune,
+    .city {
+      color: #71727a;
+      font-size: 15px;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    .city {
+      margin-bottom: 20px;
     }
   }
 }

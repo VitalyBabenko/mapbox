@@ -1,4 +1,8 @@
-import { BiStar as StarIcon, BiBell as BellIcon } from "react-icons/bi";
+import {
+  BiStar as StarIcon,
+  BiBell as BellIcon,
+  BiBookmark as BookmarkIcon,
+} from "react-icons/bi";
 import { AiOutlineClose as CrossIcon } from "react-icons/ai";
 import { LuConstruction as ConstructionIcon } from "react-icons/lu";
 import { memo, useEffect, useState } from "react";
@@ -59,7 +63,6 @@ const PlotsPanel = ({ plot, setPlot }) => {
         <h2>Plot {plotInfo?.no_commune_no_parcelle}</h2>
         <StarIcon className={style.star} />
         <BellIcon />
-        <ConstructionIcon />
         <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
       </div>
 
@@ -86,14 +89,6 @@ const PlotsPanel = ({ plot, setPlot }) => {
       <AddressesSection addresses={plotInfo?.addresses} />
 
       <OwnersSection ownershipInfo={plotInfo?.ownership_info} />
-
-      {/* {plotInfo?.construction_certs?.length && (
-        <div>
-          <ConstructionIcon size={40} />
-          <span>Living surface above ground (m2):</span>
-          <p>{plotInfo.surface_brut_de_plancher_hors_sol_m2} m²</p>
-        </div>
-      )} */}
 
       {/* {plotInfo?.derniere_modification && (
         <span className={style.lastEdits}>
