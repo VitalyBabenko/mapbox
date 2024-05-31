@@ -23,7 +23,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
       setIsLoading(true);
       const info = await service.getPlotByEgrId(plot?.properties?.EGRID);
       info?.error?.message ? setError(info.error.message) : setPlotInfo(info);
-      // console.log(info);
+      console.log(info);
       setIsLoading(false);
     };
 
@@ -62,12 +62,6 @@ const PlotsPanel = ({ plot, setPlot }) => {
         <ConstructionIcon />
         <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
       </div>
-
-      {/* {plotInfo?.egrid && (
-        <p className={style.egrid}>
-          EGID: <span>{plotInfo?.egrid}</span>
-        </p>
-      )} */}
 
       {plotInfo?.commune_name && (
         <p className={style.commune}>

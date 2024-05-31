@@ -4,7 +4,7 @@
   position: absolute;
   top: 50px;
   right: 50px;
-  width: 350px;
+  width: 400px;
   height: 500px;
   background: white;
   border-radius: 4px;
@@ -95,15 +95,6 @@
       @include button-black;
       padding: 7px 16px;
       margin-left: 0px;
-    }
-  }
-
-  .addresses {
-    font-size: 16px;
-
-    p::first-letter {
-      // display: inline;
-      text-transform: uppercase;
     }
   }
 }

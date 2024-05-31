@@ -4,7 +4,6 @@ import style from "./OwnersSection.module.scss";
 
 const OwnersSection = ({ ownershipInfo }) => {
   const owners = ownershipInfo?.map((info) => info.owner);
-  console.log(owners[0].date_de_naissance);
 
   if (!owners?.length) return null;
   return (
@@ -12,13 +11,16 @@ const OwnersSection = ({ ownershipInfo }) => {
       <h3>Owner(s): </h3>
 
       <ul className={style.ownersList}>
-        {owners?.map((owner) => (
-          <li className={style.ownerItem}>
+        {ownershipInfo?.map(({ owner, last_transaction }) => (
+          <li key={owner?.name} className={style.ownerItem}>
             {owner?.name && <p className={style.name}> {owner.name}</p>}
+
+            {/* {console.log(last_transaction)} */}
 
             {owner?.date_de_naissance && (
               <span>
-                Born: {convertTimeFormat(owner?.date_de_naissance)}&nbsp; (
+                Date of birth: {convertTimeFormat(owner?.date_de_naissance)}
+                &nbsp;(
                 {calculateAge(owner?.date_de_naissance)} years old)
               </span>
             )}
