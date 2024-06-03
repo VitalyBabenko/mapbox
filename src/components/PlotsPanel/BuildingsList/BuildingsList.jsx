@@ -17,34 +17,34 @@ const BuildingsList = ({ buildings }) => {
     <ul className={style.list}>
       {buildings.map((building, i) => (
         <li key={building?.egrid && i} className={style.buildingItem}>
-          {building?.no_batiment && (
-            <p>
-              Building number: <span>{building.no_batiment}</span>
-            </p>
-          )}
+          <div className={style.buildingItemLeft}>
+            {building?.no_batiment && (
+              <p>
+                Building number: <span>{building.no_batiment}</span>
+              </p>
+            )}
 
-          {building?.egid && (
-            <p className={style.top}>
-              EGID: <span>{building?.egid}</span>
-            </p>
-          )}
+            {building?.egid && (
+              <p>
+                EGID: <span>{building?.egid}</span>
+              </p>
+            )}
 
-          {building?.surface_totale_des_logements_du_batiment_m2 ? (
-            <p className={style.middle}>
-              Living Surface:{" "}
-              <span>
-                {" "}
-                {building.surface_totale_des_logements_du_batiment_m2}m²
-              </span>
-            </p>
-          ) : null}
+            {building?.surface_totale_des_logements_du_batiment_m2 ? (
+              <p>
+                Living Surface:{" "}
+                <span>
+                  {" "}
+                  {building.surface_totale_des_logements_du_batiment_m2}m²
+                </span>
+              </p>
+            ) : null}
 
-          {constructionField(
-            building?.min_building_construction_year,
-            building?.max_building_construction_year
-          )}
-
-          {/* { && } */}
+            {constructionField(
+              building?.min_building_construction_year,
+              building?.max_building_construction_year
+            )}
+          </div>
         </li>
       ))}
     </ul>

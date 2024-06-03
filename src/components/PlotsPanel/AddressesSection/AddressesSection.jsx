@@ -1,11 +1,10 @@
 import BuildingsList from "../BuildingsList/BuildingsList";
+import CertificatesList from "../CertificatesList/CertificatesList";
 import style from "./AddressesSection.module.scss";
 
-const AddressesSection = ({ addresses }) => {
+const AddressesSection = ({ addresses, isPpe, isConstructionCerts }) => {
   const availableAddresses = addresses?.filter((item) => item.adresse);
   const buildings = [];
-
-  // console.log(addresses);
 
   addresses?.forEach((address) => {
     if (address?.housing_stats_data) {
@@ -26,6 +25,12 @@ const AddressesSection = ({ addresses }) => {
               {item?.commune}, {item?.no_postal}
             </div>
             <p className={style.city}>Genève</p>
+
+            <CertificatesList
+              address={item}
+              isPpe={isPpe}
+              isConstructionCerts={isConstructionCerts}
+            />
 
             <BuildingsList buildings={item?.housing_stats_data} />
           </li>

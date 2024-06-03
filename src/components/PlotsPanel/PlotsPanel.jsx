@@ -86,7 +86,11 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <div className={style.divider}></div>
 
-      <AddressesSection addresses={plotInfo?.addresses} />
+      <AddressesSection
+        addresses={plotInfo?.addresses}
+        isPpe={plotInfo?.ppe}
+        isConstructionCerts={!!plotInfo?.construction_certs?.length}
+      />
 
       <OwnersSection ownershipInfo={plotInfo?.ownership_info} />
 
