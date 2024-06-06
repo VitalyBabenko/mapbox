@@ -13,6 +13,7 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import SpecsSection from "./SpecsSection/SpecsSection";
 import style from "./PlotsPanel.module.scss";
 import OwnersSection from "./OwnersSection/OwnersSection";
+import TransactionSection from "./TransactionSection/TransactionSection";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
@@ -86,6 +87,18 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <div className={style.divider}></div>
 
+      <div className={style.zone}>
+        <h3>Zone</h3>
+
+        <ul>
+          {plotInfo?.zone?.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div className={style.divider}></div>
+
       <AddressesSection
         addresses={plotInfo?.addresses}
         isPpe={plotInfo?.ppe}
@@ -93,6 +106,8 @@ const PlotsPanel = ({ plot, setPlot }) => {
       />
 
       <OwnersSection ownershipInfo={plotInfo?.ownership_info} />
+
+      <TransactionSection ownershipInfo={plotInfo?.ownership_info} />
 
       {/* {plotInfo?.derniere_modification && (
         <span className={style.lastEdits}>

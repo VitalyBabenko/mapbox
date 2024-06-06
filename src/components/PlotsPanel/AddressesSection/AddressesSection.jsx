@@ -37,7 +37,7 @@ const AddressesSection = ({ addresses, isPpe, isConstructionCerts }) => {
         ))}
       </ul>
 
-      <div className={style.divider}></div>
+      {/* <div className={style.divider}></div> */}
     </>
   );
 };
