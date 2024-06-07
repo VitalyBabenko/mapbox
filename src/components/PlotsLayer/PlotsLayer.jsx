@@ -1,21 +1,24 @@
 import { Layer, Source } from "react-map-gl";
 
 const PlotsLayer = ({ county, hoverPlot }) => {
-  const countyName =
-    county?.properties?.gdname === "Geneve"
-      ? [
-          "Genève-Cité",
-          "Genève-Eaux-Vives",
-          "Genève-Plainpalais",
-          "Genève-Petit-Saconnex",
-        ]
-      : [county?.properties?.gdname];
+  const countyName = county?.properties?.gdname;
+  let communeFilter = ["match", ["get", "COMMUNE"], countyName, true, false];
+
+  if (countyName?.[0] === "[") {
+    communeFilter = [
+      "match",
+      ["get", "COMMUNE"],
+      JSON.parse(countyName),
+      true,
+      false,
+    ];
+  }
 
   const plotsFilter = [
     "all",
     ["match", ["get", "TYPE_PROPR"], ["privé"], true, false],
     ["match", ["geometry-type"], ["Polygon"], true, false],
-    ["match", ["get", "COMMUNE"], countyName, true, false],
+    communeFilter,
   ];
 
   const hoverPlotId = hoverPlot?.properties?.EGRID;

@@ -1,10 +1,5 @@
-import {
-  BiStar as StarIcon,
-  BiBell as BellIcon,
-  BiBookmark as BookmarkIcon,
-} from "react-icons/bi";
+import { BiStar as StarIcon, BiBell as BellIcon } from "react-icons/bi";
 import { AiOutlineClose as CrossIcon } from "react-icons/ai";
-import { LuConstruction as ConstructionIcon } from "react-icons/lu";
 import { memo, useEffect, useState } from "react";
 import { service } from "../../service";
 import Loader from "../Loader/Loader";
