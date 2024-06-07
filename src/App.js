@@ -5,6 +5,7 @@ import { INITIAL_VIEW, MAP_STYLES } from "./constants/index.js";
 import CountiesLayer from "./components/CountiesLayer/CountiesLayer.jsx";
 import PlotsLayer from "./components/PlotsLayer/PlotsLayer.jsx";
 import PlotsPanel from "./components/PlotsPanel/PlotsPanel.jsx";
+import PlotsFilters from "./components/PlotsFilters/PlotsFilters.jsx";
 
 function App() {
   const mapRef = useRef(null);
@@ -73,8 +74,8 @@ function App() {
         county={county}
       />
 
+      <PlotsFilters />
       <PlotsLayer county={county} hoverPlot={hoverPlot} plot={plot} />
-
       <PlotsPanel plot={plot} setPlot={setPlot} />
 
       <MapControls

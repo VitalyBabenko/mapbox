@@ -3,12 +3,10 @@ import { AiOutlineClose as CrossIcon } from "react-icons/ai";
 import { memo, useEffect, useState } from "react";
 import { service } from "../../service";
 import Loader from "../Loader/Loader";
-import AddressesSection from "./AddressesSection/AddressesSection";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import SpecsSection from "./SpecsSection/SpecsSection";
 import style from "./PlotsPanel.module.scss";
-import OwnersSection from "./OwnersSection/OwnersSection";
-import TransactionSection from "./TransactionSection/TransactionSection";
+import PlotsPanelTabs from "./PlotsPanelTabs/PlotsPanelTabs";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
@@ -70,8 +68,6 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <SpecsSection plotInfo={plotInfo} />
 
-      <div className={style.divider}></div>
-
       <form onSubmit={createNote} className={style.notes}>
         <label>
           <h3>My notes</h3>
@@ -82,33 +78,13 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <div className={style.divider}></div>
 
-      <div className={style.zone}>
-        <h3>Zone</h3>
+      <PlotsPanelTabs plotInfo={plotInfo} />
 
-        <ul>
-          {plotInfo?.zone?.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className={style.divider}></div>
-
-      <AddressesSection
-        addresses={plotInfo?.addresses}
-        isPpe={plotInfo?.ppe}
-        isConstructionCerts={!!plotInfo?.construction_certs?.length}
-      />
-
-      <OwnersSection ownershipInfo={plotInfo?.ownership_info} />
-
-      <TransactionSection ownershipInfo={plotInfo?.ownership_info} />
-
-      {/* {plotInfo?.derniere_modification && (
+      {plotInfo?.derniere_modification && (
         <span className={style.lastEdits}>
           {plotInfo.derniere_modification}
         </span>
-      )} */}
+      )}
     </div>
   );
 };

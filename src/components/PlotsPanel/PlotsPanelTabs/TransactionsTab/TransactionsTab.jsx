@@ -1,7 +1,7 @@
-import { convertTimeFormat } from "../../../utils/convertTimeFormat";
-import style from "./TransactionSection.module.scss";
+import { convertTimeFormat } from "../../../../utils/convertTimeFormat";
+import style from "./TransactionsTab.module.scss";
 
-const TransactionSection = ({ ownershipInfo }) => {
+const TransactionsTab = ({ ownershipInfo }) => {
   const findRelevantTransaction = () => {
     let relevantTransaction = null;
 
@@ -55,4 +55,4 @@ const TransactionSection = ({ ownershipInfo }) => {
   );
 };
 
-export default TransactionSection;
+export default TransactionsTab;

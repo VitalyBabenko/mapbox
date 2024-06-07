@@ -4,14 +4,15 @@
   position: absolute;
   top: 50px;
   right: 50px;
-  width: 400px;
+  width: 428px;
   height: 500px;
-  background: white;
+  background: #f9fafb;
   border-radius: 4px;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-  padding: 10px 14px;
+  padding: 16px;
   z-index: 0;
   overflow-y: auto;
+  box-sizing: border-box;
 
   &::-webkit-scrollbar {
     min-width: 3px;
@@ -26,26 +27,27 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: black;
+    background: #475467;
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: #333;
+    background: #344054;
     border-radius: 4px;
     width: 6px;
+    cursor: pointer;
   }
 
   .heading {
     display: flex;
     align-items: center;
-    gap: 5px;
-    margin-bottom: 5px;
+    gap: 6px;
 
     h2 {
-      font-size: 22px;
-      font-weight: 500;
-      cursor: default;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 30px;
+      color: #344054;
     }
 
     .star,
@@ -76,11 +78,17 @@
   }
 
   .commune {
-    font-size: 16px;
-    margin-bottom: 15px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 19.5px;
+    color: #475467;
+    margin-bottom: 20px;
 
     span {
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 19.5px;
+      color: #344054;
     }
   }
 
@@ -96,13 +104,14 @@
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 8px;
+    color: #344054;
   }
 
   .notes {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    gap: 40px;
+    gap: 38px;
 
     label {
       width: 100%;
@@ -116,23 +125,18 @@
 
     button {
       @include button-black;
+      background: #006cd5;
+      font-size: 14px;
       padding: 7px 16px;
       margin-left: 0px;
-    }
-  }
 
-  .zone ul {
-    display: flex;
-    gap: 8px;
-    font-weight: 500;
-    font-size: 16px;
-    flex-wrap: wrap;
+      &:hover {
+        background: lighten(#006cd5, 5%);
+      }
 
-    li {
-      background: #ebebebdc;
-      color: black;
-      border-radius: 4px;
-      padding: 4px 6px;
+      &:active {
+        background: lighten(#006cd5, 10%);
+      }
     }
   }
 }

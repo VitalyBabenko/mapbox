@@ -1,10 +1,4 @@
-.title {
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 12px !important;
-}
-
-.section {
+.tab {
   display: flex;
   flex-direction: column;
   font-size: 16px;
@@ -13,12 +7,16 @@
 
   .addressItem {
     border-radius: 4px;
-    padding: 18px;
-    border: 1px solid #d1d5db;
+    padding: 16px;
+    background: white;
+    box-shadow: 4px 8px 20px 0px #1f192e0d;
 
     h3 {
-      font-size: 20px;
-      margin-bottom: 5px;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 30.6px;
+      color: #344054;
+      margin-bottom: 1px;
 
       &::first-letter {
         text-transform: uppercase;
@@ -27,8 +25,10 @@
 
     .commune,
     .city {
-      color: #71727a;
-      font-size: 15px;
+      color: #475467;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 19.5px;
 
       &::first-letter {
         text-transform: uppercase;
