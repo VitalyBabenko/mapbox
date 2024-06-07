@@ -1,10 +1,5 @@
-import {
-  BiStar as StarIcon,
-  BiBell as BellIcon,
-  BiBookmark as BookmarkIcon,
-} from "react-icons/bi";
+import { BiStar as StarIcon, BiBell as BellIcon } from "react-icons/bi";
 import { AiOutlineClose as CrossIcon } from "react-icons/ai";
-import { LuConstruction as ConstructionIcon } from "react-icons/lu";
 import { memo, useEffect, useState } from "react";
 import { service } from "../../service";
 import Loader from "../Loader/Loader";
@@ -14,6 +9,7 @@ import SpecsSection from "./SpecsSection/SpecsSection";
 import style from "./PlotsPanel.module.scss";
 import OwnersSection from "./OwnersSection/OwnersSection";
 import TransactionSection from "./TransactionSection/TransactionSection";
+import ZoneSection from "./ZoneSection/ZoneSection";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
@@ -28,7 +24,6 @@ const PlotsPanel = ({ plot, setPlot }) => {
       setIsLoading(true);
       const info = await service.getPlotByEgrId(plot?.properties?.EGRID);
       info?.error?.message ? setError(info.error.message) : setPlotInfo(info);
-      console.log(info);
       setIsLoading(false);
     };
 
@@ -61,21 +56,24 @@ const PlotsPanel = ({ plot, setPlot }) => {
   return (
     <div className={style.panel}>
       <div className={style.heading}>
-        <h2>Plot {plotInfo?.no_commune_no_parcelle}</h2>
+        <h2>Plot {plotInfo?.number}</h2>
         <StarIcon className={style.star} />
         <BellIcon />
         <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
       </div>
 
-      {plotInfo?.commune_name && (
+      {plotInfo?.commune && (
         <p className={style.commune}>
-          Commune: <span>{plotInfo.commune_name}</span>
+          Commune: <span>{plotInfo.commune}</span>
         </p>
       )}
 
-      <SpecsSection plotInfo={plotInfo} />
-
-      <div className={style.divider}></div>
+      <SpecsSection
+        surface={plotInfo.surface}
+        livingSurface={plotInfo.livingSurface}
+        ownersQuantity={plotInfo.owners.length}
+        buildingsQuantity={plotInfo.buildings.length}
+      />
 
       <form onSubmit={createNote} className={style.notes}>
         <label>
@@ -87,27 +85,17 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <div className={style.divider}></div>
 
-      <div className={style.zone}>
-        <h3>Zone</h3>
-
-        <ul>
-          {plotInfo?.zone?.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className={style.divider}></div>
+      <ZoneSection zone={plotInfo.zone} />
 
       <AddressesSection
         addresses={plotInfo?.addresses}
-        isPpe={plotInfo?.ppe}
+        isPpe={plotInfo.ppe}
         isConstructionCerts={!!plotInfo?.construction_certs?.length}
       />
 
-      <OwnersSection ownershipInfo={plotInfo?.ownership_info} />
+      {/* <OwnersSection ownershipInfo={plotInfo?.ownership_info} /> */}
 
-      <TransactionSection ownershipInfo={plotInfo?.ownership_info} />
+      {/* <TransactionSection ownershipInfo={plotInfo?.ownership_info} /> */}
 
       {/* {plotInfo?.derniere_modification && (
         <span className={style.lastEdits}>
