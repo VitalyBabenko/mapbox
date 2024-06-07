@@ -21,7 +21,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
       setIsLoading(true);
       const info = await service.getPlotByEgrId(plot?.properties?.EGRID);
       info?.error?.message ? setError(info.error.message) : setPlotInfo(info);
-      console.log(info);
+      // console.log(info);
       setIsLoading(false);
     };
 

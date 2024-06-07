@@ -1,57 +1,34 @@
 import { convertTimeFormat } from "../../../../utils/convertTimeFormat";
 import style from "./TransactionsTab.module.scss";
 
-const TransactionsTab = ({ ownershipInfo }) => {
-  const findRelevantTransaction = () => {
-    let relevantTransaction = null;
+// plot with trunsactions: Chemin des tulipiers 1
 
-    if (ownershipInfo) {
-      const transactions = ownershipInfo.map((info) => info?.last_transaction);
-
-      relevantTransaction = transactions.find(
-        (transaction) => transaction !== null
-      );
-    }
-
-    return relevantTransaction;
-  };
-
-  const relevantTransaction = findRelevantTransaction();
-
-  const relevantTransactionDate = convertTimeFormat(
-    relevantTransaction?.transaction_date
-  );
+const TransactionsTab = ({ plotInfo }) => {
+  const transactions = plotInfo?.ownership_info
+    ?.map((info) => info?.last_transaction)
+    .filter((transaction) => !!transaction?._id);
 
   const convertPrice = (price) => {
     if (!price) return null;
-    return `CHF ${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+    return `CHF ${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'")}`;
   };
 
-  const relevantTransactionPrice = convertPrice(relevantTransaction?.prix);
-
-  if (!relevantTransaction) return null;
   return (
-    <div className={style.section}>
-      <h3>Last transaction</h3>
+    <ul className={style.tab}>
+      {transactions.map((transaction, i) => (
+        <li key={i} className={style.transactionItem}>
+          <p className={style.date}>
+            {convertTimeFormat(transaction?.transaction_date)}
+          </p>
 
-      {relevantTransactionDate && (
-        <p>
-          Date: <span>{relevantTransactionDate}</span>
-        </p>
-      )}
+          <p className={style.price}>{convertPrice(transaction?.prix)}</p>
 
-      {relevantTransaction?.type && (
-        <p>
-          Type: <span>{relevantTransaction.type}</span>
-        </p>
-      )}
-
-      {relevantTransactionPrice && (
-        <p>
-          Last price sold: <span>{relevantTransactionPrice}</span>
-        </p>
-      )}
-    </div>
+          <p className={style.type}>
+            Type: <span>{transaction?.type}</span>
+          </p>
+        </li>
+      ))}
+    </ul>
   );
 };
 

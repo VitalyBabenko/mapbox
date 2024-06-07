@@ -5,8 +5,6 @@ import style from "./OwnersTab.module.scss";
 const OwnersTab = ({ plotInfo }) => {
   const owners = plotInfo?.ownership_info?.map((info) => info.owner);
 
-  console.log(plotInfo);
-
   if (!owners?.length) return null;
   return (
     <ul className={style.ownersList}>
