@@ -1,42 +1,41 @@
 @import "variables";
 
-@mixin button-primary {
-  padding: $primary-btn-padding;
-  font-size: $primary-btn-font-size;
-  border-radius: $primary-btn-border-radius;
-  background-color: $primary-btn-bg-color;
-  color: $primary-btn-text-color;
-  box-shadow: $primary-btn-box-shadow;
-  cursor: pointer;
-  border: none;
-
-  &:hover {
-    background-color: $primary-btn-hover-bg-color;
-  }
-}
-
-@mixin button-black {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
+@mixin button-mapbox {
+  padding: 4px 16px;
+  font-size: 15px;
   border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: color 0.2s, background-color 0.2s;
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   border: none;
   outline: none;
-  cursor: pointer;
+}
+
+@mixin button-primary {
+  @include button-mapbox;
+  background: $blue-600;
+  color: $white;
+  font-size: 14px;
+  padding: 7px 16px;
+  margin-left: 0px;
+  box-shadow: none;
 
   &:hover {
-    background-color: rgba(black, 0.8);
+    background: lighten($blue-600, 5%);
   }
 
   &:active {
-    background: black;
+    background: lighten($blue-600, 10%);
   }
+}
+
+@mixin button-for-icon {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: background-color 0.2s ease;
 }
 
 @mixin input-primary {
@@ -50,4 +49,40 @@
   &:focus {
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   }
+}
+
+@mixin section-title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 30.6px;
+  margin-bottom: 6px;
+  color: $grey-700;
+}
+
+@mixin block-item {
+  border-radius: 4px;
+  padding: 16px;
+  background: white;
+  box-shadow: 4px 8px 20px 0px rgba(31, 25, 46, 0.0509803922);
+}
+
+@mixin list-item {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19.5px;
+  text-align: left;
+  border-left: 2px solid $blue-600;
+  padding-left: 10px;
+
+  span {
+    font-weight: 600;
+  }
+}
+
+@mixin divider {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: #dddddd;
+  margin: 14px 0;
 }

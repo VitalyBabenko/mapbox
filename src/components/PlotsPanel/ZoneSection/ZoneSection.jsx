@@ -1,6 +1,6 @@
-import style from "./GeneralTab.module.scss";
+import style from "./ZoneSection.module.scss";
 
-const GeneralTab = ({ plotInfo }) => {
+const ZoneSection = ({ plotInfo }) => {
   return (
     <div className={style.root}>
       <h3>Zone</h3>
@@ -16,4 +16,4 @@ const GeneralTab = ({ plotInfo }) => {
   );
 };
 
-export default GeneralTab;
+export default ZoneSection;

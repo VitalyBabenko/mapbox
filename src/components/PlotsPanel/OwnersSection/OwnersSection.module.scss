@@ -1,0 +1,52 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+.section {
+  h3 {
+    @include section-title;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    gap: 16px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+
+    .ownerItem {
+      padding: 16px;
+      border-radius: 8px;
+      background: $white;
+      box-shadow: 4px 8px 20px 0px #1f192e0d;
+
+      .name {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 27px;
+        color: $grey-700;
+      }
+
+      .age {
+        margin-top: 8px;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 19.5px;
+        color: $grey-600;
+        padding-left: 10px;
+        border-left: 2px solid $blue-600;
+
+        span {
+          font-size: 13px;
+          font-weight: 600;
+          line-height: 19.5px;
+          color: $grey-700;
+        }
+      }
+    }
+  }
+
+  .divider {
+    @include divider;
+  }
+}

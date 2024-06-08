@@ -1,7 +1,7 @@
 @import "../../styles/mixins";
 
 .openButton {
-  @include button-primary;
+  @include button-mapbox;
   position: absolute;
   top: 10px;
   right: 50px;
@@ -17,7 +17,7 @@
   top: 10px;
   right: 50px;
   width: 300px;
-  background: white;
+  background: $white;
   border-radius: 4px;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   padding: 10px;

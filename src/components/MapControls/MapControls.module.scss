@@ -1,7 +1,7 @@
 @import "../../styles/mixins";
 
 .resetViewBtn {
-  @include button-primary;
+  @include button-mapbox;
   position: absolute;
   bottom: 8%;
   left: 50%;

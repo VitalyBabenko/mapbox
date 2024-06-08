@@ -6,7 +6,11 @@ import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import SpecsSection from "./SpecsSection/SpecsSection";
 import style from "./PlotsPanel.module.scss";
-import PlotsPanelTabs from "./PlotsPanelTabs/PlotsPanelTabs";
+import AddressesSection from "./AddressesSection/AddressesSection";
+import ZoneSection from "./ZoneSection/ZoneSection";
+import OwnersSection from "./OwnersSection/OwnersSection";
+import TransactionsSection from "./TransactionsSection/TransactionsSection";
+import NotesSection from "./NotesSection/NotesSection";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
@@ -27,10 +31,6 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
     if (plot) getData();
   }, [plot]);
-
-  const createNote = (e) => {
-    e.preventDefault();
-  };
 
   if (!plot) return null;
 
@@ -68,17 +68,15 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <SpecsSection plotInfo={plotInfo} />
 
-      <form onSubmit={createNote} className={style.notes}>
-        <label>
-          <h3>My notes</h3>
-          <input />
-        </label>
-        <button>Send</button>
-      </form>
+      <NotesSection plotInfo={plotInfo} />
 
-      <div className={style.divider}></div>
+      <ZoneSection plotInfo={plotInfo} />
 
-      <PlotsPanelTabs plotInfo={plotInfo} />
+      <AddressesSection plotInfo={plotInfo} />
+
+      <OwnersSection plotInfo={plotInfo} />
+
+      <TransactionsSection plotInfo={plotInfo} />
 
       {plotInfo?.derniere_modification && (
         <span className={style.lastEdits}>
