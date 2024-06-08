@@ -8,13 +8,8 @@ import style from "./SpecsSection.module.scss";
 
 const SpecsSection = ({ plotInfo }) => {
   const plotSurface = plotInfo?.surface_parcelle_m2 || null;
-  const livingSurface =
-    plotInfo?.addresses?.reduce((acc, item) => {
-      acc += +item?.surface_brut_de_plancher_hors_sol_m2 || 0;
-      return +acc;
-    }, 0) || null;
-
-  const ownersQuantity = plotInfo?.ownership_info?.length || null;
+  const livingSurface = plotInfo?.getLivingSurface() || null;
+  const ownersQuantity = plotInfo?.getOwners().length || null;
   const buildingsQuantity = plotInfo?.addresses.length || null;
 
   return (

@@ -3,7 +3,7 @@ import { convertTimeFormat } from "../../../utils/convertTimeFormat";
 import style from "./OwnersSection.module.scss";
 
 const OwnersSection = ({ plotInfo }) => {
-  const owners = plotInfo?.ownership_info?.map((info) => info.owner);
+  const owners = plotInfo?.getOwners() || null;
 
   const isDividerNeeded = !!plotInfo?.ownership_info
     ?.map((info) => info?.last_transaction)

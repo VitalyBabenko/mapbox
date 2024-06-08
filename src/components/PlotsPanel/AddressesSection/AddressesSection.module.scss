@@ -19,16 +19,54 @@
       background: $white;
       box-shadow: 4px 8px 20px 0px #1f192e0d;
 
-      h3 {
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 30.6px;
-        color: $grey-700;
-        // color: $grey-700;
-        margin-bottom: 1px;
+      .heading {
+        display: flex;
+        justify-content: space-between;
 
-        &::first-letter {
-          text-transform: uppercase;
+        h3 {
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 30.6px;
+          color: $grey-700;
+          margin-bottom: 1px;
+
+          &::first-letter {
+            text-transform: uppercase;
+          }
+        }
+
+        a {
+          position: relative;
+          display: flex;
+          align-items: center;
+
+          svg {
+            width: 22px;
+            height: 22px;
+
+            path {
+              fill: $grey-700;
+            }
+          }
+
+          .tooltip {
+            position: absolute;
+            top: -40px;
+            right: -16px;
+            width: 185px;
+            background: $grey-700;
+            color: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+          }
+
+          &:hover > .tooltip {
+            opacity: 1;
+          }
         }
       }
 

@@ -1,0 +1,35 @@
+@import "../../../styles/mixins";
+@import "../../../styles/variables";
+
+.section {
+  h3 {
+    @include section-title;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    li {
+      @include block-item;
+
+      h4 {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 27px;
+        color: $grey-700;
+        margin-bottom: 4px;
+
+        a {
+          text-decoration: none;
+          color: $blue-600;
+        }
+      }
+
+      p {
+        @include list-item;
+      }
+    }
+  }
+}

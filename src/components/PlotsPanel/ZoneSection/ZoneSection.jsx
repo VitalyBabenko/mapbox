@@ -7,7 +7,7 @@ const ZoneSection = ({ plotInfo }) => {
 
       <ul className={style.zone}>
         {plotInfo?.zone?.map((item) => (
-          <li>{item}</li>
+          <li key={item}>{item}</li>
         ))}
       </ul>
 

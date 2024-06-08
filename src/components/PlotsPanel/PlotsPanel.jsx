@@ -11,6 +11,9 @@ import ZoneSection from "./ZoneSection/ZoneSection";
 import OwnersSection from "./OwnersSection/OwnersSection";
 import TransactionsSection from "./TransactionsSection/TransactionsSection";
 import NotesSection from "./NotesSection/NotesSection";
+import { convertTimeFormat } from "../../utils/convertTimeFormat";
+import BuildingPermitsSection from "./BuildingPermitsSection/BuildingPermitsSection";
+import { BiFileBlank as FileIcon } from "react-icons/bi";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
@@ -25,7 +28,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
       setIsLoading(true);
       const info = await service.getPlotByEgrId(plot?.properties?.EGRID);
       info?.error?.message ? setError(info.error.message) : setPlotInfo(info);
-      // console.log(info);
+      console.log(info);
       setIsLoading(false);
     };
 
@@ -56,7 +59,22 @@ const PlotsPanel = ({ plot, setPlot }) => {
       <div className={style.heading}>
         <h2>Plot {plotInfo?.no_commune_no_parcelle}</h2>
         <StarIcon className={style.star} />
+
         <BellIcon />
+
+        {plotInfo?.extrait_rdppf_pdf && (
+          <a
+            className={style.fileLink}
+            href={plotInfo.extrait_rdppf_pdf}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FileIcon />
+
+            <p className={style.fileTooltip}>RDPPF</p>
+          </a>
+        )}
+
         <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
       </div>
 
@@ -78,10 +96,12 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <TransactionsSection plotInfo={plotInfo} />
 
+      <BuildingPermitsSection plotInfo={plotInfo} />
+
       {plotInfo?.derniere_modification && (
-        <span className={style.lastEdits}>
-          {plotInfo.derniere_modification}
-        </span>
+        <p className={style.lastEdits}>
+          Last edits: {convertTimeFormat(plotInfo?.derniere_modification)}
+        </p>
       )}
     </div>
   );
