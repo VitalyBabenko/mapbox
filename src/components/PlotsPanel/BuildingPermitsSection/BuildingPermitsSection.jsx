@@ -1,3 +1,4 @@
+import { BiLinkExternal as LinkIcon } from "react-icons/bi";
 import style from "./BuildingPermitsSection.module.scss";
 
 // building with construction_certs: Route de malagnou 17
@@ -13,13 +14,16 @@ const BuildingPermitsSection = ({ plotInfo }) => {
       <ul className={style.list}>
         {certificates.map((cert, i) => (
           <li key={cert?.id || i}>
-            <h4>
-              File:{" "}
+            <div className={style.heading}>
+              <h4>File: {cert?.id}</h4>
+
               <a target="_blank" href={cert?.url} rel="noreferrer">
-                {" "}
-                {cert?.id}
+                <LinkIcon />
+                <p className={style.tooltip}>
+                  Full details on the government's website
+                </p>
               </a>
-            </h4>
+            </div>
 
             {cert?.statut_dossier && (
               <p>

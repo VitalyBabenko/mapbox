@@ -14,21 +14,61 @@
     li {
       @include block-item;
 
-      h4 {
-        font-size: 16px;
-        font-weight: 600;
-        line-height: 27px;
-        color: $grey-700;
-        margin-bottom: 4px;
+      .heading {
+        display: flex;
+        justify-content: space-between;
+
+        h4 {
+          display: flex;
+          align-items: center;
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 30.6px;
+          color: $grey-700;
+        }
 
         a {
-          text-decoration: none;
-          color: $blue-600;
+          position: relative;
+          display: flex;
+          align-items: center;
+
+          svg {
+            width: 22px;
+            height: 22px;
+
+            path {
+              fill: $grey-700;
+            }
+          }
+
+          .tooltip {
+            position: absolute;
+            top: -45px;
+            right: -16px;
+            width: 305px;
+            background: $grey-700;
+            color: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 16px;
+            opacity: 0;
+            border: none;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+          }
+
+          &:hover > .tooltip {
+            opacity: 1;
+          }
         }
       }
 
       p {
         @include list-item;
+
+        &:first-of-type {
+          margin-top: 8px;
+        }
       }
     }
   }

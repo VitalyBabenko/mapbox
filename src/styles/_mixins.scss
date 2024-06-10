@@ -17,7 +17,7 @@
   background: $blue-600;
   color: $white;
   font-size: 14px;
-  padding: 7px 16px;
+  padding: 7px 12px;
   margin-left: 0px;
   box-shadow: none;
 
@@ -39,11 +39,11 @@
 }
 
 @mixin input-primary {
-  border: 1px solid #d1d5db;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 12px;
+  border-radius: 8px;
   font-size: 14px;
   transition: box-shadow 0.2s;
+  border: none;
   outline: none;
 
   &:focus {

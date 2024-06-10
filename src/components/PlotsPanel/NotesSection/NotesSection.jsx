@@ -29,6 +29,7 @@ const NotesSection = ({ plotInfo }) => {
           <input
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Enter note..."
           />
         </label>
         <button type="submit">Send</button>
