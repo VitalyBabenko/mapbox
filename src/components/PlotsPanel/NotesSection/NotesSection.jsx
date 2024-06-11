@@ -25,7 +25,7 @@ const NotesSection = ({ plotInfo }) => {
     <section className={style.section}>
       <form onSubmit={createNote}>
         <label>
-          <h3>My notes</h3>
+          <h3>Notes</h3>
           <input
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}

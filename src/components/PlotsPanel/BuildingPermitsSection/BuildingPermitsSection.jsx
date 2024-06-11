@@ -1,55 +1,69 @@
 import { BiLinkExternal as LinkIcon } from "react-icons/bi";
-import style from "./BuildingPermitsSection.module.scss";
+import Tooltip from "../../Tooltip/Tooltip";
+import List from "../../List/List";
+import ListItem from "../../List/ListItem/ListItem";
 
 // building with construction_certs: Route de malagnou 17
 
 const BuildingPermitsSection = ({ plotInfo }) => {
   const certificates = plotInfo?.construction_certs || [];
 
+  const CertificateLink = (link) => {
+    if (!link) return null;
+    return (
+      <a target="_blank" href={link} rel="noreferrer">
+        <Tooltip
+          text="Full details on the government's website"
+          top="-35px"
+          right="-16px"
+        >
+          <LinkIcon />
+        </Tooltip>
+      </a>
+    );
+  };
+
   if (!certificates.length) return null;
   return (
-    <section className={style.section}>
-      <h3>Building permits</h3>
+    <List title="Building permit(s):">
+      {certificates.map((cert, i) => (
+        <ListItem key={i}>
+          <hgroup>
+            <h3>File: {cert?.id}</h3>
 
-      <ul className={style.list}>
-        {certificates.map((cert, i) => (
-          <li key={cert?.id || i}>
-            <div className={style.heading}>
-              <h4>File: {cert?.id}</h4>
+            <CertificateLink link={cert?.url} />
+          </hgroup>
 
-              <a target="_blank" href={cert?.url} rel="noreferrer">
-                <LinkIcon />
-                <p className={style.tooltip}>
-                  Full details on the government's website
-                </p>
-              </a>
-            </div>
-
+          <ul>
             {cert?.statut_dossier && (
-              <p>
-                Status: <span>{cert?.statut_dossier}</span>
-              </p>
+              <li>
+                <p>
+                  Status: <b>{cert.statut_dossier}</b>
+                </p>
+              </li>
             )}
 
-            <p>
-              Active:
-              {cert?.depose_le && (
-                <>
-                  {" "}
-                  from <span>{cert?.depose_le}</span>
-                </>
-              )}
-              {cert?.decide_le && (
-                <>
-                  {" "}
-                  to <span>{cert?.decide_le}</span>
-                </>
-              )}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </section>
+            <li>
+              <p>
+                Active:
+                {cert?.depose_le && (
+                  <>
+                    {" "}
+                    from <b>{cert?.depose_le}</b>
+                  </>
+                )}
+                {cert?.decide_le && (
+                  <>
+                    {" "}
+                    to <b>{cert?.decide_le}</b>
+                  </>
+                )}
+              </p>
+            </li>
+          </ul>
+        </ListItem>
+      ))}
+    </List>
   );
 };
 

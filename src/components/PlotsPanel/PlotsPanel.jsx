@@ -7,13 +7,14 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import SpecsSection from "./SpecsSection/SpecsSection";
 import style from "./PlotsPanel.module.scss";
 import AddressesSection from "./AddressesSection/AddressesSection";
-import ZoneSection from "./ZoneSection/ZoneSection";
 import OwnersSection from "./OwnersSection/OwnersSection";
 import TransactionsSection from "./TransactionsSection/TransactionsSection";
 import NotesSection from "./NotesSection/NotesSection";
 import { convertTimeFormat } from "../../utils/convertTimeFormat";
 import BuildingPermitsSection from "./BuildingPermitsSection/BuildingPermitsSection";
 import { BiFileBlank as FileIcon } from "react-icons/bi";
+import Tooltip from "../Tooltip/Tooltip";
+import List from "../List/List";
 
 const PlotsPanel = ({ plot, setPlot }) => {
   const [plotInfo, setPlotInfo] = useState(null);
@@ -69,9 +70,9 @@ const PlotsPanel = ({ plot, setPlot }) => {
             target="_blank"
             rel="noreferrer"
           >
-            <FileIcon />
-
-            <p className={style.fileTooltip}>RDPPF</p>
+            <Tooltip text="RDPPF" bottom="-40px">
+              <FileIcon />
+            </Tooltip>
           </a>
         )}
 
@@ -88,7 +89,13 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       <NotesSection plotInfo={plotInfo} />
 
-      <ZoneSection plotInfo={plotInfo} />
+      <List title="Zone:" className={style.zone}>
+        {plotInfo?.zone?.map((item) => (
+          <li key={item} className={style.zoneItem}>
+            {item}
+          </li>
+        ))}
+      </List>
 
       <AddressesSection plotInfo={plotInfo} />
 

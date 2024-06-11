@@ -1,5 +1,3 @@
-import style from "./BuildingsList.module.scss";
-
 const BuildingsList = ({ buildings }) => {
   const constructionField = (minYear, maxYear) => {
     if (!minYear) return null;
@@ -7,44 +5,39 @@ const BuildingsList = ({ buildings }) => {
 
     return (
       <p>
-        Construction year: <span>{maxYear}</span>
+        Construction year: <b>{maxYear}</b>
       </p>
     );
   };
 
   if (!buildings) return null;
   return (
-    <ul className={style.list}>
+    <ul style={{ marginTop: "16px" }}>
       {buildings.map((building, i) => (
-        <li key={building?.egrid && i} className={style.buildingItem}>
-          <div className={style.buildingItemLeft}>
-            {building?.no_batiment && (
-              <p>
-                Building number: <span>{building.no_batiment}</span>
-              </p>
-            )}
+        <li key={building?.egrid && i}>
+          {building?.no_batiment && (
+            <p>
+              Building number: <b>{building.no_batiment}</b>
+            </p>
+          )}
 
-            {building?.egid && (
-              <p>
-                EGID: <span>{building?.egid}</span>
-              </p>
-            )}
+          {building?.egid && (
+            <p>
+              EGID: <b>{building?.egid}</b>
+            </p>
+          )}
 
-            {building?.surface_totale_des_logements_du_batiment_m2 ? (
-              <p>
-                Living Surface:{" "}
-                <span>
-                  {" "}
-                  {building.surface_totale_des_logements_du_batiment_m2}m²
-                </span>
-              </p>
-            ) : null}
+          {building?.surface_totale_des_logements_du_batiment_m2 ? (
+            <p>
+              Living Surface:{" "}
+              <b> {building.surface_totale_des_logements_du_batiment_m2}m²</b>
+            </p>
+          ) : null}
 
-            {constructionField(
-              building?.min_building_construction_year,
-              building?.max_building_construction_year
-            )}
-          </div>
+          {constructionField(
+            building?.min_building_construction_year,
+            building?.max_building_construction_year
+          )}
         </li>
       ))}
     </ul>

@@ -1,38 +1,32 @@
 import { calculateAge } from "../../../utils/calculateAge";
 import { convertTimeFormat } from "../../../utils/convertTimeFormat";
-import style from "./OwnersSection.module.scss";
+import List from "../../List/List";
+import ListItem from "../../List/ListItem/ListItem";
 
 const OwnersSection = ({ plotInfo }) => {
-  const owners = plotInfo?.getOwners() || null;
-
-  const isDividerNeeded = !!plotInfo?.ownership_info
-    ?.map((info) => info?.last_transaction)
-    ?.filter((transaction) => !!transaction?._id);
+  const owners = plotInfo?.getOwners();
 
   if (!owners?.length) return null;
   return (
-    <section className={style.section}>
-      <h3>Owners</h3>
+    <List title="Owner(s):">
+      {owners.map((owner) => (
+        <ListItem key={owner?.name}>
+          {owner?.name && <h3> {owner.name}</h3>}
 
-      <ul>
-        {owners.map((owner) => (
-          <li key={owner?.name} className={style.ownerItem}>
-            {owner?.name && <p className={style.name}> {owner.name}</p>}
-
-            {owner?.date_de_naissance && (
-              <p className={style.age}>
-                Date of birth:{" "}
-                <span>{convertTimeFormat(owner?.date_de_naissance)}</span>
-                &nbsp;(
-                {calculateAge(owner?.date_de_naissance)} years old)
-              </p>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      {isDividerNeeded && <div className={style.divider}></div>}
-    </section>
+          {owner?.date_de_naissance && (
+            <ul>
+              <li>
+                <p>
+                  Date of birth:{" "}
+                  <b>{convertTimeFormat(owner?.date_de_naissance)}</b> (
+                  {calculateAge(owner?.date_de_naissance)} years old)
+                </p>
+              </li>
+            </ul>
+          )}
+        </ListItem>
+      ))}
+    </List>
   );
 };
 

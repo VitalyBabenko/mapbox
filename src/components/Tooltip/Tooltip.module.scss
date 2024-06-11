@@ -1,0 +1,23 @@
+@import "../../styles/variables";
+
+.tooltipWrapper {
+  position: relative;
+
+  .childrenWrapper:hover + .text {
+    opacity: 0.8;
+  }
+
+  .text {
+    position: absolute;
+    width: fit-content;
+    background: $grey-700;
+    color: $white;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+}

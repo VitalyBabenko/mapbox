@@ -1,54 +1,46 @@
 import BuildingsList from "./BuildingsList/BuildingsList";
 import CertificatesList from "./CertificatesList/CertificatesList";
 import { BiLinkExternal as LinkIcon } from "react-icons/bi";
-import style from "./AddressesSection.module.scss";
+import Tooltip from "../../Tooltip/Tooltip";
+import List from "../../List/List";
+import ListItem from "../../List/ListItem/ListItem";
 
 const AddressesSection = ({ plotInfo }) => {
   const availableAddresses = plotInfo?.addresses?.filter(
     (item) => item.adresse
   );
 
-  const isDividerNeeded = !!plotInfo?.ownership_info?.length;
+  const HeadingLink = (link) => {
+    if (!link) return null;
+    return (
+      <a target="_blank" href={link} rel="noreferrer">
+        <Tooltip text="Registre des Bâtiments" top="-35px" right="-16px">
+          <LinkIcon />
+        </Tooltip>
+      </a>
+    );
+  };
 
   if (!availableAddresses?.length) return null;
   return (
-    <section className={style.section}>
-      <h3>Address(es)</h3>
+    <List title="Address(es):">
+      {availableAddresses.map((item) => (
+        <ListItem>
+          <hgroup>
+            <h3>{item.adresse}</h3>
+            <HeadingLink link={item?.lien_registre_batiments} />
+          </hgroup>
 
-      <ul className={style.list}>
-        {availableAddresses.map((item) => (
-          <li key={item.adresse} className={style.addressItem}>
-            <div className={style.heading}>
-              <h3>{item.adresse}</h3>
+          <h4>
+            {item?.commune}, {!!+item?.no_postal && item?.no_postal}
+            <br />
+            Genève
+          </h4>
 
-              {item?.lien_registre_batiments && (
-                <>
-                  <a
-                    target="_blank"
-                    href={item?.lien_registre_batiments}
-                    rel="noreferrer"
-                  >
-                    <LinkIcon />
-                    <p className={style.tooltip}>Registre des Bâtiments</p>
-                  </a>
-                </>
-              )}
-            </div>
-
-            <div className={style.commune}>
-              {item?.commune}, {item?.no_postal}
-            </div>
-            <p className={style.city}>Genève</p>
-
-            <CertificatesList address={item} isConstructionCerts={true} />
-
-            <BuildingsList buildings={item?.housing_stats_data} />
-          </li>
-        ))}
-      </ul>
-
-      {isDividerNeeded && <div className={style.divider}></div>}
-    </section>
+          <BuildingsList buildings={item?.housing_stats_data} />
+        </ListItem>
+      ))}
+    </List>
   );
 };
 

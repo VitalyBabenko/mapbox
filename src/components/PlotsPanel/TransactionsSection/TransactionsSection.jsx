@@ -1,7 +1,6 @@
 import { convertTimeFormat } from "../../../utils/convertTimeFormat";
-import style from "./TransactionsSection.module.scss";
-
-// plot with transactions: Chemin des tulipiers 1
+import List from "../../List/List";
+import ListItem from "../../List/ListItem/ListItem";
 
 const TransactionsSection = ({ plotInfo }) => {
   const transactions = plotInfo?.ownership_info
@@ -15,25 +14,25 @@ const TransactionsSection = ({ plotInfo }) => {
 
   if (!transactions?.length) return null;
   return (
-    <section>
-      <h3>Transaction(s)</h3>
+    <List title="Transaction(s):">
+      {transactions.map((transaction, i) => (
+        <ListItem key={i}>
+          <hgroup>
+            <h3>{convertPrice(transaction?.prix)}</h3>
 
-      <ul className={style.tab}>
-        {transactions.map((transaction, i) => (
-          <li key={i} className={style.transactionItem}>
-            <p className={style.date}>
-              {convertTimeFormat(transaction?.transaction_date)}
-            </p>
+            <p>{convertTimeFormat(transaction?.transaction_date)}</p>
+          </hgroup>
 
-            <p className={style.price}>{convertPrice(transaction?.prix)}</p>
-
-            <p className={style.type}>
-              Type: <span>{transaction?.type}</span>
-            </p>
-          </li>
-        ))}
-      </ul>
-    </section>
+          <ul>
+            <li>
+              <p>
+                Type: <b>{transaction?.type}</b>
+              </p>
+            </li>
+          </ul>
+        </ListItem>
+      ))}
+    </List>
   );
 };
 

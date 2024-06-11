@@ -74,28 +74,9 @@
       }
     }
 
-    .fileLink {
-      position: relative;
-
-      &:hover > .fileTooltip {
-        opacity: 1;
-      }
-
-      .fileTooltip {
-        position: absolute;
-        bottom: -40px;
-        left: 50%;
-        translate: -50%;
-        width: fit-content;
-        background: $grey-700;
-        color: $white;
-        padding: 8px;
-        border-radius: 4px;
-        font-size: 16px;
-        opacity: 0;
-        transition: all 0.3s ease-in-out;
-        pointer-events: none;
-      }
+    .fileLink > div > div {
+      display: flex;
+      align-items: center;
     }
 
     .crossIcon {
@@ -126,19 +107,20 @@
     }
   }
 
-  .divider {
-    display: block;
-    height: 1px;
-    width: 100%;
-    background: #dddddd;
-    margin: 14px 0;
-  }
-
-  h3 {
-    font-size: 18px;
+  .zone {
+    display: flex;
+    gap: 8px;
     font-weight: 500;
-    margin-bottom: 8px;
-    color: $grey-700;
+    font-size: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+
+    li {
+      background: $blue-600;
+      color: $white;
+      border-radius: 4px;
+      padding: 4px 7px;
+    }
   }
 
   .lastEdits {
