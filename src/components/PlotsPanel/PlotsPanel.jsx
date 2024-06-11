@@ -107,7 +107,8 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       {plotInfo?.derniere_modification && (
         <p className={style.lastEdits}>
-          Last edits: {convertTimeFormat(plotInfo?.derniere_modification)}
+          Last edits:{" "}
+          <b>{convertTimeFormat(plotInfo?.derniere_modification)}</b>
         </p>
       )}
     </div>
