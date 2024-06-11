@@ -1,59 +1,26 @@
+@import "../../../../styles/variables";
+
 .list {
   display: flex;
   justify-content: flex-start;
   gap: 7px;
-  margin-bottom: 10px;
+  margin: 10px 0 -3px;
 
-  li {
-    position: relative;
-    display: flex;
-    align-items: center;
+  svg {
+    cursor: pointer;
 
-    svg {
-      cursor: pointer;
+    path {
+      fill: $grey-700;
+      // stroke: $grey-700;
     }
+  }
 
-    svg:hover + .tooltip {
-      opacity: 1;
-    }
-
-    .tooltip {
-      display: block;
-      position: absolute;
-      top: -45px;
-      left: 0%;
-      width: 203px;
-      background: black;
-      color: #fff;
-      padding: 8px;
-      border-radius: 4px;
-      font-size: 16px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .tooltipConstruction {
-      @extend .tooltip;
-      width: 305px;
-    }
-
-    .ppe {
-      font-weight: 500;
-      padding: 4px 0px;
-      border-radius: 4px;
-      font-size: 17px;
-      color: black;
-      cursor: pointer;
-
-      &:hover + .tooltip {
-        opacity: 1;
-      }
-    }
-
-    .tooltipPpe {
-      @extend .tooltip;
-      width: 173px;
-    }
+  .ppe {
+    line-height: 26px;
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 17px;
+    color: $grey-700;
+    cursor: pointer;
   }
 }

@@ -12,35 +12,37 @@ const BuildingsList = ({ buildings }) => {
 
   if (!buildings) return null;
   return (
-    <ul style={{ marginTop: "16px" }}>
+    <>
       {buildings.map((building, i) => (
-        <li key={building?.egrid && i}>
-          {building?.no_batiment && (
-            <p>
-              Building number: <b>{building.no_batiment}</b>
-            </p>
-          )}
+        <ul style={{ marginTop: "16px" }}>
+          <li key={building?.egrid && i}>
+            {building?.no_batiment && (
+              <p>
+                Building number: <b>{building.no_batiment}</b>
+              </p>
+            )}
 
-          {building?.egid && (
-            <p>
-              EGID: <b>{building?.egid}</b>
-            </p>
-          )}
+            {building?.egid && (
+              <p>
+                EGID: <b>{building?.egid}</b>
+              </p>
+            )}
 
-          {building?.surface_totale_des_logements_du_batiment_m2 ? (
-            <p>
-              Living Surface:{" "}
-              <b> {building.surface_totale_des_logements_du_batiment_m2}m²</b>
-            </p>
-          ) : null}
+            {building?.surface_totale_des_logements_du_batiment_m2 ? (
+              <p>
+                Living Surface:{" "}
+                <b> {building.surface_totale_des_logements_du_batiment_m2}m²</b>
+              </p>
+            ) : null}
 
-          {constructionField(
-            building?.min_building_construction_year,
-            building?.max_building_construction_year
-          )}
-        </li>
+            {constructionField(
+              building?.min_building_construction_year,
+              building?.max_building_construction_year
+            )}
+          </li>
+        </ul>
       ))}
-    </ul>
+    </>
   );
 };
 

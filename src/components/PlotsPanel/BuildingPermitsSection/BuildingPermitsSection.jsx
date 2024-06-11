@@ -8,7 +8,7 @@ import ListItem from "../../List/ListItem/ListItem";
 const BuildingPermitsSection = ({ plotInfo }) => {
   const certificates = plotInfo?.construction_certs || [];
 
-  const CertificateLink = (link) => {
+  const CertificateLink = ({ link }) => {
     if (!link) return null;
     return (
       <a target="_blank" href={link} rel="noreferrer">
@@ -34,16 +34,14 @@ const BuildingPermitsSection = ({ plotInfo }) => {
             <CertificateLink link={cert?.url} />
           </hgroup>
 
-          <ul>
-            {cert?.statut_dossier && (
-              <li>
+          <ul style={{ gap: "4px" }}>
+            <li>
+              {cert?.statut_dossier && (
                 <p>
                   Status: <b>{cert.statut_dossier}</b>
                 </p>
-              </li>
-            )}
+              )}
 
-            <li>
               <p>
                 Active:
                 {cert?.depose_le && (

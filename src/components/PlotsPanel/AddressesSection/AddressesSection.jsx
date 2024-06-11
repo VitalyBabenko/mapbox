@@ -10,7 +10,7 @@ const AddressesSection = ({ plotInfo }) => {
     (item) => item.adresse
   );
 
-  const HeadingLink = (link) => {
+  const HeadingLink = ({ link }) => {
     if (!link) return null;
     return (
       <a target="_blank" href={link} rel="noreferrer">
@@ -34,8 +34,14 @@ const AddressesSection = ({ plotInfo }) => {
           <h4>
             {item?.commune}, {!!+item?.no_postal && item?.no_postal}
             <br />
-            Genève
+            {item?.nom_npa && "Genève"}
           </h4>
+
+          <CertificatesList
+            address={item}
+            isConstructionCerts={!!plotInfo?.construction_certs?.length}
+            isPpe={!!plotInfo?.ppe}
+          />
 
           <BuildingsList buildings={item?.housing_stats_data} />
         </ListItem>

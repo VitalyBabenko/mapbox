@@ -1,26 +1,36 @@
 import { SlEnergy as EnergyIcon } from "react-icons/sl";
-import { LuConstruction as ConstructionIcon } from "react-icons/lu";
+import { BiCertification as ConstructionIcon } from "react-icons/bi";
 import style from "./CertificatesList.module.scss";
+import Tooltip from "../../../Tooltip/Tooltip";
 
-const CertificatesList = ({ address, isConstructionCerts }) => {
+const CertificatesList = ({ address, isConstructionCerts, isPpe }) => {
   const isMinergie = !!address?.certificat_minergie_details?.length;
 
+  if (!isMinergie && !isPpe && !isConstructionCerts) return null;
   return (
-    <ul className={style.list}>
-      <li>
-        {isMinergie && <EnergyIcon size={28} />}
-        <p className={style.tooltip}>Minergie certificate available</p>
-      </li>
+    <div className={style.list}>
+      {isMinergie && (
+        <Tooltip text="Minergie certificate available" top="-40px" left="-10px">
+          <EnergyIcon size={26} />
+        </Tooltip>
+      )}
 
-      <li>
-        {isConstructionCerts && (
-          <ConstructionIcon size={28} strokeWidth={1.6} />
-        )}
-        <p className={style.tooltipConstruction}>
-          Building construction certificates delivered
-        </p>
-      </li>
-    </ul>
+      {isPpe && (
+        <Tooltip text="Specific type of building" top="-40px" left="-10px">
+          <b className={style.ppe}>PPE</b>
+        </Tooltip>
+      )}
+
+      {isConstructionCerts && (
+        <Tooltip
+          text="Construction certificates delivered"
+          top="-40px"
+          left="-10px"
+        >
+          <ConstructionIcon size={26} />
+        </Tooltip>
+      )}
+    </div>
   );
 };
 

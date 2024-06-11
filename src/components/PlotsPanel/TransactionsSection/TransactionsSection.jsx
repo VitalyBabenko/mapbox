@@ -2,6 +2,8 @@ import { convertTimeFormat } from "../../../utils/convertTimeFormat";
 import List from "../../List/List";
 import ListItem from "../../List/ListItem/ListItem";
 
+// pourmille_ppe in Chemin de la vendée 24
+
 const TransactionsSection = ({ plotInfo }) => {
   const transactions = plotInfo?.ownership_info
     ?.map((info) => info?.last_transaction)
@@ -25,9 +27,24 @@ const TransactionsSection = ({ plotInfo }) => {
 
           <ul>
             <li>
-              <p>
-                Type: <b>{transaction?.type}</b>
-              </p>
+              {transaction?.type && (
+                <p>
+                  Type: <b>{transaction?.type}</b>
+                </p>
+              )}
+
+              {transaction?.plots?.[0]?.pourmille_ppe && (
+                <p>
+                  Pourmille: <b>{transaction?.plots?.[0]?.pourmille_ppe}</b>
+                </p>
+              )}
+
+              {transaction?.plots?.[0]?.cumulative_pourmille_ppe && (
+                <p>
+                  Cumulated pourmille:{" "}
+                  <b>{transaction?.plots?.[0]?.cumulative_pourmille_ppe}</b>
+                </p>
+              )}
             </li>
           </ul>
         </ListItem>
