@@ -3,6 +3,11 @@
 .tooltipWrapper {
   position: relative;
 
+  .childrenWrapper {
+    display: flex;
+    align-items: center;
+  }
+
   .childrenWrapper:hover + .text {
     opacity: 1;
   }

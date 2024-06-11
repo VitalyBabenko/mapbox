@@ -59,9 +59,14 @@ const PlotsPanel = ({ plot, setPlot }) => {
     <div className={style.panel}>
       <div className={style.heading}>
         <h2>Plot {plotInfo?.no_commune_no_parcelle}</h2>
-        <StarIcon className={style.star} />
 
-        <BellIcon />
+        <Tooltip text="Add plot to bookmarks alerts" bottom="-40px">
+          <StarIcon className={style.star} />
+        </Tooltip>
+
+        <Tooltip text="Add plot to email alerts" bottom="-40px">
+          <BellIcon />
+        </Tooltip>
 
         {plotInfo?.extrait_rdppf_pdf && (
           <a
