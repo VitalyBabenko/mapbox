@@ -3,6 +3,8 @@ import { BiCertification as ConstructionIcon } from "react-icons/bi";
 import style from "./CertificatesList.module.scss";
 import Tooltip from "../../../Tooltip/Tooltip";
 
+// Chemin Du Nant-D'argent 35, 1223
+
 const CertificatesList = ({ address, isConstructionCerts, isPpe }) => {
   const isMinergie = !!address?.certificat_minergie_details?.length;
 

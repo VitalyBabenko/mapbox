@@ -1,7 +1,13 @@
 import { Layer, Source } from "react-map-gl";
 
-const PlotsLayer = ({ county, hoverPlot }) => {
+const PlotsLayer = ({ county, hoverPlot, plot }) => {
   const countyName = county?.properties?.gdname;
+  const hoverPlotId = hoverPlot?.properties?.EGRID;
+  const activePlotId = plot?.properties?.EGRID;
+
+  const filterForHoverPlot = ["in", "EGRID", hoverPlotId];
+  const filterForActivePlot = ["in", "EGRID", activePlotId];
+
   let communeFilter = ["match", ["get", "COMMUNE"], countyName, true, false];
 
   if (countyName?.[0] === "[") {
@@ -17,12 +23,8 @@ const PlotsLayer = ({ county, hoverPlot }) => {
   const plotsFilter = [
     "all",
     ["match", ["get", "TYPE_PROPR"], ["privé"], true, false],
-    ["match", ["geometry-type"], ["Polygon"], true, false],
     communeFilter,
   ];
-
-  const hoverPlotId = hoverPlot?.properties?.EGRID;
-  const filterForHoverPlot = ["in", "EGRID", hoverPlotId];
 
   if (!county) return null;
   return (
@@ -32,7 +34,11 @@ const PlotsLayer = ({ county, hoverPlot }) => {
         type="fill"
         source-layer="CAD_PARCELLE_MENSU_WGS84-dor0ac"
         filter={plotsFilter}
-        paint={{ "fill-color": "#2d73c5", "fill-opacity": 0.6 }}
+        paint={{
+          "fill-color": "#006cd5",
+          "fill-opacity": 0.4,
+          "fill-outline-color": "white",
+        }}
         beforeId="poi-label"
       />
 
@@ -42,6 +48,21 @@ const PlotsLayer = ({ county, hoverPlot }) => {
           type="fill"
           source-layer="CAD_PARCELLE_MENSU_WGS84-dor0ac"
           filter={filterForHoverPlot}
+          paint={{
+            "fill-color": "#006cd5",
+
+            "fill-opacity": 0.6,
+          }}
+          beforeId="poi-label"
+        />
+      )}
+
+      {plot && (
+        <Layer
+          id="plotsActive"
+          type="fill"
+          source-layer="CAD_PARCELLE_MENSU_WGS84-dor0ac"
+          filter={filterForActivePlot}
           paint={{
             "fill-color": "#ed0e2c",
             "fill-opacity": 0.6,

@@ -1,10 +1,12 @@
-import { Layer, Source, useMap } from "react-map-gl";
+import { Layer, Popup, Source, useMap } from "react-map-gl";
 import { useEffect } from "react";
+import style from "./CountiesLayer.module.scss";
 import bbox from "@turf/bbox";
 
-const CountiesLayer = ({ hoverCounty, county }) => {
+const CountiesLayer = ({ hoverCounty, county, hoverInfo }) => {
   const { current: map } = useMap();
   const hoverCountyId = hoverCounty?.properties?.genid;
+  const hoverCountyName = hoverCounty?.properties?.gdname;
   const filterForHoverCounty = ["in", "genid", hoverCountyId];
 
   useEffect(() => {
@@ -19,6 +21,14 @@ const CountiesLayer = ({ hoverCounty, county }) => {
     );
   }, [county]);
 
+  const getCountyName = (county) => {
+    if (county?.properties?.gdname?.[0] === "[") {
+      const arr = JSON.parse(county?.properties?.gdname);
+      return arr?.join(", ");
+    }
+    return county?.properties?.gdname;
+  };
+
   if (county) return null;
   return (
     <Source id="countySource" type="vector" url="mapbox://lamapch.9a3g6tja">
@@ -28,8 +38,8 @@ const CountiesLayer = ({ hoverCounty, county }) => {
         source-layer="kanton_28-filt_reworked-a2cfbe"
         paint={{
           "fill-outline-color": "rgba(256,256,256,1)",
-          "fill-color": "#2D73C5",
-          "fill-opacity": 0.6,
+          "fill-color": "#006cd5",
+          "fill-opacity": 0.4,
         }}
         beforeId="poi-label"
         layout={{ visibility: "visible" }}
@@ -41,12 +51,24 @@ const CountiesLayer = ({ hoverCounty, county }) => {
           type="fill"
           source-layer="kanton_28-filt_reworked-a2cfbe"
           paint={{
-            "fill-color": "#ed0e2c",
+            "fill-color": "#006cd5",
             "fill-opacity": 0.6,
           }}
           filter={filterForHoverCounty}
           beforeId="poi-label"
         />
+      )}
+
+      {hoverCounty && (
+        <Popup
+          longitude={hoverInfo.lngLat.lng}
+          latitude={hoverInfo.lngLat.lat}
+          offset={[0, -5]}
+          closeButton={false}
+          className={style.popup}
+        >
+          {getCountyName(hoverCounty)}
+        </Popup>
       )}
     </Source>
   );

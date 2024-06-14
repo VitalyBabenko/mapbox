@@ -10,6 +10,8 @@ import PlotsFilters from "./components/PlotsFilters/PlotsFilters.jsx";
 function App() {
   const mapRef = useRef(null);
   const [cursor, setCursor] = useState(null);
+  const [clickInfo, setClickInfo] = useState(null);
+  const [hoverInfo, setHoverInfo] = useState(null);
 
   // county state
   const [county, setCounty] = useState(null);
@@ -26,12 +28,13 @@ function App() {
     mapRef.current?.queryRenderedFeatures(point, { layers })[0];
 
   const onHover = useCallback(
-    ({ point }) => {
+    (event) => {
+      setHoverInfo(event);
       if (!county) {
-        const countyFeature = getRenderedFeatures(point, ["counties"]);
+        const countyFeature = getRenderedFeatures(event.point, ["counties"]);
         setHoverCounty(countyFeature);
       } else {
-        const plotFeature = getRenderedFeatures(point, ["plots"]);
+        const plotFeature = getRenderedFeatures(event.point, ["plots"]);
         setHoverPlot(plotFeature);
       }
     },
@@ -39,12 +42,13 @@ function App() {
   );
 
   const onClick = useCallback(
-    ({ point }) => {
+    (event) => {
+      setClickInfo(event);
       if (!county) {
-        const countyFeature = getRenderedFeatures(point, ["counties"]);
+        const countyFeature = getRenderedFeatures(event.point, ["counties"]);
         setCounty(countyFeature);
       } else {
-        setPlot(getRenderedFeatures(point, ["plots"]));
+        setPlot(getRenderedFeatures(event.point, ["plots"]));
       }
     },
     [county]
@@ -72,6 +76,7 @@ function App() {
         mapRef={mapRef}
         hoverCounty={hoverCounty}
         county={county}
+        hoverInfo={hoverInfo}
       />
 
       <PlotsFilters />
