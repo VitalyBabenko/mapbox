@@ -1,0 +1,92 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.openBtn {
+  @include button-mapbox;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 10px;
+  font-size: 18px;
+}
+
+.filtersPopup {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 320px;
+  height: 500px;
+  background: $white;
+  border-radius: 4px;
+  background: #f9fafb;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  z-index: 0;
+  overflow-y: auto;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+
+    svg {
+      padding: 1px;
+      width: 24px;
+      height: 24px;
+
+      path {
+        fill: $grey-600;
+      }
+
+      &.closeBtn {
+        cursor: pointer;
+      }
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 30px;
+      color: $grey-700;
+      margin-right: auto;
+    }
+  }
+
+  h3 {
+    @include section-title;
+    margin: 10px 0 0 0;
+    font-size: 16px;
+  }
+
+  .type {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 8px 0 6px;
+  }
+
+  // .select > div {
+  // background: red;
+  // box-shadow: 4px 8px 20px 0px #1f192e0d;
+  // }
+
+  .canton {
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  .requestSubmittedOn {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .plotSurface {
+    display: flex;
+    justify-content: space-between;
+  }
+}

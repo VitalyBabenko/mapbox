@@ -44,15 +44,16 @@
     gap: 10px;
 
     .noteItem {
-      @include list-item;
-      @include block-item;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px;
       font-size: 18px;
+      background: white;
       color: $grey-700;
       box-shadow: 4px 8px 20px 0px #1f192e0d;
+      border-left: 2px solid $blue-600;
+      border-radius: 8x;
 
       &:first-of-type {
         margin-top: 14px;

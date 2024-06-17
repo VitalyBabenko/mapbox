@@ -1,8 +1,32 @@
+@import "./variables";
+
 .mapboxgl-map {
   min-width: 100vw;
   min-height: 100vh;
+  position: relative;
 }
 
 .mapboxgl-popup-content {
   padding: 2.5px 10px;
+}
+
+.mapboxgl-ctrl-geocoder {
+  display: none;
+  top: 60px;
+  right: -15px;
+  width: 310px;
+  transition: box-shadow 0.2s;
+  box-shadow: 4px 8px 20px 0px rgba(31, 25, 46, 0.0509803922);
+
+  svg path {
+    fill: $grey-600;
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .mapboxgl-ctrl-geocoder--input:focus {
+    outline: none;
+  }
 }
