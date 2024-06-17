@@ -63,17 +63,31 @@
     font-size: 16px;
   }
 
+  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    color: rgb(51, 51, 51);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid #d8d6de;
+    transition: ease 0.15s all;
+
+    &:hover {
+      border-color: #b3b3b3;
+    }
+
+    &:focus {
+      border: 1px solid $blue-600;
+    }
+  }
+
   .type {
     display: flex;
     justify-content: flex-start;
     gap: 20px;
     padding: 8px 0 6px;
   }
-
-  // .select > div {
-  // background: red;
-  // box-shadow: 4px 8px 20px 0px #1f192e0d;
-  // }
 
   .canton {
     margin-bottom: 10px;
@@ -82,7 +96,52 @@
 
   .requestSubmittedOn {
     display: flex;
-    justify-content: space-between;
+
+    .calendarInputWrapper {
+      &:hover {
+        .calendarIcon {
+          path {
+            fill: #999999;
+          }
+        }
+      }
+
+      &:focus-within svg path {
+        fill: #333333 !important;
+      }
+
+      .calendarIcon {
+        padding: 10px;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+
+        path {
+          fill: #cccccc;
+          transition: ease 0.15s all;
+        }
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        padding-left: 35px;
+      }
+    }
+
+    .requestStart,
+    .requestEnd {
+      border-radius: 6px;
+      border: 1px solid #d8d6de;
+    }
+
+    .requestStart {
+      left: 30%;
+    }
+
+    .requestEnd {
+      right: 30%;
+    }
   }
 
   .plotSurface {

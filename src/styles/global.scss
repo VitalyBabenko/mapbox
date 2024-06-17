@@ -30,3 +30,38 @@
     outline: none;
   }
 }
+
+.react-datepicker {
+  // input
+  &-wrapper {
+    min-width: 139px;
+    max-width: 139px;
+
+    &:first-child {
+      margin-right: auto;
+    }
+  }
+
+  // calendar
+  &__month-container {
+    box-shadow: 4px 8px 20px 0px rgba(31, 25, 46, 0.0909803922);
+  }
+
+  &__header {
+    background: $grey-100;
+    border-bottom: 1px solid $grey-200;
+  }
+
+  &__current-month {
+    color: $grey-700;
+  }
+
+  &__day-names {
+    margin-top: 5px;
+
+    div {
+      font-weight: 500;
+      color: $grey-600;
+    }
+  }
+}

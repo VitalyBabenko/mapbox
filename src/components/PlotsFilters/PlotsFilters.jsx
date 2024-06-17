@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { selectStyles } from "../../styles/selectStyles";
 import style from "./PlotsFilters.module.scss";
 
@@ -8,22 +8,37 @@ import GeocoderControl from "../GeocoderControl/GeocoderControl";
 import Checkbox from "../Checkbox/Checkbox";
 import Select from "react-select";
 import { FILTERS_OPTIONS } from "../../constants/index.js";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { BiCalendarAlt as CalendarIcon } from "react-icons/bi";
 
 const PlotsFilters = () => {
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen(!open);
-  const [isSAD, setIsSAD] = useState(false);
-  const [isPPE, setIsPPE] = useState(false);
+
   const [canton, setCanton] = useState("");
-  const [postCode, setPostCode] = useState("");
-  const [locality, setLocality] = useState("");
-  const [request, setRequest] = useState(null);
-  const [fileNumber, setFileNumber] = useState("");
-  const [fileStatus, setFileStatus] = useState("");
-  const [commune, setCommune] = useState("");
+  const postCodeRef = useRef(null);
+  const localityRef = useRef(null);
+  const [requestStart, setRequestStart] = useState(null);
+  const [requestEnd, setRequestEnd] = useState(null);
+
+  // const [request, setRequest] = useState(null);
+  // const [fileNumber, setFileNumber] = useState("");
+  // const [fileStatus, setFileStatus] = useState("");
+  // const [commune, setCommune] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { target } = e;
+    const isSAD = target[0].checked;
+    const isPPE = target[1].checked;
+    // canton
+    const postCode =
+      postCodeRef.current.props.value?.map((item) => item.value) || [];
+    const locality =
+      localityRef.current.props.value?.map((item) => item.value) || [];
+
+    console.log({ isSAD, canton, isPPE, postCode, locality });
   };
 
   return (
@@ -49,29 +64,23 @@ const PlotsFilters = () => {
           <form onSubmit={handleSubmit}>
             <h3>Type</h3>
             <div className={style.type}>
-              <Checkbox
-                label="SAD"
-                checked={isSAD}
-                onChange={() => setIsSAD(!isSAD)}
-              />
-
-              <Checkbox
-                label="PPE"
-                checked={isPPE}
-                onChange={() => setIsPPE(!isPPE)}
-              />
+              <Checkbox label="SAD" />
+              <Checkbox label="PPE" />
             </div>
+
             <h3>Canton</h3>
             <Select
               name="canton"
               className={style.select}
               styles={selectStyles}
               options={FILTERS_OPTIONS.CANTON}
+              getOptionValue={(option) => setCanton(option.value)}
             />
 
             <h3>Post code</h3>
             <Select
               name="postCode"
+              ref={postCodeRef}
               isMulti
               options={FILTERS_OPTIONS.POST_CODE}
               styles={selectStyles}
@@ -80,6 +89,7 @@ const PlotsFilters = () => {
             <h3>Locality</h3>
             <Select
               name="locality"
+              ref={localityRef}
               isMulti
               options={FILTERS_OPTIONS.LOCALITY}
               styles={selectStyles}
@@ -87,12 +97,35 @@ const PlotsFilters = () => {
 
             <h3>Request Submitted On</h3>
             <div className={style.requestSubmittedOn}>
-              <input />
-              <input />
+              <DatePicker
+                showIcon
+                icon={<CalendarIcon className={style.calendarIcon} />}
+                toggleCalendarOnIconClick={true}
+                selected={requestStart}
+                onChange={(date) => setRequestStart(date)}
+                selectsStart
+                startDate={requestStart}
+                endDate={requestEnd}
+                wrapperClassName={style.calendarInputWrapper}
+                calendarClassName={style.requestStart}
+              />
+
+              <DatePicker
+                showIcon
+                icon={<CalendarIcon className={style.calendarIcon} />}
+                toggleCalendarOnIconClick={true}
+                selected={requestEnd}
+                onChange={(date) => setRequestEnd(date)}
+                selectsEnd
+                startDate={requestStart}
+                endDate={requestEnd}
+                wrapperClassName={style.calendarInputWrapper}
+                calendarClassName={style.requestEnd}
+              />
             </div>
 
             <h3>File Number</h3>
-            <input />
+            <input type="text" />
 
             <h3>File status</h3>
             <Select
