@@ -82,66 +82,9 @@
     }
   }
 
-  .type {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 8px 0 6px;
-  }
-
   .canton {
     margin-bottom: 10px;
     cursor: pointer;
-  }
-
-  .requestSubmittedOn {
-    display: flex;
-
-    .calendarInputWrapper {
-      &:hover {
-        .calendarIcon {
-          path {
-            fill: #999999;
-          }
-        }
-      }
-
-      &:focus-within svg path {
-        fill: #333333c6 !important;
-      }
-
-      .calendarIcon {
-        padding: 10px;
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-
-        path {
-          fill: #cccccc;
-          transition: ease 0.15s all;
-        }
-      }
-
-      input {
-        width: 100%;
-        padding: 10px;
-        padding-left: 35px;
-      }
-    }
-
-    .requestStart,
-    .requestEnd {
-      border-radius: 6px;
-      border: 1px solid #d8d6de;
-    }
-
-    .requestStart {
-      left: 30%;
-    }
-
-    .requestEnd {
-      right: 30%;
-    }
   }
 
   .plotSurface {

@@ -1,0 +1,39 @@
+@import "../../../styles/variables";
+
+.inputs {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  input {
+    padding-right: 32px;
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5px;
+    width: 24px;
+    height: 24px;
+
+    path {
+      transition: ease 0.15s all;
+      stroke: #cccccc;
+    }
+
+    &:first-of-type {
+      left: 108px;
+    }
+  }
+
+  input:hover + svg path {
+    stroke: #999999;
+  }
+
+  input:focus + svg path {
+    stroke: #333333c6;
+  }
+}

@@ -76,8 +76,15 @@
     font-size: 14px;
 
     &--today {
+      color: $blue-600;
       border: 1px solid $blue-600;
+      background: $white;
       border-radius: 4px;
+
+      &:hover {
+        color: $white;
+        background-color: lighten($blue-600, 5%);
+      }
     }
 
     &--selected {
@@ -95,10 +102,46 @@
       color: $white !important;
       font-weight: 600;
       background-color: $blue-600 !important;
+    }
+  }
+}
 
-      &_end {
-        background: red;
-      }
+// range slider
+.range-slider {
+  border: 1px solid #d8d6de;
+  background: white !important;
+
+  input {
+    display: none;
+  }
+
+  &__range {
+    background: $blue-600 !important;
+    cursor: grab;
+
+    &:hover {
+      background: lighten($blue-600, 5%) !important;
+    }
+
+    &:active {
+      background: lighten($blue-600, 10%) !important;
+      cursor: grabbing;
+    }
+  }
+
+  &__thumb {
+    width: 15px !important;
+    height: 15px !important;
+    background: $blue-600 !important;
+    cursor: grab;
+
+    &:hover {
+      background: lighten($blue-600, 5%) !important;
+    }
+
+    &:active {
+      background: lighten($blue-600, 10%) !important;
+      cursor: grabbing;
     }
   }
 }

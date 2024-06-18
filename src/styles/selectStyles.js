@@ -36,4 +36,10 @@ export const selectStyles = {
     ...styles,
     cursor: "pointer",
   }),
+
+  menu: (styles) => ({
+    ...styles,
+    position: "relative",
+    zIndex: 3,
+  }),
 };

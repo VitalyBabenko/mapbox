@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { selectStyles } from "../../styles/selectStyles";
+import Loader from "../Loader/Loader.jsx";
 import style from "./PlotsFilters.module.scss";
 
 import { IoFilter as FilterIcon } from "react-icons/io5";
@@ -8,12 +9,19 @@ import GeocoderControl from "../GeocoderControl/GeocoderControl";
 import Checkbox from "../Checkbox/Checkbox";
 import Select from "react-select";
 import { FILTERS_OPTIONS } from "../../constants/index.js";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { BiCalendarAlt as CalendarIcon } from "react-icons/bi";
+import { TbMeterSquare as MeterSquareIcon } from "react-icons/tb";
+import RangeFilter from "../Filters/RangeFilter/RangeFilter.jsx";
+import DateFilter from "../Filters/DateFilter/DateFilter.jsx";
+import { filterService } from "../../service/filterService.js";
+import SelectFilter from "../Filters/SelectFilter/SelectFilter.jsx";
+import CheckboxListFilter from "../Filters/CheckboxListFilter/CheckboxListFilter.jsx";
+import MultiSelectFilter from "../Filters/MultiSelectFilter/MultiSelectFilter.jsx";
 
 const PlotsFilters = () => {
   const [open, setOpen] = useState(false);
+  const [filters, setFilters] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const toggleOpen = () => setOpen(!open);
 
   const [canton, setCanton] = useState("");
@@ -21,11 +29,8 @@ const PlotsFilters = () => {
   const localityRef = useRef(null);
   const [requestStart, setRequestStart] = useState(null);
   const [requestEnd, setRequestEnd] = useState(null);
-
-  // const [request, setRequest] = useState(null);
-  // const [fileNumber, setFileNumber] = useState("");
-  // const [fileStatus, setFileStatus] = useState("");
-  // const [commune, setCommune] = useState("");
+  const [surface, setSurface] = useState([0, 4912723]);
+  const [age, setAge] = useState([0, 157]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,6 +46,26 @@ const PlotsFilters = () => {
     console.log({ isSAD, canton, isPPE, postCode, locality });
   };
 
+  useEffect(() => {
+    const getFilters = async () => {
+      setIsLoading(true);
+      const resp = await filterService.getPlotsFilters();
+      console.log(resp);
+      setFilters(resp);
+      setIsLoading(false);
+    };
+
+    getFilters();
+  }, []);
+
+  const filtersView = {
+    checkbox: <Checkbox />,
+    multiple_dropdown: <MultiSelectFilter />,
+    typeahead_input: <SelectFilter />,
+    range: <RangeFilter />,
+    date_range: <DateFilter />,
+  };
+
   return (
     <>
       <button className={style.openBtn} onClick={toggleOpen}>
@@ -50,6 +75,7 @@ const PlotsFilters = () => {
 
       {open && (
         <div className={style.filtersPopup}>
+          {/* {isLoading ? <Loader /> : <></>} */}
           <div className={style.top}>
             <FilterIcon className={style.filterIcon} />
             <h2>Filters</h2>
@@ -62,11 +88,7 @@ const PlotsFilters = () => {
           </div>
 
           <form onSubmit={handleSubmit}>
-            <h3>Type</h3>
-            <div className={style.type}>
-              <Checkbox label="SAD" />
-              <Checkbox label="PPE" />
-            </div>
+            <CheckboxListFilter checkboxes={filters?.top} />
 
             <h3>Canton</h3>
             <Select
@@ -95,36 +117,13 @@ const PlotsFilters = () => {
               styles={selectStyles}
             />
 
-            <h3>Request Submitted On</h3>
-            <div className={style.requestSubmittedOn}>
-              <DatePicker
-                placeholderText="From"
-                showIcon
-                icon={<CalendarIcon className={style.calendarIcon} />}
-                toggleCalendarOnIconClick={true}
-                selected={requestStart}
-                onChange={(date) => setRequestStart(date)}
-                selectsStart
-                startDate={requestStart}
-                endDate={requestEnd}
-                wrapperClassName={style.calendarInputWrapper}
-                calendarClassName={style.requestStart}
-              />
-
-              <DatePicker
-                placeholderText="To"
-                showIcon
-                icon={<CalendarIcon className={style.calendarIcon} />}
-                toggleCalendarOnIconClick={true}
-                selected={requestEnd}
-                onChange={(date) => setRequestEnd(date)}
-                selectsEnd
-                startDate={requestStart}
-                endDate={requestEnd}
-                wrapperClassName={style.calendarInputWrapper}
-                calendarClassName={style.requestEnd}
-              />
-            </div>
+            <DateFilter
+              label="Request Submitted On"
+              startValue={requestStart}
+              setStartValue={setRequestStart}
+              endValue={requestEnd}
+              setEndValue={setRequestEnd}
+            />
 
             <h3>File Number</h3>
             <input type="text" />
@@ -148,20 +147,25 @@ const PlotsFilters = () => {
             <h3>Address</h3>
             <input />
 
-            <h3>Plot Surface</h3>
-            <div className={style.plotSurface}>
-              <input />
-              <input />
-            </div>
+            <RangeFilter
+              label="Plot Surface"
+              icon={<MeterSquareIcon />}
+              value={surface}
+              setValue={setSurface}
+              min={0}
+              max={4912723}
+            />
 
             <h3>Name</h3>
             <input />
 
-            <h3>Age</h3>
-            <div className={style.age}>
-              <input />
-              <input />
-            </div>
+            <RangeFilter
+              label="Age"
+              value={age}
+              setValue={setAge}
+              min={0}
+              max={157}
+            />
 
             <h3>Maiden Name</h3>
             <input />
