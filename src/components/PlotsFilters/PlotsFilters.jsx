@@ -98,6 +98,7 @@ const PlotsFilters = () => {
             <h3>Request Submitted On</h3>
             <div className={style.requestSubmittedOn}>
               <DatePicker
+                placeholderText="From"
                 showIcon
                 icon={<CalendarIcon className={style.calendarIcon} />}
                 toggleCalendarOnIconClick={true}
@@ -111,6 +112,7 @@ const PlotsFilters = () => {
               />
 
               <DatePicker
+                placeholderText="To"
                 showIcon
                 icon={<CalendarIcon className={style.calendarIcon} />}
                 toggleCalendarOnIconClick={true}
