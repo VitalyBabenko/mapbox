@@ -11,12 +11,13 @@ import Select from "react-select";
 import { FILTERS_OPTIONS } from "../../constants/index.js";
 import "react-datepicker/dist/react-datepicker.css";
 import { TbMeterSquare as MeterSquareIcon } from "react-icons/tb";
+import { filterService } from "../../service/filterService.js";
 import RangeFilter from "../Filters/RangeFilter/RangeFilter.jsx";
 import DateFilter from "../Filters/DateFilter/DateFilter.jsx";
-import { filterService } from "../../service/filterService.js";
-import SelectFilter from "../Filters/SelectFilter/SelectFilter.jsx";
+
 import CheckboxListFilter from "../Filters/CheckboxListFilter/CheckboxListFilter.jsx";
 import MultiSelectFilter from "../Filters/MultiSelectFilter/MultiSelectFilter.jsx";
+import TypeaheadFilter from "../Filters/TypeaheadFilter/TypeaheadFilter.jsx";
 
 const PlotsFilters = () => {
   const [open, setOpen] = useState(false);
@@ -24,33 +25,13 @@ const PlotsFilters = () => {
   const [isLoading, setIsLoading] = useState(false);
   const toggleOpen = () => setOpen(!open);
 
-  const [canton, setCanton] = useState("");
-  const postCodeRef = useRef(null);
-  const localityRef = useRef(null);
-  const [requestStart, setRequestStart] = useState(null);
-  const [requestEnd, setRequestEnd] = useState(null);
-  const [surface, setSurface] = useState([0, 4912723]);
-  const [age, setAge] = useState([0, 157]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { target } = e;
-    const isSAD = target[0].checked;
-    const isPPE = target[1].checked;
-    // canton
-    const postCode =
-      postCodeRef.current.props.value?.map((item) => item.value) || [];
-    const locality =
-      localityRef.current.props.value?.map((item) => item.value) || [];
-
-    console.log({ isSAD, canton, isPPE, postCode, locality });
-  };
+  const handleSubmit = (e) => {};
 
   useEffect(() => {
     const getFilters = async () => {
       setIsLoading(true);
       const resp = await filterService.getPlotsFilters();
-      console.log(resp);
+      // console.log(resp);
       setFilters(resp);
       setIsLoading(false);
     };
@@ -58,136 +39,136 @@ const PlotsFilters = () => {
     getFilters();
   }, []);
 
-  const filtersView = {
-    checkbox: <Checkbox />,
-    multiple_dropdown: <MultiSelectFilter />,
-    typeahead_input: <SelectFilter />,
-    range: <RangeFilter />,
-    date_range: <DateFilter />,
-  };
-
-  return (
-    <>
+  if (!open)
+    return (
       <button className={style.openBtn} onClick={toggleOpen}>
         <FilterIcon />
         Filters
       </button>
+    );
 
-      {open && (
-        <div className={style.filtersPopup}>
-          {/* {isLoading ? <Loader /> : <></>} */}
-          <div className={style.top}>
-            <FilterIcon className={style.filterIcon} />
-            <h2>Filters</h2>
+  if (isLoading) {
+    return (
+      <div className={style.filtersPopup}>
+        <Loader />
+      </div>
+    );
+  }
 
-            <CrossIcon
-              size={24}
-              className={style.closeBtn}
-              onClick={toggleOpen}
-            />
-          </div>
+  return (
+    <div className={style.filtersPopup}>
+      <div className={style.top}>
+        <FilterIcon className={style.filterIcon} />
+        <h2>Filters</h2>
 
-          <form onSubmit={handleSubmit}>
-            <CheckboxListFilter checkboxes={filters?.top} />
+        <CrossIcon size={24} className={style.closeBtn} onClick={toggleOpen} />
+      </div>
 
-            <h3>Canton</h3>
-            <Select
-              name="canton"
-              className={style.select}
-              styles={selectStyles}
-              options={FILTERS_OPTIONS.CANTON}
-              getOptionValue={(option) => setCanton(option.value)}
-            />
+      <form onSubmit={handleSubmit}>
+        <CheckboxListFilter checkboxes={filters.getCheckboxList()} />
 
-            <h3>Post code</h3>
-            <Select
-              name="postCode"
-              ref={postCodeRef}
-              isMulti
-              options={FILTERS_OPTIONS.POST_CODE}
-              styles={selectStyles}
-            />
+        {filters.list.map((filter) => {
+          if (filter.view === "typeahead_input")
+            return <TypeaheadFilter filter={filter} />;
+          return null;
+        })}
 
-            <h3>Locality</h3>
-            <Select
-              name="locality"
-              ref={localityRef}
-              isMulti
-              options={FILTERS_OPTIONS.LOCALITY}
-              styles={selectStyles}
-            />
+        {/* <h3>Canton</h3>
+        <Select
+          name="canton"
+          className={style.select}
+          styles={selectStyles}
+          options={FILTERS_OPTIONS.CANTON}
+          getOptionValue={(option) => setCanton(option.value)}
+        />
 
-            <DateFilter
-              label="Request Submitted On"
-              startValue={requestStart}
-              setStartValue={setRequestStart}
-              endValue={requestEnd}
-              setEndValue={setRequestEnd}
-            />
+        <h3>Post code</h3>
+        <Select
+          name="postCode"
+          ref={postCodeRef}
+          isMulti
+          options={FILTERS_OPTIONS.POST_CODE}
+          styles={selectStyles}
+        />
 
-            <h3>File Number</h3>
-            <input type="text" />
+        <h3>Locality</h3>
+        <Select
+          name="locality"
+          ref={localityRef}
+          isMulti
+          options={FILTERS_OPTIONS.LOCALITY}
+          styles={selectStyles}
+        />
 
-            <h3>File status</h3>
-            <Select
-              name="fileStatus"
-              isMulti
-              options={FILTERS_OPTIONS.FILE_STATUS}
-              styles={selectStyles}
-            />
+        <DateFilter
+          label="Request Submitted On"
+          startValue={requestStart}
+          setStartValue={setRequestStart}
+          endValue={requestEnd}
+          setEndValue={setRequestEnd}
+        />
 
-            <h3>Commune</h3>
-            <Select
-              name="commune"
-              isMulti
-              options={FILTERS_OPTIONS.COMMUNE}
-              styles={selectStyles}
-            />
+        <h3>File Number</h3>
+        <input type="text" />
 
-            <h3>Address</h3>
-            <input />
+        <h3>File status</h3>
+        <Select
+          name="fileStatus"
+          isMulti
+          options={FILTERS_OPTIONS.FILE_STATUS}
+          styles={selectStyles}
+        />
 
-            <RangeFilter
-              label="Plot Surface"
-              icon={<MeterSquareIcon />}
-              value={surface}
-              setValue={setSurface}
-              min={0}
-              max={4912723}
-            />
+        <h3>Commune</h3>
+        <Select
+          name="commune"
+          isMulti
+          options={FILTERS_OPTIONS.COMMUNE}
+          styles={selectStyles}
+        />
 
-            <h3>Name</h3>
-            <input />
+        <h3>Address</h3>
+        <input />
 
-            <RangeFilter
-              label="Age"
-              value={age}
-              setValue={setAge}
-              min={0}
-              max={157}
-            />
+        <RangeFilter
+          label="Plot Surface"
+          icon={<MeterSquareIcon />}
+          value={surface}
+          setValue={setSurface}
+          min={0}
+          max={4912723}
+        />
 
-            <h3>Maiden Name</h3>
-            <input />
+        <h3>Name</h3>
+        <input />
 
-            <h3>Transaction Type</h3>
-            <Select
-              name="transactionType"
-              isMulti
-              options={FILTERS_OPTIONS.TRANSACTION_TYPE}
-              styles={selectStyles}
-            />
+        <RangeFilter
+          label="Age"
+          value={age}
+          setValue={setAge}
+          min={0}
+          max={157}
+        />
 
-            <button type="submit">Apply</button>
-          </form>
+        <h3>Maiden Name</h3>
+        <input />
 
-          <GeocoderControl
-            mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-            position="top-left"
-          />
-        </div>
-      )}
-    </>
+        <h3>Transaction Type</h3>
+        <Select
+          name="transactionType"
+          isMulti
+          options={FILTERS_OPTIONS.TRANSACTION_TYPE}
+          styles={selectStyles}
+        /> */}
+
+        <button type="submit">Apply</button>
+      </form>
+
+      <GeocoderControl
+        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        position="top-left"
+      />
+    </div>
   );
 };
 

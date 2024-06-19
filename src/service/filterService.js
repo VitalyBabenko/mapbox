@@ -7,21 +7,28 @@ export const filterService = {
     try {
       const { data } = await axios.get(filterUrl);
 
-      const plotsFilters = data.filter((item) => {
-        if (item.level === "plots") return true;
-        if (item.level === "plots_and_buildings") return true;
-        return false;
-      });
+      console.log(data);
 
-      const top = plotsFilters
-        .filter((item) => item.show_on_top === 1)
-        .sort((a, b) => a.position - b.position);
+      const plotsFilters = data
+        .filter((item) => {
+          if (item.view === "checkbox") return false;
+          if (item.level === "plots") return true;
+          if (item.level === "plots_and_buildings") return true;
+          return false;
+        })
+        .sort((a, b) => a.position - b.position)
+        .sort((a, b) => b.show_on_top - a.show_on_top);
 
-      const bottom = plotsFilters
-        .filter((item) => item.show_on_top !== 1)
-        .sort((a, b) => a.position - b.position);
+      const getCheckboxList = () => {
+        return data.filter((item) => {
+          return (
+            (item.level === "plots" || item.level === "plots_and_buildings") &&
+            item.view === "checkbox"
+          );
+        });
+      };
 
-      return { top, bottom };
+      return { list: plotsFilters, getCheckboxList };
     } catch (error) {
       return {
         error,
