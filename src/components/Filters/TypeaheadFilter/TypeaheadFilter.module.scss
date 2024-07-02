@@ -1,2 +1,27 @@
-.typeahead {
+@import '../../../styles/variables';
+
+.typehead {
+  div[aria-label='menu-options'] {
+    background-color: #fff;
+    z-index: 100;
+
+    a {
+      display: block;
+      text-decoration: none;
+      color: $grey-600;
+      font-size: 16px;
+      line-height: 21px;
+      padding: 8px 12px;
+
+      transition: background-color 0.1s ease-in-out;
+
+      &:hover {
+        background-color: $grey-100;
+      }
+
+      mark {
+        background-color: $grey-200;
+      }
+    }
+  }
 }

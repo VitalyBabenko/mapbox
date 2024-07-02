@@ -1,5 +1,5 @@
-@import "../../styles/variables";
-@import "../../styles/mixins";
+@import '../../styles/variables';
+@import '../../styles/mixins';
 
 .openBtn {
   @include button-mapbox;
@@ -90,5 +90,28 @@
   .plotSurface {
     display: flex;
     justify-content: space-between;
+  }
+}
+
+.type {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 8px 0 6px;
+}
+
+.apply-btn {
+  padding: 8px 12px;
+  background-color: transparent;
+  border: 1px solid #b3b3b3;
+  outline: none;
+  margin-top: 16px;
+  font-size: 14px;
+  cursor: pointer;
+
+  transition: background-color 0.1s ease-in-out;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05) !important;
   }
 }

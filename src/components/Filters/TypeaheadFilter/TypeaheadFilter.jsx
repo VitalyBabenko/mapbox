@@ -1,27 +1,26 @@
-import React, { useState } from "react";
-import style from "./TypeaheadFilter.module.scss";
-import { Typeahead } from "react-bootstrap-typeahead";
+import React, { useState } from 'react'
+import style from './TypeaheadFilter.module.scss'
+import { Typeahead } from 'react-bootstrap-typeahead'
 
-const TypeaheadFilter = ({ filter }) => {
-  const [selected, setSelected] = useState([]);
-
+const TypeaheadFilter = ({ filter, setSelected, value }) => {
   const options = filter.values.map((value) => ({
     label: value,
-  }));
+  }))
 
   return (
     <>
       <h3>{filter.title}</h3>
 
       <Typeahead
+        id={filter.attribute}
         onChange={setSelected}
         options={options}
-        selected={selected}
+        selected={value}
         maxResults={10}
-        className={style.typeahead}
+        className={style.typehead}
       />
     </>
-  );
-};
+  )
+}
 
-export default TypeaheadFilter;
+export default TypeaheadFilter
