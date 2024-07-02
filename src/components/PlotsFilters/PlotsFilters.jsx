@@ -1,43 +1,143 @@
-import { useEffect, useRef, useState } from "react";
-import { selectStyles } from "../../styles/selectStyles";
-import Loader from "../Loader/Loader.jsx";
-import style from "./PlotsFilters.module.scss";
+import { Fragment, memo, useEffect, useRef, useState } from 'react'
+import { selectStyles } from '../../styles/selectStyles'
+import Loader from '../Loader/Loader.jsx'
+import style from './PlotsFilters.module.scss'
 
-import { IoFilter as FilterIcon } from "react-icons/io5";
-import { AiOutlineClose as CrossIcon } from "react-icons/ai";
-import GeocoderControl from "../GeocoderControl/GeocoderControl";
-import Checkbox from "../Checkbox/Checkbox";
-import Select from "react-select";
-import { FILTERS_OPTIONS } from "../../constants/index.js";
-import "react-datepicker/dist/react-datepicker.css";
-import { TbMeterSquare as MeterSquareIcon } from "react-icons/tb";
-import { filterService } from "../../service/filterService.js";
-import RangeFilter from "../Filters/RangeFilter/RangeFilter.jsx";
-import DateFilter from "../Filters/DateFilter/DateFilter.jsx";
+import { IoFilter as FilterIcon } from 'react-icons/io5'
+import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
+import GeocoderControl from '../GeocoderControl/GeocoderControl'
+import Select from 'react-select'
+import 'react-datepicker/dist/react-datepicker.css'
+import { TbMeterSquare as MeterSquareIcon, TbCurrencyEuro } from 'react-icons/tb'
+import { filterService } from '../../service/filterService.js'
+import RangeFilter from '../Filters/RangeFilter/RangeFilter.jsx'
+import DateFilter from '../Filters/DateFilter/DateFilter.jsx'
 
-import CheckboxListFilter from "../Filters/CheckboxListFilter/CheckboxListFilter.jsx";
-import MultiSelectFilter from "../Filters/MultiSelectFilter/MultiSelectFilter.jsx";
-import TypeaheadFilter from "../Filters/TypeaheadFilter/TypeaheadFilter.jsx";
+import TypeaheadFilter from '../Filters/TypeaheadFilter/TypeaheadFilter.jsx'
+import Checkbox from '../Checkbox/Checkbox.jsx'
 
-const PlotsFilters = () => {
-  const [open, setOpen] = useState(false);
-  const [filters, setFilters] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const toggleOpen = () => setOpen(!open);
+const rangeIcons = {
+  prix: <TbCurrencyEuro />,
+  surface_parcelle_m2: <MeterSquareIcon />,
+  age: null,
+}
 
-  const handleSubmit = (e) => {};
+const PlotsFilters = memo(({ onSetFilters }) => {
+  const [open, setOpen] = useState(false)
+  const [filters, setFilters] = useState([])
+  const [formValues, setFormValues] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const toggleOpen = () => setOpen(!open)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const allFilters = [...filters.list, ...filters.checkboxes]
+
+    const formattedFilters = Object.keys(formValues).reduce((prev, next) => {
+      const foundedFilter = allFilters.find(({ attribute }) => attribute === next)
+
+      switch (foundedFilter.view) {
+        case 'typeahead_input': {
+          if (formValues[next].length) {
+            prev[`filters[${foundedFilter.id}][]`] = formValues[next]
+              .map(({ label }) => label)
+              .join(',')
+          }
+          break
+        }
+
+        case 'multiple_dropdown': {
+          if (formValues[next]) {
+            prev[`filters[${foundedFilter.id}][]`] = formValues[next].value
+          }
+          break
+        }
+
+        case 'range': {
+          prev[`filters[${foundedFilter.id}][min]`] = formValues[next][0] || 0
+
+          if (formValues[next][1]) {
+            prev[`filters[${foundedFilter.id}][max]`] = formValues[next][1]
+          }
+
+          break
+        }
+
+        case 'date_range': {
+          prev[`filters[${foundedFilter.id}][min]`] = formValues[next].start
+          prev[`filters[${foundedFilter.id}][max]`] = formValues[next].end
+          break
+        }
+
+        case 'checkbox': {
+          prev[`filters[${foundedFilter.id}][]`] = formValues[next] ? 1 : 0
+
+          break
+        }
+
+        default:
+          break
+      }
+
+      return prev
+    }, {})
+
+    const newFilters = await filterService.setPlotsFilters(formattedFilters)
+    onSetFilters(newFilters)
+  }
+
+  const onChangeFormValue = (field, value) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }))
+  }
 
   useEffect(() => {
     const getFilters = async () => {
-      setIsLoading(true);
-      const resp = await filterService.getPlotsFilters();
-      // console.log(resp);
-      setFilters(resp);
-      setIsLoading(false);
-    };
+      setIsLoading(true)
+      const resp = await filterService.getPlotsFilters()
+      console.log(resp)
+      setFilters(resp)
+      setIsLoading(false)
 
-    getFilters();
-  }, []);
+      const preparedValues = [...resp.list, ...resp.checkboxes]
+
+      const getAttributeValue = (view, values) => {
+        switch (view) {
+          case 'typeahead_input': {
+            return ''
+          }
+
+          case 'multiple_dropdown': {
+            return []
+          }
+
+          case 'range': {
+            return [values.min, values.max]
+          }
+
+          case 'date_range': {
+            return { start: values.min, end: values.max }
+          }
+
+          case 'checkbox': {
+            return false
+          }
+
+          default:
+            return null
+        }
+      }
+
+      setFormValues(
+        preparedValues.reduce((prev, next) => {
+          prev[next.attribute] = getAttributeValue(next.view, next.values)
+          return prev
+        }, {}),
+      )
+    }
+
+    getFilters()
+  }, [])
 
   if (!open)
     return (
@@ -45,14 +145,14 @@ const PlotsFilters = () => {
         <FilterIcon />
         Filters
       </button>
-    );
+    )
 
   if (isLoading) {
     return (
       <div className={style.filtersPopup}>
         <Loader />
       </div>
-    );
+    )
   }
 
   return (
@@ -65,111 +165,87 @@ const PlotsFilters = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <CheckboxListFilter checkboxes={filters.getCheckboxList()} />
+        <div className={style.type}>
+          {filters.checkboxes.map((filter) => (
+            <Checkbox
+              key={filter.id}
+              label={filter.title}
+              checked={formValues[filter.attribute]}
+              onChange={(e) => {
+                onChangeFormValue(filter.attribute, e.target.checked)
+              }}
+            />
+          ))}
+        </div>
 
         {filters.list.map((filter) => {
-          if (filter.view === "typeahead_input")
-            return <TypeaheadFilter filter={filter} />;
-          return null;
+          switch (filter.view) {
+            case 'typeahead_input':
+              return (
+                <TypeaheadFilter
+                  key={filter.attribute}
+                  filter={filter}
+                  value={formValues[filter.attribute]}
+                  setSelected={(s) => onChangeFormValue(filter.attribute, s)}
+                />
+              )
+
+            case 'multiple_dropdown':
+              return (
+                <Fragment key={filter.attribute}>
+                  <h3>{filter.title}</h3>
+
+                  <Select
+                    name={filter.attribute}
+                    className={style.select}
+                    styles={selectStyles}
+                    value={formValues[filter.attribute]}
+                    onChange={(newValue) => onChangeFormValue(filter.attribute, newValue)}
+                    options={filter.values.map((v) => ({ value: v, label: v }))}
+                  />
+                </Fragment>
+              )
+
+            case 'range':
+              return (
+                <Fragment key={filter.attribute}>
+                  <RangeFilter
+                    label={filter.title}
+                    icon={rangeIcons[filter.attribute]}
+                    min={filter.values.min || 0}
+                    max={filter.values.max || 0}
+                    value={formValues[filter.attribute]}
+                    setValue={(v) => onChangeFormValue(filter.attribute, v)}
+                  />
+                </Fragment>
+              )
+
+            case 'date_range':
+              return (
+                <Fragment key={filter.attribute}>
+                  <DateFilter
+                    key={filter.attribute}
+                    label={filter.title}
+                    startValue={formValues[filter.attribute]?.start}
+                    setStartValue={(v) => onChangeFormValue(filter.attribute, v)}
+                    endValue={formValues[filter.attribute]?.end}
+                    setEndValue={(v) => onChangeFormValue(filter.attribute, v)}
+                  />
+                </Fragment>
+              )
+            default:
+              return null
+          }
         })}
 
-        {/* <h3>Canton</h3>
-        <Select
-          name="canton"
-          className={style.select}
-          styles={selectStyles}
-          options={FILTERS_OPTIONS.CANTON}
-          getOptionValue={(option) => setCanton(option.value)}
-        />
-
-        <h3>Post code</h3>
-        <Select
-          name="postCode"
-          ref={postCodeRef}
-          isMulti
-          options={FILTERS_OPTIONS.POST_CODE}
-          styles={selectStyles}
-        />
-
-        <h3>Locality</h3>
-        <Select
-          name="locality"
-          ref={localityRef}
-          isMulti
-          options={FILTERS_OPTIONS.LOCALITY}
-          styles={selectStyles}
-        />
-
-        <DateFilter
-          label="Request Submitted On"
-          startValue={requestStart}
-          setStartValue={setRequestStart}
-          endValue={requestEnd}
-          setEndValue={setRequestEnd}
-        />
-
-        <h3>File Number</h3>
-        <input type="text" />
-
-        <h3>File status</h3>
-        <Select
-          name="fileStatus"
-          isMulti
-          options={FILTERS_OPTIONS.FILE_STATUS}
-          styles={selectStyles}
-        />
-
-        <h3>Commune</h3>
-        <Select
-          name="commune"
-          isMulti
-          options={FILTERS_OPTIONS.COMMUNE}
-          styles={selectStyles}
-        />
-
-        <h3>Address</h3>
-        <input />
-
-        <RangeFilter
-          label="Plot Surface"
-          icon={<MeterSquareIcon />}
-          value={surface}
-          setValue={setSurface}
-          min={0}
-          max={4912723}
-        />
-
-        <h3>Name</h3>
-        <input />
-
-        <RangeFilter
-          label="Age"
-          value={age}
-          setValue={setAge}
-          min={0}
-          max={157}
-        />
-
-        <h3>Maiden Name</h3>
-        <input />
-
-        <h3>Transaction Type</h3>
-        <Select
-          name="transactionType"
-          isMulti
-          options={FILTERS_OPTIONS.TRANSACTION_TYPE}
-          styles={selectStyles}
-        /> */}
-
-        <button type="submit">Apply</button>
+        <button className={style['apply-btn']} type='submit'>
+          Apply
+        </button>
       </form>
 
-      <GeocoderControl
-        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        position="top-left"
-      />
+      <GeocoderControl mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} position='top-left' />
     </div>
-  );
-};
+  )
+})
 
-export default PlotsFilters;
+export default PlotsFilters

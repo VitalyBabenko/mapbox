@@ -1,10 +1,10 @@
-import DatePicker from "react-datepicker";
+import DatePicker from 'react-datepicker'
 
-import { BiCalendarAlt as CalendarIcon } from "react-icons/bi";
-import style from "./DateFilter.module.scss";
+import { BiCalendarAlt as CalendarIcon } from 'react-icons/bi'
+import style from './DateFilter.module.scss'
 
 const DateFilter = (props) => {
-  const { label, startValue, setStartValue, endValue, setEndValue } = props;
+  const { label, startValue, setStartValue, endValue, setEndValue } = props
 
   return (
     <>
@@ -14,33 +14,35 @@ const DateFilter = (props) => {
         <DatePicker
           selectsStart
           selected={startValue}
-          onChange={(date) => setStartValue(date)}
+          onChange={(date) => setStartValue({ start: date, end: endValue })}
           wrapperClassName={style.inputWrapper}
           calendarClassName={style.calendarStart}
-          placeholderText="From"
+          placeholderText='From'
           startDate={startValue}
           endDate={endValue}
           showIcon
           icon={<CalendarIcon className={style.inputIcon} />}
           toggleCalendarOnIconClick={true}
+          showYearDropdown
         />
 
         <DatePicker
           selectsEnd
           selected={endValue}
-          onChange={(date) => setEndValue(date)}
+          onChange={(date) => setEndValue({ start: startValue, end: date })}
           wrapperClassName={style.inputWrapper}
           calendarClassName={style.calendarEnd}
-          placeholderText="To"
+          placeholderText='To'
           startDate={startValue}
           endDate={endValue}
           showIcon
           icon={<CalendarIcon className={style.inputIcon} />}
           toggleCalendarOnIconClick={true}
+          showYearDropdown
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default DateFilter;
+export default DateFilter

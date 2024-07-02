@@ -1,38 +1,48 @@
-import axios from "axios";
+import axios from 'axios'
 
-const filterUrl = "https://777.adm-devs.com/api/filters";
+const filterUrl = 'https://777.adm-devs.com/api'
 
 export const filterService = {
   getPlotsFilters: async () => {
     try {
-      const { data } = await axios.get(filterUrl);
-
-      console.log(data);
+      const { data } = await axios.get(`${filterUrl}/filters`)
 
       const plotsFilters = data
         .filter((item) => {
-          if (item.view === "checkbox") return false;
-          if (item.level === "plots") return true;
-          if (item.level === "plots_and_buildings") return true;
-          return false;
+          if (item.view === 'checkbox') return false
+          if (item.level === 'plots') return true
+          if (item.level === 'plots_and_buildings') return true
+          return false
         })
         .sort((a, b) => a.position - b.position)
-        .sort((a, b) => b.show_on_top - a.show_on_top);
+        .sort((a, b) => b.show_on_top - a.show_on_top)
 
-      const getCheckboxList = () => {
-        return data.filter((item) => {
-          return (
-            (item.level === "plots" || item.level === "plots_and_buildings") &&
-            item.view === "checkbox"
-          );
-        });
-      };
+      const checkboxes = data.filter((item) => {
+        return (
+          (item.level === 'plots' || item.level === 'plots_and_buildings') &&
+          item.view === 'checkbox'
+        )
+      })
 
-      return { list: plotsFilters, getCheckboxList };
+      return { list: plotsFilters, checkboxes }
     } catch (error) {
       return {
         error,
-      };
+      }
     }
   },
-};
+
+  setPlotsFilters: async (filters) => {
+    try {
+      const { data } = await axios.get(`${filterUrl}/map/plots`, {
+        params: filters,
+      })
+
+      return data
+    } catch (error) {
+      return {
+        error,
+      }
+    }
+  },
+}
