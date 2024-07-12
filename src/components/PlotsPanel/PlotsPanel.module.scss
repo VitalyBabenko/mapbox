@@ -1,4 +1,4 @@
-@import "../../styles/mixins";
+@import '../../styles/mixins';
 
 .panel {
   position: absolute;
@@ -136,5 +136,15 @@
       line-height: 19.5px;
       color: $grey-700;
     }
+  }
+
+  .loader-drawer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 1);
+    z-index: 10000;
   }
 }
