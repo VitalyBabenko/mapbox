@@ -11,7 +11,13 @@ const PlotsLayer = ({ county, hoverPlot, plot }) => {
   let communeFilter = ['match', ['get', 'COMMUNE'], countyName, true, false]
 
   if (countyName?.[0] === '[') {
-    communeFilter = ['match', ['get', 'COMMUNE'], JSON.parse(countyName), true, false]
+    communeFilter = [
+      'match',
+      ['get', 'COMMUNE'],
+      JSON.parse(countyName),
+      true,
+      false,
+    ]
   }
 
   const plotsFilter = [
@@ -22,7 +28,7 @@ const PlotsLayer = ({ county, hoverPlot, plot }) => {
 
   if (!county) return null
   return (
-    <Source id='lotsSource' type='vector' url='mapbox://lamapch.64ix47h1'>
+    <Source id='plotsSource' type='vector' url='mapbox://lamapch.64ix47h1'>
       <Layer
         id='plots'
         type='fill'

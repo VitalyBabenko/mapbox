@@ -12,8 +12,6 @@ const CountiesLayer = ({
   const { current: map } = useMap()
   const hoverCountyId = hoverCounty?.properties?.genid
 
-  // const hoverCountyName = hoverCounty?.properties?.gdname
-
   const filterForHoverCounty = useMemo(
     () => ['in', 'genid', hoverCountyId],
     [hoverCountyId],

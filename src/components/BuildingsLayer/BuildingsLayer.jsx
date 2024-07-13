@@ -1,37 +1,83 @@
-import { Layer, Source } from "react-map-gl";
+import { useEffect, useMemo, useState } from 'react'
+import { Layer, Source } from 'react-map-gl'
 
-import { lancyBuildings } from "../../data/lancyBuildings.js";
+const BuildingsLayer = props => {
+  const { building, hoverBuilding, county } = props
+  const [isShow, setIsShow] = useState(false)
+  const hoverBuildingId = hoverBuilding?.properties?.EGID
+  const filterForHoverBuilding = useMemo(
+    () => ['in', 'EGID', hoverBuildingId],
+    [hoverBuildingId],
+  )
 
-const BuildingsLayer = ({ county, hoverBuilding }) => {
-  const hoverBuildingId = hoverBuilding?.properties?.egrid;
-  const filterForHoverBuilding = ["in", "egrid", hoverBuildingId];
+  const activeBuildingId = building?.properties?.EGID
+  const filterForActiveBuilding = useMemo(
+    () => ['in', 'EGID', activeBuildingId],
+    [activeBuildingId],
+  )
 
-  if (!county) return null;
+  const countyName = county?.properties?.gdname
+
+  let countyFilter = ['match', ['get', 'COMMUNE'], countyName, true, false]
+
+  if (countyName?.[0] === '[') {
+    countyFilter = [
+      'match',
+      ['get', 'COMMUNE'],
+      JSON.parse(countyName),
+      true,
+      false,
+    ]
+  }
+
+  useEffect(() => {
+    setIsShow(() => (county ? true : false))
+  }, [county])
+
   return (
-    <Source id="buildings" type="geojson" data={lancyBuildings}>
+    <Source id='buildingsSource' type='vector' url='mapbox://lamapch.02cb199k'>
       <Layer
-        id="buildingsFill"
-        type="fill"
+        id='buildings'
+        type='fill'
+        source-layer='CAD_BATIMENT_HORSOL_WGS84-ack86c'
         paint={{
-          "fill-outline-color": "rgba(256,256,256,1)",
-          "fill-color": "#2D73C5",
-          "fill-opacity": 0.6,
+          'fill-outline-color': 'rgba(256,256,256,1)',
+          'fill-color': '#006cd5',
+          'fill-opacity': isShow ? 0.4 : 0.0,
         }}
-        beforeId="poi-label"
+        filter={countyFilter}
+        beforeId='poi-label'
       />
-      <Layer
-        id="hoverBuilding"
-        type="fill"
-        source="counties"
-        paint={{
-          "fill-color": "#ed0e2c",
-          "fill-opacity": 0.6,
-        }}
-        filter={filterForHoverBuilding}
-        beforeId="poi-label"
-      />
-    </Source>
-  );
-};
 
-export default BuildingsLayer;
+      {hoverBuilding && (
+        <Layer
+          id='hoverBuilding'
+          type='fill'
+          source-layer='CAD_BATIMENT_HORSOL_WGS84-ack86c'
+          paint={{
+            'fill-color': '#006cd5',
+            'fill-opacity': isShow ? 0.6 : 0.0,
+          }}
+          filter={filterForHoverBuilding}
+          beforeId='poi-label'
+        />
+      )}
+
+      {building && (
+        <Layer
+          id='activeBuilding'
+          type='fill'
+          source-layer='CAD_BATIMENT_HORSOL_WGS84-ack86c'
+          paint={{
+            'fill-color': '#ed0e2c',
+            'fill-opacity': isShow ? 0.6 : 0.0,
+          }}
+          filter={filterForActiveBuilding}
+          beforeId='poi-label'
+        />
+      )}
+    </Source>
+  )
+}
+
+export default BuildingsLayer
