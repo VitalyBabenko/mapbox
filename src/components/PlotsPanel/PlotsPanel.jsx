@@ -62,11 +62,15 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       const { bookmarks } = await plotService.getBookmarksAlerts(info._id)
 
-      setIsAddedToBookmarks(!!bookmarks.find(({ user_id }) => user_id === USER_ID))
+      setIsAddedToBookmarks(
+        !!bookmarks.find(({ user_id }) => user_id === USER_ID),
+      )
 
       const { alerts } = await plotService.getEmailAlerts(info._id)
 
-      setIsAddedToEmailAlerts(!!alerts.find(({ user_id }) => user_id === USER_ID))
+      setIsAddedToEmailAlerts(
+        !!alerts.find(({ user_id }) => user_id === USER_ID),
+      )
 
       setIsLoading(false)
     }
@@ -86,15 +90,11 @@ const PlotsPanel = ({ plot, setPlot }) => {
       </div>
     )
 
-  // if (isLoading)
-  //   return (
-  //     <div className={style.panel}>
-  //       <Loader />
-  //     </div>
-  //   )
-
   return (
-    <div className={style.panel} style={{ overflow: isLoading ? 'hidden' : 'auto' }}>
+    <div
+      className={style.panel}
+      style={{ overflow: isLoading ? 'hidden' : 'auto' }}
+    >
       {isLoading && (
         <div className={style['loader-drawer']}>
           <Loader />
@@ -106,11 +106,17 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
         {isAddedToBookmarks ? (
           <Tooltip text='Remove plot from bookmarks alerts' bottom='-40px'>
-            <SolidStarIcon className={`${style.star}`} onClick={removeFromBookmarks} />
+            <SolidStarIcon
+              className={`${style.star}`}
+              onClick={removeFromBookmarks}
+            />
           </Tooltip>
         ) : (
           <Tooltip text='Add plot to bookmarks alerts' bottom='-40px'>
-            <StarIcon className={`${style.star}`} onClick={addToBookmarkAlerts} />
+            <StarIcon
+              className={`${style.star}`}
+              onClick={addToBookmarkAlerts}
+            />
           </Tooltip>
         )}
 
@@ -129,7 +135,8 @@ const PlotsPanel = ({ plot, setPlot }) => {
             className={style.fileLink}
             href={plotInfo.extrait_rdppf_pdf}
             target='_blank'
-            rel='noreferrer'>
+            rel='noreferrer'
+          >
             <Tooltip text='RDPPF' bottom='-40px'>
               <FileIcon />
             </Tooltip>
@@ -150,7 +157,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
       <NotesSection plotInfo={plotInfo} />
 
       <List title='Zone:' className={style.zone}>
-        {plotInfo?.zone?.map((item) => (
+        {plotInfo?.zone?.map(item => (
           <li key={item} className={style.zoneItem}>
             {item}
           </li>
@@ -167,7 +174,8 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
       {plotInfo?.derniere_modification && (
         <p className={style.lastEdits}>
-          Last edits: <b>{convertTimeFormat(plotInfo?.derniere_modification)}</b>
+          Last edits:{' '}
+          <b>{convertTimeFormat(plotInfo?.derniere_modification)}</b>
         </p>
       )}
     </div>

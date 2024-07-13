@@ -8,7 +8,10 @@ import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import GeocoderControl from '../GeocoderControl/GeocoderControl'
 import Select from 'react-select'
 import 'react-datepicker/dist/react-datepicker.css'
-import { TbMeterSquare as MeterSquareIcon, TbCurrencyEuro } from 'react-icons/tb'
+import {
+  TbMeterSquare as MeterSquareIcon,
+  TbCurrencyEuro,
+} from 'react-icons/tb'
 import { filterService } from '../../service/filterService.js'
 import RangeFilter from '../Filters/RangeFilter/RangeFilter.jsx'
 import DateFilter from '../Filters/DateFilter/DateFilter.jsx'
@@ -29,13 +32,15 @@ const PlotsFilters = memo(({ onSetFilters }) => {
   const [isLoading, setIsLoading] = useState(false)
   const toggleOpen = () => setOpen(!open)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
     const allFilters = [...filters.list, ...filters.checkboxes]
 
     const formattedFilters = Object.keys(formValues).reduce((prev, next) => {
-      const foundedFilter = allFilters.find(({ attribute }) => attribute === next)
+      const foundedFilter = allFilters.find(
+        ({ attribute }) => attribute === next,
+      )
 
       switch (foundedFilter.view) {
         case 'typeahead_input': {
@@ -88,14 +93,13 @@ const PlotsFilters = memo(({ onSetFilters }) => {
   }
 
   const onChangeFormValue = (field, value) => {
-    setFormValues((prev) => ({ ...prev, [field]: value }))
+    setFormValues(prev => ({ ...prev, [field]: value }))
   }
 
   useEffect(() => {
     const getFilters = async () => {
       setIsLoading(true)
       const resp = await filterService.getPlotsFilters()
-      console.log(resp)
       setFilters(resp)
       setIsLoading(false)
 
@@ -166,19 +170,19 @@ const PlotsFilters = memo(({ onSetFilters }) => {
 
       <form onSubmit={handleSubmit}>
         <div className={style.type}>
-          {filters.checkboxes.map((filter) => (
+          {filters.checkboxes.map(filter => (
             <Checkbox
               key={filter.id}
               label={filter.title}
               checked={formValues[filter.attribute]}
-              onChange={(e) => {
+              onChange={e => {
                 onChangeFormValue(filter.attribute, e.target.checked)
               }}
             />
           ))}
         </div>
 
-        {filters.list.map((filter) => {
+        {filters.list.map(filter => {
           switch (filter.view) {
             case 'typeahead_input':
               return (
@@ -186,7 +190,7 @@ const PlotsFilters = memo(({ onSetFilters }) => {
                   key={filter.attribute}
                   filter={filter}
                   value={formValues[filter.attribute]}
-                  setSelected={(s) => onChangeFormValue(filter.attribute, s)}
+                  setSelected={s => onChangeFormValue(filter.attribute, s)}
                 />
               )
 
@@ -200,8 +204,10 @@ const PlotsFilters = memo(({ onSetFilters }) => {
                     className={style.select}
                     styles={selectStyles}
                     value={formValues[filter.attribute]}
-                    onChange={(newValue) => onChangeFormValue(filter.attribute, newValue)}
-                    options={filter.values.map((v) => ({ value: v, label: v }))}
+                    onChange={newValue =>
+                      onChangeFormValue(filter.attribute, newValue)
+                    }
+                    options={filter.values.map(v => ({ value: v, label: v }))}
                   />
                 </Fragment>
               )
@@ -215,7 +221,7 @@ const PlotsFilters = memo(({ onSetFilters }) => {
                     min={filter.values.min || 0}
                     max={filter.values.max || 0}
                     value={formValues[filter.attribute]}
-                    setValue={(v) => onChangeFormValue(filter.attribute, v)}
+                    setValue={v => onChangeFormValue(filter.attribute, v)}
                   />
                 </Fragment>
               )
@@ -227,9 +233,9 @@ const PlotsFilters = memo(({ onSetFilters }) => {
                     key={filter.attribute}
                     label={filter.title}
                     startValue={formValues[filter.attribute]?.start}
-                    setStartValue={(v) => onChangeFormValue(filter.attribute, v)}
+                    setStartValue={v => onChangeFormValue(filter.attribute, v)}
                     endValue={formValues[filter.attribute]?.end}
-                    setEndValue={(v) => onChangeFormValue(filter.attribute, v)}
+                    setEndValue={v => onChangeFormValue(filter.attribute, v)}
                   />
                 </Fragment>
               )
@@ -243,7 +249,10 @@ const PlotsFilters = memo(({ onSetFilters }) => {
         </button>
       </form>
 
-      <GeocoderControl mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} position='top-left' />
+      <GeocoderControl
+        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        position='top-left'
+      />
     </div>
   )
 })
