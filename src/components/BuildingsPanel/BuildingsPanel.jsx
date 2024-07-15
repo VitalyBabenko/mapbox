@@ -1,9 +1,10 @@
 import style from './BuildingsPanel.module.scss'
-import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import { useEffect, useState } from 'react'
 
 import Loader from '../Loader/Loader'
 import { buildingService } from '../../service/buildingService'
+import HeadingSection from './HeadingSection/HeadingSection'
+import SpecsSection from './SpecsSection/SpecsSection'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -20,6 +21,7 @@ const BuildingsPanel = ({ building, setBuilding }) => {
 
       setBuildingInfo(info)
       setIsLoading(false)
+      console.log(info)
     }
 
     if (building) getData()
@@ -36,10 +38,21 @@ const BuildingsPanel = ({ building, setBuilding }) => {
 
   return (
     <div className={style.panel}>
-      <div className={style.heading}>
-        <h2>Plot {buildingInfo?.address_name}</h2>
-        <CrossIcon onClick={closeBuildingPanel} className={style.crossIcon} />
-      </div>
+      <HeadingSection
+        egid={buildingInfo.egid}
+        closeBuildingPanel={closeBuildingPanel}
+      />
+
+      {buildingInfo?.commune_name && (
+        <p className={style.commune}>
+          Commune: <span>{buildingInfo.commune_name}</span>
+        </p>
+      )}
+
+      <SpecsSection
+        constructionYear={buildingInfo.annee_de_construction_du_batiment}
+        apartmentsQuantity={buildingInfo.building_apartments_qty}
+      />
     </div>
   )
 }

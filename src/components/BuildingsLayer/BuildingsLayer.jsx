@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Layer, Source } from 'react-map-gl'
 
 const BuildingsLayer = props => {
-  const { building, hoverBuilding, county } = props
-  const [isShow, setIsShow] = useState(false)
+  const { building, hoverBuilding, county, mode } = props
   const hoverBuildingId = hoverBuilding?.properties?.EGID
   const filterForHoverBuilding = useMemo(
     () => ['in', 'EGID', hoverBuildingId],
@@ -16,7 +15,7 @@ const BuildingsLayer = props => {
     [activeBuildingId],
   )
 
-  const countyName = county?.properties?.gdname
+  const countyName = county?.properties?.gdname || ''
 
   let countyFilter = ['match', ['get', 'COMMUNE'], countyName, true, false]
 
@@ -30,10 +29,6 @@ const BuildingsLayer = props => {
     ]
   }
 
-  useEffect(() => {
-    setIsShow(() => (county ? true : false))
-  }, [county])
-
   return (
     <Source id='buildingsSource' type='vector' url='mapbox://lamapch.02cb199k'>
       <Layer
@@ -43,7 +38,7 @@ const BuildingsLayer = props => {
         paint={{
           'fill-outline-color': 'rgba(256,256,256,1)',
           'fill-color': '#006cd5',
-          'fill-opacity': isShow ? 0.4 : 0.0,
+          'fill-opacity': 0.4,
         }}
         filter={countyFilter}
         beforeId='poi-label'
@@ -56,7 +51,7 @@ const BuildingsLayer = props => {
           source-layer='CAD_BATIMENT_HORSOL_WGS84-ack86c'
           paint={{
             'fill-color': '#006cd5',
-            'fill-opacity': isShow ? 0.6 : 0.0,
+            'fill-opacity': 0.6,
           }}
           filter={filterForHoverBuilding}
           beforeId='poi-label'
@@ -70,7 +65,7 @@ const BuildingsLayer = props => {
           source-layer='CAD_BATIMENT_HORSOL_WGS84-ack86c'
           paint={{
             'fill-color': '#ed0e2c',
-            'fill-opacity': isShow ? 0.6 : 0.0,
+            'fill-opacity': 0.6,
           }}
           filter={filterForActiveBuilding}
           beforeId='poi-label'
