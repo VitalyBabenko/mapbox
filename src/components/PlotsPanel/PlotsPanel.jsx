@@ -21,6 +21,8 @@ import { BiFileBlank as FileIcon } from 'react-icons/bi'
 import Tooltip from '../Tooltip/Tooltip'
 import List from '../List/List'
 import { plotService } from '../../service/plotService'
+import { useQuery } from '../../hooks/useQuery'
+import IconButton from '../IconButton/IconButton'
 
 const USER_ID = 2
 
@@ -31,25 +33,29 @@ const PlotsPanel = ({ plot, setPlot }) => {
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
 
+  const { loading: loadingBookmark, handler: bookmarkHandler } = useQuery()
+  const { loading: loadingEmailAlerts, handler: emailAlertsHandler } =
+    useQuery()
+
   const closePlotPanel = () => setPlot(null)
 
   const addToEmailAlerts = async () => {
-    await plotService.addToEmailAlerts(plotInfo._id)
+    emailAlertsHandler(() => plotService.addToEmailAlerts(plotInfo._id))
     setIsAddedToEmailAlerts(true)
   }
 
   const removeFromEmailAlerts = async () => {
-    await plotService.removeEmailAlerts(plotInfo._id)
+    emailAlertsHandler(() => plotService.removeEmailAlerts(plotInfo._id))
     setIsAddedToEmailAlerts(false)
   }
 
   const addToBookmarkAlerts = async () => {
-    await plotService.addToBookmarksAlerts(plotInfo._id)
+    await bookmarkHandler(() => plotService.addToBookmarksAlerts(plotInfo._id))
     setIsAddedToBookmarks(true)
   }
 
   const removeFromBookmarks = async () => {
-    await plotService.removeBookmarksAlerts(plotInfo._id)
+    await bookmarkHandler(() => plotService.removeBookmarksAlerts(plotInfo._id))
     setIsAddedToBookmarks(false)
   }
 
@@ -106,27 +112,35 @@ const PlotsPanel = ({ plot, setPlot }) => {
 
         {isAddedToBookmarks ? (
           <Tooltip text='Remove plot from bookmarks alerts' bottom='-40px'>
-            <SolidStarIcon
-              className={`${style.star}`}
-              onClick={removeFromBookmarks}
-            />
+            <IconButton disabled={loadingBookmark}>
+              <SolidStarIcon
+                className={`${style.star}`}
+                onClick={removeFromBookmarks}
+              />
+            </IconButton>
           </Tooltip>
         ) : (
           <Tooltip text='Add plot to bookmarks alerts' bottom='-40px'>
-            <StarIcon
-              className={`${style.star}`}
-              onClick={addToBookmarkAlerts}
-            />
+            <IconButton disabled={loadingBookmark}>
+              <StarIcon
+                className={`${style.star}`}
+                onClick={addToBookmarkAlerts}
+              />
+            </IconButton>
           </Tooltip>
         )}
 
         {isAddedToEmailAlerts ? (
           <Tooltip text='Remove plot from email alerts' bottom='-40px'>
-            <SolidBellIcon onClick={removeFromEmailAlerts} />
+            <IconButton disabled={loadingEmailAlerts}>
+              <SolidBellIcon onClick={removeFromEmailAlerts} />
+            </IconButton>
           </Tooltip>
         ) : (
           <Tooltip text='Add plot to email alerts' bottom='-40px'>
-            <BellIcon onClick={addToEmailAlerts} />
+            <IconButton disabled={loadingEmailAlerts}>
+              <BellIcon onClick={addToEmailAlerts} />
+            </IconButton>
           </Tooltip>
         )}
 
