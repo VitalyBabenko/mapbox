@@ -10,8 +10,8 @@ export const filterService = {
       const plotsFilters = data
         .filter((item) => {
           if (item.view === 'checkbox') return false
-          if (item.level === 'plots') return true
-          if (item.level === 'plots_and_buildings') return true
+          if (item.level?.includes('plots')) return true
+          if (item.level?.includes('plots_and_buildings')) return true
           return false
         })
         .sort((a, b) => a.position - b.position)
@@ -19,7 +19,7 @@ export const filterService = {
 
       const checkboxes = data.filter((item) => {
         return (
-          (item.level === 'plots' || item.level === 'plots_and_buildings') &&
+          (item.level?.includes('plots') || item.level?.includes('plots_and_buildings')) &&
           item.view === 'checkbox'
         )
       })
