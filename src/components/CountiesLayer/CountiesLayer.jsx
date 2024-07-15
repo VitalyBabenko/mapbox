@@ -3,13 +3,19 @@ import { useEffect, useMemo } from 'react'
 import style from './CountiesLayer.module.scss'
 import bbox from '@turf/bbox'
 
-const CountiesLayer = ({ hoverCounty, county, hoverInfo }) => {
+const CountiesLayer = ({
+  hoverCounty,
+  county,
+  hoverInfo,
+  filterSearchPlots,
+}) => {
   const { current: map } = useMap()
   const hoverCountyId = hoverCounty?.properties?.genid
 
-  // const hoverCountyName = hoverCounty?.properties?.gdname
-
-  const filterForHoverCounty = useMemo(() => ['in', 'genid', hoverCountyId], [hoverCountyId])
+  const filterForHoverCounty = useMemo(
+    () => ['in', 'genid', hoverCountyId],
+    [hoverCountyId],
+  )
 
   useEffect(() => {
     if (!county) return
@@ -23,7 +29,7 @@ const CountiesLayer = ({ hoverCounty, county, hoverInfo }) => {
     )
   }, [county])
 
-  const getCountyName = (county) => {
+  const getCountyName = county => {
     if (county?.properties?.gdname?.[0] === '[') {
       const arr = JSON.parse(county?.properties?.gdname)
       return arr?.join(', ')
@@ -31,6 +37,7 @@ const CountiesLayer = ({ hoverCounty, county, hoverInfo }) => {
     return county?.properties?.gdname
   }
 
+  if (filterSearchPlots.length) return null
   if (county) return null
   return (
     <Source id='countySource' type='vector' url='mapbox://lamapch.9a3g6tja'>
@@ -67,7 +74,8 @@ const CountiesLayer = ({ hoverCounty, county, hoverInfo }) => {
           latitude={hoverInfo.lngLat.lat}
           offset={[0, -5]}
           closeButton={false}
-          className={style.popup}>
+          className={style.popup}
+        >
           {getCountyName(hoverCounty)}
         </Popup>
       )}

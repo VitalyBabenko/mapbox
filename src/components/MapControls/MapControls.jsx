@@ -1,26 +1,38 @@
-import { FullscreenControl, NavigationControl, useMap } from "react-map-gl";
-import GeocoderControl from "../GeocoderControl/GeocoderControl";
-import style from "./MapControls.module.scss";
-import { INITIAL_VIEW } from "../../constants";
-import MapDataPanel from "../MapDataPanel/MapDataPanel";
+import { FullscreenControl, NavigationControl, useMap } from 'react-map-gl'
+import GeocoderControl from '../GeocoderControl/GeocoderControl'
+import style from './MapControls.module.scss'
+import { INITIAL_VIEW } from '../../constants'
+import MapDataPanel from '../MapDataPanel/MapDataPanel'
 
-const MapControls = (props) => {
-  const { county, setCounty, setPlot, mapRef } = props;
-  const { current: map } = useMap();
+const MapControls = props => {
+  const { county, setCounty, setPlot, mapRef, mode, setMode } = props
+  const { current: map } = useMap()
 
   const resetView = () => {
     map.flyTo({
       center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
       zoom: INITIAL_VIEW.ZOOM,
       essential: true,
-    });
-    setCounty(null);
-    setPlot(null);
-  };
+    })
+    setCounty(null)
+    setPlot(null)
+  }
+
+  const handleToggleMode = () => {
+    setMode(mode === 'buildings' ? 'plots' : 'buildings')
+  }
 
   return (
     <>
-      <FullscreenControl position="top-right" />
+      <button onClick={handleToggleMode} className={style.toggleModeBtn}>
+        <span className={mode === 'buildings' ? style.active : ''}>
+          Buildings
+        </span>
+
+        <span className={mode === 'plots' ? style.active : ''}>Plots</span>
+      </button>
+
+      <FullscreenControl position='top-right' />
 
       <NavigationControl />
 
@@ -37,7 +49,7 @@ const MapControls = (props) => {
         </button>
       )}
     </>
-  );
-};
+  )
+}
 
-export default MapControls;
+export default MapControls

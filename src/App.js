@@ -1,4 +1,4 @@
-import { Layer, Map, Source } from 'react-map-gl'
+import { Map } from 'react-map-gl'
 import { memo, useCallback, useRef, useState } from 'react'
 import MapControls from './components/MapControls/MapControls.jsx'
 import { INITIAL_VIEW, MAP_STYLES } from './constants/index.js'
@@ -6,9 +6,13 @@ import CountiesLayer from './components/CountiesLayer/CountiesLayer.jsx'
 import PlotsLayer from './components/PlotsLayer/PlotsLayer.jsx'
 import PlotsPanel from './components/PlotsPanel/PlotsPanel.jsx'
 import PlotsFilters from './components/PlotsFilters/PlotsFilters.jsx'
+import PlotsByFilter from './components/PlotsByFilters/PlotsByFilter.jsx'
+import BuildingsLayer from './components/BuildingsLayer/BuildingsLayer.jsx'
+import BuildingsPanel from './components/BuildingsPanel/BuildingsPanel.jsx'
 
 function App() {
   const mapRef = useRef(null)
+  const [mode, setMode] = useState('plots')
   const [cursor, setCursor] = useState(null)
   const [clickInfo, setClickInfo] = useState(null)
   const [hoverInfo, setHoverInfo] = useState(null)
@@ -21,6 +25,10 @@ function App() {
   const [plot, setPlot] = useState(null)
   const [hoverPlot, setHoverPlot] = useState(null)
 
+  // building state
+  const [building, setBuilding] = useState(null)
+  const [hoverBuilding, setHoverBuilding] = useState(null)
+
   // filter state
   const [filterSearchPlots, setFilterSearchPlot] = useState([])
 
@@ -31,33 +39,52 @@ function App() {
     mapRef.current?.queryRenderedFeatures(point, { layers })[0]
 
   const onHover = useCallback(
-    (event) => {
+    event => {
       setHoverInfo(event)
       if (!county) {
         const countyFeature = getRenderedFeatures(event.point, ['counties'])
         setHoverCounty(countyFeature)
-      } else {
+        return
+      }
+
+      if (mode === 'plots') {
         const plotFeature = getRenderedFeatures(event.point, ['plots'])
         setHoverPlot(plotFeature)
+        return
+      }
+
+      if (mode === 'buildings') {
+        const buildingFeature = getRenderedFeatures(event.point, ['buildings'])
+        setHoverBuilding(buildingFeature)
       }
     },
     [county],
   )
 
   const onClick = useCallback(
-    (event) => {
+    event => {
       setClickInfo(event)
       if (!county) {
         const countyFeature = getRenderedFeatures(event.point, ['counties'])
         setCounty(countyFeature)
-      } else {
-        setPlot(getRenderedFeatures(event.point, ['plots']))
+        return
+      }
+
+      if (mode === 'plots') {
+        const plotFeature = getRenderedFeatures(event.point, ['plots'])
+        setPlot(plotFeature)
+        return
+      }
+
+      if (mode === 'buildings') {
+        const buildingFeature = getRenderedFeatures(event.point, ['buildings'])
+        setBuilding(buildingFeature)
       }
     },
     [county],
   )
 
-  const onSetFilters = useCallback((newFilters) => {
+  const onSetFilters = useCallback(newFilters => {
     setFilterSearchPlot(newFilters)
   }, [])
 
@@ -70,42 +97,51 @@ function App() {
       onMouseLeave={onMouseLeave}
       cursor={cursor}
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      interactiveLayerIds={['counties', 'plots']}
+      interactiveLayerIds={['counties', 'plots', 'buildings']}
       mapStyle={MAP_STYLES[0].URL}
       attributionControl={false}
       initialViewState={{
         latitude: INITIAL_VIEW.LATITUDE,
         longitude: INITIAL_VIEW.LONGITUDE,
         zoom: INITIAL_VIEW.ZOOM,
-      }}>
+      }}
+    >
       <CountiesLayer
         mapRef={mapRef}
         hoverCounty={hoverCounty}
+        filterSearchPlots={filterSearchPlots}
         county={county}
         hoverInfo={hoverInfo}
       />
 
-      <PlotsFilters onSetFilters={onSetFilters} />
-      <PlotsLayer county={county} hoverPlot={hoverPlot} plot={plot} />
-      <PlotsPanel plot={plot} setPlot={setPlot} />
-
-      {!!filterSearchPlots.length && (
-        <Source id='lotsSource' type='vector' url='mapbox://lamapch.64ix47h1'>
-          <Layer
-            id='plots'
-            type='fill'
-            source-layer='CAD_PARCELLE_MENSU_WGS84-dor0ac'
-            filter={['in', 'EGRID', ...filterSearchPlots]}
-            paint={{
-              'fill-color': '#ed0e2c',
-              'fill-opacity': 0.6,
-            }}
-            beforeId='poi-label'
-          />
-        </Source>
+      {mode === 'plots' && (
+        <>
+          <PlotsFilters onSetFilters={onSetFilters} />
+          <PlotsLayer county={county} hoverPlot={hoverPlot} plot={plot} />
+          <PlotsPanel plot={plot} setPlot={setPlot} />
+          <PlotsByFilter filterSearchPlots={filterSearchPlots} />
+        </>
       )}
 
-      <MapControls mapRef={mapRef} county={county} setCounty={setCounty} setPlot={setPlot} />
+      {mode === 'buildings' && (
+        <>
+          <BuildingsLayer
+            county={county}
+            building={building}
+            hoverBuilding={hoverBuilding}
+          />
+          <BuildingsPanel building={building} setBuilding={setBuilding} />
+        </>
+      )}
+
+      <MapControls
+        mapRef={mapRef}
+        county={county}
+        setCounty={setCounty}
+        setPlot={setPlot}
+        mode={mode}
+        setMode={setMode}
+      />
     </Map>
   )
 }
