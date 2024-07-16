@@ -88,9 +88,9 @@ function App() {
     [county, mode],
   )
 
-  const onSetFilters = newFilters => {
+  const onSetFilters = useCallback(newFilters => {
     setFilterSearchPlot(newFilters)
-  }
+  }, [])
 
   return (
     <Map
