@@ -1,8 +1,17 @@
 import style from './SpecsSection.module.scss'
-import { BiTimeFive as ClockIcon } from 'react-icons/bi'
-import { BiDoorOpen as DoorIcon } from 'react-icons/bi'
+import {
+  BiTimeFive as ClockIcon,
+  BiDoorOpen as DoorIcon,
+  BiArea as AreaIcon,
+} from 'react-icons/bi'
+import { RiSignpostLine as MailIcon } from 'react-icons/ri'
 
-const SpecsSection = ({ constructionYear, apartmentsQuantity }) => {
+const SpecsSection = ({
+  constructionYear,
+  apartmentsQuantity,
+  buildingArea,
+  postCode,
+}) => {
   return (
     <ul className={style.section}>
       {constructionYear && (
@@ -16,8 +25,24 @@ const SpecsSection = ({ constructionYear, apartmentsQuantity }) => {
       {apartmentsQuantity && (
         <li>
           <DoorIcon size={40} />
-          <span>Apartments quantity</span>
+          <span>Apartments qty</span>
           <p>{apartmentsQuantity}</p>
+        </li>
+      )}
+
+      {buildingArea && (
+        <li>
+          <AreaIcon size={40} />
+          <span>Building surface</span>
+          <p>{buildingArea}m²</p>
+        </li>
+      )}
+
+      {postCode && (
+        <li>
+          <MailIcon size={40} />
+          <span>Post code</span>
+          <p>{postCode}</p>
         </li>
       )}
     </ul>

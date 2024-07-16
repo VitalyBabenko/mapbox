@@ -39,7 +39,7 @@ const BuildingsPanel = ({ building, setBuilding }) => {
   return (
     <div className={style.panel}>
       <HeadingSection
-        egid={buildingInfo.egid}
+        buildingNumber={buildingInfo.no_batiment}
         closeBuildingPanel={closeBuildingPanel}
       />
 
@@ -52,7 +52,13 @@ const BuildingsPanel = ({ building, setBuilding }) => {
       <SpecsSection
         constructionYear={buildingInfo.annee_de_construction_du_batiment}
         apartmentsQuantity={buildingInfo.building_apartments_qty}
+        buildingArea={
+          buildingInfo.surface_totale_des_logements_du_batiment_m2 || null
+        }
+        postCode={buildingInfo.no_postal}
       />
+
+      <p className={style.address}>{buildingInfo.address_name}</p>
     </div>
   )
 }

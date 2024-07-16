@@ -38,6 +38,15 @@
     cursor: pointer;
   }
 
+  .address {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 19.5px;
+    color: $grey-600;
+    margin-bottom: 5px;
+    margin-top: 8px;
+  }
+
   .commune {
     font-size: 13px;
     font-weight: 400;

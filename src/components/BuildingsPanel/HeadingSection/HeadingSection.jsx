@@ -9,7 +9,7 @@ import {
 } from 'react-icons/bi'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 
-const HeadingSection = ({ egid, closeBuildingPanel }) => {
+const HeadingSection = ({ buildingNumber, closeBuildingPanel }) => {
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
 
@@ -22,7 +22,7 @@ const HeadingSection = ({ egid, closeBuildingPanel }) => {
 
   return (
     <div className={style.heading}>
-      <h2>Building {egid}</h2>
+      <h2>Building {buildingNumber}</h2>
 
       {isAddedToBookmarks ? (
         <Tooltip text='Remove building from bookmarks alerts' bottom='-40px'>
