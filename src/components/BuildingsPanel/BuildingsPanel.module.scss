@@ -61,6 +61,22 @@
       color: $grey-700;
     }
   }
+
+  .zone {
+    display: flex;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+
+    li {
+      background: $blue-600;
+      color: $white;
+      border-radius: 4px;
+      padding: 4px 7px;
+    }
+  }
 }
 
 .panelLoading {

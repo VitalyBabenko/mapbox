@@ -7,7 +7,21 @@ export const buildingService = {
     try {
       const { data } = await axios.get(`${url}/api/map/buildings/${egId}`)
 
-      return data.data
+      const info = data.data
+
+      info.getOwners = function () {
+        if (!this?.plot?.ownership_info) return null
+        return this.plot?.ownership_info.map(item => item?.owner_info)
+      }
+
+      info.getZone = function () {
+        if (!this?.plot?.zone) return null
+        return this.plot?.zone
+      }
+
+      info.getTransactions = function () {}
+
+      return info
     } catch (error) {
       return {
         error,

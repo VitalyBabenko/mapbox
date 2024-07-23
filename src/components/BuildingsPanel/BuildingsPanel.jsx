@@ -5,6 +5,10 @@ import Loader from '../Loader/Loader'
 import { buildingService } from '../../service/buildingService'
 import HeadingSection from './HeadingSection/HeadingSection'
 import SpecsSection from './SpecsSection/SpecsSection'
+import AddressSection from './AddressSection/AddressSection'
+import OwnersSection from './OwnersSection/OwnersSection'
+import List from '../List/List'
+// import AddressSection from './AddressSection/AddressSection'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -39,7 +43,7 @@ const BuildingsPanel = ({ building, setBuilding }) => {
   return (
     <div className={style.panel}>
       <HeadingSection
-        buildingNumber={buildingInfo.no_batiment}
+        egid={buildingInfo.egid}
         closeBuildingPanel={closeBuildingPanel}
       />
 
@@ -56,9 +60,30 @@ const BuildingsPanel = ({ building, setBuilding }) => {
           buildingInfo.surface_totale_des_logements_du_batiment_m2 || null
         }
         postCode={buildingInfo.no_postal}
+        roomQuantity={
+          buildingInfo.nombre_total_de_pieces_des_logements_du_batiment
+        }
       />
 
-      <p className={style.address}>{buildingInfo.address_name}</p>
+      <List title='Zone:' className={style.zone}>
+        {buildingInfo.getZone()?.map(item => (
+          <li key={item} className={style.zoneItem}>
+            {item}
+          </li>
+        ))}
+      </List>
+
+      <AddressSection
+        commune={buildingInfo.commune_name}
+        address={buildingInfo.address_name}
+        buildingClass={buildingInfo.classe_de_batiment}
+        buildingCategory={buildingInfo.categorie_de_batiment}
+        buildingStatus={buildingInfo.statut_du_batiment}
+        postCode={buildingInfo.no_postal}
+        floorsQuantity={buildingInfo.nombre_de_niveaux}
+      />
+
+      <OwnersSection owners={buildingInfo?.getOwners()} />
     </div>
   )
 }
