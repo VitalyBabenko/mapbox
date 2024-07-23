@@ -4,11 +4,13 @@ import ListItem from '../../List/ListItem/ListItem'
 const AddressSection = ({
   address,
   commune,
-  buildingClass,
-  buildingCategory,
-  buildingStatus,
   postCode,
-  floorsQuantity,
+  buildingNumber,
+  isPPE,
+  buildingTypology,
+  buildingCategory,
+  buildingType,
+  buildingClass,
 }) => {
   return (
     <List title='Address:'>
@@ -22,31 +24,41 @@ const AddressSection = ({
         </h4>
 
         <ul>
-          <li>
-            {floorsQuantity && (
+          <li style={{ gap: '8px' }}>
+            {buildingNumber && (
               <p>
-                Quantity of floors : <b> {floorsQuantity}</b>
+                Building: <br /> <b> {buildingNumber}</b>
               </p>
             )}
 
-            {buildingStatus && (
+            {isPPE && (
               <p>
-                Status:
-                <b> {buildingStatus}</b>
+                Building regime type: <br /> <b> {buildingNumber}</b>
               </p>
             )}
 
-            {buildingClass && (
+            {buildingTypology && (
               <p>
-                Class:
-                <b> {buildingClass}</b>
+                Building typology: <br /> <b> {buildingTypology}</b>
               </p>
             )}
 
             {buildingCategory && (
               <p>
-                Category:
+                Building category: <br />
                 <b> {buildingCategory}</b>
+              </p>
+            )}
+
+            {buildingType && (
+              <p>
+                Building type: <br /> <b> {buildingType}</b>
+              </p>
+            )}
+
+            {buildingClass && (
+              <p>
+                Building class: <br /> <b> {buildingClass}</b>
               </p>
             )}
           </li>

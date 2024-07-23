@@ -8,6 +8,7 @@ import SpecsSection from './SpecsSection/SpecsSection'
 import AddressSection from './AddressSection/AddressSection'
 import OwnersSection from './OwnersSection/OwnersSection'
 import List from '../List/List'
+import DimensionSection from './DimensionSection/DimensionSection'
 // import AddressSection from './AddressSection/AddressSection'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
@@ -43,13 +44,15 @@ const BuildingsPanel = ({ building, setBuilding }) => {
   return (
     <div className={style.panel}>
       <HeadingSection
+        plotId={buildingInfo?.plot?.no_commune_no_parcelle || null}
+        buildingId={buildingInfo.no_batiment}
         egid={buildingInfo.egid}
         closeBuildingPanel={closeBuildingPanel}
       />
 
-      {buildingInfo?.commune_name && (
+      {buildingInfo?.egid && (
         <p className={style.commune}>
-          Commune: <span>{buildingInfo.commune_name}</span>
+          EGID: <span>{buildingInfo.egid}</span>
         </p>
       )}
 
@@ -64,23 +67,37 @@ const BuildingsPanel = ({ building, setBuilding }) => {
           buildingInfo.nombre_total_de_pieces_des_logements_du_batiment
         }
       />
-
-      <List title='Zone:' className={style.zone}>
-        {buildingInfo.getZone()?.map(item => (
-          <li key={item} className={style.zoneItem}>
-            {item}
-          </li>
-        ))}
-      </List>
+      {buildingInfo.getZone() && (
+        <List title='Zone:' className={style.zone}>
+          {buildingInfo.getZone()?.map(item => (
+            <li key={item} className={style.zoneItem}>
+              {item}
+            </li>
+          ))}
+        </List>
+      )}
 
       <AddressSection
-        commune={buildingInfo.commune_name}
         address={buildingInfo.address_name}
-        buildingClass={buildingInfo.classe_de_batiment}
-        buildingCategory={buildingInfo.categorie_de_batiment}
-        buildingStatus={buildingInfo.statut_du_batiment}
+        commune={buildingInfo.commune_name}
         postCode={buildingInfo.no_postal}
-        floorsQuantity={buildingInfo.nombre_de_niveaux}
+        buildingNumber={buildingInfo.no_batiment}
+        isPPE={buildingInfo.isPPE()}
+        buildingTypology={buildingInfo.getExtendedInfo()?.typologie_d_immeuble}
+        buildingCategory={buildingInfo.getExtendedInfo()?.categorie_d_immeuble}
+        buildingType={buildingInfo?.categorie_de_batiment}
+        buildingClass={buildingInfo?.classe_de_batiment}
+      />
+
+      <DimensionSection
+        buildingArea={buildingInfo?.plot?.surface_immeuble_sum}
+        plotArea={buildingInfo?.plot?.surface_parcelle_m2}
+        livingArea={
+          buildingInfo?.getExtendedInfo()?.surface_brut_de_plancher_hors_sol_m2
+        }
+        buildingAreaOnTheGround={
+          buildingInfo?.getExtendedInfo()?.surface_immeuble_au_sol_m2
+        }
       />
 
       <OwnersSection owners={buildingInfo?.getOwners()} />

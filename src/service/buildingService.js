@@ -19,7 +19,20 @@ export const buildingService = {
         return this.plot?.zone
       }
 
-      info.getTransactions = function () {}
+      info.getTransactions = function () {
+        if (!this?.plot?.zone) return null
+      }
+
+      info.isPPE = function () {
+        return this.plot?.ppe || false
+      }
+
+      info.getExtendedInfo = function () {
+        if (!this?.plot?.addresses?.length) return null
+        return this.plot.addresses.find(
+          item => item.adresse === this?.address_name?.toLowerCase(),
+        )
+      }
 
       return info
     } catch (error) {
