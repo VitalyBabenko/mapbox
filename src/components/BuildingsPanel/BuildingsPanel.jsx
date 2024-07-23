@@ -9,7 +9,6 @@ import AddressSection from './AddressSection/AddressSection'
 import OwnersSection from './OwnersSection/OwnersSection'
 import List from '../List/List'
 import DimensionSection from './DimensionSection/DimensionSection'
-// import AddressSection from './AddressSection/AddressSection'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -102,6 +101,10 @@ const BuildingsPanel = ({ building, setBuilding }) => {
           buildingInfo?.getExtendedInfo()?.surface_totale_au_sol_m2
         }
         buildingVolume={buildingInfo?.volume_du_batiment}
+        levelsAboveGround={buildingInfo?.getExtendedInfo()?.niveaux_hors_sol}
+        levelsUnderGround={buildingInfo?.getExtendedInfo()?.niveaux_sous_sol}
+        totalLevels={buildingInfo?.nombre_de_niveaux}
+        buildingHeight={buildingInfo?.plot?.hauteur_immeuble_m}
       />
 
       <OwnersSection owners={buildingInfo?.getOwners()} />
