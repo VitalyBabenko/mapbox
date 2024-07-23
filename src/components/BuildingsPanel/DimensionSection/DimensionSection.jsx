@@ -6,7 +6,19 @@ const DimensionSection = ({
   plotArea,
   livingArea,
   buildingAreaOnTheGround,
+  totalGroundArea,
+  buildingVolume,
 }) => {
+  if (
+    !plotArea &&
+    !buildingArea &&
+    !livingArea &&
+    !buildingAreaOnTheGround &&
+    !totalGroundArea &&
+    !buildingVolume
+  )
+    return null
+
   return (
     <List title='Dimension:'>
       <ListItem>
@@ -39,6 +51,18 @@ const DimensionSection = ({
             {buildingAreaOnTheGround && (
               <p>
                 Building surface on ground: <b> {buildingAreaOnTheGround} m²</b>
+              </p>
+            )}
+
+            {totalGroundArea && (
+              <p>
+                Total ground surface: <b> {totalGroundArea} m²</b>
+              </p>
+            )}
+
+            {buildingVolume && (
+              <p>
+                Building volume: <b> {buildingVolume} m³</b>
               </p>
             )}
           </li>

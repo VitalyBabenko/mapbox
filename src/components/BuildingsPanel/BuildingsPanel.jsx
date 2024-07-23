@@ -98,6 +98,10 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         buildingAreaOnTheGround={
           buildingInfo?.getExtendedInfo()?.surface_immeuble_au_sol_m2
         }
+        totalGroundArea={
+          buildingInfo?.getExtendedInfo()?.surface_totale_au_sol_m2
+        }
+        buildingVolume={buildingInfo?.volume_du_batiment}
       />
 
       <OwnersSection owners={buildingInfo?.getOwners()} />
