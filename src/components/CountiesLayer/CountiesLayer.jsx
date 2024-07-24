@@ -3,12 +3,7 @@ import { useEffect, useMemo } from 'react'
 import style from './CountiesLayer.module.scss'
 import bbox from '@turf/bbox'
 
-const CountiesLayer = ({
-  county,
-  hoverCounty,
-  hoverEvent,
-  filterSearchPlots,
-}) => {
+const CountiesLayer = ({ county, hoverCounty, hoverEvent, filterSearch }) => {
   const { current: map } = useMap()
   const hoverCountyId = hoverCounty?.properties?.genid
 
@@ -37,7 +32,7 @@ const CountiesLayer = ({
     return county?.properties?.gdname
   }
 
-  const isShown = !(county || filterSearchPlots.length)
+  const isShown = !(county || filterSearch.length)
 
   return (
     <Source id='countySource' type='vector' url='mapbox://lamapch.9a3g6tja'>

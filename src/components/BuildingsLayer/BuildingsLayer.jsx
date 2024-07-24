@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Layer, Source } from 'react-map-gl'
 
 const BuildingsLayer = props => {
-  const { building, hoverBuilding, county, mode } = props
+  const { building, hoverBuilding, county, filterSearch } = props
+  const sourceLayer = 'CAD_BATIMENT_HORSOL_WGS84-ack86c'
   const hoverBuildingId = hoverBuilding?.properties?.EGID
   const filterForHoverBuilding = useMemo(
     () => ['in', 'EGID', hoverBuildingId],
@@ -34,7 +35,7 @@ const BuildingsLayer = props => {
       <Layer
         id='buildings'
         type='fill'
-        source-layer='CAD_BATIMENT_HORSOL_WGS84-ack86c'
+        source-layer={sourceLayer}
         paint={{
           'fill-outline-color': 'rgba(256,256,256,1)',
           'fill-color': '#006cd5',
@@ -48,7 +49,7 @@ const BuildingsLayer = props => {
         <Layer
           id='hoverBuilding'
           type='fill'
-          source-layer='CAD_BATIMENT_HORSOL_WGS84-ack86c'
+          source-layer={sourceLayer}
           paint={{
             'fill-color': '#006cd5',
             'fill-opacity': 0.6,
@@ -62,12 +63,27 @@ const BuildingsLayer = props => {
         <Layer
           id='activeBuilding'
           type='fill'
-          source-layer='CAD_BATIMENT_HORSOL_WGS84-ack86c'
+          source-layer={sourceLayer}
           paint={{
             'fill-color': '#ed0e2c',
             'fill-opacity': 0.6,
           }}
           filter={filterForActiveBuilding}
+          beforeId='poi-label'
+        />
+      )}
+
+      {filterSearch.length > 0 && (
+        <Layer
+          id='buildingsByFilter'
+          type='fill'
+          source-layer={sourceLayer}
+          filter={['in', 'EGRID_CENT', ...filterSearch]}
+          paint={{
+            'fill-color': '#ed0e2c',
+            'fill-opacity': 0.6,
+            'fill-outline-color': 'white',
+          }}
           beforeId='poi-label'
         />
       )}
