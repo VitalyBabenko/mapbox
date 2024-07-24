@@ -3,9 +3,11 @@ import style from './TypeaheadFilter.module.scss'
 import { Typeahead } from 'react-bootstrap-typeahead'
 
 const TypeaheadFilter = ({ filter, setSelected, value }) => {
-  const options = filter.values.map((value) => ({
-    label: value,
-  }))
+  const options = filter.values?.length
+    ? filter.values.map(value => ({
+        label: value,
+      }))
+    : []
 
   return (
     <>

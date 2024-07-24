@@ -9,6 +9,7 @@ import PlotsFilters from './components/PlotsFilters/PlotsFilters.jsx'
 import PlotsByFilter from './components/PlotsByFilters/PlotsByFilter.jsx'
 import BuildingsLayer from './components/BuildingsLayer/BuildingsLayer.jsx'
 import BuildingsPanel from './components/BuildingsPanel/BuildingsPanel.jsx'
+import BuildingsFilters from './components/BuildingsFilters/BuildingsFilters.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -123,12 +124,12 @@ function App() {
           <PlotsFilters onSetFilters={onSetFilters} />
           <PlotsLayer county={county} hoverPlot={hoverPlot} plot={plot} />
           <PlotsPanel plot={plot} setPlot={setPlot} />
-          <PlotsByFilter filterSearchPlots={filterSearchPlots} />
         </>
       )}
 
       {mode === 'buildings' && (
         <>
+          <BuildingsFilters onSetFilters={onSetFilters} />
           <BuildingsLayer
             county={county}
             building={building}
@@ -137,6 +138,8 @@ function App() {
           <BuildingsPanel building={building} setBuilding={setBuilding} />
         </>
       )}
+
+      <PlotsByFilter filterSearchPlots={filterSearchPlots} />
 
       <MapControls
         mapRef={mapRef}
