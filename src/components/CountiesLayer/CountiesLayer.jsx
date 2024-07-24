@@ -4,8 +4,8 @@ import style from './CountiesLayer.module.scss'
 import bbox from '@turf/bbox'
 
 const CountiesLayer = ({
-  hoverCounty,
   county,
+  hoverCounty,
   hoverEvent,
   filterSearchPlots,
 }) => {
@@ -25,7 +25,7 @@ const CountiesLayer = ({
         [minLng, minLat],
         [maxLng, maxLat],
       ],
-      { padding: 0, duration: 1500 },
+      { padding: 0, duration: 1500, zoom: 13 },
     )
   }, [county])
 
@@ -37,8 +37,8 @@ const CountiesLayer = ({
     return county?.properties?.gdname
   }
 
-  if (filterSearchPlots.length) return null
-  if (county) return null
+  const isShown = !(county || filterSearchPlots.length)
+
   return (
     <Source id='countySource' type='vector' url='mapbox://lamapch.9a3g6tja'>
       <Layer
@@ -51,7 +51,7 @@ const CountiesLayer = ({
           'fill-opacity': 0.4,
         }}
         beforeId='poi-label'
-        layout={{ visibility: 'visible' }}
+        layout={{ visibility: isShown ? 'visible' : 'none' }}
       />
 
       {hoverCounty && (
@@ -64,11 +64,12 @@ const CountiesLayer = ({
             'fill-opacity': 0.6,
           }}
           filter={filterForHoverCounty}
+          layout={{ visibility: isShown ? 'visible' : 'none' }}
           beforeId='poi-label'
         />
       )}
 
-      {hoverCounty && (
+      {hoverCounty && isShown && (
         <Popup
           longitude={hoverEvent.lngLat.lng}
           latitude={hoverEvent.lngLat.lat}

@@ -5,8 +5,16 @@ import { INITIAL_VIEW } from '../../constants'
 import MapDataPanel from '../MapDataPanel/MapDataPanel'
 
 const MapControls = props => {
-  const { county, setCounty, setPlot, mapRef, mode, setMode, setBuilding } =
-    props
+  const {
+    county,
+    setCounty,
+    setPlot,
+    mapRef,
+    mode,
+    setMode,
+    setBuilding,
+    setFilterSearchPlot,
+  } = props
   const { current: map } = useMap()
 
   const resetView = () => {
@@ -18,6 +26,7 @@ const MapControls = props => {
     setCounty(null)
     setPlot(null)
     setBuilding(null)
+    setFilterSearchPlot([])
   }
 
   const handleToggleMode = () => {

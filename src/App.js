@@ -15,12 +15,8 @@ function App() {
   const mapRef = useRef(null)
   const [mode, setMode] = useState('plots')
   const [cursor, setCursor] = useState(null)
-
   const [clickEvent, setClickEvent] = useState(null)
   const [hoverEvent, setHoverEvent] = useState(null)
-
-  // const [clickInfo, setClickInfo] = useState(null)
-  // const [hoverInfo, setHoverInfo] = useState(null)
 
   // county state
   const [county, setCounty] = useState(null)
@@ -121,8 +117,17 @@ function App() {
 
       {mode === 'plots' && (
         <>
-          <PlotsFilters onSetFilters={onSetFilters} />
-          <PlotsLayer county={county} hoverPlot={hoverPlot} plot={plot} />
+          <PlotsFilters
+            onSetFilters={onSetFilters}
+            setPlot={setPlot}
+            setCounty={setCounty}
+          />
+          <PlotsLayer
+            county={county}
+            hoverPlot={hoverPlot}
+            plot={plot}
+            filterSearchPlots={filterSearchPlots}
+          />
           <PlotsPanel plot={plot} setPlot={setPlot} />
         </>
       )}
@@ -139,8 +144,6 @@ function App() {
         </>
       )}
 
-      <PlotsByFilter filterSearchPlots={filterSearchPlots} />
-
       <MapControls
         mapRef={mapRef}
         county={county}
@@ -149,6 +152,7 @@ function App() {
         setBuilding={setBuilding}
         mode={mode}
         setMode={setMode}
+        setFilterSearchPlot={setFilterSearchPlot}
       />
     </Map>
   )
