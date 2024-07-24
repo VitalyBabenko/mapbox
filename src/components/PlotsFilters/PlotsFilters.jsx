@@ -1,11 +1,10 @@
-import { Fragment, memo, useEffect, useRef, useState } from 'react'
+import { Fragment, memo, useEffect, useMemo, useRef, useState } from 'react'
 import { selectStyles } from '../../styles/selectStyles'
 import Loader from '../Loader/Loader.jsx'
 import style from './PlotsFilters.module.scss'
 
 import { IoFilter as FilterIcon } from 'react-icons/io5'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
-import GeocoderControl from '../GeocoderControl/GeocoderControl'
 import Select from 'react-select'
 import 'react-datepicker/dist/react-datepicker.css'
 import {
@@ -18,6 +17,8 @@ import DateFilter from '../Filters/DateFilter/DateFilter.jsx'
 
 import TypeaheadFilter from '../Filters/TypeaheadFilter/TypeaheadFilter.jsx'
 import Checkbox from '../Checkbox/Checkbox.jsx'
+import { useMap } from 'react-map-gl'
+import { getCountyFeatureByName } from '../../utils/getCountyFeatureByName.js'
 
 const rangeIcons = {
   prix: <TbCurrencyEuro />,
@@ -25,15 +26,43 @@ const rangeIcons = {
   age: null,
 }
 
-const PlotsFilters = memo(({ onSetFilters }) => {
+const PlotsFilters = memo(({ onSetFilters, setPlot, setCounty }) => {
+  const { current: map } = useMap()
   const [open, setOpen] = useState(false)
   const [filters, setFilters] = useState([])
+  const [error, setError] = useState('')
   const [formValues, setFormValues] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [allCountiesFeatures, setAllCountiesFeatures] = useState([])
   const toggleOpen = () => setOpen(!open)
+
+  map.on('load', function () {
+    setAllCountiesFeatures(
+      map.querySourceFeatures('countySource', {
+        layer: 'counties',
+        sourceLayer: 'kanton_28-filt_reworked-a2cfbe',
+        validate: false,
+      }),
+    )
+  })
 
   const handleSubmit = async e => {
     e.preventDefault()
+
+    if (!formValues.commune_name.value) {
+      setError('Veuillez sélectionner une commune')
+      return
+    }
+
+    setPlot(null)
+    onSetFilters([])
+
+    const selectedCounty = await getCountyFeatureByName(
+      formValues.commune_name.value,
+      allCountiesFeatures,
+    )
+
+    setCounty(selectedCounty)
 
     const allFilters = [...filters.list, ...filters.checkboxes]
 
@@ -244,15 +273,12 @@ const PlotsFilters = memo(({ onSetFilters }) => {
           }
         })}
 
+        {error && <span className={style.error}>{error}</span>}
+
         <button className={style['apply-btn']} type='submit'>
           Apply
         </button>
       </form>
-
-      <GeocoderControl
-        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        position='top-left'
-      />
     </div>
   )
 })

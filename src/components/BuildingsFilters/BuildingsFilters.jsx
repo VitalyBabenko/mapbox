@@ -79,11 +79,6 @@ const PlotsFilters = memo(({ onSetFilters }) => {
             foundedFilter.values?.min !== formValues[next][0] &&
             formValues[next][0]
           ) {
-            console.log(
-              foundedFilter,
-              foundedFilter.values?.min,
-              formValues[next][0],
-            )
             prev[`filters[${foundedFilter.id}][min]`] = formValues[next].start
           }
 

@@ -1,6 +1,7 @@
 import { Layer, Source } from 'react-map-gl'
 
-const PlotsLayer = ({ county, hoverPlot, plot }) => {
+const PlotsLayer = ({ county, hoverPlot, plot, filterSearchPlots }) => {
+  const sourceLayer = 'CAD_PARCELLE_MENSU_WGS84-dor0ac'
   const countyName = county?.properties?.gdname
   const hoverPlotId = hoverPlot?.properties?.EGRID
   const activePlotId = plot?.properties?.EGRID
@@ -32,7 +33,7 @@ const PlotsLayer = ({ county, hoverPlot, plot }) => {
       <Layer
         id='plots'
         type='fill'
-        source-layer='CAD_PARCELLE_MENSU_WGS84-dor0ac'
+        source-layer={sourceLayer}
         filter={plotsFilter}
         paint={{
           'fill-color': '#006cd5',
@@ -46,7 +47,7 @@ const PlotsLayer = ({ county, hoverPlot, plot }) => {
         <Layer
           id='plotsHover'
           type='fill'
-          source-layer='CAD_PARCELLE_MENSU_WGS84-dor0ac'
+          source-layer={sourceLayer}
           filter={filterForHoverPlot}
           paint={{
             'fill-color': '#006cd5',
@@ -61,11 +62,26 @@ const PlotsLayer = ({ county, hoverPlot, plot }) => {
         <Layer
           id='plotsActive'
           type='fill'
-          source-layer='CAD_PARCELLE_MENSU_WGS84-dor0ac'
+          source-layer={sourceLayer}
           filter={filterForActivePlot}
           paint={{
             'fill-color': '#ed0e2c',
             'fill-opacity': 0.6,
+          }}
+          beforeId='poi-label'
+        />
+      )}
+
+      {filterSearchPlots.length > 0 && (
+        <Layer
+          id='plotsByFilter'
+          type='fill'
+          source-layer={sourceLayer}
+          filter={['in', 'EGRID', ...filterSearchPlots]}
+          paint={{
+            'fill-color': '#ed0e2c',
+            'fill-opacity': 0.6,
+            'fill-outline-color': 'black',
           }}
           beforeId='poi-label'
         />

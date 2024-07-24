@@ -92,6 +92,14 @@
     display: flex;
     justify-content: space-between;
   }
+
+  span.error {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    font-size: 14px;
+    color: $red;
+  }
 }
 
 .type {

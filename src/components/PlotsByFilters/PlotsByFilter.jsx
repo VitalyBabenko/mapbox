@@ -1,21 +1,7 @@
-import { useEffect } from 'react';
-import { Layer, Source, useMap } from 'react-map-gl';
-import { INITIAL_VIEW } from '../../constants';
+import { Layer, Source } from 'react-map-gl'
 
 const PlotsByFilter = ({ filterSearchPlots }) => {
-  const { current: map } = useMap();
-
-  useEffect(() => {
-    if (filterSearchPlots.length) {
-      map.flyTo({
-        center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
-        zoom: 13,
-        essential: true,
-      });
-    }
-  }, [filterSearchPlots]);
-
-  if (!filterSearchPlots.length) return null;
+  if (!filterSearchPlots.length) return null
 
   return (
     <Source id='plotsByFilters' type='vector' url='mapbox://lamapch.64ix47h1'>
@@ -31,7 +17,7 @@ const PlotsByFilter = ({ filterSearchPlots }) => {
         beforeId='poi-label'
       />
     </Source>
-  );
-};
+  )
+}
 
-export default PlotsByFilter;
+export default PlotsByFilter

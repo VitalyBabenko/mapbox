@@ -25,7 +25,6 @@ const BuildingsPanel = ({ building, setBuilding }) => {
 
       setBuildingInfo(info)
       setIsLoading(false)
-      console.log(info)
     }
 
     if (building) getData()
