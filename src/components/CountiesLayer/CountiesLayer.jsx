@@ -6,7 +6,7 @@ import bbox from '@turf/bbox'
 const CountiesLayer = ({
   hoverCounty,
   county,
-  hoverInfo,
+  hoverEvent,
   filterSearchPlots,
 }) => {
   const { current: map } = useMap()
@@ -70,8 +70,8 @@ const CountiesLayer = ({
 
       {hoverCounty && (
         <Popup
-          longitude={hoverInfo.lngLat.lng}
-          latitude={hoverInfo.lngLat.lat}
+          longitude={hoverEvent.lngLat.lng}
+          latitude={hoverEvent.lngLat.lat}
           offset={[0, -5]}
           closeButton={false}
           className={style.popup}

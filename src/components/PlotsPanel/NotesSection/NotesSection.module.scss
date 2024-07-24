@@ -65,7 +65,11 @@
       color: $grey-700;
       box-shadow: 4px 8px 20px 0px #1f192e0d;
       border-left: 2px solid $blue-600;
-      border-radius: 8x;
+
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      border-top-right-radius: 8px;
 
       &:first-of-type {
         margin-top: 14px;

@@ -15,8 +15,12 @@ function App() {
   const mapRef = useRef(null)
   const [mode, setMode] = useState('plots')
   const [cursor, setCursor] = useState(null)
-  const [clickInfo, setClickInfo] = useState(null)
-  const [hoverInfo, setHoverInfo] = useState(null)
+
+  const [clickEvent, setClickEvent] = useState(null)
+  const [hoverEvent, setHoverEvent] = useState(null)
+
+  // const [clickInfo, setClickInfo] = useState(null)
+  // const [hoverInfo, setHoverInfo] = useState(null)
 
   // county state
   const [county, setCounty] = useState(null)
@@ -41,7 +45,7 @@ function App() {
 
   const onHover = useCallback(
     event => {
-      setHoverInfo(event)
+      setHoverEvent(event)
       if (!county) {
         const countyFeature = getRenderedFeatures(event.point, ['counties'])
         setHoverCounty(countyFeature)
@@ -59,12 +63,12 @@ function App() {
         setHoverBuilding(buildingFeature)
       }
     },
-    [county],
+    [county, mode],
   )
 
   const onClick = useCallback(
     event => {
-      setClickInfo(event)
+      setClickEvent(event)
       if (!county) {
         const countyFeature = getRenderedFeatures(event.point, ['counties'])
         setCounty(countyFeature)
@@ -82,7 +86,7 @@ function App() {
         setBuilding(buildingFeature)
       }
     },
-    [county],
+    [county, mode],
   )
 
   const onSetFilters = useCallback(newFilters => {
@@ -112,7 +116,7 @@ function App() {
         hoverCounty={hoverCounty}
         filterSearchPlots={filterSearchPlots}
         county={county}
-        hoverInfo={hoverInfo}
+        hoverEvent={hoverEvent}
       />
 
       {mode === 'plots' && (
@@ -142,6 +146,7 @@ function App() {
         county={county}
         setCounty={setCounty}
         setPlot={setPlot}
+        setBuilding={setBuilding}
         mode={mode}
         setMode={setMode}
       />

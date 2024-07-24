@@ -5,7 +5,8 @@ import { INITIAL_VIEW } from '../../constants'
 import MapDataPanel from '../MapDataPanel/MapDataPanel'
 
 const MapControls = props => {
-  const { county, setCounty, setPlot, mapRef, mode, setMode } = props
+  const { county, setCounty, setPlot, mapRef, mode, setMode, setBuilding } =
+    props
   const { current: map } = useMap()
 
   const resetView = () => {
@@ -16,6 +17,7 @@ const MapControls = props => {
     })
     setCounty(null)
     setPlot(null)
+    setBuilding(null)
   }
 
   const handleToggleMode = () => {
@@ -35,11 +37,6 @@ const MapControls = props => {
       <FullscreenControl position='top-right' />
 
       <NavigationControl />
-
-      {/* <GeocoderControl
-        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        position="top-left"
-      /> */}
 
       <MapDataPanel mapRef={mapRef} />
 
