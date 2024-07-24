@@ -8,7 +8,7 @@ import SpecsSection from './SpecsSection/SpecsSection'
 import AddressSection from './AddressSection/AddressSection'
 import OwnersSection from './OwnersSection/OwnersSection'
 import List from '../List/List'
-import DimensionSection from './DimensionSection/DimensionSection'
+import DetailsSection from './DetailsSection/DetailsSection'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -23,12 +23,24 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         building?.properties?.EGRID_CENT,
       )
 
+      console.log(info)
+
       setBuildingInfo(info)
       setIsLoading(false)
     }
 
     if (building) getData()
   }, [building])
+
+  const getConstructionDate = () => {
+    if (!buildingInfo) return null
+    const variant1 = buildingInfo?.annee_de_construction
+    const variant2 = buildingInfo?.annee_de_construction_du_batiment
+
+    if (variant1?.length) return variant1
+    if (variant2?.length) return variant2
+    return null
+  }
 
   if (!building) return null
   if (isLoading) {
@@ -87,7 +99,7 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         buildingClass={buildingInfo?.classe_de_batiment}
       />
 
-      <DimensionSection
+      <DetailsSection
         buildingArea={buildingInfo?.plot?.surface_immeuble_sum}
         plotArea={buildingInfo?.plot?.surface_parcelle_m2}
         livingArea={
@@ -104,6 +116,10 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         levelsUnderGround={buildingInfo?.getExtendedInfo()?.niveaux_sous_sol}
         totalLevels={buildingInfo?.nombre_de_niveaux}
         buildingHeight={buildingInfo?.plot?.hauteur_immeuble_m}
+        constructionPeriod={
+          buildingInfo?.getExtendedInfo()?.epoque_de_construction
+        }
+        constructionDate={getConstructionDate()}
       />
 
       <OwnersSection owners={buildingInfo?.getOwners()} />

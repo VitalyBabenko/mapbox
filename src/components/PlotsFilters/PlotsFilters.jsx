@@ -120,8 +120,6 @@ const PlotsFilters = memo(
         setFilters(resp)
         setIsLoading(false)
 
-        console.log(resp)
-
         const preparedValues = [...resp.list, ...resp.checkboxes]
 
         const getAttributeValue = (view, values) => {

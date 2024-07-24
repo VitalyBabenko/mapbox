@@ -19,10 +19,6 @@ export const buildingService = {
         return this.plot?.zone
       }
 
-      info.getTransactions = function () {
-        if (!this?.plot?.zone) return null
-      }
-
       info.isPPE = function () {
         return this.plot?.ppe || false
       }
