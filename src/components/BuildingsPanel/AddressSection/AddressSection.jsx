@@ -1,5 +1,8 @@
 import List from '../../List/List'
 import ListItem from '../../List/ListItem/ListItem'
+import CertificatesList from '../../PlotsPanel/AddressesSection/CertificatesList/CertificatesList'
+import Tooltip from '../../Tooltip/Tooltip'
+import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
 
 const AddressSection = ({
   address,
@@ -11,19 +14,42 @@ const AddressSection = ({
   buildingCategory,
   buildingType,
   buildingClass,
+  registerOfBuildingsLink,
+  isConstructionCerts,
+  buildingInfo,
 }) => {
+  const HeadingLink = () => {
+    if (!registerOfBuildingsLink) return null
+    return (
+      <a target='_blank' href={registerOfBuildingsLink} rel='noreferrer'>
+        <Tooltip text='Registre des Bâtiments' top='-35px' right='-16px'>
+          <LinkIcon />
+        </Tooltip>
+      </a>
+    )
+  }
+
   return (
     <List title='Address:'>
       <ListItem>
         <hgroup>
           <h3>{address}</h3>
+          <HeadingLink />
         </hgroup>
 
         <h4>
           {commune}, {postCode}
         </h4>
 
-        <ul>
+        <CertificatesList
+          isMinergie={
+            buildingInfo?.getExtendedInfo()?.certificat_minergie_details
+          }
+          isConstructionCerts={isConstructionCerts}
+          isPpe={isPPE}
+        />
+
+        <ul style={{ marginTop: '15px' }}>
           <li style={{ gap: '8px' }}>
             {buildingNumber && (
               <p>
@@ -33,7 +59,7 @@ const AddressSection = ({
 
             {isPPE && (
               <p>
-                Building regime type: <br /> <b> {buildingNumber}</b>
+                Building regime type: <br /> <b> {isPPE}</b>
               </p>
             )}
 

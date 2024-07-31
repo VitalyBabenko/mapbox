@@ -22,13 +22,13 @@ const TransactionsSection = ({ transactions }) => {
         <ul>
           <li>
             <>
-              {lastTransaction.transaction_date && (
+              {lastTransaction?.transaction_date && (
                 <p>
                   Date: <b> {lastTransaction.transaction_date}</b>
                 </p>
               )}
 
-              {lastTransaction.type && (
+              {lastTransaction?.type && (
                 <p>
                   Type: <b> {lastTransaction.type}</b>
                 </p>

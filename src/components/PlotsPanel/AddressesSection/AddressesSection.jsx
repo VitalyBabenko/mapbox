@@ -1,30 +1,28 @@
-import BuildingsList from "./BuildingsList/BuildingsList";
-import CertificatesList from "./CertificatesList/CertificatesList";
-import { BiLinkExternal as LinkIcon } from "react-icons/bi";
-import Tooltip from "../../Tooltip/Tooltip";
-import List from "../../List/List";
-import ListItem from "../../List/ListItem/ListItem";
+import BuildingsList from './BuildingsList/BuildingsList'
+import CertificatesList from './CertificatesList/CertificatesList'
+import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
+import Tooltip from '../../Tooltip/Tooltip'
+import List from '../../List/List'
+import ListItem from '../../List/ListItem/ListItem'
 
 const AddressesSection = ({ plotInfo }) => {
-  const availableAddresses = plotInfo?.addresses?.filter(
-    (item) => item.adresse
-  );
+  const availableAddresses = plotInfo?.addresses?.filter(item => item.adresse)
 
   const HeadingLink = ({ link }) => {
-    if (!link) return null;
+    if (!link) return null
     return (
-      <a target="_blank" href={link} rel="noreferrer">
-        <Tooltip text="Registre des Bâtiments" top="-35px" right="-16px">
+      <a target='_blank' href={link} rel='noreferrer'>
+        <Tooltip text='Registre des Bâtiments' top='-35px' right='-16px'>
           <LinkIcon />
         </Tooltip>
       </a>
-    );
-  };
+    )
+  }
 
-  if (!availableAddresses?.length) return null;
+  if (!availableAddresses?.length) return null
   return (
-    <List title="Address(es):">
-      {availableAddresses.map((item) => (
+    <List title='Address(es):'>
+      {availableAddresses.map(item => (
         <ListItem>
           <hgroup>
             <h3>{item.adresse}</h3>
@@ -34,11 +32,11 @@ const AddressesSection = ({ plotInfo }) => {
           <h4>
             {item?.commune}, {!!+item?.no_postal && item?.no_postal}
             <br />
-            {item?.nom_npa && "Genève"}
+            {item?.nom_npa && 'Genève'}
           </h4>
 
           <CertificatesList
-            address={item}
+            isMinergie={!!item?.certificat_minergie_details?.length}
             isConstructionCerts={!!plotInfo?.construction_certs?.length}
             isPpe={!!plotInfo?.ppe}
           />
@@ -47,7 +45,7 @@ const AddressesSection = ({ plotInfo }) => {
         </ListItem>
       ))}
     </List>
-  );
-};
+  )
+}
 
-export default AddressesSection;
+export default AddressesSection

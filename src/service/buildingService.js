@@ -14,15 +14,6 @@ export const buildingService = {
         return this.plot?.ownership_info.map(item => item?.owner_info)
       }
 
-      info.getZone = function () {
-        if (!this?.plot?.zone) return null
-        return this.plot?.zone
-      }
-
-      info.isPPE = function () {
-        return this.plot?.ppe || false
-      }
-
       info.getExtendedInfo = function () {
         if (!this?.plot?.addresses?.length) return null
         return this.plot.addresses.find(

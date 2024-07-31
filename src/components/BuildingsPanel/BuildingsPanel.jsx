@@ -11,6 +11,7 @@ import List from '../List/List'
 import DetailsSection from './DetailsSection/DetailsSection'
 import TransactionsSection from './TransactionsSection/TransactionsSection'
 import PermitsSection from './PermitsSection/PermitsSection'
+import { convertTimeFormat } from '../../utils/convertTimeFormat'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -25,7 +26,7 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         building?.properties?.EGRID_CENT,
       )
 
-      console.log(info)
+      console.log(info?.plot)
 
       setBuildingInfo(info)
       setIsLoading(false)
@@ -59,6 +60,7 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         plotId={buildingInfo?.plot?.no_commune_no_parcelle || null}
         buildingId={buildingInfo.no_batiment}
         egid={buildingInfo.egid}
+        rdppf={buildingInfo?.plot?.extrait_rdppf_pdf}
         closeBuildingPanel={closeBuildingPanel}
       />
 
@@ -79,9 +81,10 @@ const BuildingsPanel = ({ building, setBuilding }) => {
           buildingInfo.nombre_total_de_pieces_des_logements_du_batiment
         }
       />
-      {buildingInfo?.getZone() && (
+
+      {buildingInfo?.plot?.zone && (
         <List title='Zone:' className={style.zone}>
-          {buildingInfo.getZone()?.map(item => (
+          {buildingInfo.plot?.zone?.map(item => (
             <li key={item} className={style.zoneItem}>
               {item}
             </li>
@@ -94,11 +97,16 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         commune={buildingInfo.commune_name}
         postCode={buildingInfo.no_postal}
         buildingNumber={buildingInfo.no_batiment}
-        isPPE={buildingInfo.isPPE()}
-        buildingTypology={buildingInfo.getExtendedInfo()?.typologie_d_immeuble}
-        buildingCategory={buildingInfo.getExtendedInfo()?.categorie_d_immeuble}
+        isPPE={buildingInfo?.plot?.ppe}
+        buildingTypology={buildingInfo?.getExtendedInfo()?.typologie_d_immeuble}
+        buildingCategory={buildingInfo?.getExtendedInfo()?.categorie_d_immeuble}
         buildingType={buildingInfo?.categorie_de_batiment}
         buildingClass={buildingInfo?.classe_de_batiment}
+        registerOfBuildingsLink={
+          buildingInfo?.getExtendedInfo()?.lien_registre_batiments
+        }
+        isConstructionCerts={buildingInfo?.plot?.construction_certs?.length}
+        buildingInfo={buildingInfo}
       />
 
       <DetailsSection
@@ -133,6 +141,13 @@ const BuildingsPanel = ({ building, setBuilding }) => {
       />
 
       <PermitsSection permits={buildingInfo?.plot?.construction_certs} />
+
+      {buildingInfo?.plot?.derniere_modification && (
+        <p className={style.lastEdits}>
+          Last edits:{' '}
+          <b>{convertTimeFormat(buildingInfo?.plot?.derniere_modification)}</b>
+        </p>
+      )}
     </div>
   )
 }
