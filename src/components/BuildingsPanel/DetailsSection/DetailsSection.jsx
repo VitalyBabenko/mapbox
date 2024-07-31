@@ -13,7 +13,8 @@ const DetailsSection = ({
   totalLevels,
   buildingHeight,
   constructionPeriod,
-  constructionDate,
+  renovationDate,
+  demolitionDate,
 }) => {
   const isShowDimensionCard =
     plotArea ||
@@ -129,9 +130,15 @@ const DetailsSection = ({
                 </p>
               )}
 
-              {constructionDate && (
+              {renovationDate && (
                 <p>
-                  Construction date: <b> {constructionDate}</b>
+                  Renovation year: <b> {renovationDate}</b>
+                </p>
+              )}
+
+              {demolitionDate && (
+                <p>
+                  Demolition date: <b> {demolitionDate}</b>
                 </p>
               )}
             </li>

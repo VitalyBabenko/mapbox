@@ -9,6 +9,8 @@ import AddressSection from './AddressSection/AddressSection'
 import OwnersSection from './OwnersSection/OwnersSection'
 import List from '../List/List'
 import DetailsSection from './DetailsSection/DetailsSection'
+import TransactionsSection from './TransactionsSection/TransactionsSection'
+import PermitsSection from './PermitsSection/PermitsSection'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -77,7 +79,7 @@ const BuildingsPanel = ({ building, setBuilding }) => {
           buildingInfo.nombre_total_de_pieces_des_logements_du_batiment
         }
       />
-      {buildingInfo.getZone() && (
+      {buildingInfo?.getZone() && (
         <List title='Zone:' className={style.zone}>
           {buildingInfo.getZone()?.map(item => (
             <li key={item} className={style.zoneItem}>
@@ -120,9 +122,17 @@ const BuildingsPanel = ({ building, setBuilding }) => {
           buildingInfo?.getExtendedInfo()?.epoque_de_construction
         }
         constructionDate={getConstructionDate()}
+        renovationDate={buildingInfo.annee_de_construction_du_batiment}
+        demolitionDate={buildingInfo.annee_de_demolition_du_batiment}
       />
 
       <OwnersSection owners={buildingInfo?.getOwners()} />
+
+      <TransactionsSection
+        transactions={buildingInfo?.plot?.transactions_list}
+      />
+
+      <PermitsSection permits={buildingInfo?.plot?.construction_certs} />
     </div>
   )
 }
