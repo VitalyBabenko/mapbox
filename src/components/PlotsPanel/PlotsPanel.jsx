@@ -6,7 +6,6 @@ import {
 } from 'react-icons/bi'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import { memo, useEffect, useState } from 'react'
-import { service } from '../../service'
 import Loader from '../Loader/Loader'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
 import SpecsSection from './SpecsSection/SpecsSection'
@@ -63,7 +62,7 @@ const PlotsPanel = ({ plot, setPlot }) => {
     const getData = async () => {
       setError(null)
       setIsLoading(true)
-      const info = await service.getPlotByEgrId(plot?.properties?.EGRID)
+      const info = await plotService.getPlotByEgrId(plot?.properties?.EGRID)
       info?.error?.message ? setError(info.error.message) : setPlotInfo(info)
 
       const { bookmarks } = await plotService.getBookmarksAlerts(info._id)

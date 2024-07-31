@@ -1,25 +1,30 @@
-import { calculateAge } from "../../../utils/calculateAge";
-import { convertTimeFormat } from "../../../utils/convertTimeFormat";
-import List from "../../List/List";
-import ListItem from "../../List/ListItem/ListItem";
+import { calculateAge } from '../../../utils/calculateAge'
+import { convertTimeFormat } from '../../../utils/convertTimeFormat'
+import List from '../../List/List'
+import ListItem from '../../List/ListItem/ListItem'
 
 const OwnersSection = ({ plotInfo }) => {
-  const owners = plotInfo?.getOwners();
+  const owners = plotInfo?.ownership_info?.map(item => item.owner_info)
 
-  if (!owners?.length) return null;
+  if (!owners?.length) return null
   return (
-    <List title="Owner(s):">
-      {owners.map((owner) => (
+    <List title='Owner(s):'>
+      {owners.map(owner => (
         <ListItem key={owner?.name}>
           {owner?.name && <h3> {owner.name}</h3>}
 
-          {owner?.date_de_naissance && (
+          {owner?.date_de_naissance?.$date?.$numberLong && (
             <ul>
               <li>
                 <p>
-                  Date of birth:{" "}
-                  <b>{convertTimeFormat(owner?.date_de_naissance)}</b> (
-                  {calculateAge(owner?.date_de_naissance)} years old)
+                  Date of birth:{' '}
+                  <b>
+                    {convertTimeFormat(
+                      +owner?.date_de_naissance?.$date?.$numberLong,
+                    )}
+                  </b>{' '}
+                  ({calculateAge(+owner?.date_de_naissance?.$date?.$numberLong)}{' '}
+                  years old)
                 </p>
               </li>
             </ul>
@@ -27,7 +32,7 @@ const OwnersSection = ({ plotInfo }) => {
         </ListItem>
       ))}
     </List>
-  );
-};
+  )
+}
 
-export default OwnersSection;
+export default OwnersSection

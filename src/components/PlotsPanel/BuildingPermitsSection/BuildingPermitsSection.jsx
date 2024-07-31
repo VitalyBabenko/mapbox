@@ -1,40 +1,42 @@
-import { BiLinkExternal as LinkIcon } from "react-icons/bi";
-import Tooltip from "../../Tooltip/Tooltip";
-import List from "../../List/List";
-import ListItem from "../../List/ListItem/ListItem";
+import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
+import Tooltip from '../../Tooltip/Tooltip'
+import List from '../../List/List'
+import ListItem from '../../List/ListItem/ListItem'
 
 // building with construction_certs: Route de malagnou 17
 
 const BuildingPermitsSection = ({ plotInfo }) => {
-  const certificates = plotInfo?.construction_certs || [];
+  const certificates = plotInfo?.construction_certs || []
+
+  console.log(certificates)
 
   const CertificateLink = ({ link }) => {
-    if (!link) return null;
+    if (!link) return null
     return (
-      <a target="_blank" href={link} rel="noreferrer">
+      <a target='_blank' href={link} rel='noreferrer'>
         <Tooltip
           text="Full details on the government's website"
-          top="-35px"
-          right="-16px"
+          top='-35px'
+          right='-16px'
         >
           <LinkIcon />
         </Tooltip>
       </a>
-    );
-  };
+    )
+  }
 
-  if (!certificates.length) return null;
+  if (!certificates.length) return null
   return (
-    <List title="Building permit(s):">
+    <List title='Building permit(s):'>
       {certificates.map((cert, i) => (
         <ListItem key={i}>
           <hgroup>
-            <h3>File: {cert?.id}</h3>
+            <h3>File: {cert?.numero}</h3>
 
             <CertificateLink link={cert?.url} />
           </hgroup>
 
-          <ul style={{ gap: "4px" }}>
+          <ul style={{ gap: '4px' }}>
             <li>
               {cert?.statut_dossier && (
                 <p>
@@ -44,16 +46,16 @@ const BuildingPermitsSection = ({ plotInfo }) => {
 
               <p>
                 Active:
-                {cert?.depose_le && (
+                {cert?.date_depot && (
                   <>
-                    {" "}
-                    from <b>{cert?.depose_le}</b>
+                    {' '}
+                    from <b>{cert?.date_depot}</b>
                   </>
                 )}
-                {cert?.decide_le && (
+                {cert?.date_statut && (
                   <>
-                    {" "}
-                    to <b>{cert?.decide_le}</b>
+                    {' '}
+                    to <b>{cert?.date_statut}</b>
                   </>
                 )}
               </p>
@@ -62,7 +64,7 @@ const BuildingPermitsSection = ({ plotInfo }) => {
         </ListItem>
       ))}
     </List>
-  );
-};
+  )
+}
 
-export default BuildingPermitsSection;
+export default BuildingPermitsSection
