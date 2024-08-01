@@ -12,21 +12,28 @@ import DetailsSection from './DetailsSection/DetailsSection'
 import TransactionsSection from './TransactionsSection/TransactionsSection'
 import PermitsSection from './PermitsSection/PermitsSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
+import ErrorMessage from '../ErrorMessage/ErrorMessage'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
   const [buildingInfo, setBuildingInfo] = useState(null)
   const closeBuildingPanel = () => setBuilding(null)
 
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true)
+      setError('')
 
       const info = await buildingService.getByEgId(
         building?.properties?.EGRID_CENT,
       )
 
-      console.log(info?.plot)
+      if (info?.error?.message?.length) {
+        setError('Building information is unavailable. Please try again later.')
+        setIsLoading(false)
+        return
+      }
 
       setBuildingInfo(info)
       setIsLoading(false)
@@ -50,6 +57,14 @@ const BuildingsPanel = ({ building, setBuilding }) => {
     return (
       <div className={style.panelLoading}>
         <Loader />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className={style.panel}>
+        <ErrorMessage message={error} onClose={closeBuildingPanel} />
       </div>
     )
   }

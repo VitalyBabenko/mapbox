@@ -1,8 +1,17 @@
-@import "./variables";
+@import './variables';
 
+html,
+body {
+  min-width: 100%;
+  min-height: 100% !important;
+}
+
+#root,
 .mapboxgl-map {
-  min-width: 100vw;
+  min-width: calc(100vw - 190px);
+  // min-height: calc(100vh - 185px);
   min-height: 100vh;
+
   position: relative;
 }
 

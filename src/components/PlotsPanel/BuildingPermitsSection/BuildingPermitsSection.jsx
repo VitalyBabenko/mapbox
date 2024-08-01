@@ -8,8 +8,6 @@ import ListItem from '../../List/ListItem/ListItem'
 const BuildingPermitsSection = ({ plotInfo }) => {
   const certificates = plotInfo?.construction_certs || []
 
-  console.log(certificates)
-
   const CertificateLink = ({ link }) => {
     if (!link) return null
     return (

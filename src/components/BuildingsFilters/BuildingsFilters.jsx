@@ -189,14 +189,6 @@ const PlotsFilters = memo(
         </button>
       )
 
-    if (isLoading) {
-      return (
-        <div className={style.filtersPopup}>
-          <Loader />
-        </div>
-      )
-    }
-
     return (
       <div className={style.filtersPopup}>
         <div className={style.top}>
@@ -210,90 +202,99 @@ const PlotsFilters = memo(
           />
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className={style.type}>
-            {filters.checkboxes.map(filter => (
-              <Checkbox
-                key={filter.id}
-                label={filter.title}
-                checked={formValues[filter.attribute]}
-                onChange={e => {
-                  onChangeFormValue(filter.attribute, e.target.checked)
-                }}
-              />
-            ))}
-          </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className={style.type}>
+              {filters.checkboxes.map(filter => (
+                <Checkbox
+                  key={filter.id}
+                  label={filter.title}
+                  checked={formValues[filter.attribute]}
+                  onChange={e => {
+                    onChangeFormValue(filter.attribute, e.target.checked)
+                  }}
+                />
+              ))}
+            </div>
 
-          {filters.list.map(filter => {
-            switch (filter.view) {
-              case 'typeahead_input':
-                return (
-                  <TypeaheadFilter
-                    key={filter.attribute}
-                    filter={filter}
-                    value={formValues[filter.attribute]}
-                    setSelected={s => onChangeFormValue(filter.attribute, s)}
-                  />
-                )
-
-              case 'multiple_dropdown':
-                return (
-                  <Fragment key={filter.attribute}>
-                    <h3>{filter.title}</h3>
-
-                    <Select
-                      name={filter.attribute}
-                      className={style.select}
-                      styles={selectStyles}
-                      value={formValues[filter.attribute]}
-                      onChange={newValue =>
-                        onChangeFormValue(filter.attribute, newValue)
-                      }
-                      options={filter.values.map(v => ({ value: v, label: v }))}
-                    />
-                  </Fragment>
-                )
-
-              case 'range':
-                return (
-                  <Fragment key={filter.attribute}>
-                    <RangeFilter
-                      label={filter.title}
-                      icon={rangeIcons[filter.attribute]}
-                      min={filter.values.min || 0}
-                      max={filter.values.max || 0}
-                      value={formValues[filter.attribute]}
-                      setValue={v => onChangeFormValue(filter.attribute, v)}
-                    />
-                  </Fragment>
-                )
-
-              case 'date_range':
-                return (
-                  <Fragment key={filter.attribute}>
-                    <DateFilter
+            {filters.list.map(filter => {
+              switch (filter.view) {
+                case 'typeahead_input':
+                  return (
+                    <TypeaheadFilter
                       key={filter.attribute}
-                      label={filter.title}
-                      startValue={formValues[filter.attribute]?.start}
-                      setStartValue={v =>
-                        onChangeFormValue(filter.attribute, v)
-                      }
-                      endValue={formValues[filter.attribute]?.end}
-                      setEndValue={v => onChangeFormValue(filter.attribute, v)}
+                      filter={filter}
+                      value={formValues[filter.attribute]}
+                      setSelected={s => onChangeFormValue(filter.attribute, s)}
                     />
-                  </Fragment>
-                )
-              default:
-                return null
-            }
-          })}
+                  )
 
-          {error && <span className={style.error}>{error}</span>}
+                case 'multiple_dropdown':
+                  return (
+                    <Fragment key={filter.attribute}>
+                      <h3>{filter.title}</h3>
 
-          <button className={style['apply-btn']} type='submit'>
-            Apply
-          </button>
-        </form>
+                      <Select
+                        name={filter.attribute}
+                        className={style.select}
+                        styles={selectStyles}
+                        value={formValues[filter.attribute]}
+                        onChange={newValue =>
+                          onChangeFormValue(filter.attribute, newValue)
+                        }
+                        options={filter.values.map(v => ({
+                          value: v,
+                          label: v,
+                        }))}
+                      />
+                    </Fragment>
+                  )
+
+                case 'range':
+                  return (
+                    <Fragment key={filter.attribute}>
+                      <RangeFilter
+                        label={filter.title}
+                        icon={rangeIcons[filter.attribute]}
+                        min={filter.values.min || 0}
+                        max={filter.values.max || 0}
+                        value={formValues[filter.attribute]}
+                        setValue={v => onChangeFormValue(filter.attribute, v)}
+                      />
+                    </Fragment>
+                  )
+
+                case 'date_range':
+                  return (
+                    <Fragment key={filter.attribute}>
+                      <DateFilter
+                        key={filter.attribute}
+                        label={filter.title}
+                        startValue={formValues[filter.attribute]?.start}
+                        setStartValue={v =>
+                          onChangeFormValue(filter.attribute, v)
+                        }
+                        endValue={formValues[filter.attribute]?.end}
+                        setEndValue={v =>
+                          onChangeFormValue(filter.attribute, v)
+                        }
+                      />
+                    </Fragment>
+                  )
+                default:
+                  return null
+              }
+            })}
+
+            {error && <span className={style.error}>{error}</span>}
+
+            <button className={style['apply-btn']} type='submit'>
+              Apply
+            </button>
+          </form>
+        )}
       </div>
     )
   },
