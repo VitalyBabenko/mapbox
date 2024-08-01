@@ -92,11 +92,20 @@
     display: flex;
     justify-content: space-between;
   }
+
+  span.error {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    font-size: 14px;
+    color: $red;
+  }
 }
 
 .type {
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 20px;
   padding: 8px 0 6px;
 }

@@ -1,6 +1,6 @@
 import { Layer, Source } from 'react-map-gl'
 
-const PlotsLayer = ({ county, hoverPlot, plot, filterSearchPlots }) => {
+const PlotsLayer = ({ county, hoverPlot, plot, filterSearch }) => {
   const sourceLayer = 'CAD_PARCELLE_MENSU_WGS84-dor0ac'
   const countyName = county?.properties?.gdname
   const hoverPlotId = hoverPlot?.properties?.EGRID
@@ -72,16 +72,16 @@ const PlotsLayer = ({ county, hoverPlot, plot, filterSearchPlots }) => {
         />
       )}
 
-      {filterSearchPlots.length > 0 && (
+      {filterSearch.length > 0 && (
         <Layer
           id='plotsByFilter'
           type='fill'
           source-layer={sourceLayer}
-          filter={['in', 'EGRID', ...filterSearchPlots]}
+          filter={['in', 'EGRID', ...filterSearch]}
           paint={{
             'fill-color': '#ed0e2c',
             'fill-opacity': 0.6,
-            'fill-outline-color': 'black',
+            'fill-outline-color': 'white',
           }}
           beforeId='poi-label'
         />

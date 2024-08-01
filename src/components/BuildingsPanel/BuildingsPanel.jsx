@@ -8,20 +8,32 @@ import SpecsSection from './SpecsSection/SpecsSection'
 import AddressSection from './AddressSection/AddressSection'
 import OwnersSection from './OwnersSection/OwnersSection'
 import List from '../List/List'
-import DimensionSection from './DimensionSection/DimensionSection'
+import DetailsSection from './DetailsSection/DetailsSection'
+import TransactionsSection from './TransactionsSection/TransactionsSection'
+import PermitsSection from './PermitsSection/PermitsSection'
+import { convertTimeFormat } from '../../utils/convertTimeFormat'
+import ErrorMessage from '../ErrorMessage/ErrorMessage'
 
 const BuildingsPanel = ({ building, setBuilding }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
   const [buildingInfo, setBuildingInfo] = useState(null)
   const closeBuildingPanel = () => setBuilding(null)
 
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true)
+      setError('')
 
       const info = await buildingService.getByEgId(
         building?.properties?.EGRID_CENT,
       )
+
+      if (info?.error?.message?.length) {
+        setError('Building information is unavailable. Please try again later.')
+        setIsLoading(false)
+        return
+      }
 
       setBuildingInfo(info)
       setIsLoading(false)
@@ -29,6 +41,16 @@ const BuildingsPanel = ({ building, setBuilding }) => {
 
     if (building) getData()
   }, [building])
+
+  const getConstructionDate = () => {
+    if (!buildingInfo) return null
+    const variant1 = buildingInfo?.annee_de_construction
+    const variant2 = buildingInfo?.annee_de_construction_du_batiment
+
+    if (variant1?.length) return variant1
+    if (variant2?.length) return variant2
+    return null
+  }
 
   if (!building) return null
   if (isLoading) {
@@ -39,12 +61,21 @@ const BuildingsPanel = ({ building, setBuilding }) => {
     )
   }
 
+  if (error) {
+    return (
+      <div className={style.panel}>
+        <ErrorMessage message={error} onClose={closeBuildingPanel} />
+      </div>
+    )
+  }
+
   return (
     <div className={style.panel}>
       <HeadingSection
         plotId={buildingInfo?.plot?.no_commune_no_parcelle || null}
         buildingId={buildingInfo.no_batiment}
         egid={buildingInfo.egid}
+        rdppf={buildingInfo?.plot?.extrait_rdppf_pdf}
         closeBuildingPanel={closeBuildingPanel}
       />
 
@@ -65,9 +96,10 @@ const BuildingsPanel = ({ building, setBuilding }) => {
           buildingInfo.nombre_total_de_pieces_des_logements_du_batiment
         }
       />
-      {buildingInfo.getZone() && (
+
+      {buildingInfo?.plot?.zone && (
         <List title='Zone:' className={style.zone}>
-          {buildingInfo.getZone()?.map(item => (
+          {buildingInfo.plot?.zone?.map(item => (
             <li key={item} className={style.zoneItem}>
               {item}
             </li>
@@ -80,14 +112,19 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         commune={buildingInfo.commune_name}
         postCode={buildingInfo.no_postal}
         buildingNumber={buildingInfo.no_batiment}
-        isPPE={buildingInfo.isPPE()}
-        buildingTypology={buildingInfo.getExtendedInfo()?.typologie_d_immeuble}
-        buildingCategory={buildingInfo.getExtendedInfo()?.categorie_d_immeuble}
+        isPPE={buildingInfo?.plot?.ppe}
+        buildingTypology={buildingInfo?.getExtendedInfo()?.typologie_d_immeuble}
+        buildingCategory={buildingInfo?.getExtendedInfo()?.categorie_d_immeuble}
         buildingType={buildingInfo?.categorie_de_batiment}
         buildingClass={buildingInfo?.classe_de_batiment}
+        registerOfBuildingsLink={
+          buildingInfo?.getExtendedInfo()?.lien_registre_batiments
+        }
+        isConstructionCerts={buildingInfo?.plot?.construction_certs?.length}
+        buildingInfo={buildingInfo}
       />
 
-      <DimensionSection
+      <DetailsSection
         buildingArea={buildingInfo?.plot?.surface_immeuble_sum}
         plotArea={buildingInfo?.plot?.surface_parcelle_m2}
         livingArea={
@@ -104,9 +141,28 @@ const BuildingsPanel = ({ building, setBuilding }) => {
         levelsUnderGround={buildingInfo?.getExtendedInfo()?.niveaux_sous_sol}
         totalLevels={buildingInfo?.nombre_de_niveaux}
         buildingHeight={buildingInfo?.plot?.hauteur_immeuble_m}
+        constructionPeriod={
+          buildingInfo?.getExtendedInfo()?.epoque_de_construction
+        }
+        constructionDate={getConstructionDate()}
+        renovationDate={buildingInfo.annee_de_construction_du_batiment}
+        demolitionDate={buildingInfo.annee_de_demolition_du_batiment}
       />
 
       <OwnersSection owners={buildingInfo?.getOwners()} />
+
+      <TransactionsSection
+        transactions={buildingInfo?.plot?.transactions_list}
+      />
+
+      <PermitsSection permits={buildingInfo?.plot?.construction_certs} />
+
+      {buildingInfo?.plot?.derniere_modification && (
+        <p className={style.lastEdits}>
+          Last edits:{' '}
+          <b>{convertTimeFormat(buildingInfo?.plot?.derniere_modification)}</b>
+        </p>
+      )}
     </div>
   )
 }

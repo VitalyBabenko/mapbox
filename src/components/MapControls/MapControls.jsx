@@ -13,7 +13,7 @@ const MapControls = props => {
     mode,
     setMode,
     setBuilding,
-    setFilterSearchPlot,
+    setFilterSearch,
   } = props
   const { current: map } = useMap()
 
@@ -26,7 +26,7 @@ const MapControls = props => {
     setCounty(null)
     setPlot(null)
     setBuilding(null)
-    setFilterSearchPlot([])
+    setFilterSearch([])
   }
 
   const handleToggleMode = () => {

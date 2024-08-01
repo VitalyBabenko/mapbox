@@ -6,7 +6,6 @@ import CountiesLayer from './components/CountiesLayer/CountiesLayer.jsx'
 import PlotsLayer from './components/PlotsLayer/PlotsLayer.jsx'
 import PlotsPanel from './components/PlotsPanel/PlotsPanel.jsx'
 import PlotsFilters from './components/PlotsFilters/PlotsFilters.jsx'
-import PlotsByFilter from './components/PlotsByFilters/PlotsByFilter.jsx'
 import BuildingsLayer from './components/BuildingsLayer/BuildingsLayer.jsx'
 import BuildingsPanel from './components/BuildingsPanel/BuildingsPanel.jsx'
 import BuildingsFilters from './components/BuildingsFilters/BuildingsFilters.jsx'
@@ -15,12 +14,12 @@ function App() {
   const mapRef = useRef(null)
   const [mode, setMode] = useState('plots')
   const [cursor, setCursor] = useState(null)
-  const [clickEvent, setClickEvent] = useState(null)
   const [hoverEvent, setHoverEvent] = useState(null)
 
   // county state
   const [county, setCounty] = useState(null)
   const [hoverCounty, setHoverCounty] = useState(null)
+  const [allCountiesFeatures, setAllCountiesFeatures] = useState([])
 
   // plot state
   const [plot, setPlot] = useState(null)
@@ -31,7 +30,7 @@ function App() {
   const [hoverBuilding, setHoverBuilding] = useState(null)
 
   // filter state
-  const [filterSearchPlots, setFilterSearchPlot] = useState([])
+  const [filterSearch, setFilterSearch] = useState([])
 
   const onMouseEnter = useCallback(() => setCursor('pointer'), [])
   const onMouseLeave = useCallback(() => setCursor(null), [])
@@ -64,7 +63,6 @@ function App() {
 
   const onClick = useCallback(
     event => {
-      setClickEvent(event)
       if (!county) {
         const countyFeature = getRenderedFeatures(event.point, ['counties'])
         setCounty(countyFeature)
@@ -85,8 +83,18 @@ function App() {
     [county, mode],
   )
 
+  mapRef.current?.on('load', function () {
+    setAllCountiesFeatures(
+      mapRef.current.querySourceFeatures('countySource', {
+        layer: 'counties',
+        sourceLayer: 'kanton_28-filt_reworked-a2cfbe',
+        validate: false,
+      }),
+    )
+  })
+
   const onSetFilters = useCallback(newFilters => {
-    setFilterSearchPlot(newFilters)
+    setFilterSearch(newFilters)
   }, [])
 
   return (
@@ -110,7 +118,7 @@ function App() {
       <CountiesLayer
         mapRef={mapRef}
         hoverCounty={hoverCounty}
-        filterSearchPlots={filterSearchPlots}
+        filterSearch={filterSearch}
         county={county}
         hoverEvent={hoverEvent}
       />
@@ -121,12 +129,13 @@ function App() {
             onSetFilters={onSetFilters}
             setPlot={setPlot}
             setCounty={setCounty}
+            allCountiesFeatures={allCountiesFeatures}
           />
           <PlotsLayer
             county={county}
             hoverPlot={hoverPlot}
             plot={plot}
-            filterSearchPlots={filterSearchPlots}
+            filterSearch={filterSearch}
           />
           <PlotsPanel plot={plot} setPlot={setPlot} />
         </>
@@ -134,11 +143,17 @@ function App() {
 
       {mode === 'buildings' && (
         <>
-          <BuildingsFilters onSetFilters={onSetFilters} />
+          <BuildingsFilters
+            onSetFilters={onSetFilters}
+            setBuilding={setBuilding}
+            setCounty={setCounty}
+            allCountiesFeatures={allCountiesFeatures}
+          />
           <BuildingsLayer
             county={county}
             building={building}
             hoverBuilding={hoverBuilding}
+            filterSearch={filterSearch}
           />
           <BuildingsPanel building={building} setBuilding={setBuilding} />
         </>
@@ -152,7 +167,7 @@ function App() {
         setBuilding={setBuilding}
         mode={mode}
         setMode={setMode}
-        setFilterSearchPlot={setFilterSearchPlot}
+        setFilterSearch={setFilterSearch}
       />
     </Map>
   )

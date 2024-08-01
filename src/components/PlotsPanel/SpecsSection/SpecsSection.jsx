@@ -3,14 +3,14 @@ import {
   BiBuildings as BuildingIcon,
   BiHome as HomeIcon,
   BiUser as OwnerIcon,
-} from "react-icons/bi";
-import style from "./SpecsSection.module.scss";
+} from 'react-icons/bi'
+import style from './SpecsSection.module.scss'
 
 const SpecsSection = ({ plotInfo }) => {
-  const plotSurface = plotInfo?.surface_parcelle_m2 || null;
-  const livingSurface = plotInfo?.getLivingSurface() || null;
-  const ownersQuantity = plotInfo?.getOwners().length || null;
-  const buildingsQuantity = plotInfo?.addresses.length || null;
+  const plotSurface = plotInfo?.surface_parcelle_m2 || null
+  const livingSurface = plotInfo?.getLivingSurface() || null
+  const ownersQuantity = plotInfo?.ownership_info?.length || null
+  const buildingsQuantity = plotInfo?.addresses.length || null
 
   return (
     <ul className={style.section}>
@@ -46,7 +46,7 @@ const SpecsSection = ({ plotInfo }) => {
         </li>
       )}
     </ul>
-  );
-};
+  )
+}
 
-export default SpecsSection;
+export default SpecsSection

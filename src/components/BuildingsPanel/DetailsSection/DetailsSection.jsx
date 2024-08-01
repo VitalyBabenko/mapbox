@@ -1,7 +1,7 @@
 import List from '../../List/List'
 import ListItem from '../../List/ListItem/ListItem'
 
-const DimensionSection = ({
+const DetailsSection = ({
   buildingArea,
   plotArea,
   livingArea,
@@ -12,6 +12,9 @@ const DimensionSection = ({
   levelsUnderGround,
   totalLevels,
   buildingHeight,
+  constructionPeriod,
+  renovationDate,
+  demolitionDate,
 }) => {
   const isShowDimensionCard =
     plotArea ||
@@ -24,8 +27,10 @@ const DimensionSection = ({
   const isShowHeightCard =
     levelsAboveGround || levelsUnderGround || totalLevels || buildingHeight
 
+  const isShowConstructionCard = constructionPeriod
+
   return (
-    <List>
+    <List title='Details:'>
       {isShowDimensionCard && (
         <ListItem>
           <h3>Dimension</h3>
@@ -81,7 +86,7 @@ const DimensionSection = ({
 
       {isShowHeightCard && (
         <ListItem>
-          <h3>Height Details</h3>
+          <h3>Height</h3>
 
           <ul>
             <li>
@@ -112,8 +117,36 @@ const DimensionSection = ({
           </ul>
         </ListItem>
       )}
+
+      {isShowConstructionCard && (
+        <ListItem>
+          <h3>Construction</h3>
+
+          <ul>
+            <li>
+              {constructionPeriod && (
+                <p>
+                  Construction period: <b> Période de {constructionPeriod}</b>
+                </p>
+              )}
+
+              {renovationDate && (
+                <p>
+                  Renovation year: <b> {renovationDate}</b>
+                </p>
+              )}
+
+              {demolitionDate && (
+                <p>
+                  Demolition date: <b> {demolitionDate}</b>
+                </p>
+              )}
+            </li>
+          </ul>
+        </ListItem>
+      )}
     </List>
   )
 }
 
-export default DimensionSection
+export default DetailsSection
