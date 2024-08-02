@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import style from './TypeaheadFilter.module.scss'
 import { Typeahead } from 'react-bootstrap-typeahead'
 

@@ -1,0 +1,79 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.wrapper {
+  position: absolute;
+  top: 49px;
+  left: 10px;
+  width: 250px;
+  height: 29px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+
+  .modeSwitcher {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+    background: #e2e2e2;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      position: relative;
+      height: 27.55px;
+      width: 50%;
+      border: none;
+      font-size: 18px;
+      z-index: 1;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      color: #344054;
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(265, 265, 265, 0.5);
+      }
+
+      &.active {
+        color: #333333;
+      }
+    }
+
+    span {
+      position: absolute;
+      top: 50%;
+      translate: 0 -50%;
+      width: 50%;
+      height: 95%;
+      border-radius: 4px;
+      background: $white;
+      z-index: 0;
+      transition: all 0.3s ease-in-out;
+
+      &.left {
+        transform: translate(0%);
+      }
+
+      &.right {
+        transform: translate(100%);
+      }
+    }
+  }
+}
+
+.resetButton {
+  @include button-mapbox;
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  translate: -50%;
+}

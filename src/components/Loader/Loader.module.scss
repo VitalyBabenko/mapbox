@@ -1,3 +1,17 @@
+@import '../../styles/mixins';
+
+.background {
+  @include button-mapbox;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+}
+
 .spinner {
   animation: rotate 2s linear infinite;
   z-index: 2;
