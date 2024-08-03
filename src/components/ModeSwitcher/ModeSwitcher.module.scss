@@ -35,7 +35,7 @@
       z-index: 1;
       background: transparent;
       cursor: pointer;
-      transition: all 0.3s ease-in-out;
+      transition: all 0.15s ease-in;
       color: #344054;
       border-radius: 4px;
 
@@ -57,7 +57,7 @@
       border-radius: 4px;
       background: $white;
       z-index: 0;
-      transition: all 0.3s ease-in-out;
+      transition: all 0.15s ease-in-out;
 
       &.left {
         transform: translate(0%);

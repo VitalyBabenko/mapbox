@@ -4,10 +4,9 @@ import TypeaheadFilter from '../../../components/Filters/TypeaheadFilter/Typeahe
 import RangeFilter from '../../../components/Filters/RangeFilter/RangeFilter'
 import Checkbox from '../../../components/Checkbox/Checkbox'
 import Loader from '../../../components/Loader/Loader'
-import { filterService } from '../../../service/filterService'
+import { plotService } from '../../../service/plotService'
 import { selectStyles } from '../../../styles/selectStyles'
 import style from './PlotsFilters.module.scss'
-
 import {
   TbMeterSquare as MeterSquareIcon,
   TbCurrencyEuro,
@@ -25,7 +24,7 @@ const rangeIcons = {
   age: null,
 }
 
-const PlotsFilters = ({ onSetFilters }) => {
+const PlotsFilters = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [filters, setFilters] = useState([])
   const [panelError, setPanelError] = useState('')
@@ -108,18 +107,17 @@ const PlotsFilters = ({ onSetFilters }) => {
       return prev
     }, {})
 
-    const newFilters = await filterService.setPlotsFilters(formattedFilters)
+    const newFilters = await plotService.setFilters(formattedFilters)
     setFilteredPlotsIds(newFilters)
   }
 
   useEffect(() => {
     const getFilters = async () => {
       setIsLoading(true)
-      const resp = await filterService.getPlotsFilters()
+      const resp = await plotService.getFilters()
       if (resp?.error?.message) {
         setPanelError(
-          `Le service de filtrage n'est pas disponible pour le moment,
-          réessayez plus tard.`,
+          `Filtering service is unavailable, please try again later.`,
         )
         setIsLoading(false)
         return

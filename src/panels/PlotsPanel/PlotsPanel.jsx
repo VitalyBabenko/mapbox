@@ -63,7 +63,14 @@ const PlotsPanel = ({ activePlotId, setActivePlotId }) => {
       setError(null)
       setIsLoading(true)
       const info = await plotService.getPlotByEgrId(activePlotId)
-      info?.error?.message ? setError(info.error.message) : setPlotInfo(info)
+
+      if (info?.error?.message?.length) {
+        setError('Building information is unavailable. Please try again later.')
+        setIsLoading(false)
+        return
+      }
+
+      setPlotInfo(info)
 
       const { bookmarks } = await plotService.getBookmarksAlerts(info._id)
 

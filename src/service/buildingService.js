@@ -28,4 +28,44 @@ export const buildingService = {
       }
     }
   },
+
+  getFilters: async () => {
+    try {
+      const { data } = await axios.get(`${url}/api/filters`)
+
+      const buildingsFilters = data
+        .filter(item => {
+          if (item.view === 'checkbox') return false
+          if (item.level?.includes('buildings')) return true
+
+          return false
+        })
+        .sort((a, b) => a.position - b.position)
+        .sort((a, b) => b.show_on_top - a.show_on_top)
+
+      const checkboxes = data.filter(item => {
+        return item.level?.includes('buildings') && item.view === 'checkbox'
+      })
+
+      return { list: buildingsFilters, checkboxes }
+    } catch (error) {
+      return {
+        error,
+      }
+    }
+  },
+
+  setBuildingsFilters: async filters => {
+    try {
+      const { data } = await axios.get(`${url}/api/map/buildings`, {
+        params: filters,
+      })
+
+      return data
+    } catch (error) {
+      return {
+        error,
+      }
+    }
+  },
 }

@@ -14,7 +14,7 @@ const FiltersPanel = ({ onSetFilters }) => {
   if (!open) {
     return (
       <button className={style.filtersButton} onClick={toggleOpen}>
-        <FilterIcon />
+        <FilterIcon size={19} />
         Filters
       </button>
     )
@@ -34,11 +34,7 @@ const FiltersPanel = ({ onSetFilters }) => {
           />
         </div>
 
-        {switcher === 'plots' ? (
-          <PlotsFilters onSetFilters={onSetFilters} />
-        ) : (
-          <BuildingsFilters />
-        )}
+        {switcher === 'plots' ? <PlotsFilters /> : <BuildingsFilters />}
       </div>
     </div>
   )

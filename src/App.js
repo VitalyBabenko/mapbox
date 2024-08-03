@@ -20,9 +20,6 @@ function App() {
   const { setAllCountiesFeatures } = useFilterStore(state => state)
   const { setClickEvent, setHoverEvent } = useEventStore(state => state)
 
-  // filter state
-  const [filterSearch, setFilterSearch] = useState([])
-
   const onMouseEnter = useCallback(() => setCursor('pointer'), [])
   const onMouseLeave = useCallback(() => setCursor(null), [])
 
@@ -41,10 +38,6 @@ function App() {
     },
     [mode, isMapLoading],
   )
-
-  const onSetFilters = useCallback(newFilters => {
-    setFilterSearch(newFilters)
-  }, [])
 
   return (
     <Map
@@ -84,8 +77,8 @@ function App() {
         </>
       )}
 
-      <FiltersPanel onSetFilters={onSetFilters} />
       <ModeSwitcher />
+      <FiltersPanel />
 
       <MapControls mapRef={mapRef} />
     </Map>

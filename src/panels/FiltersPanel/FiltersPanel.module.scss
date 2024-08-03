@@ -6,10 +6,12 @@
   position: absolute;
   top: 49px;
   left: 10px;
+  height: 29px;
+  padding: 0 10px;
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 5px;
-  padding: 2.5px 10px;
   font-size: 18px;
 }
 

@@ -6,4 +6,8 @@ export const useFilterStore = create(set => ({
 
   filteredPlotsIds: [],
   setFilteredPlotsIds: filteredPlotsIds => set({ filteredPlotsIds }),
+
+  filteredBuildingsIds: [],
+  setFilteredBuildingsIds: filteredBuildingsIds =>
+    set({ filteredBuildingsIds }),
 }))
