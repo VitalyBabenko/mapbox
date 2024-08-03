@@ -6,7 +6,7 @@ import style from './ErrorMessage.module.scss'
 const ErrorMessage = ({ message, onClose }) => {
   return (
     <div className={style.error}>
-      <CrossIcon className={style.closeIcon} onClick={onClose} />
+      {onClose && <CrossIcon className={style.closeIcon} onClick={onClose} />}
       <ErrorIcon className={style.errorIcon} />
       <p>{message}</p>
     </div>

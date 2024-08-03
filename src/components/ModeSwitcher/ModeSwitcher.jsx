@@ -8,12 +8,27 @@ import { useModeStore } from '../../store'
 const ModeSwitcher = () => {
   const { current: map } = useMap()
   const {
-    mode,
     county,
-    switchToPlotsMode,
+    mode,
+    switcher,
+    toggleSwitcher,
     switchToCountiesMode,
+    switchToPlotsMode,
     switchToBuildingsMode,
   } = useModeStore(state => state)
+
+  const handleSwitch = clickedMode => {
+    if (clickedMode === switcher) return
+    if (mode === 'counties') {
+      toggleSwitcher()
+      return
+    }
+
+    toggleSwitcher()
+    switcher === 'plots'
+      ? switchToBuildingsMode(county)
+      : switchToPlotsMode(county)
+  }
 
   const resetView = () => {
     map.flyTo({
@@ -25,33 +40,36 @@ const ModeSwitcher = () => {
     switchToCountiesMode()
   }
 
-  if (mode === 'counties') return null
   return (
     <>
       <div className={style.wrapper}>
         <div className={style.modeSwitcher}>
           <button
-            onClick={() => switchToPlotsMode(county)}
-            className={mode === 'plots' ? style.active : ''}
+            onClick={() => handleSwitch('plots')}
+            className={switcher === 'plots' ? style.active : ''}
           >
             <PlotIcon size={20} />
             Plots
           </button>
 
           <button
-            onClick={() => switchToBuildingsMode(county)}
-            className={mode === 'buildings' ? style.active : ''}
+            onClick={() => handleSwitch('buildings')}
+            className={switcher === 'buildings' ? style.active : ''}
           >
             <BuildingIcon size={20} />
             Buildings
           </button>
-          <span className={mode === 'plots' ? style.left : style.right}></span>
+          <span
+            className={switcher === 'plots' ? style.left : style.right}
+          ></span>
         </div>
       </div>
 
-      <button onClick={resetView} className={style.resetButton}>
-        Reset view
-      </button>
+      {mode !== 'counties' && (
+        <button onClick={resetView} className={style.resetButton}>
+          Reset view
+        </button>
+      )}
     </>
   )
 }

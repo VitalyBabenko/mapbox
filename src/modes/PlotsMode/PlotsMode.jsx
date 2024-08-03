@@ -5,6 +5,7 @@ import HoverPlot from './HoverPlot/HoverPlot'
 import ActivePlot from './ActivePlot/ActivePlot'
 import { PLOTS_SOURCE } from '../../constants'
 import { useMemo } from 'react'
+import FilteredPlots from './FilteredPlots/FilteredPlots'
 
 const PlotsMode = ({ isActive }) => {
   const { current: map } = useMap()
@@ -45,6 +46,7 @@ const PlotsMode = ({ isActive }) => {
 
       <HoverPlot isActive={isActive} map={map} />
       <ActivePlot isActive={isActive} map={map} />
+      <FilteredPlots isActive={isActive} />
     </Source>
   )
 }

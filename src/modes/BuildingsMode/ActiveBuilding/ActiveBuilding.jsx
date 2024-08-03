@@ -36,7 +36,6 @@ const ActiveBuilding = ({ isActive, map }) => {
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
-
       <BuildingsPanel
         activeBuildingId={ActiveBuildingId}
         setActiveBuildingId={setActiveBuildingId}

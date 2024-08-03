@@ -7,7 +7,9 @@ import { COUNTIES_SOURCE } from '../../constants'
 
 const CountiesMode = ({ isActive }) => {
   const { current: map } = useMap()
-  const { switchToPlotsMode } = useModeStore(state => state)
+  const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore(
+    state => state,
+  )
   const { clickEvent } = useEventStore(state => state)
 
   useEffect(() => {
@@ -29,7 +31,9 @@ const CountiesMode = ({ isActive }) => {
       { padding: 0, duration: 1500, zoom: 13 },
     )
 
-    switchToPlotsMode(clickedCountyFeature)
+    switcher === 'plots'
+      ? switchToPlotsMode(clickedCountyFeature)
+      : switchToBuildingsMode(clickedCountyFeature)
   }, [clickEvent])
 
   return (

@@ -9,15 +9,16 @@ import CountiesMode from './modes/CountiesMode/CountiesMode.jsx'
 import PlotsMode from './modes/PlotsMode/PlotsMode.jsx'
 import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
 import Loader from './components/Loader/Loader.jsx'
+import { FiltersPanel } from './panels/index.js'
+import { useFilterStore } from './store'
 
 function App() {
   const mapRef = useRef(null)
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
-  const { mode, county } = useModeStore(state => state)
+  const { mode } = useModeStore(state => state)
+  const { setAllCountiesFeatures } = useFilterStore(state => state)
   const { setClickEvent, setHoverEvent } = useEventStore(state => state)
-
-  const [allCountiesFeatures, setAllCountiesFeatures] = useState([])
 
   // filter state
   const [filterSearch, setFilterSearch] = useState([])
@@ -45,7 +46,6 @@ function App() {
     setFilterSearch(newFilters)
   }, [])
 
-  // if (isMapLoading) return <Loader withBackground />
   return (
     <Map
       ref={mapRef}
@@ -84,6 +84,7 @@ function App() {
         </>
       )}
 
+      <FiltersPanel onSetFilters={onSetFilters} />
       <ModeSwitcher />
 
       <MapControls mapRef={mapRef} />
