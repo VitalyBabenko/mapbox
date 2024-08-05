@@ -1,13 +1,14 @@
 import { Layer, Source, useMap } from 'react-map-gl'
 import { BUILDINGS_SOURCE } from '../../constants'
 import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
-import { useModeStore } from '../../store'
+import { useModeStore, usePaintStore } from '../../store'
 import HoverBuilding from './HoverBuilding/HoverBuilding'
 import ActiveBuilding from './ActiveBuilding/ActiveBuilding'
 
 const BuildingsMode = ({ isActive }) => {
   const { current: map } = useMap()
   const { county } = useModeStore(state => state)
+  const { activePaint } = usePaintStore()
 
   const getCountyName = () => {
     if (!county) return ''
@@ -25,9 +26,8 @@ const BuildingsMode = ({ isActive }) => {
         type='fill'
         source-layer={BUILDINGS_SOURCE.sourceLayer}
         paint={{
-          'fill-outline-color': 'rgba(256,256,256,1)',
-          'fill-color': '#006cd5',
           'fill-opacity': 0.4,
+          ...activePaint,
         }}
         filter={countyFilter}
         beforeId='poi-label'

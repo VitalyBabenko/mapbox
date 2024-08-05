@@ -13,5 +13,6 @@ export const useModeStore = create(set => ({
 
   switchToCountiesMode: () => set({ mode: MODES.COUNTIES, county: null }),
   switchToPlotsMode: county => set({ mode: MODES.PLOTS, county }),
-  switchToBuildingsMode: county => set({ mode: MODES.BUILDINGS, county }),
+  switchToBuildingsMode: county =>
+    set({ mode: MODES.BUILDINGS, county, switcher: MODES.BUILDINGS }),
 }))

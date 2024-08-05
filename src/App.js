@@ -1,6 +1,5 @@
-import { Map } from 'react-map-gl'
+import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { memo, useCallback, useRef, useState } from 'react'
-import MapControls from './components/MapControls/MapControls.jsx'
 import { INITIAL_VIEW, MAP_STYLES, MODES } from './constants/index.js'
 import ModeSwitcher from './components/ModeSwitcher/ModeSwitcher.jsx'
 import { useEventStore } from './store/eventStore.js'
@@ -9,7 +8,7 @@ import CountiesMode from './modes/CountiesMode/CountiesMode.jsx'
 import PlotsMode from './modes/PlotsMode/PlotsMode.jsx'
 import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
 import Loader from './components/Loader/Loader.jsx'
-import { FiltersPanel } from './panels/index.js'
+import { FiltersPanel, MapDataPanel } from './panels/index.js'
 import { useFilterStore } from './store'
 
 function App() {
@@ -49,7 +48,7 @@ function App() {
       cursor={cursor}
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       interactiveLayerIds={['counties', 'plots', 'buildings']}
-      mapStyle={MAP_STYLES[0].URL}
+      mapStyle={MAP_STYLES[0].url}
       attributionControl={false}
       initialViewState={{
         latitude: INITIAL_VIEW.LATITUDE,
@@ -79,8 +78,9 @@ function App() {
 
       <ModeSwitcher />
       <FiltersPanel />
-
-      <MapControls mapRef={mapRef} />
+      <MapDataPanel mapRef={mapRef} />
+      <FullscreenControl position='top-right' />
+      <NavigationControl />
     </Map>
   )
 }
