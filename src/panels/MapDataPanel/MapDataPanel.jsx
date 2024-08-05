@@ -5,6 +5,7 @@ import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import { useState } from 'react'
 import BasemapSection from './BasemapSection/BasemapSection'
 import CharacteristicsSection from './CharacteristicsSection/CharacteristicsSection'
+import ScalePanel from '../ScalePanel/ScalePanel'
 
 const MapDataPanel = ({ mapRef }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
@@ -21,16 +22,23 @@ const MapDataPanel = ({ mapRef }) => {
   }
 
   return (
-    <div className={style.panel}>
-      <div className={style.heading}>
-        <MapDataBlackIcon size={20} />
-        <h2>Maps & Data</h2>
-        <CrossIcon size={20} onClick={closePanel} className={style.crossIcon} />
-      </div>
+    <>
+      <div className={style.panel}>
+        <div className={style.heading}>
+          <MapDataBlackIcon size={20} />
+          <h2>Maps & Data</h2>
+          <CrossIcon
+            size={20}
+            onClick={closePanel}
+            className={style.crossIcon}
+          />
+        </div>
 
-      <BasemapSection />
-      <CharacteristicsSection />
-    </div>
+        <BasemapSection />
+        <CharacteristicsSection />
+      </div>
+      <ScalePanel />
+    </>
   )
 }
 
