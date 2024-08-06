@@ -6,7 +6,8 @@
   top: 10px;
   right: 379px;
   width: 250px;
-  height: 500px;
+  height: fit-content;
+  max-height: 500px;
   background: #f9fafbd2;
   border-radius: 4px;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
