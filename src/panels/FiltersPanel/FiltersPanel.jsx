@@ -6,7 +6,7 @@ import { useModeStore } from '../../store'
 import PlotsFilters from './PlotsFilters/PlotsFilters'
 import BuildingsFilters from './BuildingsFilters/BuildingsFilters'
 
-const FiltersPanel = ({ onSetFilters }) => {
+const FiltersPanel = () => {
   const [open, setOpen] = useState(false)
   const toggleOpen = () => setOpen(!open)
   const { switcher } = useModeStore(state => state)

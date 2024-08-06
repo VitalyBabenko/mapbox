@@ -41,6 +41,10 @@ body {
 }
 
 .react-datepicker {
+  &-popper {
+    z-index: 3;
+  }
+
   // input
   &-wrapper {
     min-width: 139px;

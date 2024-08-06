@@ -1,7 +1,6 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, memo, useEffect, useState } from 'react'
 import { selectStyles } from '../../../styles/selectStyles'
 import Loader from '../../../components/Loader/Loader'
-import style from './BuildingsFilters.module.scss'
 
 import Select from 'react-select'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -18,6 +17,9 @@ import { getCountyFeatureByName } from '../../../utils/getCountyFeatureByName.js
 import { buildingService } from '../../../service/buildingService.js'
 import { useFilterStore, useModeStore } from '../../../store'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.jsx'
+import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue.js'
+import { useMap } from 'react-map-gl'
+import bbox from '@turf/bbox'
 
 const rangeIcons = {
   prix: <TbCurrencyEuro />,
@@ -26,6 +28,7 @@ const rangeIcons = {
 }
 
 const BuildingsFilters = () => {
+  const { current: map } = useMap()
   const [filters, setFilters] = useState([])
   const [formValues, setFormValues] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -47,6 +50,15 @@ const BuildingsFilters = () => {
     const selectedCounty = getCountyFeatureByName(
       formValues.commune_name.value,
       allCountiesFeatures,
+    )
+
+    const [minLng, minLat, maxLng, maxLat] = bbox(selectedCounty)
+    map.fitBounds(
+      [
+        [minLng, minLat],
+        [maxLng, maxLat],
+      ],
+      { padding: 0, duration: 1500, zoom: 13 },
     )
 
     switchToBuildingsMode(selectedCounty)
@@ -129,6 +141,7 @@ const BuildingsFilters = () => {
 
   const onChangeFormValue = (field, value) => {
     setFormValues(prev => ({ ...prev, [field]: value }))
+    if (error.length && field === 'commune_name') setError('')
   }
 
   useEffect(() => {
@@ -149,36 +162,9 @@ const BuildingsFilters = () => {
 
       const preparedValues = [...resp.list, ...resp.checkboxes]
 
-      const getAttributeValue = (view, values) => {
-        switch (view) {
-          case 'typeahead_input': {
-            return ''
-          }
-
-          case 'multiple_dropdown': {
-            return []
-          }
-
-          case 'range': {
-            return [values.min, values.max]
-          }
-
-          case 'date_range': {
-            return { start: values.min, end: values.max }
-          }
-
-          case 'checkbox': {
-            return false
-          }
-
-          default:
-            return null
-        }
-      }
-
       setFormValues(
         preparedValues.reduce((prev, next) => {
-          prev[next.attribute] = getAttributeValue(next.view, next.values)
+          prev[next.attribute] = getFilterAttributeValue(next.view, next.values)
           return prev
         }, {}),
       )
@@ -192,7 +178,7 @@ const BuildingsFilters = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className={style.type}>
+      <div>
         {filters?.checkboxes?.map(filter => (
           <Checkbox
             key={filter.id}
@@ -224,7 +210,6 @@ const BuildingsFilters = () => {
 
                 <Select
                   name={filter.attribute}
-                  className={style.select}
                   styles={selectStyles}
                   value={formValues[filter.attribute]}
                   onChange={newValue =>
@@ -270,13 +255,11 @@ const BuildingsFilters = () => {
         }
       })}
 
-      {error && <span className={style.error}>{error}</span>}
+      {error && <span role='alert'>{error}</span>}
 
-      <button className={style['apply-btn']} type='submit'>
-        Apply
-      </button>
+      <button type='submit'>Apply</button>
     </form>
   )
 }
 
-export default BuildingsFilters
+export default memo(BuildingsFilters)

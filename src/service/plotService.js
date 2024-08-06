@@ -122,7 +122,7 @@ export const plotService = {
     }
   },
 
-  setPlotsFilters: async filters => {
+  setFilters: async filters => {
     try {
       const { data } = await axios.get(`${url}/api/map/plots`, {
         params: filters,

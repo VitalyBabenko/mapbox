@@ -13,10 +13,7 @@ const ScalePanel = () => {
     }
   })
 
-  console.log(items)
-
   if (activePaint === DEFAULT_PAINT) return null
-
   return (
     <div className={isOpen ? style.panel : style.hidden}>
       <ul>

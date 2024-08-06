@@ -1,6 +1,11 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { memo, useCallback, useRef, useState } from 'react'
-import { INITIAL_VIEW, MAP_STYLES, MODES } from './constants/index.js'
+import {
+  COUNTIES_SOURCE,
+  INITIAL_VIEW,
+  MAP_STYLES,
+  MODES,
+} from './constants/index.js'
 import ModeSwitcher from './components/ModeSwitcher/ModeSwitcher.jsx'
 import { useEventStore } from './store/eventStore.js'
 import { useModeStore } from './store/modeStore.js'
@@ -16,7 +21,9 @@ function App() {
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
   const { mode } = useModeStore(state => state)
-  const { setAllCountiesFeatures } = useFilterStore(state => state)
+  const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore(
+    state => state,
+  )
   const { setClickEvent, setHoverEvent } = useEventStore(state => state)
 
   const onMouseEnter = useCallback(() => setCursor('pointer'), [])
@@ -38,6 +45,23 @@ function App() {
     [mode, isMapLoading],
   )
 
+  const onMapLoad = () => {
+    setIsMapLoading(false)
+  }
+
+  const onSourceDataLoad = event => {
+    if (event.sourceId !== COUNTIES_SOURCE.id) return
+    if (allCountiesFeatures.length === 52) return
+
+    const result = mapRef.current?.querySourceFeatures(COUNTIES_SOURCE.id, {
+      layer: 'counties',
+      sourceLayer: COUNTIES_SOURCE.sourceLayer,
+      validate: false,
+    })
+
+    setAllCountiesFeatures(result)
+  }
+
   return (
     <Map
       ref={mapRef}
@@ -45,6 +69,8 @@ function App() {
       onMouseMove={onHover}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onLoad={onMapLoad}
+      onSourceData={onSourceDataLoad}
       cursor={cursor}
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       interactiveLayerIds={['counties', 'plots', 'buildings']}
@@ -54,16 +80,6 @@ function App() {
         latitude: INITIAL_VIEW.LATITUDE,
         longitude: INITIAL_VIEW.LONGITUDE,
         zoom: INITIAL_VIEW.ZOOM,
-      }}
-      onLoad={() => {
-        setIsMapLoading(false)
-        setAllCountiesFeatures(
-          mapRef.current?.querySourceFeatures('countySource', {
-            layer: 'counties',
-            sourceLayer: 'kanton_28-filt_reworked-a2cfbe',
-            validate: false,
-          }),
-        )
       }}
     >
       {isMapLoading ? (

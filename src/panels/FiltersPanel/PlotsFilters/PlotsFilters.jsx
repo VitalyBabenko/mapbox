@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, memo, useEffect, useState } from 'react'
 import Select from 'react-select'
 import TypeaheadFilter from '../../../components/Filters/TypeaheadFilter/TypeaheadFilter'
 import RangeFilter from '../../../components/Filters/RangeFilter/RangeFilter'
@@ -6,7 +6,6 @@ import Checkbox from '../../../components/Checkbox/Checkbox'
 import Loader from '../../../components/Loader/Loader'
 import { plotService } from '../../../service/plotService'
 import { selectStyles } from '../../../styles/selectStyles'
-import style from './PlotsFilters.module.scss'
 import {
   TbMeterSquare as MeterSquareIcon,
   TbCurrencyEuro,
@@ -17,6 +16,8 @@ import { getCountyFeatureByName } from '../../../utils/getCountyFeatureByName'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
 import { useModeStore } from '../../../store'
 import { useFilterStore } from '../../../store'
+import bbox from '@turf/bbox'
+import { useMap } from 'react-map-gl'
 
 const rangeIcons = {
   prix: <TbCurrencyEuro />,
@@ -25,6 +26,7 @@ const rangeIcons = {
 }
 
 const PlotsFilters = () => {
+  const { current: map } = useMap()
   const [isLoading, setIsLoading] = useState(true)
   const [filters, setFilters] = useState([])
   const [panelError, setPanelError] = useState('')
@@ -37,6 +39,8 @@ const PlotsFilters = () => {
 
   const onChangeFormValue = (field, value) => {
     setFormValues(prev => ({ ...prev, [field]: value }))
+
+    if (error.length && field === 'commune_name') setError('')
   }
 
   const handleSubmit = async e => {
@@ -52,6 +56,14 @@ const PlotsFilters = () => {
       allCountiesFeatures,
     )
 
+    const [minLng, minLat, maxLng, maxLat] = bbox(selectedCounty)
+    map.fitBounds(
+      [
+        [minLng, minLat],
+        [maxLng, maxLat],
+      ],
+      { padding: 0, duration: 1500, zoom: 13 },
+    )
     switchToPlotsMode(selectedCounty)
 
     const allFilters = [...filters.list, ...filters.checkboxes]
@@ -144,7 +156,7 @@ const PlotsFilters = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className={style.type}>
+      <div>
         {filters.checkboxes.map(filter => (
           <Checkbox
             key={filter.id}
@@ -176,7 +188,6 @@ const PlotsFilters = () => {
 
                 <Select
                   name={filter.attribute}
-                  className={style.select}
                   styles={selectStyles}
                   value={formValues[filter.attribute]}
                   onChange={newValue =>
@@ -222,13 +233,11 @@ const PlotsFilters = () => {
         }
       })}
 
-      {error && <span className={style.error}>{error}</span>}
+      {error && <span role='alert'>{error}</span>}
 
-      <button className={style['apply-btn']} type='submit'>
-        Apply
-      </button>
+      <button type='submit'>Apply</button>
     </form>
   )
 }
 
-export default PlotsFilters
+export default memo(PlotsFilters)

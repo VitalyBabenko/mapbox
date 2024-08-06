@@ -5,7 +5,7 @@ import {
   BiSolidBell as SolidBellIcon,
 } from 'react-icons/bi'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Loader from '../../components/Loader/Loader'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import SpecsSection from './SpecsSection/SpecsSection'

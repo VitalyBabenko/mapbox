@@ -55,7 +55,7 @@ export const buildingService = {
     }
   },
 
-  setBuildingsFilters: async filters => {
+  setFilters: async filters => {
     try {
       const { data } = await axios.get(`${url}/api/map/buildings`, {
         params: filters,
