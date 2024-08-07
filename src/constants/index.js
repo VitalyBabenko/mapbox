@@ -65,38 +65,6 @@ export const DEFAULT_PAINT = {
   'fill-color': '#006cd5',
 }
 
-// export const PAINT_BY_TYPE = {
-//   'fill-outline-color': 'rgba(256,256,256,1)',
-//   'fill-color': {
-//     property: 'TYPOLOGIE',
-//     stops: [
-//       ['Hab plusieurs logements', '#641E16'],
-//       ['Hab. - rez activité', '#943126'],
-//       ['Habitation - activités', '#A93226'],
-//       ['Hab. deux logements', '#CD6155'],
-//       ['Habitation un logement', '#F1948A'],
-//       ['Résidence meublée', '#E6B0AA'],
-//       ['Hôtel', '#F2D7D5'],
-//       ['Bureaux', '#D4AC0D'],
-//       ['Garage', '#F4D03F'],
-//       ['Garage privé', '#F9E79F'],
-//       ['Atelier', '#6E2C00'],
-//       ['Centre commercial', '#784212'],
-//       ['Commerce', '#9C640C '],
-//       ['Dépôt', '#B9770E'],
-//       ['Hangar', '#DC7633'],
-//       ['Restaurant', '#CA6F1E'],
-//       ['Station-service', '#F0B27A'],
-//       ['Usine', '#EDBB99'],
-//       ['EMS', '#2874A6'],
-//       ['Etablissement de soins', '#2874A6'],
-//       ['Hôpital, Clinique', '#2874A6'],
-
-//     ],
-//   },
-//   'fill-opacity': 0.8,
-// }
-
 export const PAINT_BY_TYPE = {
   'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': [
@@ -241,13 +209,14 @@ export const PAINT_BY_CONSTRUCTION_PERIOD = {
   'fill-color': {
     property: 'EP_CONSTR',
     stops: [
-      [1900, '#D4E6F1'],
-      [1940, '#85C1E9'],
-      [1960, '#5DADE2'],
-      [1980, '#2980B9'],
-      [2000, '#1F618D'],
-      [2020, '#1B4F72'],
-      [2040, '#0D2A4E'],
+      [0, '#D4E6F1'],
+      [1900, '#6E2C00'],
+      [1940, '#A04000'],
+      [1960, '#D35400'],
+      [1980, '#E67E22'],
+      [2000, '#E59866'],
+      [2020, '#F8C471'],
+      [2040, '#FAE5D3'],
     ],
   },
   'fill-opacity': 0.8,

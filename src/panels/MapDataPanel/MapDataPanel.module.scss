@@ -90,13 +90,13 @@
 
       &:hover {
         img {
-          box-shadow: #3b82f6 0px 2px 7px;
+          box-shadow: $grey-600 0px 2px 7px;
         }
       }
 
       &.active {
         img {
-          box-shadow: #3b82f6 0px 2px 5px;
+          box-shadow: #3b82f6 0px 2px 7px;
         }
       }
     }

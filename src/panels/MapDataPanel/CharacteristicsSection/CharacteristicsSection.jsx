@@ -3,6 +3,7 @@ import style from './CharacteristicsSection.module.scss'
 import {
   DEFAULT_PAINT,
   PAINT_BY_APARTS_QTY,
+  PAINT_BY_CONSTRUCTION_PERIOD,
   PAINT_BY_TYPE,
 } from '../../../constants'
 import paintByTypePreview from '../../../assets/images/paintByTypePreview.png'
@@ -13,7 +14,7 @@ const CharacteristicsSection = () => {
   const { mode, county, switcher, toggleSwitcher, switchToBuildingsMode } =
     useModeStore(state => state)
 
-  const handleClickOnPaintByType = () => {
+  const handleChangePaint = clickedPaint => {
     if (mode === 'counties' || switcher === 'plots') {
       toggleSwitcher('buildings')
     }
@@ -22,28 +23,12 @@ const CharacteristicsSection = () => {
       switchToBuildingsMode(county)
     }
 
-    if (activePaint === PAINT_BY_TYPE) {
-      setActivePaint(DEFAULT_PAINT)
-      return
-    }
-    setActivePaint(PAINT_BY_TYPE)
-  }
-
-  const handleClickOnCharacteristics = () => {
-    if (mode === 'counties' || switcher === 'plots') {
-      toggleSwitcher('buildings')
-    }
-
-    if (mode === 'plots') {
-      switchToBuildingsMode(county)
-    }
-
-    if (activePaint === PAINT_BY_APARTS_QTY) {
+    if (activePaint === clickedPaint) {
       setActivePaint(DEFAULT_PAINT)
       return
     }
 
-    setActivePaint(PAINT_BY_APARTS_QTY)
+    setActivePaint(clickedPaint)
   }
 
   return (
@@ -51,7 +36,7 @@ const CharacteristicsSection = () => {
       <h3>Characteristics</h3>
       <ul className={style.mapStyles}>
         <li
-          onClick={handleClickOnPaintByType}
+          onClick={() => handleChangePaint(PAINT_BY_TYPE)}
           className={activePaint === PAINT_BY_TYPE ? style.active : ''}
         >
           <img src={paintByTypePreview} alt='preview' />
@@ -59,11 +44,21 @@ const CharacteristicsSection = () => {
         </li>
 
         <li
-          onClick={handleClickOnCharacteristics}
+          onClick={() => handleChangePaint(PAINT_BY_APARTS_QTY)}
           className={activePaint === PAINT_BY_APARTS_QTY ? style.active : ''}
         >
           <img src={paintByApartsPreview} alt='preview' />
           <span>Unités</span>
+        </li>
+
+        <li
+          onClick={() => handleChangePaint(PAINT_BY_CONSTRUCTION_PERIOD)}
+          className={
+            activePaint === PAINT_BY_CONSTRUCTION_PERIOD ? style.active : ''
+          }
+        >
+          <img src={paintByApartsPreview} alt='preview' />
+          <span>Construction Period</span>
         </li>
       </ul>
     </>
