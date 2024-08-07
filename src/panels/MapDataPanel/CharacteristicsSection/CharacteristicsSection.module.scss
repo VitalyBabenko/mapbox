@@ -1,5 +1,52 @@
-li.active {
-  & img {
-    box-shadow: #3b82f6 0px 2px 7px !important;
+@import '../../../styles/variables';
+
+.list {
+  display: flex;
+  justify-content: space-around;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 30%;
+    cursor: pointer;
+
+    img {
+      width: 75%;
+      border: 1px solid #cfcece;
+      border-radius: 6px;
+      margin-bottom: 7px;
+      transition: box-shadow ease 0.3s;
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      line-height: 16px;
+      text-align: center;
+      font-size: 14.5px;
+      font-weight: 400;
+      color: $grey-600;
+      transition: color ease 0.3s;
+    }
+
+    &:hover {
+      img {
+        box-shadow: $grey-600 0px 2px 7px;
+      }
+    }
+
+    &.active {
+      img {
+        box-shadow: #3b82f6 0px 2px 7px;
+      }
+
+      span {
+        color: $grey-900;
+      }
+    }
   }
 }

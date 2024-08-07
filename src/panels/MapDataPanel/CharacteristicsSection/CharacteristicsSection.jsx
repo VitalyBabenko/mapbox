@@ -8,6 +8,7 @@ import {
 } from '../../../constants'
 import paintByTypePreview from '../../../assets/images/paintByTypePreview.png'
 import paintByApartsPreview from '../../../assets/images/paintByApartsPreview.png'
+import paintByPeriodPreview from '../../../assets/images/paintByConstructionPeriodPreview.png'
 
 const CharacteristicsSection = () => {
   const { activePaint, setActivePaint } = usePaintStore(state => state)
@@ -34,7 +35,7 @@ const CharacteristicsSection = () => {
   return (
     <>
       <h3>Characteristics</h3>
-      <ul className={style.mapStyles}>
+      <ul className={style.list}>
         <li
           onClick={() => handleChangePaint(PAINT_BY_TYPE)}
           className={activePaint === PAINT_BY_TYPE ? style.active : ''}
@@ -57,8 +58,8 @@ const CharacteristicsSection = () => {
             activePaint === PAINT_BY_CONSTRUCTION_PERIOD ? style.active : ''
           }
         >
-          <img src={paintByApartsPreview} alt='preview' />
-          <span>Construction Period</span>
+          <img src={paintByPeriodPreview} alt='preview' />
+          <span>Année de construction</span>
         </li>
       </ul>
     </>

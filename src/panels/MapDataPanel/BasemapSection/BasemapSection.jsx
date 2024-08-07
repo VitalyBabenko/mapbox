@@ -16,7 +16,7 @@ const BasemapSection = () => {
   return (
     <>
       <h3>Basemap</h3>
-      <ul className={style.mapStyles}>
+      <ul className={style.list}>
         {MAP_STYLES.map(mapStyle => (
           <li
             key={mapStyle.url}

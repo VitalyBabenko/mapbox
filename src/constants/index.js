@@ -56,13 +56,14 @@ export const BUILDINGS_SOURCE = {
   // sourceLayer: 'CAD_BATIMENT_HORSOL_WGS84-ack86c',
 
   id: 'buildingsSource',
-  url: 'mapbox://lamapch.big07zk7',
-  sourceLayer: 'buildings_temp-4p1ekb',
+  url: 'mapbox://lamapch.4ce7bdb0',
+  sourceLayer: 'buildings_temp-8cq2ey',
 }
 
 export const DEFAULT_PAINT = {
   'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': '#006cd5',
+  getItems: () => [],
 }
 
 export const PAINT_BY_TYPE = {
@@ -185,6 +186,21 @@ export const PAINT_BY_TYPE = {
     '#641E16',
   ],
   'fill-opacity': 0.8,
+  getItems: function () {
+    const trimmedColors = this['fill-color'].slice(2).slice(0, -1)
+
+    return trimmedColors
+      .map((item, index) => {
+        if (!(index % 2)) {
+          return {
+            name: item,
+            color: trimmedColors[index + 1],
+          }
+        }
+        return null
+      })
+      .filter(item => item)
+  },
 }
 
 export const PAINT_BY_APARTS_QTY = {
@@ -202,6 +218,17 @@ export const PAINT_BY_APARTS_QTY = {
     ],
   },
   'fill-opacity': 0.8,
+  getItems: function () {
+    return [
+      { name: 'No unit', color: '#D4E6F1' },
+      { name: '1 unit', color: '#85C1E9' },
+      { name: '2-5 units', color: '#5DADE2' },
+      { name: '6-10 units', color: '#2980B9' },
+      { name: '11-20 units', color: '#1F618D' },
+      { name: '21-40 units', color: '#1B4F72' },
+      { name: '41+ units', color: '#0D2A4E' },
+    ]
+  },
 }
 
 export const PAINT_BY_CONSTRUCTION_PERIOD = {
@@ -220,4 +247,16 @@ export const PAINT_BY_CONSTRUCTION_PERIOD = {
     ],
   },
   'fill-opacity': 0.8,
+  getItems: () => {
+    return [
+      { name: 'Not found', color: '#556A84' },
+      { name: '< 1900', color: '#6E2C00' },
+      { name: '1900 - 1940', color: '#A04000' },
+      { name: '1940 - 1960', color: '#D35400' },
+      { name: '1960 - 1980', color: '#E67E22' },
+      { name: '1980 - 2000', color: '#E59866' },
+      { name: '2000 - 2020', color: '#F8C471' },
+      { name: '> 2021', color: '#FAE5D3' },
+    ]
+  },
 }

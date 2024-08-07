@@ -1,7 +1,56 @@
-.mapStyles {
-  li.active {
+@import '../../../styles/variables';
+
+.list {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  li {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+
     img {
-      box-shadow: #3b82f6 0px 2px 5px !important;
+      width: 55px;
+      margin-bottom: 4px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      transition: box-shadow ease 0.3s;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      text-align: center;
+      font-size: 14.5px;
+      color: #344054;
+      transition: color ease 0.3s;
+    }
+
+    &:hover {
+      img {
+        box-shadow: $grey-600 0px 2px 7px;
+      }
+    }
+
+    &.active {
+      img {
+        box-shadow: #3b82f6 0px 2px 7px;
+      }
+
+      span {
+        color: $grey-900;
+      }
     }
   }
 }
