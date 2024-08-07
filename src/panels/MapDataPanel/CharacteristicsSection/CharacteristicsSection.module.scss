@@ -2,7 +2,9 @@
 
 .list {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 5px;
 
   li {
     display: flex;
@@ -11,6 +13,7 @@
     justify-content: flex-start;
     width: 30%;
     cursor: pointer;
+    margin-bottom: 10px;
 
     img {
       width: 75%;

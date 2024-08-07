@@ -16,6 +16,8 @@ const ActiveBuilding = ({ isActive, map }) => {
       layers: ['buildings'],
     })[0]
 
+    console.log(clickedBuildingFeature)
+
     setActiveBuildingId(clickedBuildingFeature?.properties?.EGRID_CENT || '')
   }, [clickEvent])
 

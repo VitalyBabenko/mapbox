@@ -183,13 +183,14 @@ export const PAINT_BY_TYPE = {
     '#FAE5D3',
     'Poste',
     '#FAE5D3',
-    '#641E16',
+    '#556A84',
   ],
   'fill-opacity': 0.8,
   getItems: function () {
     const trimmedColors = this['fill-color'].slice(2).slice(0, -1)
 
-    return trimmedColors
+    const notFoundItem = { name: 'Not found', color: '#556A84' }
+    const result = trimmedColors
       .map((item, index) => {
         if (!(index % 2)) {
           return {
@@ -200,6 +201,8 @@ export const PAINT_BY_TYPE = {
         return null
       })
       .filter(item => item)
+
+    return [notFoundItem, ...result]
   },
 }
 
@@ -258,5 +261,144 @@ export const PAINT_BY_CONSTRUCTION_PERIOD = {
       { name: '2000 - 2020', color: '#F8C471' },
       { name: '> 2021', color: '#FAE5D3' },
     ]
+  },
+}
+
+// FIXME: not working
+export const PAINT_BY_LAST_TRANSACTION = {
+  'fill-outline-color': 'rgba(256,256,256,1)',
+  'fill-color': {
+    property: 'TRNSC_DATE',
+    stops: [
+      [0, '#4A235A'],
+      [1994, '#76448A'],
+      [2001, '#9B59B6'],
+      [2006, '#BB8FCE'],
+      [2011, '#D7BDE2'],
+      [2016, '#E8DAEF'],
+      [2021, '#F5EEF8'],
+    ],
+  },
+  'fill-opacity': 0.8,
+  getItems: () => {
+    return [
+      { name: 'No Transaction', color: '#4A235A' },
+      { name: '1994-2000', color: '#76448A' },
+      { name: '2001-2005', color: '#9B59B6' },
+      { name: '2006-2010', color: '#BB8FCE' },
+      { name: '2011-2015', color: '#D7BDE2' },
+      { name: '2016-2020', color: '#E8DAEF' },
+      { name: '2021-today', color: '#F5EEF8' },
+    ]
+  },
+}
+
+export const PAINT_BY_TRANSACTION_AMOUNT = {
+  'fill-outline-color': 'rgba(256,256,256,1)',
+  'fill-color': {
+    property: 'TRNSC_PRC',
+    stops: [
+      [0, '#556A84'],
+      [1, '#186A3B'],
+      [500000, '#1E8449'],
+      [1000000, '#239B56'],
+      [5000000, '#27AE60'],
+      [10000000, '#27AE60'],
+      [20000000, '#7DCEA0'],
+      [50000000, '#ABEBC6'],
+    ],
+  },
+  'fill-opacity': 0.8,
+  getItems: () => {
+    return [
+      { name: 'No Transaction', color: '#556A84' },
+      { name: 'CHF 0-500k', color: '#186A3B' },
+      { name: 'CHF 501k - 1mio', color: '#1E8449' },
+      { name: 'CHF 1mio - 5mio', color: '#239B56' },
+      { name: 'CHF 5mio - 10mio', color: '#27AE60' },
+      { name: 'CHF 10mio - 20mio', color: '#7DCEA0' },
+      { name: 'CHF 20mio - 50mio', color: '#ABEBC6' },
+      { name: 'CHF 50mio+', color: '#D4EFDF' },
+    ]
+  },
+}
+
+export const PAINT_BY_STATUS = {
+  'fill-outline-color': 'rgba(256,256,256,1)',
+  'fill-color': [
+    'match',
+    ['get', 'TYPOLOGIE'],
+    'Abandonne',
+    '#FD6F38',
+    'Abroge',
+    '#FD5F21',
+    'Accepte',
+    '#FD500C',
+    'Adopte',
+    '#F34602',
+    'Archant',
+    '#E14102',
+    'Archive',
+    '#D03C02',
+    'Caduque',
+    '#BF3702',
+    'CHANTIER',
+    '#B03302',
+    'Decide',
+    '#A22F02',
+    'Ediscan',
+    '#952B02',
+    'Refuse',
+    '#892802',
+    'En Suspens',
+    '#FAD290',
+    'Enregistre',
+    '#F9C877',
+    'Enregistrement',
+    '#F8BF60',
+    'Instruction',
+    '#F7B64A',
+    'Non Assujetti',
+    '#F6AE36',
+    'Ormig',
+    '#F5A623',
+    'Preavis Cm',
+    '#F49E10',
+    'Procedure Ams',
+    '#E7940B',
+    'Recours',
+    '#D78A0A',
+    'Recours Da',
+    '#C88009',
+    'Refus Entree',
+    '#BA7708',
+    'En Cours',
+    '#fcf5cc',
+    'Renvoye',
+    '#f8e784',
+    'Termine',
+    '#F4CF10',
+    'Va',
+    '#E7C30B',
+    '#556A84',
+  ],
+  'fill-opacity': 0.8,
+  getItems: function () {
+    const trimmedColors = this['fill-color'].slice(2).slice(0, -1)
+    const notFoundItem = { name: 'Not found', color: '#556A84' }
+
+    const result = trimmedColors
+      .map((item, index) => {
+        if (index % 2 === 0) {
+          return {
+            name: item,
+            color: trimmedColors[index + 1],
+          }
+        }
+        return null
+      })
+      .filter(item => item !== null)
+
+    return [notFoundItem, ...result]
   },
 }
