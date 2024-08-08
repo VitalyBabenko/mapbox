@@ -15,7 +15,7 @@ const ModeSwitcher = () => {
     switchToCountiesMode,
     switchToPlotsMode,
     switchToBuildingsMode,
-  } = useModeStore(state => state)
+  } = useModeStore()
 
   const handleSwitch = clickedMode => {
     if (clickedMode === switcher) return

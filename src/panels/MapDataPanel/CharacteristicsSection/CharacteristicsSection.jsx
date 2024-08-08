@@ -15,9 +15,9 @@ import paintByPeriodPreview from '../../../assets/images/paintByConstructionPeri
 import paintByTransactionAmountPreview from '../../../assets/images/paintByTransactionAmountPreview.png'
 
 const CharacteristicsSection = () => {
-  const { activePaint, setActivePaint } = usePaintStore(state => state)
+  const { activePaint, setActivePaint } = usePaintStore()
   const { mode, county, switcher, toggleSwitcher, switchToBuildingsMode } =
-    useModeStore(state => state)
+    useModeStore()
 
   const handleChangePaint = clickedPaint => {
     if (mode === 'counties' || switcher === 'plots') {

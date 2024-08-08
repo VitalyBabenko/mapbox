@@ -7,13 +7,9 @@ import { COUNTIES_SOURCE } from '../../constants'
 
 const CountiesMode = ({ isActive }) => {
   const { current: map } = useMap()
-  const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore(
-    state => state,
-  )
-  const { clickEvent } = useEventStore(state => state)
-  const { allCountiesFeatures, setAllCountiesFeatures } = useFilterStore(
-    state => state,
-  )
+  const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
+  const { clickEvent } = useEventStore()
+  const { allCountiesFeatures, setAllCountiesFeatures } = useFilterStore()
 
   useEffect(() => {
     if (!isActive) return

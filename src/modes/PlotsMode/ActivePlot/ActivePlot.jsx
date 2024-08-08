@@ -6,7 +6,7 @@ import { PlotsPanel } from '../../../panels'
 
 const ActivePlot = ({ isActive, map }) => {
   const [activePlotId, setActivePlotId] = useState('')
-  const { clickEvent } = useEventStore(state => state)
+  const { clickEvent } = useEventStore()
 
   useEffect(() => {
     if (!isActive) return

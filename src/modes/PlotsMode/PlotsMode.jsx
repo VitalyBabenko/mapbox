@@ -9,7 +9,7 @@ import FilteredPlots from './FilteredPlots/FilteredPlots'
 
 const PlotsMode = ({ isActive }) => {
   const { current: map } = useMap()
-  const { county } = useModeStore(state => state)
+  const { county } = useModeStore()
 
   const getCountyName = () => {
     if (!county) return ''

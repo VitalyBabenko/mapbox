@@ -32,11 +32,9 @@ const PlotsFilters = () => {
   const [panelError, setPanelError] = useState('')
   const [error, setError] = useState('')
   const [formValues, setFormValues] = useState(null)
-  const { switchToPlotsMode } = useModeStore(state => state)
-  const { allCountiesFeatures, setFilteredPlotsIds } = useFilterStore(
-    state => state,
-  )
-  const toast = useToastStore(state => state)
+  const { switchToPlotsMode } = useModeStore()
+  const { allCountiesFeatures, setFilteredPlotsIds } = useFilterStore()
+  const toast = useToastStore()
 
   const onChangeFormValue = (field, value) => {
     setFormValues(prev => ({ ...prev, [field]: value }))

@@ -4,7 +4,7 @@ import { IoClose as CrossIcon } from 'react-icons/io5'
 import { BiCheck as CheckIcon } from 'react-icons/bi'
 
 const Toast = () => {
-  const toast = useToastStore(state => state)
+  const toast = useToastStore()
   const toastClassName = `${style.toast} ${toast.open ? '' : style.hidden}`
 
   return (

@@ -9,7 +9,7 @@ import BuildingsFilters from './BuildingsFilters/BuildingsFilters'
 const FiltersPanel = () => {
   const [open, setOpen] = useState(false)
   const toggleOpen = () => setOpen(!open)
-  const { switcher } = useModeStore(state => state)
+  const { switcher } = useModeStore()
 
   if (!open) {
     return (

@@ -4,10 +4,11 @@ import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 import { useModeStore, usePaintStore } from '../../store'
 import HoverBuilding from './HoverBuilding/HoverBuilding'
 import ActiveBuilding from './ActiveBuilding/ActiveBuilding'
+import FilteredBuildings from './FilteredBuildings/FilteredBuildings'
 
 const BuildingsMode = ({ isActive }) => {
   const { current: map } = useMap()
-  const { county } = useModeStore(state => state)
+  const { county } = useModeStore()
   const { activePaint } = usePaintStore()
 
   const getCountyName = () => {
@@ -35,6 +36,7 @@ const BuildingsMode = ({ isActive }) => {
       />
       <HoverBuilding isActive={isActive} map={map} />
       <ActiveBuilding isActive={isActive} map={map} />
+      <FilteredBuildings />
     </Source>
   )
 }

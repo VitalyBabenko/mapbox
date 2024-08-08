@@ -3,7 +3,7 @@ import { useFilterStore } from '../../../store'
 import { PLOTS_SOURCE } from '../../../constants'
 
 const FilteredPlots = ({ isActive }) => {
-  const { filteredPlotsIds } = useFilterStore(state => state)
+  const { filteredPlotsIds } = useFilterStore()
 
   const filter = ['in', 'EGRID', ...filteredPlotsIds]
 

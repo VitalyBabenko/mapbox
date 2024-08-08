@@ -3,7 +3,7 @@ import { usePaintStore } from '../../store'
 import { DEFAULT_PAINT } from '../../constants'
 
 const ScalePanel = () => {
-  const { activePaint } = usePaintStore(state => state)
+  const { activePaint } = usePaintStore()
   const isOpen = activePaint !== DEFAULT_PAINT
 
   if (activePaint === DEFAULT_PAINT) return null

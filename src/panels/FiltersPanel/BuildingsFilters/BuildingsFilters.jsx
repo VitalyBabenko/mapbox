@@ -15,7 +15,7 @@ import TypeaheadFilter from '../../../components/Filters/TypeaheadFilter/Typeahe
 import Checkbox from '../../../components/Checkbox/Checkbox.jsx'
 import { getCountyFeatureByName } from '../../../utils/getCountyFeatureByName.js'
 import { buildingService } from '../../../service/buildingService.js'
-import { useFilterStore, useModeStore } from '../../../store'
+import { useFilterStore, useModeStore, useToastStore } from '../../../store'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.jsx'
 import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue.js'
 import { useMap } from 'react-map-gl'
@@ -34,10 +34,9 @@ const BuildingsFilters = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [panelError, setPanelError] = useState('')
-  const { switchToBuildingsMode } = useModeStore(state => state)
-  const { allCountiesFeatures, setFilteredBuildingsIds } = useFilterStore(
-    state => state,
-  )
+  const { switchToBuildingsMode } = useModeStore()
+  const { allCountiesFeatures, setFilteredBuildingsIds } = useFilterStore()
+  const toast = useToastStore()
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -135,8 +134,17 @@ const BuildingsFilters = () => {
       return prev
     }, {})
 
-    const newFilters = await buildingService.setFilters(formattedFilters)
-    setFilteredBuildingsIds(newFilters)
+    const filtersResult = await buildingService.setFilters(formattedFilters)
+    if (filtersResult?.error?.message) {
+      toast.error("Une erreur s'est produite, réessayez plus tard")
+      return
+    }
+    if (!filtersResult?.length) {
+      toast.text('Aucun bâtiment trouvé')
+      return
+    }
+    setFilteredBuildingsIds(filtersResult)
+    toast.success(`${filtersResult?.length} bâtiments trouvés`)
   }
 
   const onChangeFormValue = (field, value) => {

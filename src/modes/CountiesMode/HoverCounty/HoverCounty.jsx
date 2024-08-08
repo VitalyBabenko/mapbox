@@ -6,7 +6,7 @@ import style from './HoverCounty.module.scss'
 import { COUNTIES_SOURCE } from '../../../constants'
 
 const HoverCounty = ({ isActive, map }) => {
-  const { hoverEvent } = useEventStore(state => state)
+  const { hoverEvent } = useEventStore()
   const [hoverCounty, setHoverCounty] = useState({ id: '', name: '' })
 
   const filterForHoverCounty = useMemo(

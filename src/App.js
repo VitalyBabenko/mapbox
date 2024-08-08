@@ -21,11 +21,9 @@ function App() {
   const mapRef = useRef(null)
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
-  const { mode } = useModeStore(state => state)
-  const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore(
-    state => state,
-  )
-  const { setClickEvent, setHoverEvent } = useEventStore(state => state)
+  const { mode } = useModeStore()
+  const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
+  const { setClickEvent, setHoverEvent } = useEventStore()
 
   const onMouseEnter = useCallback(() => setCursor('pointer'), [])
   const onMouseLeave = useCallback(() => setCursor(null), [])

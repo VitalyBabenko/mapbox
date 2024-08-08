@@ -6,7 +6,7 @@ import { BuildingsPanel } from '../../../panels'
 
 const ActiveBuilding = ({ isActive, map }) => {
   const [ActiveBuildingId, setActiveBuildingId] = useState('')
-  const { clickEvent } = useEventStore(state => state)
+  const { clickEvent } = useEventStore()
 
   useEffect(() => {
     if (!isActive) return
@@ -15,8 +15,6 @@ const ActiveBuilding = ({ isActive, map }) => {
     const clickedBuildingFeature = map.queryRenderedFeatures(clickEvent.point, {
       layers: ['buildings'],
     })[0]
-
-    console.log(clickedBuildingFeature)
 
     setActiveBuildingId(clickedBuildingFeature?.properties?.EGRID_CENT || '')
   }, [clickEvent])

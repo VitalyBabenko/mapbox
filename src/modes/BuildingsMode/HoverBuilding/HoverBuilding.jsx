@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useEventStore } from '../../../store'
 
 const HoverBuilding = ({ isActive, map }) => {
-  const { hoverEvent } = useEventStore(state => state)
+  const { hoverEvent } = useEventStore()
   const [hoverBuildingId, setHoverBuildingId] = useState(0)
 
   useEffect(() => {

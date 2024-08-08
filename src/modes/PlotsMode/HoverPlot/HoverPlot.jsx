@@ -4,7 +4,7 @@ import { useEventStore } from '../../../store'
 import { PLOTS_SOURCE } from '../../../constants'
 
 const HoverPlot = ({ isActive, map }) => {
-  const { hoverEvent } = useEventStore(state => state)
+  const { hoverEvent } = useEventStore()
   const [hoverPlotId, setHoverPlotId] = useState('')
 
   useEffect(() => {
