@@ -2,14 +2,13 @@ import { Layer, Source, useMap } from 'react-map-gl'
 import { memo, useEffect } from 'react'
 import HoverCounty from './HoverCounty/HoverCounty'
 import bbox from '@turf/bbox'
-import { useEventStore, useFilterStore, useModeStore } from '../../store'
+import { useEventStore, useModeStore } from '../../store'
 import { COUNTIES_SOURCE } from '../../constants'
 
 const CountiesMode = ({ isActive }) => {
   const { current: map } = useMap()
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
   const { clickEvent } = useEventStore()
-  const { allCountiesFeatures, setAllCountiesFeatures } = useFilterStore()
 
   useEffect(() => {
     if (!isActive) return

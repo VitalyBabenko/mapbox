@@ -36,7 +36,7 @@ const BuildingsMode = ({ isActive }) => {
       />
       <HoverBuilding isActive={isActive} map={map} />
       <ActiveBuilding isActive={isActive} map={map} />
-      <FilteredBuildings />
+      <FilteredBuildings isActive={isActive} />
     </Source>
   )
 }

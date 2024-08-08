@@ -9,6 +9,8 @@ export const buildingService = {
 
       const info = resp.data.data
 
+      if (info.length === 0) throw new Error('error')
+
       info.getOwners = function () {
         if (!this?.plot?.ownership_info) return null
         return this.plot?.ownership_info.map(item => item?.owner_info)
