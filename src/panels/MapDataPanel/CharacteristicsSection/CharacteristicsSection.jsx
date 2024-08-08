@@ -13,6 +13,7 @@ import paintByTypePreview from '../../../assets/images/paintByTypePreview.png'
 import paintByApartsPreview from '../../../assets/images/paintByApartsPreview.png'
 import paintByPeriodPreview from '../../../assets/images/paintByConstructionPeriodPreview.png'
 import paintByTransactionAmountPreview from '../../../assets/images/paintByTransactionAmountPreview.png'
+import paintByStatusPreview from '../../../assets/images/paintByStatusPreview.png'
 
 const CharacteristicsSection = () => {
   const { activePaint, setActivePaint } = usePaintStore()
@@ -20,7 +21,7 @@ const CharacteristicsSection = () => {
     useModeStore()
 
   const handleChangePaint = clickedPaint => {
-    if (mode === 'counties' || switcher === 'plots') {
+    if (mode === 'counties' && switcher === 'plots') {
       toggleSwitcher('buildings')
     }
 
@@ -38,7 +39,15 @@ const CharacteristicsSection = () => {
 
   return (
     <>
-      <h3>Characteristics</h3>
+      <div className={style.heading}>
+        <h3>Characteristics</h3>
+        {activePaint !== DEFAULT_PAINT && (
+          <button onClick={() => handleChangePaint(DEFAULT_PAINT)}>
+            Reset
+          </button>
+        )}
+      </div>
+
       <ul className={style.list}>
         <li
           onClick={() => handleChangePaint(PAINT_BY_TYPE)}
@@ -91,7 +100,7 @@ const CharacteristicsSection = () => {
           onClick={() => handleChangePaint(PAINT_BY_STATUS)}
           className={activePaint === PAINT_BY_STATUS ? style.active : ''}
         >
-          <img src={paintByPeriodPreview} alt='preview' />
+          <img src={paintByStatusPreview} alt='preview' />
           <span>Mise à l'Enquête</span>
         </li>
       </ul>

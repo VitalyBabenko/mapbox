@@ -18,7 +18,7 @@ const ActiveBuilding = ({ isActive, map }) => {
 
     console.log(clickedBuildingFeature)
 
-    setActiveBuildingId(clickedBuildingFeature?.properties?.EGRID_CENT)
+    setActiveBuildingId(clickedBuildingFeature?.properties?.EGRID_CENT || '')
   }, [clickEvent])
 
   const filterForActiveBuilding = ['in', 'EGID', ActiveBuildingId]
