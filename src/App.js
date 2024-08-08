@@ -15,6 +15,7 @@ import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
 import Loader from './components/Loader/Loader.jsx'
 import { FiltersPanel, MapDataPanel } from './panels/index.js'
 import { useFilterStore } from './store'
+import Toast from './components/Toast/Toast.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -97,6 +98,7 @@ function App() {
       <MapDataPanel mapRef={mapRef} />
       <FullscreenControl position='top-right' />
       <NavigationControl />
+      <Toast />
     </Map>
   )
 }

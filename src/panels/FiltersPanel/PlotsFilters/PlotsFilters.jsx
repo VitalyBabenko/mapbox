@@ -14,7 +14,7 @@ import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue'
 import DateFilter from '../../../components/Filters/DateFilter/DateFilter'
 import { getCountyFeatureByName } from '../../../utils/getCountyFeatureByName'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
-import { useModeStore } from '../../../store'
+import { useModeStore, useToastStore } from '../../../store'
 import { useFilterStore } from '../../../store'
 import bbox from '@turf/bbox'
 import { useMap } from 'react-map-gl'
@@ -36,6 +36,7 @@ const PlotsFilters = () => {
   const { allCountiesFeatures, setFilteredPlotsIds } = useFilterStore(
     state => state,
   )
+  const toast = useToastStore(state => state)
 
   const onChangeFormValue = (field, value) => {
     setFormValues(prev => ({ ...prev, [field]: value }))
@@ -119,8 +120,18 @@ const PlotsFilters = () => {
       return prev
     }, {})
 
-    const newFilters = await plotService.setFilters(formattedFilters)
-    setFilteredPlotsIds(newFilters)
+    const filtersResult = await plotService.setFilters(formattedFilters)
+
+    if (filtersResult?.error?.message) {
+      toast.error("Une erreur s'est produite, réessayez plus tard")
+      return
+    }
+    if (!filtersResult?.length) {
+      toast.text('Aucune parcelle trouvée')
+      return
+    }
+    setFilteredPlotsIds(filtersResult)
+    toast.success(`${filtersResult?.length} parcelles trouvées`)
   }
 
   useEffect(() => {
