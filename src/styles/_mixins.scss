@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 @mixin button-mapbox {
   padding: 4px 16px;
@@ -10,6 +10,11 @@
   cursor: pointer;
   border: none;
   outline: none;
+  transition: background-color 0.15s ease-in;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
 }
 
 @mixin button-primary {
@@ -50,6 +55,25 @@
   line-height: 30.6px;
   margin-bottom: 6px;
   color: $grey-700;
+}
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.5);
+  }
 }
 
 @mixin divider {

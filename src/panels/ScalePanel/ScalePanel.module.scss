@@ -1,0 +1,48 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.panel {
+  position: absolute;
+  top: 10px;
+  right: 401px;
+  width: 250px;
+  height: fit-content;
+  max-height: 500px;
+  background: #f9fafbcf;
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  z-index: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+  backdrop-filter: blur(4px);
+  @include custom-scrollbar;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      p {
+        max-width: 168px;
+      }
+
+      span {
+        width: 40px;
+        height: 20px;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

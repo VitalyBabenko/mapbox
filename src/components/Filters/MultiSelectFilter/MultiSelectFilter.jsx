@@ -1,7 +1,5 @@
-import React from "react";
-
 const MultiSelectFilter = () => {
-  return <div>MultiSelectFilter</div>;
-};
+  return <div>MultiSelectFilter</div>
+}
 
-export default MultiSelectFilter;
+export default MultiSelectFilter
