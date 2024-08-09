@@ -48,13 +48,15 @@ const HoverBuilding = ({ isActive, map }) => {
           : 'No units'
 
       case PAINT_BY_CONSTRUCTION_PERIOD:
-        return hoverBuilding?.EP_CONSTR || 'No date'
+        return hoverBuilding?.EP_CONSTR || 'Not found'
 
       case PAINT_BY_LAST_TRANSACTION:
-        return hoverBuilding?.TRNSC_DATE || 'No transaction'
+        return hoverBuilding?.TRNSC_DATE
+          ? `Last transaction: ${hoverBuilding?.TRNSC_DATE}`
+          : 'No transaction'
 
       case PAINT_BY_TRANSACTION_AMOUNT:
-        return hoverBuilding?.TRNSC_PRC
+        return hoverBuilding?.TRNSC_PRC > 0
           ? `CHF ${hoverBuilding?.TRNSC_PRC.toString().replace(
               /\B(?=(\d{3})+(?!\d))/g,
               "'",

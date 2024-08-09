@@ -14,6 +14,7 @@ import paintByApartsPreview from '../../../assets/images/paintByApartsPreview.pn
 import paintByPeriodPreview from '../../../assets/images/paintByConstructionPeriodPreview.png'
 import paintByTransactionAmountPreview from '../../../assets/images/paintByTransactionAmountPreview.png'
 import paintByStatusPreview from '../../../assets/images/paintByStatusPreview.png'
+import paintByLastTransactionPreview from '../../../assets/images/paintByLastTransactionPreview.png'
 
 const CharacteristicsSection = () => {
   const { activePaint, setActivePaint } = usePaintStore()
@@ -23,7 +24,6 @@ const CharacteristicsSection = () => {
     switcher,
     toggleSwitcher,
     switchToBuildingsMode,
-    switchToZonesMode,
     switchToCountiesMode,
   } = useModeStore()
 
@@ -100,7 +100,7 @@ const CharacteristicsSection = () => {
             activePaint === PAINT_BY_LAST_TRANSACTION ? style.active : ''
           }
         >
-          <img alt='preview' />
+          <img src={paintByLastTransactionPreview} alt='preview' />
           <span>Last transaction</span>
         </li>
 

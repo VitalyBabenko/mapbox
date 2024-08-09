@@ -56,8 +56,8 @@ export const BUILDINGS_SOURCE = {
   // sourceLayer: 'CAD_BATIMENT_HORSOL_WGS84-ack86c',
 
   id: 'buildingsSource',
-  url: 'mapbox://lamapch.4ce7bdb0',
-  sourceLayer: 'buildings_temp-8cq2ey',
+  url: 'mapbox://lamapch.469rm1o0',
+  sourceLayer: 'buildings_temp-arj1ps',
 }
 
 export const ZONES_SOURCE = {
@@ -245,7 +245,7 @@ export const PAINT_BY_CONSTRUCTION_PERIOD = {
   'fill-color': {
     property: 'EP_CONSTR',
     stops: [
-      [0, '#D4E6F1'],
+      [0, '#556A84'],
       [1900, '#6E2C00'],
       [1940, '#A04000'],
       [1960, '#D35400'],
@@ -273,10 +273,24 @@ export const PAINT_BY_CONSTRUCTION_PERIOD = {
 // FIXME: not working
 export const PAINT_BY_LAST_TRANSACTION = {
   'fill-outline-color': 'rgba(256,256,256,1)',
+  // 'fill-color': {
+  //   property: 'TRNSC_DATE',
+  //   stops: [
+  //     [0, '#4A235A'],
+  //     [1994, '#76448A'],
+  //     [2001, '#9B59B6'],
+  //     [2006, '#BB8FCE'],
+  //     [2011, '#D7BDE2'],
+  //     [2016, '#E8DAEF'],
+  //     [2021, '#F5EEF8'],
+  //   ],
+  // },
+  // 'fill-opacity': 0.8,
+
   'fill-color': {
     property: 'TRNSC_DATE',
+    default: '#4A235A',
     stops: [
-      [0, '#4A235A'],
       [1994, '#76448A'],
       [2001, '#9B59B6'],
       [2006, '#BB8FCE'],
@@ -303,6 +317,7 @@ export const PAINT_BY_TRANSACTION_AMOUNT = {
   'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': {
     property: 'TRNSC_PRC',
+    default: '#556A84',
     stops: [
       [0, '#556A84'],
       [1, '#186A3B'],

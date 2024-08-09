@@ -1,6 +1,6 @@
 import { useZoneStore } from '../../../store'
 import style from './ZoneSection.module.scss'
-import paintByStatusPreview from '../../../assets/images/paintByStatusPreview.png'
+import paintByZonesPreview from '../../../assets/images/paintByZonesPreview.png'
 import RangeSlider from 'react-range-slider-input'
 import 'react-range-slider-input/dist/style.css'
 import Checkbox from '../../../components/Checkbox/Checkbox'
@@ -30,7 +30,7 @@ const ZonesSection = () => {
           onClick={() => toggleActive()}
           className={isActive ? style.active : ''}
         >
-          <img src={paintByStatusPreview} alt='preview' />
+          <img src={paintByZonesPreview} alt='preview' />
           <span>Zones</span>
         </li>
 
