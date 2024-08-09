@@ -24,8 +24,6 @@ const HoverBuilding = ({ isActive, map }) => {
       layers: ['buildings'],
     })[0]
 
-    // console.log(feature)
-
     if (!feature) {
       setHoverBuilding(null)
       return
@@ -33,8 +31,6 @@ const HoverBuilding = ({ isActive, map }) => {
 
     setHoverBuilding(feature?.properties)
   }, [hoverEvent])
-
-  console.log(hoverBuilding?.STATUT_DA)
 
   const filterForHoverBuilding = useMemo(
     () => ['in', 'EGID', hoverBuilding?.EGID],

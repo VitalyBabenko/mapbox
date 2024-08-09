@@ -60,6 +60,12 @@ export const BUILDINGS_SOURCE = {
   sourceLayer: 'buildings_temp-8cq2ey',
 }
 
+export const ZONES_SOURCE = {
+  id: 'zonesSource',
+  url: 'mapbox://lamapch.3odldfkm',
+  sourceLayer: 'SIT_ZONE_AMENAG_WGS84-9ut6z9',
+}
+
 export const DEFAULT_PAINT = {
   'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': '#006cd5',
@@ -402,6 +408,87 @@ export const PAINT_BY_STATUS = {
       })
       .filter(item => item !== null)
 
+    return [notFoundItem, ...result]
+  },
+}
+
+export const PAINT_BY_ZONE = {
+  'fill-color': [
+    'match',
+    ['get', 'NOM_ZONE'],
+    'Zone 1',
+    '#922B21',
+    'Zone 2',
+    '#F1948A',
+    'Zone 3',
+    '#F0B27A',
+    'Zone 4A',
+    '#AF601A',
+    'Zone 4B',
+    '#f6b855',
+    'Zone 4B protégée',
+    '#FAD7A0',
+    'Zone 5',
+    '#fbe69c',
+    'Zone aéroportuaire',
+    '#F5EEF8',
+    "Zone affectée à de l'équipement public",
+    '#ABB2B9',
+    'Zone agricole',
+    '#D4EFDF',
+    'Zone de développement 2',
+    '#F5B7B1',
+    'Zone de développement 3',
+    '#f4c69d',
+    'Zone de développement 4A',
+    '#d1731f',
+    'Zone de développement 4A protégée',
+    '#e18736',
+    'Zone de développement 4B',
+    '#f9cf8d',
+    'Zone de développement 4B protégée',
+    '#fce7c5',
+    'Zone de développement 5',
+    '#FEF9E7',
+    "Zone de développement d'activités mixtes",
+    '#8E44AD',
+    'Zone de développement industriel et artisanal',
+    '#D2B4DE',
+    'Zone de hameaux',
+    '#2C3E50',
+    'Zone de jardins familiaux',
+    '#A3E4D7',
+    'Zone de protection de la nature et du paysage',
+    '#D35400',
+    'Zone de verdure',
+    '#76ec8b',
+    'Zone des bois et forêts',
+    '#196F3D',
+    'Zone des eaux et des rives',
+    '#7FB3D5',
+    'Zone ferroviaire',
+    '#BFC9CA',
+    'Zone industrielle et artisanale',
+    '#ebddf0',
+    'Zone sportive',
+    '#c0dff4',
+    '#556A84',
+  ],
+  getItems: function () {
+    const trimmedColors = this['fill-color'].slice(2).slice(0, -1)
+    const notFoundItem = { name: 'Not found', color: '#556A84' }
+
+    const result = trimmedColors
+      .map((item, index) => {
+        if (index % 2 === 0) {
+          return {
+            name: item,
+            color: trimmedColors[index + 1],
+          }
+        }
+        return null
+      })
+      .filter(item => item !== null)
     return [notFoundItem, ...result]
   },
 }

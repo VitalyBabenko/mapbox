@@ -14,8 +14,9 @@ import PlotsMode from './modes/PlotsMode/PlotsMode.jsx'
 import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
 import Loader from './components/Loader/Loader.jsx'
 import { FiltersPanel, MapDataPanel } from './panels/index.js'
-import { useFilterStore } from './store'
+import { useFilterStore, useZoneStore } from './store'
 import Toast from './components/Toast/Toast.jsx'
+import ZonesMode from './modes/ZonesMode/ZonesMode.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -24,6 +25,7 @@ function App() {
   const { mode } = useModeStore()
   const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
   const { setClickEvent, setHoverEvent } = useEventStore()
+  const { isTipsActive } = useZoneStore()
 
   const onMouseEnter = useCallback(() => setCursor('pointer'), [])
   const onMouseLeave = useCallback(() => setCursor(null), [])
@@ -85,9 +87,10 @@ function App() {
         <Loader withBackground />
       ) : (
         <>
-          <CountiesMode isActive={mode === MODES.COUNTIES} />
-          <PlotsMode isActive={mode === MODES.PLOTS} />
-          <BuildingsMode isActive={mode === MODES.BUILDINGS} />
+          <CountiesMode isActive={mode === MODES.COUNTIES && !isTipsActive} />
+          <PlotsMode isActive={mode === MODES.PLOTS && !isTipsActive} />
+          <BuildingsMode isActive={mode === MODES.BUILDINGS && !isTipsActive} />
+          <ZonesMode />
         </>
       )}
 

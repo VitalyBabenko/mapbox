@@ -21,12 +21,16 @@
   ul {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 
     li {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      p {
+        max-width: 168px;
+      }
 
       span {
         width: 40px;

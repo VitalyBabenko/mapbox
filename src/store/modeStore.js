@@ -4,7 +4,6 @@ import { MODES } from '../constants'
 export const useModeStore = create(set => ({
   county: null,
   mode: MODES.COUNTIES,
-
   switcher: MODES.PLOTS,
   toggleSwitcher: () =>
     set(state => ({

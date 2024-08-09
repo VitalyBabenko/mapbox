@@ -17,8 +17,15 @@ import paintByStatusPreview from '../../../assets/images/paintByStatusPreview.pn
 
 const CharacteristicsSection = () => {
   const { activePaint, setActivePaint } = usePaintStore()
-  const { mode, county, switcher, toggleSwitcher, switchToBuildingsMode } =
-    useModeStore()
+  const {
+    mode,
+    county,
+    switcher,
+    toggleSwitcher,
+    switchToBuildingsMode,
+    switchToZonesMode,
+    switchToCountiesMode,
+  } = useModeStore()
 
   const handleChangePaint = clickedPaint => {
     if (mode === 'counties' && switcher === 'plots') {
@@ -37,14 +44,25 @@ const CharacteristicsSection = () => {
     setActivePaint(clickedPaint)
   }
 
+  const handleResetClick = () => {
+    if (mode === 'zones') {
+      switchToCountiesMode()
+      return
+    }
+
+    handleChangePaint(DEFAULT_PAINT)
+  }
+
   return (
     <>
       <div className={style.heading}>
         <h3>Characteristics</h3>
-        {activePaint !== DEFAULT_PAINT && (
-          <button onClick={() => handleChangePaint(DEFAULT_PAINT)}>
-            Reset
-          </button>
+        {activePaint !== DEFAULT_PAINT && mode !== 'zones' && (
+          <button onClick={handleResetClick}>Reset</button>
+        )}
+
+        {mode === 'zones' && (
+          <button onClick={() => switchToCountiesMode()}>Reset</button>
         )}
       </div>
 

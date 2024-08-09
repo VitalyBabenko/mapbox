@@ -6,6 +6,7 @@ import { useState } from 'react'
 import BasemapSection from './BasemapSection/BasemapSection'
 import CharacteristicsSection from './CharacteristicsSection/CharacteristicsSection'
 import ScalePanel from '../ScalePanel/ScalePanel'
+import ZonesSection from './ZonesSection/ZonesSection'
 
 const MapDataPanel = ({ mapRef }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
@@ -36,6 +37,7 @@ const MapDataPanel = ({ mapRef }) => {
 
         <BasemapSection />
         <CharacteristicsSection />
+        <ZonesSection />
       </div>
       <ScalePanel />
     </>

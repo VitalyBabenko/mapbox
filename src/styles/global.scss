@@ -159,6 +159,13 @@ body {
   }
 }
 
+.single-thumb .range-slider__thumb[data-lower='true'] {
+  width: 0 !important;
+}
+.single-thumb .range-slider__range {
+  border-radius: 6px !important;
+}
+
 .hover-popup {
   font-size: 13px;
   font-weight: 500;

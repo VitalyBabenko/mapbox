@@ -1,17 +1,21 @@
 import style from './ScalePanel.module.scss'
-import { usePaintStore } from '../../store'
-import { DEFAULT_PAINT } from '../../constants'
+import { usePaintStore, useZoneStore } from '../../store'
+import { DEFAULT_PAINT, PAINT_BY_ZONE } from '../../constants'
 
 const ScalePanel = () => {
   const { activePaint } = usePaintStore()
-  const isOpen = activePaint !== DEFAULT_PAINT
+  const { isScaleActive, isActive: isZoneActive } = useZoneStore()
+  const isOpen =
+    activePaint !== DEFAULT_PAINT || (isScaleActive && isZoneActive)
 
-  if (activePaint === DEFAULT_PAINT) return null
-  if (!activePaint.getItems().length) return null
+  const items = isScaleActive
+    ? PAINT_BY_ZONE.getItems()
+    : activePaint.getItems()
+
   return (
     <div className={isOpen ? style.panel : style.hidden}>
       <ul>
-        {activePaint.getItems().map(item => (
+        {items.map(item => (
           <li key={item.name}>
             <p>{item.name}</p>
             <span style={{ backgroundColor: item.color }} />
