@@ -25,7 +25,7 @@ function App() {
   const { mode } = useModeStore()
   const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
   const { setClickEvent, setHoverEvent } = useEventStore()
-  const { isTipsActive } = useZoneStore()
+  const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
 
   const onMouseEnter = useCallback(() => setCursor('pointer'), [])
   const onMouseLeave = useCallback(() => setCursor(null), [])
@@ -63,6 +63,12 @@ function App() {
     setAllCountiesFeatures(result)
   }
 
+  const getIsModeActive = currentMode => {
+    if (isMapLoading) return false
+    if (isZonesPrimary && isZonesActive) return false
+    return mode === currentMode
+  }
+
   return (
     <Map
       ref={mapRef}
@@ -74,7 +80,6 @@ function App() {
       onSourceData={onSourceDataLoad}
       cursor={cursor}
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      interactiveLayerIds={['counties', 'plots', 'buildings']}
       mapStyle={MAP_STYLES[0].url}
       attributionControl={false}
       initialViewState={{
@@ -83,20 +88,16 @@ function App() {
         zoom: INITIAL_VIEW.ZOOM,
       }}
     >
-      {isMapLoading ? (
-        <Loader withBackground />
-      ) : (
-        <>
-          <CountiesMode isActive={mode === MODES.COUNTIES && !isTipsActive} />
-          <PlotsMode isActive={mode === MODES.PLOTS && !isTipsActive} />
-          <BuildingsMode isActive={mode === MODES.BUILDINGS && !isTipsActive} />
-          <ZonesMode />
-        </>
-      )}
+      {isMapLoading && <Loader withBackground />}
+
+      <CountiesMode isActive={getIsModeActive(MODES.COUNTIES)} />
+      <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
+      <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
+      <ZonesMode />
 
       <ModeSwitcher />
       <FiltersPanel />
-      <MapDataPanel mapRef={mapRef} />
+      <MapDataPanel />
       <FullscreenControl position='top-right' />
       <NavigationControl />
       <Toast />

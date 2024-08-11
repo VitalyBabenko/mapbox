@@ -3,18 +3,16 @@ import style from './ZoneSection.module.scss'
 import paintByZonesPreview from '../../../assets/images/paintByZonesPreview.png'
 import RangeSlider from 'react-range-slider-input'
 import 'react-range-slider-input/dist/style.css'
-import Checkbox from '../../../components/Checkbox/Checkbox'
 
 const ZonesSection = () => {
   const {
     isActive,
     toggleActive,
+    resetZones,
     zoneOpacity,
     setZoneOpacity,
-    isTipsActive,
-    toggleTipsActive,
-    isScaleActive,
-    toggleScaleActive,
+    isPrimary,
+    togglePrimary,
   } = useZoneStore()
 
   return (
@@ -22,7 +20,7 @@ const ZonesSection = () => {
       <div className={style.heading}>
         <h3>Zone</h3>
 
-        {isActive && <button onClick={() => toggleActive()}>Reset</button>}
+        {isActive && <button onClick={() => resetZones()}>Reset</button>}
       </div>
 
       <ul className={style.list}>
@@ -36,17 +34,22 @@ const ZonesSection = () => {
 
         {isActive && (
           <div className={style.options}>
-            <div className={style.checkboxes}>
-              <Checkbox
-                label='Tips'
-                checked={isTipsActive}
-                onChange={() => toggleTipsActive()}
-              />
-              <Checkbox
-                label='Scale'
-                checked={isScaleActive}
-                onChange={() => toggleScaleActive()}
-              />
+            <div className={style.switcher}>
+              <button
+                onClick={() => togglePrimary(true)}
+                className={isPrimary ? style.active : ''}
+              >
+                Primary
+              </button>
+
+              <button
+                onClick={() => togglePrimary(false)}
+                className={!isPrimary ? style.active : ''}
+              >
+                Background
+              </button>
+
+              <span className={isPrimary ? style.left : style.right}></span>
             </div>
 
             <p>Opacity: {zoneOpacity[1]}%</p>

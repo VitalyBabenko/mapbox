@@ -42,7 +42,7 @@
     margin-bottom: 10px;
 
     img {
-      width: 75%;
+      width: 80%;
       border: 1px solid #cfcece;
       border-radius: 6px;
       margin-bottom: 7px;
@@ -80,28 +80,33 @@
   }
 
   .options {
-    margin: 4px 0 10px 0;
+    margin-bottom: 10px;
     width: calc(70% - 5px);
+    position: relative;
 
-    .checkboxes {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 10px;
+    .switcher {
+      @include switcher;
+      border-radius: 5px;
+      padding: 2.4px;
+      height: 29px;
+      gap: 8px;
+      margin-bottom: 8px;
 
-      label {
-        display: flex;
-        align-items: center;
-        gap: 7px;
+      button {
+        border-radius: 5px;
+        width: calc(50% - 2px);
+        height: 24px;
+        font-size: 14px !important;
+      }
 
-        p {
-          font-size: 14px;
-          font-weight: 400;
-          color: $grey-600;
-        }
+      span {
+        border-radius: 5px;
+        width: calc(50% - 2px);
+        height: 24px;
       }
     }
 
-    .checkboxes + p {
+    .switcher + p {
       display: block;
       font-size: 14px;
       font-weight: 400;
@@ -110,7 +115,7 @@
     }
 
     .range {
-      background: red;
+      margin-bottom: 10px;
     }
   }
 }

@@ -33,7 +33,7 @@ const HoverBuilding = ({ isActive, map }) => {
   }, [hoverEvent])
 
   const filterForHoverBuilding = useMemo(
-    () => ['in', 'EGID', hoverBuilding?.EGID],
+    () => ['in', 'EGID', hoverBuilding?.EGID || ''],
     [isActive, hoverBuilding],
   )
 
