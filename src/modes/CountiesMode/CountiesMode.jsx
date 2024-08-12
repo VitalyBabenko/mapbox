@@ -43,7 +43,7 @@ const CountiesMode = ({ isActive }) => {
         source-layer={COUNTIES_SOURCE.sourceLayer}
         paint={{
           'fill-outline-color': 'rgba(256,256,256,1)',
-          'fill-color': '#006cd5',
+          'fill-color': '#024eaa',
           'fill-opacity': 0.4,
         }}
         beforeId='poi-label'

@@ -93,7 +93,6 @@ const CharacteristicsSection = () => {
           <span>Année de construction</span>
         </li>
 
-        {/* FIXME: not working */}
         <li
           onClick={() => handleChangePaint(PAINT_BY_LAST_TRANSACTION)}
           className={
@@ -121,6 +120,14 @@ const CharacteristicsSection = () => {
           <img src={paintByStatusPreview} alt='preview' />
           <span>Mise à l'Enquête</span>
         </li>
+
+        {/* <li
+          onClick={() => handleChangePaint(PAINT_BY_STATUS)}
+          className={activePaint === PAINT_BY_STATUS ? style.active : ''}
+        >
+          <img src={paintByStatusPreview} alt='preview' />
+          <span>Mise à l'Enquête</span>
+        </li> */}
       </ul>
     </>
   )

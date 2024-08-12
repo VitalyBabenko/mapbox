@@ -84,7 +84,7 @@ const HoverBuilding = ({ isActive, map }) => {
         source={BUILDINGS_SOURCE.id}
         source-layer={BUILDINGS_SOURCE.sourceLayer}
         paint={{
-          'fill-color': '#006cd5',
+          'fill-color': '#80b4f6',
           'fill-opacity': 0.6,
         }}
         filter={filterForHoverBuilding}
