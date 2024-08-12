@@ -7,6 +7,7 @@ import BasemapSection from './BasemapSection/BasemapSection'
 import CharacteristicsSection from './CharacteristicsSection/CharacteristicsSection'
 import ScalePanel from '../ScalePanel/ScalePanel'
 import ZonesSection from './ZonesSection/ZonesSection'
+import ProtectedSection from './ProtectedSection/ProtectedSection'
 
 const MapDataPanel = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
@@ -37,6 +38,7 @@ const MapDataPanel = () => {
 
         <BasemapSection />
         <CharacteristicsSection />
+        <ProtectedSection />
         <ZonesSection />
       </div>
       <ScalePanel />

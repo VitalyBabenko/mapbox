@@ -36,6 +36,7 @@ export const MODES = {
   COUNTIES: 'counties',
   BUILDINGS: 'buildings',
   PLOTS: 'plots',
+  PROTECTED: 'protected',
 }
 
 export const COUNTIES_SOURCE = {
@@ -66,10 +67,10 @@ export const ZONES_SOURCE = {
   sourceLayer: 'SIT_ZONE_AMENAG_WGS84-9ut6z9',
 }
 
-export const PROTECT_BUILDINGS_SOURCE = {
-  id: 'protectBuildingsSource',
-  url: 'mapbox://lamapch.8jyhrtor',
-  sourceLayer: 'DPS_CLASSEMENT-6zaaav',
+export const PROTECTED_SOURCE = {
+  id: 'protectedSource',
+  url: 'mapbox://lamapch.5u9b7mgr',
+  sourceLayer: 'DPS_CLASSEMENT_WGS84-6a60ee',
 }
 
 export const DEFAULT_PAINT = {

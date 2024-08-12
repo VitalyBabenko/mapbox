@@ -38,7 +38,7 @@ const PlotsMode = ({ isActive }) => {
         paint={{
           'fill-color': '#58dca6',
           'fill-opacity': 0.4,
-          'fill-outline-color': 'white',
+          'fill-outline-color': '#337f5f',
         }}
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}

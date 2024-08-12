@@ -1,7 +1,8 @@
-import { useModeStore, usePaintStore } from '../../../store'
+import { useModeStore, usePaintStore, useToastStore } from '../../../store'
 import style from './CharacteristicsSection.module.scss'
 import {
   DEFAULT_PAINT,
+  MODES,
   PAINT_BY_APARTS_QTY,
   PAINT_BY_CONSTRUCTION_PERIOD,
   PAINT_BY_LAST_TRANSACTION,
@@ -26,14 +27,24 @@ const CharacteristicsSection = () => {
     switchToBuildingsMode,
     switchToCountiesMode,
   } = useModeStore()
+  const toast = useToastStore()
 
   const handleChangePaint = clickedPaint => {
+    if (mode === 'counties' && activePaint === DEFAULT_PAINT) {
+      toast.text('Pour utiliser cet outil, vous devez sélectionner un comté')
+    }
+
     if (mode === 'counties' && switcher === 'plots') {
       toggleSwitcher('buildings')
     }
 
     if (mode === 'plots') {
       switchToBuildingsMode(county)
+    }
+
+    if (mode === 'protected') {
+      switchToBuildingsMode(county)
+      toggleSwitcher('buildings')
     }
 
     if (activePaint === clickedPaint) {
@@ -45,11 +56,6 @@ const CharacteristicsSection = () => {
   }
 
   const handleResetClick = () => {
-    if (mode === 'zones') {
-      switchToCountiesMode()
-      return
-    }
-
     handleChangePaint(DEFAULT_PAINT)
   }
 
@@ -57,7 +63,7 @@ const CharacteristicsSection = () => {
     <>
       <div className={style.heading}>
         <h3>Characteristics</h3>
-        {activePaint !== DEFAULT_PAINT && mode !== 'zones' && (
+        {activePaint !== DEFAULT_PAINT && mode !== 'protectedBuildings' && (
           <button onClick={handleResetClick}>Reset</button>
         )}
 
@@ -100,7 +106,7 @@ const CharacteristicsSection = () => {
           }
         >
           <img src={paintByLastTransactionPreview} alt='preview' />
-          <span>Last transaction</span>
+          <span>Last Transaction</span>
         </li>
 
         <li
@@ -122,11 +128,11 @@ const CharacteristicsSection = () => {
         </li>
 
         {/* <li
-          onClick={() => handleChangePaint(PAINT_BY_STATUS)}
-          className={activePaint === PAINT_BY_STATUS ? style.active : ''}
+          onClick={handleClickOnProtected}
+          className={mode === MODES.PROTECTED ? style.active : ''}
         >
           <img src={paintByStatusPreview} alt='preview' />
-          <span>Mise à l'Enquête</span>
+          <span>Batiments Protégés</span>
         </li> */}
       </ul>
     </>

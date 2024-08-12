@@ -17,6 +17,7 @@ import { FiltersPanel, MapDataPanel } from './panels/index.js'
 import { useFilterStore, useZoneStore } from './store'
 import Toast from './components/Toast/Toast.jsx'
 import ZonesMode from './modes/ZonesMode/ZonesMode.jsx'
+import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -93,6 +94,7 @@ function App() {
       <CountiesMode isActive={getIsModeActive(MODES.COUNTIES)} />
       <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
       <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
+      <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
       <ZonesMode />
 
       <ModeSwitcher />
