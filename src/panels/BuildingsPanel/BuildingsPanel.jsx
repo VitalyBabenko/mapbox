@@ -1,5 +1,5 @@
 import style from './BuildingsPanel.module.scss'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import Loader from '../../components/Loader/Loader'
 import { buildingService } from '../../service/buildingService'
@@ -95,7 +95,7 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
         }
       />
 
-      {buildingInfo?.plot?.zone && (
+      {Array.isArray(buildingInfo?.plot?.zone) && (
         <List title='Zone:' className={style.zone}>
           {buildingInfo.plot?.zone?.map(item => (
             <li key={item} className={style.zoneItem}>
@@ -165,4 +165,4 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
   )
 }
 
-export default BuildingsPanel
+export default memo(BuildingsPanel)
