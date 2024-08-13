@@ -2,13 +2,14 @@ import style from './MapDataPanel.module.scss'
 import { VscMap as MapDataIcon } from 'react-icons/vsc'
 import { FaMap as MapDataBlackIcon } from 'react-icons/fa'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import BasemapSection from './BasemapSection/BasemapSection'
 import CharacteristicsSection from './CharacteristicsSection/CharacteristicsSection'
 import ScalePanel from '../ScalePanel/ScalePanel'
 import ZonesSection from './ZonesSection/ZonesSection'
+import ProtectedSection from './ProtectedSection/ProtectedSection'
 
-const MapDataPanel = ({ mapRef }) => {
+const MapDataPanel = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const openPanel = () => setIsPanelOpen(true)
   const closePanel = () => setIsPanelOpen(false)
@@ -37,6 +38,7 @@ const MapDataPanel = ({ mapRef }) => {
 
         <BasemapSection />
         <CharacteristicsSection />
+        <ProtectedSection />
         <ZonesSection />
       </div>
       <ScalePanel />
@@ -44,4 +46,4 @@ const MapDataPanel = ({ mapRef }) => {
   )
 }
 
-export default MapDataPanel
+export default memo(MapDataPanel)

@@ -36,6 +36,7 @@ export const MODES = {
   COUNTIES: 'counties',
   BUILDINGS: 'buildings',
   PLOTS: 'plots',
+  PROTECTED: 'protected',
 }
 
 export const COUNTIES_SOURCE = {
@@ -66,9 +67,15 @@ export const ZONES_SOURCE = {
   sourceLayer: 'SIT_ZONE_AMENAG_WGS84-9ut6z9',
 }
 
+export const PROTECTED_SOURCE = {
+  id: 'protectedSource',
+  url: 'mapbox://lamapch.5u9b7mgr',
+  sourceLayer: 'DPS_CLASSEMENT_WGS84-6a60ee',
+}
+
 export const DEFAULT_PAINT = {
   'fill-outline-color': 'rgba(256,256,256,1)',
-  'fill-color': '#006cd5',
+  'fill-color': '#80b4f6',
   getItems: () => [],
 }
 
@@ -270,23 +277,8 @@ export const PAINT_BY_CONSTRUCTION_PERIOD = {
   },
 }
 
-// FIXME: not working
 export const PAINT_BY_LAST_TRANSACTION = {
   'fill-outline-color': 'rgba(256,256,256,1)',
-  // 'fill-color': {
-  //   property: 'TRNSC_DATE',
-  //   stops: [
-  //     [0, '#4A235A'],
-  //     [1994, '#76448A'],
-  //     [2001, '#9B59B6'],
-  //     [2006, '#BB8FCE'],
-  //     [2011, '#D7BDE2'],
-  //     [2016, '#E8DAEF'],
-  //     [2021, '#F5EEF8'],
-  //   ],
-  // },
-  // 'fill-opacity': 0.8,
-
   'fill-color': {
     property: 'TRNSC_DATE',
     default: '#4A235A',

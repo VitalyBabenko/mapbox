@@ -35,7 +35,7 @@ const HoverPlot = ({ isActive, map }) => {
       source-layer={PLOTS_SOURCE.sourceLayer}
       filter={filterForHoverPlot}
       paint={{
-        'fill-color': '#006cd5',
+        'fill-color': '#58dca6',
         'fill-opacity': 0.6,
       }}
       beforeId='poi-label'

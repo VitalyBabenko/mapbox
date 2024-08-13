@@ -4,18 +4,16 @@ export const useZoneStore = create(set => ({
   isActive: false,
   toggleActive: () => set(state => ({ isActive: !state.isActive })),
 
-  isTipsActive: false,
-  toggleTipsActive: () => set(state => ({ isTipsActive: !state.isTipsActive })),
-
-  isScaleActive: false,
-  toggleScaleActive: value => {
-    if (value) {
-      set({ isTipsActive: value })
-      return
-    }
-    set(state => ({ isScaleActive: !state.isScaleActive }))
+  isPrimary: true,
+  togglePrimary: value => {
+    value !== 'undefined'
+      ? set({ isPrimary: value })
+      : set(state => ({ isPrimary: !state.isBackground }))
   },
 
   zoneOpacity: [0, 30],
   setZoneOpacity: zoneOpacity => set({ zoneOpacity }),
+
+  resetZones: () =>
+    set({ zoneOpacity: [0, 30], isPrimary: true, isActive: false }),
 }))

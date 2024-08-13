@@ -1,16 +1,18 @@
 import style from './ScalePanel.module.scss'
 import { usePaintStore, useZoneStore } from '../../store'
 import { DEFAULT_PAINT, PAINT_BY_ZONE } from '../../constants'
+import { memo } from 'react'
 
 const ScalePanel = () => {
   const { activePaint } = usePaintStore()
-  const { isScaleActive, isActive: isZoneActive } = useZoneStore()
+  const { isActive: isZonesActive, isPrimary: isZonesPrimary } = useZoneStore()
   const isOpen =
-    activePaint !== DEFAULT_PAINT || (isScaleActive && isZoneActive)
+    activePaint !== DEFAULT_PAINT || (isZonesActive && isZonesPrimary)
 
-  const items = isScaleActive
-    ? PAINT_BY_ZONE.getItems()
-    : activePaint.getItems()
+  const items =
+    isZonesPrimary && isZonesActive
+      ? PAINT_BY_ZONE.getItems()
+      : activePaint.getItems()
 
   return (
     <div className={isOpen ? style.panel : style.hidden}>
@@ -26,4 +28,4 @@ const ScalePanel = () => {
   )
 }
 
-export default ScalePanel
+export default memo(ScalePanel)

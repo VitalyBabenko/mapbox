@@ -17,6 +17,7 @@
   top: 10px;
   right: 50px;
   width: 340px;
+  height: 550px;
   background: $white;
   border-radius: 4px;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
@@ -24,6 +25,8 @@
   z-index: 1;
   background: #f9fafb;
   padding: 16px;
+  overflow: auto;
+  @include custom-scrollbar;
 
   .heading {
     display: flex;
@@ -52,8 +55,24 @@
 
   h3 {
     font-size: 18px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     cursor: default;
     color: #344054;
+  }
+}
+
+@media (max-width: 568px) {
+  .openButton {
+    top: 49px;
+    left: 10px;
+    right: unset;
+  }
+
+  .panel {
+    width: calc(100% - 20px);
+    top: 49px;
+    right: 10px;
+    height: auto;
+    z-index: 2;
   }
 }

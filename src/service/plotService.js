@@ -7,7 +7,9 @@ export const plotService = {
     try {
       const resp = await axios.get(`${url}/api/map/plots/${ergid}`)
 
-      const plot = resp.data.data
+      const plot = resp?.data?.data
+
+      if (!plot) throw new Error('error')
 
       plot.getTransactions = function () {
         return this.ownership_info

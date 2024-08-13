@@ -7,7 +7,7 @@ import { useZoneStore } from '../../store'
 
 const ZonesMode = () => {
   const { current: map } = useMap()
-  const { isActive, zoneOpacity, isTipsActive } = useZoneStore()
+  const { isActive, zoneOpacity, isPrimary } = useZoneStore()
 
   return (
     <Source id={ZONES_SOURCE.id} type='vector' url={ZONES_SOURCE.url}>
@@ -21,7 +21,7 @@ const ZonesMode = () => {
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
 
-      {isTipsActive && <HoverZone map={map} />}
+      {isPrimary && <HoverZone map={map} />}
     </Source>
   )
 }

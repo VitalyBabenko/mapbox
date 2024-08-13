@@ -1,4 +1,9 @@
-import { useModeStore, usePaintStore } from '../../../store'
+import {
+  useFilterStore,
+  useModeStore,
+  usePaintStore,
+  useToastStore,
+} from '../../../store'
 import style from './CharacteristicsSection.module.scss'
 import {
   DEFAULT_PAINT,
@@ -26,8 +31,14 @@ const CharacteristicsSection = () => {
     switchToBuildingsMode,
     switchToCountiesMode,
   } = useModeStore()
+  const toast = useToastStore()
+  const { setFilteredPlotsIds, setFilteredBuildingsIds } = useFilterStore()
 
   const handleChangePaint = clickedPaint => {
+    if (mode === 'counties' && activePaint === DEFAULT_PAINT) {
+      toast.text('Pour utiliser cet outil, vous devez sélectionner un comté')
+    }
+
     if (mode === 'counties' && switcher === 'plots') {
       toggleSwitcher('buildings')
     }
@@ -36,20 +47,22 @@ const CharacteristicsSection = () => {
       switchToBuildingsMode(county)
     }
 
+    if (mode === 'protected') {
+      switchToBuildingsMode(county)
+      toggleSwitcher('buildings')
+    }
+
     if (activePaint === clickedPaint) {
       setActivePaint(DEFAULT_PAINT)
       return
     }
 
+    setFilteredPlotsIds([])
+    setFilteredBuildingsIds([])
     setActivePaint(clickedPaint)
   }
 
   const handleResetClick = () => {
-    if (mode === 'zones') {
-      switchToCountiesMode()
-      return
-    }
-
     handleChangePaint(DEFAULT_PAINT)
   }
 
@@ -57,7 +70,7 @@ const CharacteristicsSection = () => {
     <>
       <div className={style.heading}>
         <h3>Characteristics</h3>
-        {activePaint !== DEFAULT_PAINT && mode !== 'zones' && (
+        {activePaint !== DEFAULT_PAINT && mode !== 'protectedBuildings' && (
           <button onClick={handleResetClick}>Reset</button>
         )}
 
@@ -93,7 +106,6 @@ const CharacteristicsSection = () => {
           <span>Année de construction</span>
         </li>
 
-        {/* FIXME: not working */}
         <li
           onClick={() => handleChangePaint(PAINT_BY_LAST_TRANSACTION)}
           className={
@@ -101,7 +113,7 @@ const CharacteristicsSection = () => {
           }
         >
           <img src={paintByLastTransactionPreview} alt='preview' />
-          <span>Last transaction</span>
+          <span>Last Transaction</span>
         </li>
 
         <li
@@ -121,6 +133,14 @@ const CharacteristicsSection = () => {
           <img src={paintByStatusPreview} alt='preview' />
           <span>Mise à l'Enquête</span>
         </li>
+
+        {/* <li
+          onClick={handleClickOnProtected}
+          className={mode === MODES.PROTECTED ? style.active : ''}
+        >
+          <img src={paintByStatusPreview} alt='preview' />
+          <span>Batiments Protégés</span>
+        </li> */}
       </ul>
     </>
   )

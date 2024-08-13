@@ -43,7 +43,7 @@ const HoverCounty = ({ isActive, map }) => {
         source={COUNTIES_SOURCE.id}
         source-layer={COUNTIES_SOURCE.sourceLayer}
         paint={{
-          'fill-color': '#006cd5',
+          'fill-color': '#024eaa',
           'fill-opacity': 0.6,
         }}
         filter={filterForHoverCounty}

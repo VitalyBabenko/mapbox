@@ -36,9 +36,9 @@ const PlotsMode = ({ isActive }) => {
         source-layer={PLOTS_SOURCE.sourceLayer}
         filter={plotsFilter}
         paint={{
-          'fill-color': '#006cd5',
+          'fill-color': '#58dca6',
           'fill-opacity': 0.4,
-          'fill-outline-color': 'white',
+          'fill-outline-color': '#337f5f',
         }}
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}

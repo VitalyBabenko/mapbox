@@ -5,7 +5,7 @@ import {
   BiSolidBell as SolidBellIcon,
 } from 'react-icons/bi'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import Loader from '../../components/Loader/Loader'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import SpecsSection from './SpecsSection/SpecsSection'
@@ -39,22 +39,24 @@ const PlotsPanel = ({ activePlotId, setActivePlotId }) => {
   const closePlotPanel = () => setActivePlotId('')
 
   const addToEmailAlerts = async () => {
-    emailAlertsHandler(() => plotService.addToEmailAlerts(plotInfo._id))
+    emailAlertsHandler(() => plotService.addToEmailAlerts(plotInfo?._id))
     setIsAddedToEmailAlerts(true)
   }
 
   const removeFromEmailAlerts = async () => {
-    emailAlertsHandler(() => plotService.removeEmailAlerts(plotInfo._id))
+    emailAlertsHandler(() => plotService.removeEmailAlerts(plotInfo?._id))
     setIsAddedToEmailAlerts(false)
   }
 
   const addToBookmarkAlerts = async () => {
-    await bookmarkHandler(() => plotService.addToBookmarksAlerts(plotInfo._id))
+    await bookmarkHandler(() => plotService.addToBookmarksAlerts(plotInfo?._id))
     setIsAddedToBookmarks(true)
   }
 
   const removeFromBookmarks = async () => {
-    await bookmarkHandler(() => plotService.removeBookmarksAlerts(plotInfo._id))
+    await bookmarkHandler(() =>
+      plotService.removeBookmarksAlerts(plotInfo?._id),
+    )
     setIsAddedToBookmarks(false)
   }
 
@@ -176,13 +178,15 @@ const PlotsPanel = ({ activePlotId, setActivePlotId }) => {
 
       <NotesSection plotInfo={plotInfo} />
 
-      <List title='Zone:' className={style.zone}>
-        {plotInfo?.zone?.map(item => (
-          <li key={item} className={style.zoneItem}>
-            {item}
-          </li>
-        ))}
-      </List>
+      {Array.isArray(plotInfo?.zone) && (
+        <List title='Zone:' className={style.zone}>
+          {plotInfo?.zone?.map(item => (
+            <li key={item} className={style.zoneItem}>
+              {item}
+            </li>
+          ))}
+        </List>
+      )}
 
       <AddressesSection plotInfo={plotInfo} />
 
@@ -202,4 +206,4 @@ const PlotsPanel = ({ activePlotId, setActivePlotId }) => {
   )
 }
 
-export default PlotsPanel
+export default memo(PlotsPanel)

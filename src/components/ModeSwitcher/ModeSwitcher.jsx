@@ -1,9 +1,10 @@
 import { useMap } from 'react-map-gl'
-import { INITIAL_VIEW } from '../../constants'
+import { DEFAULT_PAINT, INITIAL_VIEW } from '../../constants'
 import style from './ModeSwitcher.module.scss'
 import { BiBuildings as BuildingIcon } from 'react-icons/bi'
 import { BiArea as PlotIcon } from 'react-icons/bi'
-import { useModeStore } from '../../store'
+import { useFilterStore, useModeStore, usePaintStore } from '../../store'
+import { memo } from 'react'
 
 const ModeSwitcher = () => {
   const { current: map } = useMap()
@@ -16,10 +17,17 @@ const ModeSwitcher = () => {
     switchToPlotsMode,
     switchToBuildingsMode,
   } = useModeStore()
+  const { setFilteredBuildingsIds, setFilteredPlotsIds } = useFilterStore()
+  const { setActivePaint } = usePaintStore()
 
   const handleSwitch = clickedMode => {
     if (clickedMode === switcher) return
     if (mode === 'counties') {
+      toggleSwitcher()
+      return
+    }
+
+    if (mode === 'protected') {
       toggleSwitcher()
       return
     }
@@ -37,6 +45,9 @@ const ModeSwitcher = () => {
       essential: true,
     })
 
+    setActivePaint(DEFAULT_PAINT)
+    setFilteredBuildingsIds([])
+    setFilteredPlotsIds([])
     switchToCountiesMode()
   }
 
@@ -74,4 +85,4 @@ const ModeSwitcher = () => {
   )
 }
 
-export default ModeSwitcher
+export default memo(ModeSwitcher)
