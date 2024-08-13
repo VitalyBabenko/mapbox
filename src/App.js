@@ -1,101 +1,74 @@
-import { Map } from 'react-map-gl'
+import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { memo, useCallback, useRef, useState } from 'react'
-import MapControls from './components/MapControls/MapControls.jsx'
-import { INITIAL_VIEW, MAP_STYLES } from './constants/index.js'
-import CountiesLayer from './components/CountiesLayer/CountiesLayer.jsx'
-import PlotsLayer from './components/PlotsLayer/PlotsLayer.jsx'
-import PlotsPanel from './components/PlotsPanel/PlotsPanel.jsx'
-import PlotsFilters from './components/PlotsFilters/PlotsFilters.jsx'
-import BuildingsLayer from './components/BuildingsLayer/BuildingsLayer.jsx'
-import BuildingsPanel from './components/BuildingsPanel/BuildingsPanel.jsx'
-import BuildingsFilters from './components/BuildingsFilters/BuildingsFilters.jsx'
+import {
+  COUNTIES_SOURCE,
+  INITIAL_VIEW,
+  MAP_STYLES,
+  MODES,
+} from './constants/index.js'
+import ModeSwitcher from './components/ModeSwitcher/ModeSwitcher.jsx'
+import { useEventStore } from './store/eventStore.js'
+import { useModeStore } from './store/modeStore.js'
+import CountiesMode from './modes/CountiesMode/CountiesMode.jsx'
+import PlotsMode from './modes/PlotsMode/PlotsMode.jsx'
+import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
+import Loader from './components/Loader/Loader.jsx'
+import { FiltersPanel, MapDataPanel } from './panels/index.js'
+import { useFilterStore, useZoneStore } from './store'
+import Toast from './components/Toast/Toast.jsx'
+import ZonesMode from './modes/ZonesMode/ZonesMode.jsx'
+import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
 
 function App() {
   const mapRef = useRef(null)
-  const [mode, setMode] = useState('plots')
   const [cursor, setCursor] = useState(null)
-  const [hoverEvent, setHoverEvent] = useState(null)
-
-  // county state
-  const [county, setCounty] = useState(null)
-  const [hoverCounty, setHoverCounty] = useState(null)
-  const [allCountiesFeatures, setAllCountiesFeatures] = useState([])
-
-  // plot state
-  const [plot, setPlot] = useState(null)
-  const [hoverPlot, setHoverPlot] = useState(null)
-
-  // building state
-  const [building, setBuilding] = useState(null)
-  const [hoverBuilding, setHoverBuilding] = useState(null)
-
-  // filter state
-  const [filterSearch, setFilterSearch] = useState([])
+  const [isMapLoading, setIsMapLoading] = useState(true)
+  const { mode } = useModeStore()
+  const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
+  const { setClickEvent, setHoverEvent } = useEventStore()
+  const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
 
   const onMouseEnter = useCallback(() => setCursor('pointer'), [])
   const onMouseLeave = useCallback(() => setCursor(null), [])
 
-  const getRenderedFeatures = (point, layers) =>
-    mapRef.current?.queryRenderedFeatures(point, { layers })[0]
-
   const onHover = useCallback(
     event => {
+      if (isMapLoading) return
       setHoverEvent(event)
-      if (!county) {
-        const countyFeature = getRenderedFeatures(event.point, ['counties'])
-        setHoverCounty(countyFeature)
-        return
-      }
-
-      if (mode === 'plots') {
-        const plotFeature = getRenderedFeatures(event.point, ['plots'])
-        setHoverPlot(plotFeature)
-        return
-      }
-
-      if (mode === 'buildings') {
-        const buildingFeature = getRenderedFeatures(event.point, ['buildings'])
-        setHoverBuilding(buildingFeature)
-      }
     },
-    [county, mode],
+    [mode, isMapLoading],
   )
 
   const onClick = useCallback(
     event => {
-      if (!county) {
-        const countyFeature = getRenderedFeatures(event.point, ['counties'])
-        setCounty(countyFeature)
-        return
-      }
-
-      if (mode === 'plots') {
-        const plotFeature = getRenderedFeatures(event.point, ['plots'])
-        setPlot(plotFeature)
-        return
-      }
-
-      if (mode === 'buildings') {
-        const buildingFeature = getRenderedFeatures(event.point, ['buildings'])
-        setBuilding(buildingFeature)
-      }
+      if (isMapLoading) return
+      setClickEvent(event)
     },
-    [county, mode],
+    [mode, isMapLoading],
   )
 
-  mapRef.current?.on('load', function () {
-    setAllCountiesFeatures(
-      mapRef.current.querySourceFeatures('countySource', {
-        layer: 'counties',
-        sourceLayer: 'kanton_28-filt_reworked-a2cfbe',
-        validate: false,
-      }),
-    )
-  })
+  const onMapLoad = () => {
+    setIsMapLoading(false)
+  }
 
-  const onSetFilters = useCallback(newFilters => {
-    setFilterSearch(newFilters)
-  }, [])
+  const onSourceDataLoad = event => {
+    if (event.sourceId !== COUNTIES_SOURCE.id) return
+    if (allCountiesFeatures.length === 52) return
+
+    const result = mapRef.current?.querySourceFeatures(COUNTIES_SOURCE.id, {
+      layer: 'counties',
+      sourceLayer: COUNTIES_SOURCE.sourceLayer,
+      validate: false,
+    })
+
+    setAllCountiesFeatures(result)
+  }
+
+  const getIsModeActive = currentMode => {
+    if (isMapLoading) return false
+    if (isZonesPrimary && isZonesActive) return false
+    return mode === currentMode
+  }
 
   return (
     <Map
@@ -104,10 +77,11 @@ function App() {
       onMouseMove={onHover}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onLoad={onMapLoad}
+      onSourceData={onSourceDataLoad}
       cursor={cursor}
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      interactiveLayerIds={['counties', 'plots', 'buildings']}
-      mapStyle={MAP_STYLES[0].URL}
+      mapStyle={MAP_STYLES[0].url}
       attributionControl={false}
       initialViewState={{
         latitude: INITIAL_VIEW.LATITUDE,
@@ -115,60 +89,20 @@ function App() {
         zoom: INITIAL_VIEW.ZOOM,
       }}
     >
-      <CountiesLayer
-        mapRef={mapRef}
-        hoverCounty={hoverCounty}
-        filterSearch={filterSearch}
-        county={county}
-        hoverEvent={hoverEvent}
-      />
+      {isMapLoading && <Loader withBackground />}
 
-      {mode === 'plots' && (
-        <>
-          <PlotsFilters
-            onSetFilters={onSetFilters}
-            setPlot={setPlot}
-            setCounty={setCounty}
-            allCountiesFeatures={allCountiesFeatures}
-          />
-          <PlotsLayer
-            county={county}
-            hoverPlot={hoverPlot}
-            plot={plot}
-            filterSearch={filterSearch}
-          />
-          <PlotsPanel plot={plot} setPlot={setPlot} />
-        </>
-      )}
+      <CountiesMode isActive={getIsModeActive(MODES.COUNTIES)} />
+      <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
+      <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
+      <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
+      <ZonesMode />
 
-      {mode === 'buildings' && (
-        <>
-          <BuildingsFilters
-            onSetFilters={onSetFilters}
-            setBuilding={setBuilding}
-            setCounty={setCounty}
-            allCountiesFeatures={allCountiesFeatures}
-          />
-          <BuildingsLayer
-            county={county}
-            building={building}
-            hoverBuilding={hoverBuilding}
-            filterSearch={filterSearch}
-          />
-          <BuildingsPanel building={building} setBuilding={setBuilding} />
-        </>
-      )}
-
-      <MapControls
-        mapRef={mapRef}
-        county={county}
-        setCounty={setCounty}
-        setPlot={setPlot}
-        setBuilding={setBuilding}
-        mode={mode}
-        setMode={setMode}
-        setFilterSearch={setFilterSearch}
-      />
+      <ModeSwitcher />
+      <FiltersPanel />
+      <MapDataPanel />
+      <FullscreenControl position='top-right' />
+      <NavigationControl />
+      <Toast />
     </Map>
   )
 }

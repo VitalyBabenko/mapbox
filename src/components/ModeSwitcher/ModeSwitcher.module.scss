@@ -1,0 +1,25 @@
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.wrapper {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 250px;
+  height: 29px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+
+  .modeSwitcher {
+    @include switcher;
+  }
+}
+
+.resetButton {
+  @include button-mapbox;
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  translate: -50%;
+}

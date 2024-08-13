@@ -7,7 +7,9 @@ export const plotService = {
     try {
       const resp = await axios.get(`${url}/api/map/plots/${ergid}`)
 
-      const plot = resp.data.data
+      const plot = resp?.data?.data
+
+      if (!plot) throw new Error('error')
 
       plot.getTransactions = function () {
         return this.ownership_info
@@ -90,5 +92,49 @@ export const plotService = {
     const { data } = await axios.delete(
       `${url}/user/2/plot/${plotId}/note/${noteId}`,
     )
+  },
+
+  getFilters: async () => {
+    try {
+      const { data } = await axios.get(`${url}/api/filters`)
+
+      const plotsFilters = data
+        .filter(item => {
+          if (item.view === 'checkbox') return false
+          if (item.level?.includes('plots')) return true
+          if (item.level?.includes('plots_and_buildings')) return true
+          return false
+        })
+        .sort((a, b) => a.position - b.position)
+        .sort((a, b) => b.show_on_top - a.show_on_top)
+
+      const checkboxes = data.filter(item => {
+        return (
+          (item.level?.includes('plots') ||
+            item.level?.includes('plots_and_buildings')) &&
+          item.view === 'checkbox'
+        )
+      })
+
+      return { list: plotsFilters, checkboxes }
+    } catch (error) {
+      return {
+        error,
+      }
+    }
+  },
+
+  setFilters: async filters => {
+    try {
+      const { data } = await axios.get(`${url}/api/map/plots`, {
+        params: filters,
+      })
+
+      return data
+    } catch (error) {
+      return {
+        error,
+      }
+    }
   },
 }

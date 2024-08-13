@@ -29,7 +29,7 @@
     input {
       width: 100%;
       padding: 10px;
-      padding-left: 35px;
+      padding-left: 35px !important;
     }
   }
 
@@ -37,6 +37,7 @@
   .calendarEnd {
     border-radius: 6px;
     border: 1px solid #d8d6de;
+    z-index: 2;
   }
 
   .calendarStart {
