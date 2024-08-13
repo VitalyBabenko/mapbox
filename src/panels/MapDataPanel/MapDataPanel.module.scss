@@ -60,3 +60,19 @@
     color: #344054;
   }
 }
+
+@media (max-width: 568px) {
+  .openButton {
+    top: 49px;
+    left: 10px;
+    right: unset;
+  }
+
+  .panel {
+    width: calc(100% - 20px);
+    top: 49px;
+    right: 10px;
+    height: auto;
+    z-index: 2;
+  }
+}
