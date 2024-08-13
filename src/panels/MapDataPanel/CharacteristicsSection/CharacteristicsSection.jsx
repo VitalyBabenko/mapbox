@@ -1,8 +1,12 @@
-import { useModeStore, usePaintStore, useToastStore } from '../../../store'
+import {
+  useFilterStore,
+  useModeStore,
+  usePaintStore,
+  useToastStore,
+} from '../../../store'
 import style from './CharacteristicsSection.module.scss'
 import {
   DEFAULT_PAINT,
-  MODES,
   PAINT_BY_APARTS_QTY,
   PAINT_BY_CONSTRUCTION_PERIOD,
   PAINT_BY_LAST_TRANSACTION,
@@ -28,6 +32,7 @@ const CharacteristicsSection = () => {
     switchToCountiesMode,
   } = useModeStore()
   const toast = useToastStore()
+  const { setFilteredPlotsIds, setFilteredBuildingsIds } = useFilterStore()
 
   const handleChangePaint = clickedPaint => {
     if (mode === 'counties' && activePaint === DEFAULT_PAINT) {
@@ -52,6 +57,8 @@ const CharacteristicsSection = () => {
       return
     }
 
+    setFilteredPlotsIds([])
+    setFilteredBuildingsIds([])
     setActivePaint(clickedPaint)
   }
 

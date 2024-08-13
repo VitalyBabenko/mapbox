@@ -27,7 +27,7 @@ const rangeIcons = {
   age: null,
 }
 
-const BuildingsFilters = () => {
+const BuildingsFilters = ({ setMapLoader }) => {
   const { current: map } = useMap()
   const [filters, setFilters] = useState([])
   const [formValues, setFormValues] = useState(null)
@@ -35,11 +35,13 @@ const BuildingsFilters = () => {
   const [error, setError] = useState('')
   const [panelError, setPanelError] = useState('')
   const { switchToBuildingsMode } = useModeStore()
-  const { allCountiesFeatures, setFilteredBuildingsIds } = useFilterStore()
+  const { allCountiesFeatures, filteredBuildingsIds, setFilteredBuildingsIds } =
+    useFilterStore()
   const toast = useToastStore()
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setMapLoader(true)
 
     if (!formValues.commune_name.value) {
       setError('Veuillez sélectionner une commune')
@@ -144,6 +146,7 @@ const BuildingsFilters = () => {
       return
     }
     setFilteredBuildingsIds(filtersResult)
+    setMapLoader(false)
     toast.success(`${filtersResult?.length} bâtiments trouvés`)
   }
 
@@ -265,7 +268,12 @@ const BuildingsFilters = () => {
 
       {error && <span role='alert'>{error}</span>}
 
-      <button type='submit'>Apply</button>
+      <div>
+        <button type='submit'>Apply</button>
+        {filteredBuildingsIds.length ? (
+          <button onClick={() => setFilteredBuildingsIds([])}>Reset</button>
+        ) : null}
+      </div>
     </form>
   )
 }

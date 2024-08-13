@@ -3,7 +3,7 @@ import { INITIAL_VIEW } from '../../constants'
 import style from './ModeSwitcher.module.scss'
 import { BiBuildings as BuildingIcon } from 'react-icons/bi'
 import { BiArea as PlotIcon } from 'react-icons/bi'
-import { useModeStore } from '../../store'
+import { useFilterStore, useModeStore } from '../../store'
 import { memo } from 'react'
 
 const ModeSwitcher = () => {
@@ -17,6 +17,7 @@ const ModeSwitcher = () => {
     switchToPlotsMode,
     switchToBuildingsMode,
   } = useModeStore()
+  const { setFilteredBuildingsIds, setFilteredPlotsIds } = useFilterStore()
 
   const handleSwitch = clickedMode => {
     if (clickedMode === switcher) return
@@ -42,6 +43,9 @@ const ModeSwitcher = () => {
       zoom: INITIAL_VIEW.ZOOM,
       essential: true,
     })
+
+    setFilteredBuildingsIds([])
+    setFilteredPlotsIds([])
 
     switchToCountiesMode()
   }

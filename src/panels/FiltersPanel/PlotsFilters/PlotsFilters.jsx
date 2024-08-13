@@ -25,7 +25,7 @@ const rangeIcons = {
   age: null,
 }
 
-const PlotsFilters = () => {
+const PlotsFilters = ({ setMapLoader }) => {
   const { current: map } = useMap()
   const [isLoading, setIsLoading] = useState(true)
   const [filters, setFilters] = useState([])
@@ -33,7 +33,8 @@ const PlotsFilters = () => {
   const [error, setError] = useState('')
   const [formValues, setFormValues] = useState(null)
   const { switchToPlotsMode } = useModeStore()
-  const { allCountiesFeatures, setFilteredPlotsIds } = useFilterStore()
+  const { allCountiesFeatures, filteredPlotsIds, setFilteredPlotsIds } =
+    useFilterStore()
   const toast = useToastStore()
 
   const onChangeFormValue = (field, value) => {
@@ -44,6 +45,7 @@ const PlotsFilters = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setMapLoader(true)
 
     if (!formValues.commune_name.value) {
       setError('Veuillez sélectionner une commune')
@@ -129,6 +131,7 @@ const PlotsFilters = () => {
       return
     }
     setFilteredPlotsIds(filtersResult)
+    setMapLoader(false)
     toast.success(`${filtersResult?.length} parcelles trouvées`)
   }
 
@@ -244,7 +247,12 @@ const PlotsFilters = () => {
 
       {error && <span role='alert'>{error}</span>}
 
-      <button type='submit'>Apply</button>
+      <div>
+        <button type='submit'>Apply</button>
+        {filteredPlotsIds.length ? (
+          <button onClick={() => setFilteredPlotsIds([])}>reset</button>
+        ) : null}
+      </div>
     </form>
   )
 }
