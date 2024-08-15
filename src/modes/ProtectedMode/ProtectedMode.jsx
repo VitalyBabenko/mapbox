@@ -1,10 +1,9 @@
-import { Layer, Source, useMap } from 'react-map-gl'
+import { Layer, Source } from 'react-map-gl'
 import { MODES, PROTECTED_SOURCE } from '../../constants'
 import HoverProtected from './HoverProtected/HoverProtected'
 import { useModeStore } from '../../store'
 
 const ProtectedMode = ({ isActive }) => {
-  const { current: map } = useMap()
   const { switcher } = useModeStore()
 
   const filter =
@@ -15,7 +14,7 @@ const ProtectedMode = ({ isActive }) => {
   return (
     <Source id={PROTECTED_SOURCE.id} type='vector' url={PROTECTED_SOURCE.url}>
       <Layer
-        id='protectedBuildings'
+        id='protected'
         type='fill'
         source-layer={PROTECTED_SOURCE.sourceLayer}
         paint={{
@@ -27,7 +26,7 @@ const ProtectedMode = ({ isActive }) => {
         layout={{ visibility: isActive ? 'visible' : 'none' }}
         beforeId='poi-label'
       />
-      <HoverProtected isActive={isActive} map={map} />
+      <HoverProtected isActive={isActive} />
     </Source>
   )
 }

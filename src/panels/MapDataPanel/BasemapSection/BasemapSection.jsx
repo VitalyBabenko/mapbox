@@ -1,30 +1,30 @@
-import { useState } from 'react'
 import style from './BasemapSection.module.scss'
 import { MAP_STYLES } from '../../../constants'
 import { useMap } from 'react-map-gl'
+import { useModeStore } from '../../../store'
 
 const BasemapSection = () => {
   const { current: map } = useMap()
-  const [activeStyle, setActiveStyle] = useState(MAP_STYLES[0])
+  const { mapStyle, setMapStyle } = useModeStore()
 
   const toggleMapStyle = style => {
+    setMapStyle(style)
     const fullMap = map.getMap()
     fullMap.setStyle(style.url)
-    setActiveStyle(style)
   }
 
   return (
     <>
       <h3>Basemap</h3>
       <ul className={style.list}>
-        {MAP_STYLES.map(mapStyle => (
+        {MAP_STYLES.map(styleItem => (
           <li
-            key={mapStyle.url}
-            onClick={() => toggleMapStyle(mapStyle)}
-            className={activeStyle.url === mapStyle.url ? style.active : null}
+            key={styleItem.url}
+            onClick={() => toggleMapStyle(styleItem)}
+            className={mapStyle.url === styleItem.url ? style.active : null}
           >
-            <img src={mapStyle.image} alt={`${mapStyle.title} map style`} />
-            <span>{mapStyle.title}</span>
+            <img src={styleItem.image} alt={`${styleItem.title} map style`} />
+            <span>{styleItem.title}</span>
           </li>
         ))}
       </ul>

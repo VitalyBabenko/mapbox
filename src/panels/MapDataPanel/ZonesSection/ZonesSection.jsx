@@ -1,10 +1,14 @@
-import { useZoneStore } from '../../../store'
+import { useModeStore, useZoneStore } from '../../../store'
 import style from './ZoneSection.module.scss'
 import paintByZonesPreview from '../../../assets/images/paintByZonesPreview.png'
 import RangeSlider from 'react-range-slider-input'
 import 'react-range-slider-input/dist/style.css'
+import bbox from '@turf/bbox'
+import { useMap } from 'react-map-gl'
 
 const ZonesSection = () => {
+  const { current: map } = useMap()
+  const { county } = useModeStore()
   const {
     isActive,
     toggleActive,
@@ -14,6 +18,21 @@ const ZonesSection = () => {
     isPrimary,
     togglePrimary,
   } = useZoneStore()
+
+  const handleBackgroundClick = () => {
+    if (county) {
+      const [minLng, minLat, maxLng, maxLat] = bbox(county)
+      map.fitBounds(
+        [
+          [minLng, minLat],
+          [maxLng, maxLat],
+        ],
+        { padding: 0, duration: 1500, zoom: 13 },
+      )
+    }
+
+    togglePrimary(false)
+  }
 
   return (
     <>
@@ -43,7 +62,7 @@ const ZonesSection = () => {
               </button>
 
               <button
-                onClick={() => togglePrimary(false)}
+                onClick={handleBackgroundClick}
                 className={!isPrimary ? style.active : ''}
               >
                 Background

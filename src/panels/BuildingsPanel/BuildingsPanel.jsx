@@ -13,12 +13,14 @@ import TransactionsSection from './TransactionsSection/TransactionsSection'
 import PermitsSection from './PermitsSection/PermitsSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
+import { useEventStore } from '../../store'
 
 const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [buildingInfo, setBuildingInfo] = useState(null)
-  const closeBuildingPanel = () => setActiveBuildingId(null)
+  const { setClickedFeature } = useEventStore()
+  const closeBuildingPanel = () => setClickedFeature(null)
 
   useEffect(() => {
     const getData = async () => {

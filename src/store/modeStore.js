@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { MODES } from '../constants'
+import { MAP_STYLES, MODES } from '../constants'
 
 export const useModeStore = create(set => ({
   county: null,
@@ -25,4 +25,7 @@ export const useModeStore = create(set => ({
 
   switchToProtectedPlotsMode: () =>
     set({ mode: MODES.PROTECTED, switcher: MODES.PLOTS }),
+
+  mapStyle: MAP_STYLES[0],
+  setMapStyle: mapStyle => set({ mapStyle }),
 }))

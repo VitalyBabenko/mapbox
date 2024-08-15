@@ -1,7 +1,6 @@
 import { Layer, Popup } from 'react-map-gl'
 import {
   BUILDINGS_SOURCE,
-  DEFAULT_PAINT,
   PAINT_BY_APARTS_QTY,
   PAINT_BY_CONSTRUCTION_PERIOD,
   PAINT_BY_LAST_TRANSACTION,
@@ -9,32 +8,17 @@ import {
   PAINT_BY_TRANSACTION_AMOUNT,
   PAINT_BY_TYPE,
 } from '../../../constants'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useEventStore, usePaintStore } from '../../../store'
 
 const HoverBuilding = ({ isActive, map }) => {
-  const { hoverEvent } = useEventStore()
+  const { hoverEvent, hoveredFeature } = useEventStore()
   const { activePaint } = usePaintStore()
-  const [hoverBuilding, setHoverBuilding] = useState(null)
-
-  useEffect(() => {
-    if (hoverEvent === null) return
-
-    const feature = map.queryRenderedFeatures(hoverEvent.point, {
-      layers: ['buildings'],
-    })[0]
-
-    if (!feature) {
-      setHoverBuilding(null)
-      return
-    }
-
-    setHoverBuilding(feature?.properties)
-  }, [hoverEvent])
+  const hoverBuilding = hoveredFeature?.properties || null
 
   const filterForHoverBuilding = useMemo(
-    () => ['in', 'EGID', hoverBuilding?.EGID || ''],
-    [isActive, hoverBuilding],
+    () => (isActive ? ['in', 'EGID', hoverBuilding?.EGID || 0] : null),
+    [isActive, hoveredFeature],
   )
 
   const getPopupText = () => {
@@ -76,6 +60,7 @@ const HoverBuilding = ({ isActive, map }) => {
     }
   }
 
+  if (!isActive) return null
   return (
     <>
       <Layer

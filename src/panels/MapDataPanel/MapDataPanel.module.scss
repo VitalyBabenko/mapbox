@@ -70,9 +70,9 @@
 
   .panel {
     width: calc(100% - 20px);
+    height: calc(100% - 100px);
     top: 49px;
     right: 10px;
-    height: auto;
     z-index: 2;
   }
 }
