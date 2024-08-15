@@ -1,4 +1,4 @@
-import { Layer, Source, useMap } from 'react-map-gl'
+import { Layer, Source } from 'react-map-gl'
 import { useModeStore } from '../../store'
 import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 import HoverPlot from './HoverPlot/HoverPlot'
@@ -8,7 +8,6 @@ import { useMemo } from 'react'
 import FilteredPlots from './FilteredPlots/FilteredPlots'
 
 const PlotsMode = ({ isActive }) => {
-  const { current: map } = useMap()
   const { county } = useModeStore()
 
   const getCountyName = () => {
@@ -44,8 +43,8 @@ const PlotsMode = ({ isActive }) => {
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
 
-      <HoverPlot isActive={isActive} map={map} />
-      <ActivePlot isActive={isActive} map={map} />
+      <HoverPlot isActive={isActive} />
+      <ActivePlot isActive={isActive} />
       <FilteredPlots isActive={isActive} />
     </Source>
   )

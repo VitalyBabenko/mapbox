@@ -1,4 +1,4 @@
-import { Layer, Source, useMap } from 'react-map-gl'
+import { Layer, Source } from 'react-map-gl'
 import { BUILDINGS_SOURCE } from '../../constants'
 import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 import { useModeStore, usePaintStore } from '../../store'
@@ -7,7 +7,6 @@ import ActiveBuilding from './ActiveBuilding/ActiveBuilding'
 import FilteredBuildings from './FilteredBuildings/FilteredBuildings'
 
 const BuildingsMode = ({ isActive }) => {
-  const { current: map } = useMap()
   const { county } = useModeStore()
   const { activePaint } = usePaintStore()
 
@@ -34,8 +33,8 @@ const BuildingsMode = ({ isActive }) => {
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
-      <HoverBuilding isActive={isActive} map={map} />
-      <ActiveBuilding isActive={isActive} map={map} />
+      <HoverBuilding isActive={isActive} />
+      <ActiveBuilding isActive={isActive} />
       <FilteredBuildings isActive={isActive} />
     </Source>
   )

@@ -8,7 +8,7 @@ export const useZoneStore = create(set => ({
   togglePrimary: value => {
     value !== 'undefined'
       ? set({ isPrimary: value })
-      : set(state => ({ isPrimary: !state.isBackground }))
+      : set(state => ({ isPrimary: !state.isPrimary }))
   },
 
   zoneOpacity: [0, 30],
