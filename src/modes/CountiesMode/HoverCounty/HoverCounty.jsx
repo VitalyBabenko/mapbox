@@ -1,40 +1,18 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Layer, Popup } from 'react-map-gl'
 import { useEventStore } from '../../../store'
 import { getCountyNameByFeature } from '../../../utils/getCountyNameByFeature'
 import style from './HoverCounty.module.scss'
 import { COUNTIES_SOURCE } from '../../../constants'
 
-const HoverCounty = ({ isActive, map }) => {
-  const { hoverEvent } = useEventStore()
-  const [hoverCounty, setHoverCounty] = useState({ id: '', name: '' })
+const HoverCounty = ({ isActive }) => {
+  const { hoverEvent, hoveredFeature } = useEventStore()
 
-  const filterForHoverCounty = useMemo(
-    () => ['in', 'genid', hoverCounty.id],
-    [hoverCounty],
-  )
-
-  useEffect(() => {
-    if (!isActive) return
-    if (hoverEvent === null) return
-
-    const hoverCountyFeature = map?.queryRenderedFeatures(hoverEvent?.point, {
-      layers: ['counties'],
-    })[0]
-
-    if (!hoverCountyFeature) {
-      setHoverCounty({ id: '', name: '' })
-      return
-    }
-
-    setHoverCounty({
-      id: hoverCountyFeature.properties.genid,
-      name: getCountyNameByFeature(hoverCountyFeature),
-    })
-  }, [hoverEvent])
+  const filterForHoverCounty = useMemo(() => {
+    return ['in', 'genid', hoveredFeature?.properties?.genid || 0]
+  }, [hoveredFeature])
 
   if (!isActive) return null
-  if (!hoverCounty.id) return null
   return (
     <>
       <Layer
@@ -51,7 +29,7 @@ const HoverCounty = ({ isActive, map }) => {
         beforeId='poi-label'
       />
 
-      {hoverCounty.name && isActive && (
+      {getCountyNameByFeature(hoveredFeature) && isActive && (
         <Popup
           longitude={hoverEvent.lngLat.lng}
           latitude={hoverEvent.lngLat.lat}
@@ -59,7 +37,7 @@ const HoverCounty = ({ isActive, map }) => {
           closeButton={false}
           className={style.popup}
         >
-          {hoverCounty.name}
+          {getCountyNameByFeature(hoveredFeature)}
         </Popup>
       )}
     </>

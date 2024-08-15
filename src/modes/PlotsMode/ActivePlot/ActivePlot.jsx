@@ -1,28 +1,13 @@
 import { Layer } from 'react-map-gl'
 import { useEventStore } from '../../../store'
-import { useEffect, useState } from 'react'
 import { PLOTS_SOURCE } from '../../../constants'
 import { PlotsPanel } from '../../../panels'
 
-const ActivePlot = ({ isActive, map }) => {
-  const [activePlotId, setActivePlotId] = useState('')
-  const { clickEvent } = useEventStore()
-
-  useEffect(() => {
-    if (!isActive) return
-    if (clickEvent === null) return
-
-    const clickedPlotFeature = map.queryRenderedFeatures(clickEvent.point, {
-      layers: ['plots'],
-    })[0]
-
-    if (!clickedPlotFeature) return
-
-    setActivePlotId(clickedPlotFeature?.properties?.EGRID)
-  }, [clickEvent])
+const ActivePlot = ({ isActive }) => {
+  const { clickedFeature } = useEventStore()
 
   const filterForActivePlot = isActive
-    ? ['in', 'EGRID', activePlotId]
+    ? ['in', 'EGRID', `${clickedFeature?.properties?.EGRID}`]
     : ['none']
 
   return (
@@ -42,10 +27,7 @@ const ActivePlot = ({ isActive, map }) => {
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
 
-      <PlotsPanel
-        activePlotId={activePlotId}
-        setActivePlotId={setActivePlotId}
-      />
+      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
     </>
   )
 }

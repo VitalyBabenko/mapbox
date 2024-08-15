@@ -8,19 +8,12 @@ import { COUNTIES_SOURCE } from '../../constants'
 const CountiesMode = ({ isActive }) => {
   const { current: map } = useMap()
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
-  const { clickEvent } = useEventStore()
+  const { clickedFeature } = useEventStore()
 
   useEffect(() => {
     if (!isActive) return
-    if (clickEvent === null) return
 
-    const clickedCountyFeature = map?.queryRenderedFeatures(clickEvent?.point, {
-      layers: ['counties'],
-    })[0]
-
-    if (!clickedCountyFeature) return
-
-    const [minLng, minLat, maxLng, maxLat] = bbox(clickedCountyFeature)
+    const [minLng, minLat, maxLng, maxLat] = bbox(clickedFeature)
     map.fitBounds(
       [
         [minLng, minLat],
@@ -30,9 +23,9 @@ const CountiesMode = ({ isActive }) => {
     )
 
     switcher === 'plots'
-      ? switchToPlotsMode(clickedCountyFeature)
-      : switchToBuildingsMode(clickedCountyFeature)
-  }, [clickEvent])
+      ? switchToPlotsMode(clickedFeature)
+      : switchToBuildingsMode(clickedFeature)
+  }, [clickedFeature])
 
   return (
     <Source id={COUNTIES_SOURCE.id} url={COUNTIES_SOURCE.url} type='vector'>
@@ -49,7 +42,7 @@ const CountiesMode = ({ isActive }) => {
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
-      <HoverCounty isActive={isActive} map={map} />
+      <HoverCounty isActive={isActive} />
     </Source>
   )
 }

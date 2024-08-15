@@ -1,29 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useEventStore } from '../../../store'
 import { Layer, Popup } from 'react-map-gl'
 import { ZONES_SOURCE } from '../../../constants'
 
-const HoverZone = ({ map }) => {
-  const { hoverEvent } = useEventStore()
-  const [hoverZone, setHoverZone] = useState(null)
-
-  useEffect(() => {
-    if (hoverEvent === null) return
-    const feature = map.queryRenderedFeatures(hoverEvent.point, {
-      layers: ['zones'],
-    })[0]
-
-    if (!feature) {
-      setHoverZone(null)
-      return
-    }
-
-    setHoverZone(feature?.properties)
-  }, [hoverEvent])
+const HoverZone = ({ isPrimary }) => {
+  const { hoverEvent, hoveredFeature } = useEventStore()
 
   const filterForHoverZone = useMemo(() => {
-    return ['in', 'OBJECTID', hoverZone?.OBJECTID || '']
-  }, [hoverZone, hoverEvent])
+    return ['in', 'OBJECTID', hoveredFeature?.properties?.OBJECTID || '']
+  }, [hoveredFeature])
 
   return (
     <>
@@ -38,18 +23,18 @@ const HoverZone = ({ map }) => {
           'fill-opacity': 0.6,
           'fill-outline-color': 'white',
         }}
-        beforeId='airport-label'
+        beforeId={'airport-label'}
         layout={{ visibility: 'visible' }}
       />
-      {hoverZone && (
+      {hoveredFeature?.properties?.NOM_ZONE && (
         <Popup
-          longitude={hoverEvent.lngLat.lng}
-          latitude={hoverEvent.lngLat.lat}
+          longitude={hoverEvent?.lngLat?.lng}
+          latitude={hoverEvent?.lngLat?.lat}
           offset={[0, -5]}
           closeButton={false}
           className='hover-popup'
         >
-          {hoverZone?.NOM_ZONE}
+          {hoveredFeature?.properties?.NOM_ZONE}
         </Popup>
       )}
     </>

@@ -22,21 +22,23 @@ import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
 import { useQuery } from '../../hooks/useQuery'
 import IconButton from '../../components/IconButton/IconButton'
+import { useEventStore } from '../../store'
 
 const USER_ID = 2
 
-const PlotsPanel = ({ activePlotId, setActivePlotId }) => {
+const PlotsPanel = ({ activePlotId }) => {
   const [plotInfo, setPlotInfo] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
+  const { setClickedFeature } = useEventStore()
 
   const { loading: loadingBookmark, handler: bookmarkHandler } = useQuery()
   const { loading: loadingEmailAlerts, handler: emailAlertsHandler } =
     useQuery()
 
-  const closePlotPanel = () => setActivePlotId('')
+  const closePlotPanel = () => setClickedFeature(null)
 
   const addToEmailAlerts = async () => {
     emailAlertsHandler(() => plotService.addToEmailAlerts(plotInfo?._id))

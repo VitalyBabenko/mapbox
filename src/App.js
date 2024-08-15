@@ -25,27 +25,38 @@ function App() {
   const [isMapLoading, setIsMapLoading] = useState(true)
   const { mode } = useModeStore()
   const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
-  const { setClickEvent, setHoverEvent } = useEventStore()
+  const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
+    useEventStore()
   const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
 
-  const onMouseEnter = useCallback(() => setCursor('pointer'), [])
+  const onMouseEnter = function () {
+    setCursor('pointer')
+  }
+
   const onMouseLeave = useCallback(() => setCursor(null), [])
 
-  const onHover = useCallback(
-    event => {
-      if (isMapLoading) return
-      setHoverEvent(event)
-    },
-    [mode, isMapLoading],
-  )
+  const onHover = event => {
+    if (isMapLoading) return
+    setHoverEvent(event)
+    const feature = event?.features?.[0]
+    if (feature) {
+      setHoveredFeature(event?.features?.[0])
+      console.log(feature)
+    } else {
+      setHoveredFeature(null)
+    }
+  }
 
-  const onClick = useCallback(
-    event => {
-      if (isMapLoading) return
-      setClickEvent(event)
-    },
-    [mode, isMapLoading],
-  )
+  const onClick = event => {
+    if (isMapLoading) return
+    setClickEvent(event)
+    const feature = event?.features?.[0]
+    if (feature) {
+      setClickedFeature(event?.features?.[0])
+    } else {
+      setClickedFeature(null)
+    }
+  }
 
   const onMapLoad = () => {
     setIsMapLoading(false)
@@ -53,7 +64,7 @@ function App() {
 
   const onSourceDataLoad = event => {
     if (event.sourceId !== COUNTIES_SOURCE.id) return
-    if (allCountiesFeatures.length === 52) return
+    if (allCountiesFeatures?.length === 52) return
 
     const result = mapRef.current?.querySourceFeatures(COUNTIES_SOURCE.id, {
       layer: 'counties',
@@ -80,6 +91,14 @@ function App() {
       onLoad={onMapLoad}
       onSourceData={onSourceDataLoad}
       cursor={cursor}
+      interactiveLayerIds={[
+        'counties',
+        'plots',
+        'buildings',
+        'protected',
+        'clusters',
+        isZonesPrimary ? 'zones' : '',
+      ]}
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       mapStyle={MAP_STYLES[0].url}
       attributionControl={false}

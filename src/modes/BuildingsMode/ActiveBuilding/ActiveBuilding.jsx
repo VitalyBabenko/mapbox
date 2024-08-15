@@ -1,25 +1,16 @@
-import { useEffect, useState } from 'react'
 import { useEventStore } from '../../../store'
 import { BUILDINGS_SOURCE } from '../../../constants'
 import { Layer } from 'react-map-gl'
 import { BuildingsPanel } from '../../../panels'
 
-const ActiveBuilding = ({ isActive, map }) => {
-  const [ActiveBuildingId, setActiveBuildingId] = useState('')
-  const { clickEvent } = useEventStore()
+const ActiveBuilding = ({ isActive }) => {
+  const { clickedFeature } = useEventStore()
 
-  useEffect(() => {
-    if (!isActive) return
-    if (clickEvent === null) return
-
-    const clickedBuildingFeature = map.queryRenderedFeatures(clickEvent.point, {
-      layers: ['buildings'],
-    })[0]
-
-    setActiveBuildingId(clickedBuildingFeature?.properties?.EGRID_CENT || '')
-  }, [clickEvent])
-
-  const filterForActiveBuilding = ['in', 'EGID', ActiveBuildingId]
+  const filterForActiveBuilding = [
+    'in',
+    'EGID',
+    clickedFeature?.properties?.EGID || '',
+  ]
 
   return (
     <>
@@ -37,8 +28,7 @@ const ActiveBuilding = ({ isActive, map }) => {
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
       <BuildingsPanel
-        activeBuildingId={ActiveBuildingId}
-        setActiveBuildingId={setActiveBuildingId}
+        activeBuildingId={clickedFeature?.properties?.EGRID_CENT}
       />
     </>
   )
