@@ -41,7 +41,6 @@ function App() {
     const feature = event?.features?.[0]
     if (feature) {
       setHoveredFeature(event?.features?.[0])
-      console.log(feature)
     } else {
       setHoveredFeature(null)
     }

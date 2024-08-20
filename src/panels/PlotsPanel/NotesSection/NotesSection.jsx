@@ -3,56 +3,55 @@ import style from './NotesSection.module.scss'
 import { BiTrashAlt as DeleteIcon } from 'react-icons/bi'
 import { plotService } from '../../../service/plotService'
 import Loader from '../../../components/Loader/Loader'
-
-const testNotes = [{ id: 1, text: 'Test note 1' }]
+import { useQuery } from '../../../hooks/useQuery'
+import { useToastStore } from '../../../store'
 
 const NotesSection = ({ plotInfo }) => {
+  const [notes, setNotes] = useState([])
+  const { loading, error, handler } = useQuery()
   const [inputValue, setInputValue] = useState('')
-  const [notes, setNotes] = useState(testNotes)
-  const [isLoading, setIsLoading] = useState(false)
+  const toast = useToastStore()
 
-  const createNote = async e => {
+  const createNote = e => {
     e.preventDefault()
     if (!inputValue) return
 
-    setIsLoading(true)
+    handler(async () => {
+      const data = await plotService.addNote(plotInfo._id, inputValue)
+      setInputValue('')
+      if (!data?.result) return
 
-    await plotService.addPlotNote(plotInfo._id, inputValue)
-
-    const allNotes = await plotService.getAllNotes(plotInfo._id)
-
-    setNotes(allNotes.notes)
-
-    setInputValue('')
-
-    setIsLoading(false)
+      const updatedNotesData = await plotService.getAllNotes(plotInfo._id)
+      setNotes(updatedNotesData.notes)
+      toast.success(data.message)
+    })
   }
 
   const deleteNote = async id => {
-    setIsLoading(true)
-    try {
-      await plotService.removePlotNote(plotInfo._id, id)
+    handler(async () => {
+      const data = await plotService.removeNote(plotInfo._id, id)
+      if (!data?.result) return
 
       setNotes(notes.filter(note => note.id !== id))
-    } catch (error) {}
-    setIsLoading(false)
+      toast.success(data.message)
+    })
   }
 
   useEffect(() => {
-    if (plotInfo?._id) {
-      const getAllNotes = async () => {
-        const allNotes = await plotService.getAllNotes(plotInfo._id)
-
-        setNotes(allNotes.notes)
-      }
-
-      getAllNotes()
-    }
+    if (!plotInfo?._id) return
+    handler(async () => {
+      const data = await plotService.getAllNotes(plotInfo._id)
+      setNotes(data.notes)
+    })
   }, [plotInfo])
+
+  useEffect(() => {
+    if (error) toast.error('Something went wrong. Please try again later.')
+  }, [error])
 
   return (
     <section className={style.section}>
-      {isLoading && (
+      {loading && (
         <div className={style['loader-container']}>
           <Loader />
         </div>

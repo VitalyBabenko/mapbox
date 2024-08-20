@@ -15,59 +15,59 @@
   box-sizing: border-box;
   @include custom-scrollbar;
 
-  .heading {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  // .heading {
+  //   display: flex;
+  //   align-items: center;
+  //   gap: 6px;
 
-    h2 {
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 30px;
-      color: $grey-700;
-    }
+  //   h2 {
+  //     font-size: 20px;
+  //     font-weight: 600;
+  //     line-height: 30px;
+  //     color: $grey-700;
+  //   }
 
-    a {
-      display: flex;
-      align-items: center;
-    }
+  //   a {
+  //     display: flex;
+  //     align-items: center;
+  //   }
 
-    .star,
-    svg,
-    a svg {
-      width: 24px;
-      height: 24px;
-      padding: 1px;
-      border-radius: 100%;
-      cursor: pointer;
-      box-sizing: border-box;
+  //   .star,
+  //   svg,
+  //   a svg {
+  //     width: 24px;
+  //     height: 24px;
+  //     padding: 1px;
+  //     border-radius: 100%;
+  //     cursor: pointer;
+  //     box-sizing: border-box;
 
-      path {
-        fill: $grey-600;
-      }
+  //     path {
+  //       fill: $grey-600;
+  //     }
 
-      &:hover {
-        background: #f2f2f2;
-      }
-    }
+  //     &:hover {
+  //       background: #f2f2f2;
+  //     }
+  //   }
 
-    .fileLink > div > div {
-      display: flex;
-      align-items: center;
-    }
+  //   .fileLink > div > div {
+  //     display: flex;
+  //     align-items: center;
+  //   }
 
-    .crossIcon {
-      width: 24px;
-      height: 24px;
-      margin-left: auto;
-      border-radius: 2px;
-      cursor: pointer;
+  //   .crossIcon {
+  //     width: 24px;
+  //     height: 24px;
+  //     margin-left: auto;
+  //     border-radius: 2px;
+  //     cursor: pointer;
 
-      &:hover {
-        background-color: #f2f2f2;
-      }
-    }
-  }
+  //     &:hover {
+  //       background-color: #f2f2f2;
+  //     }
+  //   }
+  // }
 
   .commune {
     font-size: 13px;

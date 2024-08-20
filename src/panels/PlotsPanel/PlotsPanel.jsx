@@ -1,10 +1,3 @@
-import {
-  BiStar as StarIcon,
-  BiSolidStar as SolidStarIcon,
-  BiBell as BellIcon,
-  BiSolidBell as SolidBellIcon,
-} from 'react-icons/bi'
-import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import { memo, useEffect, useState } from 'react'
 import Loader from '../../components/Loader/Loader'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
@@ -16,51 +9,18 @@ import TransactionsSection from './TransactionsSection/TransactionsSection'
 import NotesSection from './NotesSection/NotesSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import BuildingPermitsSection from './BuildingPermitsSection/BuildingPermitsSection'
-import { BiFileBlank as FileIcon } from 'react-icons/bi'
-import Tooltip from '../../components/Tooltip/Tooltip'
 import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
-import { useQuery } from '../../hooks/useQuery'
-import IconButton from '../../components/IconButton/IconButton'
 import { useEventStore } from '../../store'
-
-const USER_ID = 2
+import HeadingSection from './HeadingSection/HeadingSection'
 
 const PlotsPanel = ({ activePlotId }) => {
   const [plotInfo, setPlotInfo] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
-  const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
   const { setClickedFeature } = useEventStore()
 
-  const { loading: loadingBookmark, handler: bookmarkHandler } = useQuery()
-  const { loading: loadingEmailAlerts, handler: emailAlertsHandler } =
-    useQuery()
-
   const closePlotPanel = () => setClickedFeature(null)
-
-  const addToEmailAlerts = async () => {
-    emailAlertsHandler(() => plotService.addToEmailAlerts(plotInfo?._id))
-    setIsAddedToEmailAlerts(true)
-  }
-
-  const removeFromEmailAlerts = async () => {
-    emailAlertsHandler(() => plotService.removeEmailAlerts(plotInfo?._id))
-    setIsAddedToEmailAlerts(false)
-  }
-
-  const addToBookmarkAlerts = async () => {
-    await bookmarkHandler(() => plotService.addToBookmarksAlerts(plotInfo?._id))
-    setIsAddedToBookmarks(true)
-  }
-
-  const removeFromBookmarks = async () => {
-    await bookmarkHandler(() =>
-      plotService.removeBookmarksAlerts(plotInfo?._id),
-    )
-    setIsAddedToBookmarks(false)
-  }
 
   useEffect(() => {
     const getData = async () => {
@@ -75,19 +35,6 @@ const PlotsPanel = ({ activePlotId }) => {
       }
 
       setPlotInfo(info)
-
-      const { bookmarks } = await plotService.getBookmarksAlerts(info._id)
-
-      setIsAddedToBookmarks(
-        !!bookmarks.find(({ user_id }) => user_id === USER_ID),
-      )
-
-      const { alerts } = await plotService.getEmailAlerts(info._id)
-
-      setIsAddedToEmailAlerts(
-        !!alerts.find(({ user_id }) => user_id === USER_ID),
-      )
-
       setIsLoading(false)
     }
 
@@ -117,58 +64,11 @@ const PlotsPanel = ({ activePlotId }) => {
         </div>
       )}
 
-      <div className={style.heading}>
-        <h2>Plot {plotInfo?.no_commune_no_parcelle}</h2>
-
-        {isAddedToBookmarks ? (
-          <Tooltip text='Remove plot from bookmarks alerts' bottom='-40px'>
-            <IconButton disabled={loadingBookmark}>
-              <SolidStarIcon
-                className={`${style.star}`}
-                onClick={removeFromBookmarks}
-              />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip text='Add plot to bookmarks alerts' bottom='-40px'>
-            <IconButton disabled={loadingBookmark}>
-              <StarIcon
-                className={`${style.star}`}
-                onClick={addToBookmarkAlerts}
-              />
-            </IconButton>
-          </Tooltip>
-        )}
-
-        {isAddedToEmailAlerts ? (
-          <Tooltip text='Remove plot from email alerts' bottom='-40px'>
-            <IconButton disabled={loadingEmailAlerts}>
-              <SolidBellIcon onClick={removeFromEmailAlerts} />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip text='Add plot to email alerts' bottom='-40px'>
-            <IconButton disabled={loadingEmailAlerts}>
-              <BellIcon onClick={addToEmailAlerts} />
-            </IconButton>
-          </Tooltip>
-        )}
-
-        {plotInfo?.extrait_rdppf_pdf && (
-          <a
-            className={style.fileLink}
-            href={plotInfo.extrait_rdppf_pdf}
-            target='_blank'
-            rel='noreferrer'
-          >
-            <Tooltip text='RDPPF' bottom='-40px'>
-              <FileIcon />
-            </Tooltip>
-          </a>
-        )}
-
-        <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
-      </div>
+      <HeadingSection
+        plotInfo={plotInfo}
+        isLoading={isLoading}
+        closePlotPanel={closePlotPanel}
+      />
 
       {plotInfo?.commune_name && (
         <p className={style.commune}>

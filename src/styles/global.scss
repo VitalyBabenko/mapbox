@@ -6,14 +6,23 @@ body {
   min-height: 100% !important;
 }
 
-#root,
-.mapboxgl-map {
-  min-width: calc(100vw - 190px);
-  // min-height: calc(100vh - 185px);
+// dev mode
+#root {
   min-height: 100vh;
+  min-width: 100vw;
+}
 
+.mapboxgl-map {
+  min-height: 100vh;
+  min-width: 100vw;
   position: relative;
 }
+
+// prod mode
+// #root {
+//   width: 100%;
+//   height: calc(100vh - 185px);
+// }
 
 .mapboxgl-popup-content {
   padding: 2.5px 10px;

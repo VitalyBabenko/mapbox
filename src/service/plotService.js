@@ -1,4 +1,5 @@
 import axios from 'axios'
+import axiosInstance from './axiosInstance'
 
 const url = 'https://777.adm-devs.com'
 
@@ -9,7 +10,7 @@ export const plotService = {
 
       const plot = resp?.data?.data
 
-      if (!plot) throw new Error('error')
+      if (!plot) throw new Error()
 
       plot.getTransactions = function () {
         return this.ownership_info
@@ -43,55 +44,93 @@ export const plotService = {
       }
     }
   },
+
+  // email alerts
+  getEmailAlerts: async plotId => {
+    const resp = await axiosInstance.get(`/user/alerts/all/${plotId}`)
+    if (!Array.isArray(resp?.data?.alerts)) {
+      throw new Error()
+    }
+    return resp.data.alerts
+  },
+
   addToEmailAlerts: async plotId => {
-    const { data } = await axios.post(`${url}/user/2/plot/${plotId}/alert`)
+    const resp = await axiosInstance.post(`/user/plot/${plotId}/alert`)
+    if (!resp?.data?.result) {
+      throw new Error()
+    }
+    return resp.data
   },
 
   removeEmailAlerts: async plotId => {
-    const { data } = await axios.delete(`${url}/user/2/plot/${plotId}/alert`)
+    const resp = await axiosInstance.delete(`/user/plot/${plotId}/alert`)
+    if (!resp?.data?.result) {
+      throw new Error()
+    }
+    return resp.data
   },
 
-  getEmailAlerts: async plotId => {
-    const { data } = await axios.get(`${url}/user/2/alerts/all/${plotId}`)
-
-    return data
+  // bookmarks
+  getBookmarksAlerts: async plotId => {
+    const resp = await axiosInstance.get(`/user/bookmarks/all/${plotId}`)
+    if (!Array.isArray(resp?.data?.bookmarks)) {
+      throw new Error()
+    }
+    return resp.data.bookmarks
   },
 
   addToBookmarksAlerts: async plotId => {
-    const { data } = await axios.post(`${url}/user/2/plot/${plotId}/bookmark`)
+    const resp = await axiosInstance.post(`/user/plot/${plotId}/bookmark`)
+    if (!resp?.data?.result) {
+      throw new Error()
+    }
+    return resp.data
   },
 
   removeBookmarksAlerts: async plotId => {
-    const { data } = await axios.delete(`${url}/user/2/plot/${plotId}/bookmark`)
+    const resp = await axiosInstance.delete(`/user/plot/${plotId}/bookmark`)
+    if (!resp?.data?.result) {
+      throw new Error()
+    }
+    return resp.data
   },
 
-  getBookmarksAlerts: async plotId => {
-    const { data } = await axios.get(`${url}/user/2/bookmarks/all/${plotId}`)
-
-    return data
-  },
-
+  // notes
   getAllNotes: async plotId => {
-    const { data } = await axios.get(`${url}/user/2/notes/all/${plotId}`)
-
-    return data
+    const resp = await axiosInstance.get(`/user/notes/all/${plotId}`)
+    if (!Array.isArray(resp?.data?.notes)) {
+      throw new Error()
+    }
+    return resp.data
   },
 
-  addPlotNote: async (plotId, text) => {
+  addNote: async (plotId, text) => {
     const formData = new URLSearchParams()
     formData.append('content', text)
 
-    await axios.post(`${url}/user/2/plot/${plotId}/note`, formData.toString(), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+    const resp = await axiosInstance.post(
+      `/plot/${plotId}/user/note`,
+      formData.toString(),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
       },
-    })
+    )
+    if (!resp?.data?.result) {
+      throw new Error()
+    }
+    return resp.data
   },
 
-  removePlotNote: async (plotId, noteId) => {
-    const { data } = await axios.delete(
-      `${url}/user/2/plot/${plotId}/note/${noteId}`,
+  removeNote: async (plotId, noteId) => {
+    const resp = await axiosInstance.delete(
+      `/user/plot/${plotId}/note/${noteId}`,
     )
+    if (!resp?.data?.result) {
+      throw new Error()
+    }
+    return resp.data
   },
 
   getFilters: async () => {
