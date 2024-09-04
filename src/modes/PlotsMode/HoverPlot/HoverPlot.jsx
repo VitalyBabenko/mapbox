@@ -12,6 +12,8 @@ const HoverPlot = ({ isActive }) => {
     [hoveredFeature, isActive],
   )
 
+  console.log(hoveredFeature?.properties?.IDEDDP)
+
   if (!isActive) return null
   return (
     <>
@@ -28,7 +30,7 @@ const HoverPlot = ({ isActive }) => {
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
-      {hoveredFeature?.properties?.EGRID && isActive && (
+      {hoveredFeature?.properties?.IDEDDP && isActive && (
         <Popup
           longitude={hoverEvent.lngLat.lng}
           latitude={hoverEvent.lngLat.lat}
@@ -36,7 +38,7 @@ const HoverPlot = ({ isActive }) => {
           closeButton={false}
           className='hover-popup'
         >
-          Plot: {hoveredFeature?.properties?.EGRID}
+          Plot: {hoveredFeature?.properties?.IDEDDP?.replace(':', '/')}
         </Popup>
       )}
     </>

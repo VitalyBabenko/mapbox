@@ -3,7 +3,12 @@ import { DEFAULT_PAINT, INITIAL_VIEW } from '../../constants'
 import style from './ModeSwitcher.module.scss'
 import { BiBuildings as BuildingIcon } from 'react-icons/bi'
 import { BiArea as PlotIcon } from 'react-icons/bi'
-import { useFilterStore, useModeStore, usePaintStore } from '../../store'
+import {
+  useEventStore,
+  useFilterStore,
+  useModeStore,
+  usePaintStore,
+} from '../../store'
 import { memo } from 'react'
 
 const ModeSwitcher = () => {
@@ -19,6 +24,7 @@ const ModeSwitcher = () => {
   } = useModeStore()
   const { setFilteredBuildingsIds, setFilteredPlotsIds } = useFilterStore()
   const { setActivePaint } = usePaintStore()
+  const { setClickedFeature } = useEventStore()
 
   const handleSwitch = clickedMode => {
     if (clickedMode === switcher) return
@@ -49,6 +55,7 @@ const ModeSwitcher = () => {
     setFilteredBuildingsIds([])
     setFilteredPlotsIds([])
     switchToCountiesMode()
+    setClickedFeature(null)
   }
 
   return (

@@ -48,7 +48,7 @@ const ZonesSection = () => {
           className={isActive ? style.active : ''}
         >
           <img src={paintByZonesPreview} alt='preview' />
-          <span>Zones</span>
+          {/* <span>Zones</span> */}
         </li>
 
         {isActive && (

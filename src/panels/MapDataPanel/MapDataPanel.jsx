@@ -8,8 +8,10 @@ import CharacteristicsSection from './CharacteristicsSection/CharacteristicsSect
 import ScalePanel from '../ScalePanel/ScalePanel'
 import ZonesSection from './ZonesSection/ZonesSection'
 import ProtectedSection from './ProtectedSection/ProtectedSection'
+import { useModeStore } from '../../store'
 
 const MapDataPanel = () => {
+  const { county } = useModeStore()
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const openPanel = () => setIsPanelOpen(true)
   const closePanel = () => setIsPanelOpen(false)
@@ -37,9 +39,12 @@ const MapDataPanel = () => {
         </div>
 
         <BasemapSection />
-        <CharacteristicsSection />
+
         <ProtectedSection />
+
         <ZonesSection />
+
+        {county ? <CharacteristicsSection /> : null}
       </div>
       <ScalePanel />
     </>

@@ -12,6 +12,7 @@ const CountiesMode = ({ isActive }) => {
 
   useEffect(() => {
     if (!isActive) return
+    if (clickedFeature === null) return
 
     const [minLng, minLat, maxLng, maxLat] = bbox(clickedFeature)
     map.fitBounds(
