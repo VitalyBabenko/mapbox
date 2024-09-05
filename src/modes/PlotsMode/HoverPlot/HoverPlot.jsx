@@ -12,8 +12,6 @@ const HoverPlot = ({ isActive }) => {
     [hoveredFeature, isActive],
   )
 
-  console.log(hoveredFeature?.properties?.IDEDDP)
-
   if (!isActive) return null
   return (
     <>
