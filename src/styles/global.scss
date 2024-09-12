@@ -21,7 +21,13 @@ body {
 // prod mode
 // #root {
 //   width: 100%;
+//   width: -webkit-fill-available;
 //   height: calc(100vh - 185px);
+
+//   .mapboxgl-canvas {
+//     width: 100%;
+//     width: -webkit-fill-available;
+//   }
 // }
 
 .mapboxgl-popup-content {
