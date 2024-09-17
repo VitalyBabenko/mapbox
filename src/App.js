@@ -23,7 +23,7 @@ function App() {
   const mapRef = useRef(null)
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
-  const { mode } = useModeStore()
+  const { mode, toggleSwitcher } = useModeStore()
   const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
   const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
     useEventStore()
@@ -59,6 +59,11 @@ function App() {
 
   const onMapLoad = () => {
     setIsMapLoading(false)
+    const pathname = window.location.pathname
+
+    if (pathname.includes('/buildings')) {
+      toggleSwitcher()
+    }
   }
 
   const onSourceDataLoad = event => {
@@ -106,6 +111,7 @@ function App() {
         longitude: INITIAL_VIEW.LONGITUDE,
         zoom: INITIAL_VIEW.ZOOM,
       }}
+      style={{ width: '100%', height: '100%' }}
     >
       {isMapLoading && <Loader withBackground />}
 

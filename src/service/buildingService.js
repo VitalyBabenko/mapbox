@@ -33,21 +33,17 @@ export const buildingService = {
 
   getFilters: async () => {
     try {
-      const { data } = await axios.get(`${url}/api/filters`)
+      const lang = document.querySelector('html').lang
+      const { data } = await axios.get(
+        `${url}/api/filters/buildings?lang=${lang}`,
+      )
 
-      const buildingsFilters = data
-        .filter(item => {
-          if (item.view === 'checkbox') return false
-          if (item.level?.includes('buildings')) return true
-
-          return false
-        })
+      const buildingsFilters = data.data
+        .filter(item => item.view !== 'checkbox')
         .sort((a, b) => a.position - b.position)
         .sort((a, b) => b.show_on_top - a.show_on_top)
 
-      const checkboxes = data.filter(item => {
-        return item.level?.includes('buildings') && item.view === 'checkbox'
-      })
+      const checkboxes = data.data.filter(item => item.view === 'checkbox')
 
       return { list: buildingsFilters, checkboxes }
     } catch (error) {
