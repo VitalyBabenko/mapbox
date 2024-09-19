@@ -3,7 +3,10 @@
 .typehead {
   div[aria-label='menu-options'] {
     background-color: #fff;
+    margin-top: 10px;
     z-index: 100;
+    border-radius: 4px;
+    border: 1px solid #d8d6de;
 
     a {
       display: block;

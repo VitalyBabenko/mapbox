@@ -20,11 +20,15 @@
   top: 49px;
   left: 10px;
   width: 320px;
-  height: 600px;
+  height: fit-content;
+  min-height: 400px;
+  max-height: 80vh;
 
   .filtersPopup {
     position: relative;
-    height: 100%;
+    height: fit-content;
+    max-height: 80vh;
+    min-height: 400px;
     background: $white;
     border-radius: 4px;
     background: #f9fafb;
@@ -80,12 +84,12 @@
         }
       }
 
-      h3 {
+      h4 {
         margin-top: 10px;
         margin-bottom: 0;
         height: 26px;
         @include section-title;
-        font-size: 17px;
+        font-size: 16px;
 
         &:first-of-type {
           margin-top: 0;

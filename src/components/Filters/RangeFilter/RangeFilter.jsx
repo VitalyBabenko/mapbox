@@ -16,7 +16,7 @@ const RangeFilter = ({ label, value, setValue, min, max, icon }) => {
 
   return (
     <>
-      <h3>{label}</h3>
+      <h4>{label}</h4>
       <div className={style.inputs}>
         <input
           value={

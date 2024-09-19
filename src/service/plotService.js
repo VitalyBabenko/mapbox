@@ -138,22 +138,42 @@ export const plotService = {
       const lang = document.querySelector('html').lang
       const { data } = await axios.get(`${url}/api/filters/plots?lang=${lang}`)
 
-      const plotsFilters = data.data
-        .filter(item => item.view !== 'checkbox')
-        .sort((a, b) => a.position - b.position)
-        .sort((a, b) => b.show_on_top - a.show_on_top)
+      const filtersByCategory = Object.entries(
+        data.data.reduce((acc, item) => {
+          const key = item.category_title
+          if (!acc[key]) {
+            acc[key] = []
+          }
+          acc[key].push(item)
+          return acc
+        }, {}),
+      ).map(([category, items]) => ({
+        title: category,
+        filters: items,
+      }))
 
-      const checkboxes = data.data.filter(item => {
-        return item.view === 'checkbox'
-      })
-
-      return { list: plotsFilters, checkboxes }
+      return { filtersByCategory, filters: data.data }
     } catch (error) {
       return {
         error,
       }
     }
   },
+
+  // getFilters: async () => {
+  //   try {
+  //     const lang = document.querySelector('html').lang
+  //     const { data } = await axios.get(`${url}/api/filters/plots?lang=${lang}`)
+
+  //     const filtersCategories = new Map(['test', 'test'])
+
+  //     console.log(filtersCategories)
+  //   } catch (error) {
+  //     return {
+  //       error,
+  //     }
+  //   }
+  // },
 
   setFilters: async filters => {
     try {
