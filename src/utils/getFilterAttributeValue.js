@@ -1,5 +1,9 @@
 export const getFilterAttributeValue = (view, values) => {
   switch (view) {
+    case 'input': {
+      return ''
+    }
+
     case 'typeahead_input': {
       return ''
     }

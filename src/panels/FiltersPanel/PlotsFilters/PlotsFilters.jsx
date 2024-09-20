@@ -32,8 +32,6 @@ const PlotsFilters = ({ setMapLoader }) => {
   const handleSubmit = async e => {
     e.preventDefault()
 
-    console.log(formValues.commune_name)
-
     if (!formValues.commune_name.value) {
       setError('Veuillez sélectionner une commune')
       return
@@ -156,19 +154,6 @@ const PlotsFilters = ({ setMapLoader }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        {/* {filters.checkboxes.map(filter => (
-          <Checkbox
-            key={filter.id}
-            label={filter.title}
-            checked={formValues[filter.attribute]}
-            onChange={e => {
-              onChangeFormValue(filter.attribute, e.target.checked)
-            }}
-          />
-        ))} */}
-      </div>
-
       {accordions.map(accordion => (
         <FilterAccordion
           key={accordion.title}
@@ -178,16 +163,6 @@ const PlotsFilters = ({ setMapLoader }) => {
           onChangeFormValue={onChangeFormValue}
         />
       ))}
-
-      {/* {filters.list.map(filter => (
-        <FilterByView
-          key={filter.id}
-          view={filter.view}
-          filter={filter}
-          formValues={formValues}
-          onChangeFormValue={onChangeFormValue}
-        />
-      ))} */}
 
       {error && <span role='alert'>{error}</span>}
 

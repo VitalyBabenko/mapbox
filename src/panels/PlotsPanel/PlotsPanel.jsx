@@ -28,8 +28,6 @@ const PlotsPanel = ({ activePlotId }) => {
       setIsLoading(true)
       const info = await plotService.getPlotByEgrId(activePlotId)
 
-      console.log(info)
-
       if (info?.error?.message?.length) {
         setError('Building information is unavailable. Please try again later.')
         setIsLoading(false)

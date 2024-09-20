@@ -1,0 +1,29 @@
+@import '../../../../styles/variables';
+
+.filterValues {
+  margin: 5px 0 5px;
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .filterItem {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    .filterTitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: $grey-600;
+      text-align: start;
+    }
+
+    .filterValue {
+      font-size: 14px;
+      font-weight: 700;
+      color: $grey-700;
+    }
+  }
+}

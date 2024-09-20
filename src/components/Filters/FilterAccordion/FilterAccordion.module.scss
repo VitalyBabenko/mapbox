@@ -8,20 +8,19 @@
   overflow: hidden;
   min-height: 50px;
   max-height: 50px;
-  //   height: fit-content;
   transition: all 0.25s ease-in-out;
 
   .heading {
-    padding: 0;
     padding: 12px 0 12px 0;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 20px;
     align-items: center;
     background: transparent;
     border: none;
     cursor: pointer;
 
     .title {
+      justify-self: start;
       @include section-title;
       font-size: 18px;
 
@@ -34,6 +33,10 @@
       height: 18px;
       transition: transform 0.25s ease-in-out;
     }
+  }
+
+  .filters {
+    padding: 5px 0 15px;
   }
 
   &.open {

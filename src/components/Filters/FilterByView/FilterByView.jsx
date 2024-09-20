@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import Select from 'react-select'
 import TypeaheadFilter from '../TypeaheadFilter/TypeaheadFilter'
 import { selectStyles } from '../../../styles/selectStyles'
@@ -16,6 +15,17 @@ const rangeIcons = {
 
 const FilterByView = ({ view, filter, formValues, onChangeFormValue }) => {
   switch (view) {
+    case 'input':
+      return (
+        <>
+          <h4>{filter.title}</h4>
+          <input
+            value={formValues[filter.attribute]}
+            onChange={e => onChangeFormValue(filter.attribute, e.target.value)}
+          />
+        </>
+      )
+
     case 'typeahead_input':
       return (
         <TypeaheadFilter

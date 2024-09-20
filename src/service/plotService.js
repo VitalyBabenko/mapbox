@@ -160,21 +160,6 @@ export const plotService = {
     }
   },
 
-  // getFilters: async () => {
-  //   try {
-  //     const lang = document.querySelector('html').lang
-  //     const { data } = await axios.get(`${url}/api/filters/plots?lang=${lang}`)
-
-  //     const filtersCategories = new Map(['test', 'test'])
-
-  //     console.log(filtersCategories)
-  //   } catch (error) {
-  //     return {
-  //       error,
-  //     }
-  //   }
-  // },
-
   setFilters: async filters => {
     try {
       const { data } = await axios.get(`${url}/api/map/plots`, {

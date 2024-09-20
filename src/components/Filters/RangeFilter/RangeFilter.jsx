@@ -22,7 +22,7 @@ const RangeFilter = ({ label, value, setValue, min, max, icon }) => {
           value={
             value[0]
               ? value[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-              : ''
+              : 0
           }
           onChange={handleMinInputChange}
         />
