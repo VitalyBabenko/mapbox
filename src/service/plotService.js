@@ -141,10 +141,14 @@ export const plotService = {
       const filtersByCategory = Object.entries(
         data.data.reduce((acc, item) => {
           const key = item.category_title
+          if (key === null) return acc
+
           if (!acc[key]) {
             acc[key] = []
           }
+
           acc[key].push(item)
+
           return acc
         }, {}),
       ).map(([category, items]) => ({

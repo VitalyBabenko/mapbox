@@ -6,6 +6,7 @@ import RangeFilter from '../RangeFilter/RangeFilter'
 import DateFilter from '../DateFilter/DateFilter'
 import { TbCurrencyEuro } from 'react-icons/tb'
 import { TbMeterSquare as MeterSquareIcon } from 'react-icons/tb'
+import { useFilterStore } from '../../../store'
 
 const rangeIcons = {
   prix: <TbCurrencyEuro />,
@@ -13,7 +14,9 @@ const rangeIcons = {
   age: null,
 }
 
-const FilterByView = ({ view, filter, formValues, onChangeFormValue }) => {
+const FilterByView = ({ view, filter }) => {
+  const { formValues, setInputValue } = useFilterStore()
+
   switch (view) {
     case 'input':
       return (
@@ -21,7 +24,7 @@ const FilterByView = ({ view, filter, formValues, onChangeFormValue }) => {
           <h4>{filter.title}</h4>
           <input
             value={formValues[filter.attribute]}
-            onChange={e => onChangeFormValue(filter.attribute, e.target.value)}
+            onChange={e => setInputValue(filter.attribute, e.target.value)}
           />
         </>
       )
@@ -31,7 +34,7 @@ const FilterByView = ({ view, filter, formValues, onChangeFormValue }) => {
         <TypeaheadFilter
           filter={filter}
           value={[...formValues[filter.attribute]]}
-          setSelected={s => onChangeFormValue(filter.attribute, s)}
+          setSelected={s => setInputValue(filter.attribute, s)}
         />
       )
 
@@ -44,7 +47,9 @@ const FilterByView = ({ view, filter, formValues, onChangeFormValue }) => {
             name={filter.attribute}
             styles={selectStyles}
             value={formValues[filter.attribute]}
-            onChange={newValue => onChangeFormValue(filter.attribute, newValue)}
+            onChange={newValue => {
+              setInputValue(filter.attribute, newValue)
+            }}
             options={filter.values.map(v => ({
               value: v,
               label: v,
@@ -61,7 +66,7 @@ const FilterByView = ({ view, filter, formValues, onChangeFormValue }) => {
           min={filter.values.min || 0}
           max={filter.values.max || 0}
           value={formValues[filter.attribute]}
-          setValue={v => onChangeFormValue(filter.attribute, v)}
+          setValue={v => setInputValue(filter.attribute, v)}
         />
       )
 
@@ -71,9 +76,9 @@ const FilterByView = ({ view, filter, formValues, onChangeFormValue }) => {
           key={filter.attribute}
           label={filter.title}
           startValue={formValues[filter.attribute]?.start}
-          setStartValue={v => onChangeFormValue(filter.attribute, v)}
+          setStartValue={v => setInputValue(filter.attribute, v)}
           endValue={formValues[filter.attribute]?.end}
-          setEndValue={v => onChangeFormValue(filter.attribute, v)}
+          setEndValue={v => setInputValue(filter.attribute, v)}
         />
       )
     default:

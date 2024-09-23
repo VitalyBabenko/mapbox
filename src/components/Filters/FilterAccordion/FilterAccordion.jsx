@@ -5,7 +5,7 @@ import { IoIosArrowDown as Arrow } from 'react-icons/io'
 import FilterAccordionValues from './FilterAccordionValues/FilterAccordionValues'
 
 const FilterAccordion = props => {
-  const { title, filters, formValues, onChangeFormValue } = props
+  const { title, filters, formValues, setInputValue } = props
   const [open, setOpen] = useState(false)
   const accordionRef = useRef(null)
   const headingRef = useRef(null)
@@ -24,6 +24,7 @@ const FilterAccordion = props => {
         ref={headingRef}
         className={style.heading}
         onClick={() => setOpen(prev => !prev)}
+        type='button'
       >
         <h3 className={style.title}>{title}</h3>
 
@@ -36,13 +37,7 @@ const FilterAccordion = props => {
 
       <div className={style.filters}>
         {filters.map(filter => (
-          <FilterByView
-            key={filter.id}
-            view={filter.view}
-            filter={filter}
-            formValues={formValues}
-            onChangeFormValue={onChangeFormValue}
-          />
+          <FilterByView key={filter.id} view={filter.view} filter={filter} />
         ))}
       </div>
     </div>
