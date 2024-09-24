@@ -17,11 +17,11 @@ const NotesSection = ({ plotInfo }) => {
     if (!inputValue) return
 
     handler(async () => {
-      const data = await plotService.addNote(plotInfo._id, inputValue)
+      const data = await plotService.addNote(plotInfo.mongo_id, inputValue)
       setInputValue('')
       if (!data?.result) return
 
-      const updatedNotesData = await plotService.getAllNotes(plotInfo._id)
+      const updatedNotesData = await plotService.getAllNotes(plotInfo.mongo_id)
       setNotes(updatedNotesData.notes)
       toast.success(data.message)
     })

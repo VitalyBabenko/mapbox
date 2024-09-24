@@ -10,7 +10,7 @@ const SpecsSection = ({ plotInfo }) => {
   const plotSurface = plotInfo?.surface_parcelle_m2 || null
   const livingSurface = plotInfo?.getLivingSurface() || null
   const ownersQuantity = plotInfo?.ownership_info?.length || null
-  const buildingsQuantity = plotInfo?.addresses.length || null
+  const buildingsQuantity = plotInfo?.addresses?.length || null
 
   return (
     <ul className={style.section}>

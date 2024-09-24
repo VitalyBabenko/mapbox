@@ -15,7 +15,7 @@ import { plotService } from '../../../service/plotService'
 import { useToastStore } from '../../../store'
 
 const HeadingSection = ({ plotInfo, closePlotPanel }) => {
-  const plotId = plotInfo?._id
+  const plotId = plotInfo?.mongo_id
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
   const {

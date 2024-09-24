@@ -1,5 +1,5 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
-import { memo, useCallback, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import {
   COUNTIES_SOURCE,
   INITIAL_VIEW,
@@ -22,6 +22,7 @@ import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
 function App() {
   const mapRef = useRef(null)
   const [cursor, setCursor] = useState(null)
+  const [width, setWidth] = useState(window.innerWidth)
   const [isMapLoading, setIsMapLoading] = useState(true)
   const { mode, toggleSwitcher } = useModeStore()
   const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
@@ -85,6 +86,22 @@ function App() {
     return mode === currentMode
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth)
+
+      if (mapRef.current) {
+        mapRef.current.resize()
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
     <Map
       ref={mapRef}
@@ -111,7 +128,7 @@ function App() {
         longitude: INITIAL_VIEW.LONGITUDE,
         zoom: INITIAL_VIEW.ZOOM,
       }}
-      style={{ width: '100%', height: '100%' }}
+      style={{ width }}
     >
       {isMapLoading && <Loader withBackground />}
 
