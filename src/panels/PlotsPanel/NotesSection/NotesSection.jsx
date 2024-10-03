@@ -29,7 +29,7 @@ const NotesSection = ({ plotInfo }) => {
 
   const deleteNote = async id => {
     handler(async () => {
-      const data = await plotService.removeNote(plotInfo._id, id)
+      const data = await plotService.removeNote(plotInfo.mongo_id, id)
       if (!data?.result) return
 
       setNotes(notes.filter(note => note.id !== id))
@@ -38,9 +38,9 @@ const NotesSection = ({ plotInfo }) => {
   }
 
   useEffect(() => {
-    if (!plotInfo?._id) return
+    if (!plotInfo?.mongo_id) return
     handler(async () => {
-      const data = await plotService.getAllNotes(plotInfo._id)
+      const data = await plotService.getAllNotes(plotInfo.mongo_id)
       setNotes(data.notes)
     })
   }, [plotInfo])

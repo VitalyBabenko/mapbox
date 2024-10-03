@@ -21,8 +21,8 @@ import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
 
 function App() {
   const mapRef = useRef(null)
+  const wrapperRef = useRef(null)
   const [cursor, setCursor] = useState(null)
-  const [width, setWidth] = useState(window.innerWidth)
   const [isMapLoading, setIsMapLoading] = useState(true)
   const { mode, toggleSwitcher } = useModeStore()
   const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
@@ -88,63 +88,70 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => {
-      setWidth(window.innerWidth)
-
       if (mapRef.current) {
         mapRef.current.resize()
       }
     }
 
-    window.addEventListener('resize', handleResize)
+    const observer = new ResizeObserver(() => {
+      handleResize()
+    })
+
+    if (wrapperRef.current) {
+      observer.observe(wrapperRef.current)
+    }
 
     return () => {
-      window.removeEventListener('resize', handleResize)
+      if (wrapperRef.current) {
+        observer.unobserve(wrapperRef.current)
+      }
     }
   }, [])
 
   return (
-    <Map
-      ref={mapRef}
-      onClick={onClick}
-      onMouseMove={onHover}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onLoad={onMapLoad}
-      onSourceData={onSourceDataLoad}
-      cursor={cursor}
-      interactiveLayerIds={[
-        'counties',
-        'plots',
-        'buildings',
-        'protected',
-        'clusters',
-        isZonesPrimary ? 'zones' : '',
-      ]}
-      mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      mapStyle={MAP_STYLES[0].url}
-      attributionControl={false}
-      initialViewState={{
-        latitude: INITIAL_VIEW.LATITUDE,
-        longitude: INITIAL_VIEW.LONGITUDE,
-        zoom: INITIAL_VIEW.ZOOM,
-      }}
-      style={{ width }}
-    >
-      {isMapLoading && <Loader withBackground />}
+    <div ref={wrapperRef}>
+      <Map
+        ref={mapRef}
+        onClick={onClick}
+        onMouseMove={onHover}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onLoad={onMapLoad}
+        onSourceData={onSourceDataLoad}
+        cursor={cursor}
+        interactiveLayerIds={[
+          'counties',
+          'plots',
+          'buildings',
+          'protected',
+          'clusters',
+          isZonesPrimary ? 'zones' : '',
+        ]}
+        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        mapStyle={MAP_STYLES[0].url}
+        attributionControl={false}
+        initialViewState={{
+          latitude: INITIAL_VIEW.LATITUDE,
+          longitude: INITIAL_VIEW.LONGITUDE,
+          zoom: INITIAL_VIEW.ZOOM,
+        }}
+      >
+        {isMapLoading && <Loader withBackground />}
 
-      <CountiesMode isActive={getIsModeActive(MODES.COUNTIES)} />
-      <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
-      <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
-      <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
-      <ZonesMode />
+        <CountiesMode isActive={getIsModeActive(MODES.COUNTIES)} />
+        <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
+        <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
+        <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
+        <ZonesMode />
 
-      <ModeSwitcher />
-      <FiltersPanel />
-      <MapDataPanel />
-      <FullscreenControl position='top-right' />
-      <NavigationControl />
-      <Toast />
-    </Map>
+        <ModeSwitcher />
+        <FiltersPanel />
+        <MapDataPanel />
+        <FullscreenControl position='top-right' />
+        <NavigationControl />
+        <Toast />
+      </Map>
+    </div>
   )
 }
 

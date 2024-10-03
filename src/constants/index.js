@@ -52,13 +52,9 @@ export const PLOTS_SOURCE = {
 }
 
 export const BUILDINGS_SOURCE = {
-  // id: 'buildingsSource',
-  // url: 'mapbox://lamapch.02cb199k',
-  // sourceLayer: 'CAD_BATIMENT_HORSOL_WGS84-ack86c',
-
   id: 'buildingsSource',
-  url: 'mapbox://lamapch.469rm1o0',
-  sourceLayer: 'buildings_temp-arj1ps',
+  url: 'mapbox://lamapch.9w4drdyx',
+  sourceLayer: 'buildings-6xiroi',
 }
 
 export const ZONES_SOURCE = {
