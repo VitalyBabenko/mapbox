@@ -11,7 +11,7 @@ import {
 import { useMemo } from 'react'
 import { useEventStore, usePaintStore } from '../../../store'
 
-const HoverBuilding = ({ isActive, map }) => {
+const HoverBuilding = ({ isActive, opacity }) => {
   const { hoverEvent, hoveredFeature } = useEventStore()
   const { activePaint } = usePaintStore()
   const hoverBuilding = hoveredFeature?.properties || null
@@ -20,6 +20,8 @@ const HoverBuilding = ({ isActive, map }) => {
     () => (isActive ? ['in', 'EGID', hoverBuilding?.EGID || 0] : null),
     [isActive, hoveredFeature],
   )
+
+  const hoverOpacity = (opacity + 20) / 100
 
   const getPopupText = () => {
     switch (activePaint) {
@@ -70,7 +72,7 @@ const HoverBuilding = ({ isActive, map }) => {
         source-layer={BUILDINGS_SOURCE.sourceLayer}
         paint={{
           'fill-color': '#80b4f6',
-          'fill-opacity': 0.6,
+          'fill-opacity': hoverOpacity > 1 ? 1 : hoverOpacity,
         }}
         filter={filterForHoverBuilding}
         beforeId='poi-label'

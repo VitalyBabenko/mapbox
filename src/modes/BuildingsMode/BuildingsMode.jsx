@@ -8,7 +8,7 @@ import FilteredBuildings from './FilteredBuildings/FilteredBuildings'
 
 const BuildingsMode = ({ isActive }) => {
   const { county } = useModeStore()
-  const { activePaint } = usePaintStore()
+  const { activePaint, opacity } = usePaintStore()
 
   const getCountyName = () => {
     if (!county) return ''
@@ -26,15 +26,15 @@ const BuildingsMode = ({ isActive }) => {
         type='fill'
         source-layer={BUILDINGS_SOURCE.sourceLayer}
         paint={{
-          'fill-opacity': 0.4,
+          'fill-opacity': opacity[1] / 100,
           ...activePaint,
         }}
         filter={countyFilter}
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
-      <HoverBuilding isActive={isActive} />
-      <ActiveBuilding isActive={isActive} />
+      <HoverBuilding isActive={isActive} opacity={opacity[1]} />
+      <ActiveBuilding isActive={isActive} opacity={opacity[1]} />
       <FilteredBuildings isActive={isActive} />
     </Source>
   )

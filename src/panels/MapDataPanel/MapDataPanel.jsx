@@ -12,6 +12,7 @@ import { useModeStore } from '../../store'
 import useDraggable from '../../hooks/useDraggable'
 import Tooltip from '../../components/Tooltip/Tooltip'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
+import OpacitySection from './OpacitySection/OpacitySection'
 
 const MapDataPanel = () => {
   const { position, handleMouseDown } = useDraggable({ x: -50, y: 10 })
@@ -56,6 +57,8 @@ const MapDataPanel = () => {
         <ZonesSection />
 
         {county ? <CharacteristicsSection /> : null}
+
+        <OpacitySection />
       </div>
       <ScalePanel />
     </>

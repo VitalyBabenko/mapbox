@@ -3,8 +3,10 @@ import { Layer, Popup } from 'react-map-gl'
 import { useEventStore } from '../../../store'
 import { PLOTS_SOURCE } from '../../../constants'
 
-const HoverPlot = ({ isActive }) => {
+const HoverPlot = ({ isActive, opacity }) => {
   const { hoveredFeature, hoverEvent } = useEventStore()
+
+  const hoverOpacity = (opacity + 20) / 100
 
   const filterForHoverPlot = useMemo(
     () =>
@@ -23,7 +25,7 @@ const HoverPlot = ({ isActive }) => {
         filter={filterForHoverPlot}
         paint={{
           'fill-color': '#58dca6',
-          'fill-opacity': 0.6,
+          'fill-opacity': hoverOpacity > 1 ? 1 : hoverOpacity,
         }}
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}

@@ -1,5 +1,5 @@
 import { Layer, Source } from 'react-map-gl'
-import { useModeStore } from '../../store'
+import { useModeStore, usePaintStore } from '../../store'
 import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 import HoverPlot from './HoverPlot/HoverPlot'
 import ActivePlot from './ActivePlot/ActivePlot'
@@ -9,6 +9,7 @@ import FilteredPlots from './FilteredPlots/FilteredPlots'
 
 const PlotsMode = ({ isActive }) => {
   const { county } = useModeStore()
+  const { opacity } = usePaintStore()
 
   const getCountyName = () => {
     if (!county) return ''
@@ -36,15 +37,15 @@ const PlotsMode = ({ isActive }) => {
         filter={plotsFilter}
         paint={{
           'fill-color': '#58dca6',
-          'fill-opacity': 0.4,
+          'fill-opacity': opacity[1] / 100,
           'fill-outline-color': '#337f5f',
         }}
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
 
-      <HoverPlot isActive={isActive} />
-      <ActivePlot isActive={isActive} />
+      <HoverPlot isActive={isActive} opacity={opacity[1]} />
+      <ActivePlot isActive={isActive} opacity={opacity[1]} />
       <FilteredPlots isActive={isActive} />
     </Source>
   )

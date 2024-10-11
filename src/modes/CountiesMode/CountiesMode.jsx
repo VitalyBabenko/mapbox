@@ -2,13 +2,14 @@ import { Layer, Source, useMap } from 'react-map-gl'
 import { memo, useEffect } from 'react'
 import HoverCounty from './HoverCounty/HoverCounty'
 import bbox from '@turf/bbox'
-import { useEventStore, useModeStore } from '../../store'
+import { useEventStore, useModeStore, usePaintStore } from '../../store'
 import { COUNTIES_SOURCE } from '../../constants'
 
 const CountiesMode = ({ isActive }) => {
   const { current: map } = useMap()
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
   const { clickedFeature } = useEventStore()
+  const { opacity } = usePaintStore()
 
   useEffect(() => {
     if (!isActive) return
@@ -38,12 +39,12 @@ const CountiesMode = ({ isActive }) => {
         paint={{
           'fill-outline-color': 'rgba(256,256,256,1)',
           'fill-color': '#024eaa',
-          'fill-opacity': 0.4,
+          'fill-opacity': opacity[1] / 100,
         }}
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
-      <HoverCounty isActive={isActive} />
+      <HoverCounty isActive={isActive} opacity={opacity[1]} />
     </Source>
   )
 }

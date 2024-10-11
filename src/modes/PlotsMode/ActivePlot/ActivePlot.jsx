@@ -3,8 +3,10 @@ import { useEventStore } from '../../../store'
 import { PLOTS_SOURCE } from '../../../constants'
 import { PlotsPanel } from '../../../panels'
 
-const ActivePlot = ({ isActive }) => {
+const ActivePlot = ({ isActive, opacity }) => {
   const { clickedFeature } = useEventStore()
+
+  const activeOpacity = (opacity + 20) / 100
 
   const filterForActivePlot = isActive
     ? ['in', 'EGRID', `${clickedFeature?.properties?.EGRID}`]
@@ -20,7 +22,7 @@ const ActivePlot = ({ isActive }) => {
         filter={filterForActivePlot}
         paint={{
           'fill-color': '#ed0e2c',
-          'fill-opacity': 0.6,
+          'fill-opacity': activeOpacity > 1 ? 1 : activeOpacity,
           'fill-outline-color': 'white',
         }}
         beforeId='poi-label'

@@ -5,8 +5,10 @@ import { getCountyNameByFeature } from '../../../utils/getCountyNameByFeature'
 import style from './HoverCounty.module.scss'
 import { COUNTIES_SOURCE } from '../../../constants'
 
-const HoverCounty = ({ isActive }) => {
+const HoverCounty = ({ isActive, opacity }) => {
   const { hoverEvent, hoveredFeature } = useEventStore()
+
+  const hoverOpacity = (opacity + 20) / 100
 
   const filterForHoverCounty = useMemo(() => {
     return ['in', 'genid', hoveredFeature?.properties?.genid || 0]
@@ -22,7 +24,7 @@ const HoverCounty = ({ isActive }) => {
         source-layer={COUNTIES_SOURCE.sourceLayer}
         paint={{
           'fill-color': '#024eaa',
-          'fill-opacity': 0.6,
+          'fill-opacity': hoverOpacity > 1 ? 1 : hoverOpacity,
         }}
         filter={filterForHoverCounty}
         layout={{ visibility: isActive ? 'visible' : 'none' }}

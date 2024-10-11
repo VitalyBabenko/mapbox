@@ -3,8 +3,10 @@ import { BUILDINGS_SOURCE } from '../../../constants'
 import { Layer } from 'react-map-gl'
 import { BuildingsPanel } from '../../../panels'
 
-const ActiveBuilding = ({ isActive }) => {
+const ActiveBuilding = ({ isActive, opacity }) => {
   const { clickedFeature } = useEventStore()
+
+  const activeOpacity = (opacity + 20) / 100
 
   const filterForActiveBuilding = [
     'in',
@@ -21,7 +23,7 @@ const ActiveBuilding = ({ isActive }) => {
         source-layer={BUILDINGS_SOURCE.sourceLayer}
         paint={{
           'fill-color': '#ed0e2c',
-          'fill-opacity': 0.6,
+          'fill-opacity': activeOpacity > 1 ? 1 : activeOpacity,
         }}
         filter={filterForActiveBuilding}
         beforeId='poi-label'
