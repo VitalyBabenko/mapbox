@@ -5,6 +5,7 @@ import style from './HeadingSection.module.scss'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import { BiFileBlank as FileIcon } from 'react-icons/bi'
 import { useQuery } from '../../../hooks/useQuery'
+import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import {
   BiStar as StarIcon,
   BiSolidStar as SolidStarIcon,
@@ -14,7 +15,7 @@ import {
 import { plotService } from '../../../service/plotService'
 import { useToastStore } from '../../../store'
 
-const HeadingSection = ({ plotInfo, closePlotPanel }) => {
+const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
   const plotId = plotInfo?.mongo_id
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
@@ -159,6 +160,13 @@ const HeadingSection = ({ plotInfo, closePlotPanel }) => {
           </Tooltip>
         </a>
       )}
+
+      <Tooltip text='Move the panel' bottom='-40px'>
+        <DraggableIcon
+          className={style.draggableIcon}
+          onMouseDown={handleMouseDown}
+        />
+      </Tooltip>
 
       <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
     </div>

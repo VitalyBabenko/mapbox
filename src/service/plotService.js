@@ -109,7 +109,7 @@ export const plotService = {
     formData.append('content', text)
 
     const resp = await axiosInstance.post(
-      `/plot/${plotId}/user/note`,
+      `/user/plot/${plotId}/note`,
       formData.toString(),
       {
         headers: {

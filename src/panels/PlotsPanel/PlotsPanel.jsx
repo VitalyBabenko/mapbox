@@ -13,8 +13,10 @@ import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
 import { useEventStore } from '../../store'
 import HeadingSection from './HeadingSection/HeadingSection'
+import useDraggable from '../../hooks/useDraggable'
 
 const PlotsPanel = ({ activePlotId }) => {
+  const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
   const [plotInfo, setPlotInfo] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -56,7 +58,11 @@ const PlotsPanel = ({ activePlotId }) => {
   return (
     <div
       className={style.panel}
-      style={{ overflow: isLoading ? 'hidden' : 'auto' }}
+      style={{
+        overflow: isLoading ? 'hidden' : 'auto',
+        top: position.y,
+        right: -position.x,
+      }}
     >
       {isLoading && (
         <div className={style['loader-drawer']}>
@@ -68,6 +74,7 @@ const PlotsPanel = ({ activePlotId }) => {
         plotInfo={plotInfo}
         isLoading={isLoading}
         closePlotPanel={closePlotPanel}
+        handleMouseDown={handleMouseDown}
       />
 
       {plotInfo?.commune_name && (

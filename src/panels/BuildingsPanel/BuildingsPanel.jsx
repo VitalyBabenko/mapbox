@@ -14,8 +14,10 @@ import PermitsSection from './PermitsSection/PermitsSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import { useEventStore } from '../../store'
+import useDraggable from '../../hooks/useDraggable'
 
 const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
+  const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [buildingInfo, setBuildingInfo] = useState(null)
@@ -70,13 +72,17 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
   }
 
   return (
-    <div className={style.panel}>
+    <div
+      className={style.panel}
+      style={{ top: position.y, right: -position.x }}
+    >
       <HeadingSection
         plotId={buildingInfo?.plot?.no_commune_no_parcelle || null}
         buildingId={buildingInfo.no_batiment}
         egid={buildingInfo.egid}
         rdppf={buildingInfo?.plot?.extrait_rdppf_pdf}
         closeBuildingPanel={closeBuildingPanel}
+        handleMouseDown={handleMouseDown}
       />
 
       {buildingInfo?.egid && (

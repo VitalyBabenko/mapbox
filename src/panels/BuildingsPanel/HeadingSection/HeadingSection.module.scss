@@ -36,15 +36,29 @@
     }
   }
 
-  .fileLink > div > div {
-    display: flex;
-    align-items: center;
+  .fileLink {
+    margin-right: auto;
+
+    & > div > div {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .draggableIcon {
+    display: block;
+    margin: auto;
+    margin-right: 0;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 
   .crossIcon {
     width: 24px;
     height: 24px;
-    margin-left: auto;
     border-radius: 2px;
     cursor: pointer;
 
