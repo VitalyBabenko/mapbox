@@ -57,7 +57,10 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
   if (!activeBuildingId) return null
   if (isLoading) {
     return (
-      <div className={style.panelLoading}>
+      <div
+        className={style.panelLoading}
+        style={{ top: position.y, right: -position.x }}
+      >
         <Loader />
       </div>
     )
@@ -65,7 +68,10 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
 
   if (error) {
     return (
-      <div className={style.panel}>
+      <div
+        className={style.panel}
+        style={{ top: position.y, right: -position.x }}
+      >
         <ErrorMessage message={error} onClose={closeBuildingPanel} />
       </div>
     )

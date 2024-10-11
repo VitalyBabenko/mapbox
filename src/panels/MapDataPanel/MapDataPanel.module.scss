@@ -59,6 +59,47 @@
     cursor: default;
     color: #344054;
   }
+
+  .draggableIcon,
+  .crossIcon {
+    min-width: 24px;
+    height: 24px;
+    padding: 1px;
+    border-radius: 100%;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    path {
+      fill: $grey-600;
+    }
+
+    &:hover {
+      background: #f2f2f2;
+    }
+  }
+
+  .draggableIcon {
+    display: block;
+    margin: auto;
+    margin-right: 0;
+    cursor: grab;
+    user-select: none;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  .crossIcon {
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+  }
 }
 
 @media (max-width: 568px) {

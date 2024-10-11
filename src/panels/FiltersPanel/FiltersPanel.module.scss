@@ -67,6 +67,15 @@
         color: $grey-700;
         margin-right: auto;
       }
+
+      .draggableIcon {
+        cursor: grab;
+        user-select: none;
+
+        &:active {
+          cursor: grabbing;
+        }
+      }
     }
 
     form {
