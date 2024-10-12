@@ -77,12 +77,6 @@ const PlotsPanel = ({ activePlotId }) => {
         handleMouseDown={handleMouseDown}
       />
 
-      {plotInfo?.commune_name && (
-        <p className={style.commune}>
-          Commune: <span>{plotInfo.commune_name}</span>
-        </p>
-      )}
-
       <SpecsSection plotInfo={plotInfo} />
 
       <NotesSection plotInfo={plotInfo} />
