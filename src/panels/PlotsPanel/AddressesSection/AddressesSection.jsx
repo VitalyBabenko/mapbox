@@ -43,8 +43,6 @@ const AddressesSection = ({ plotInfo, locale }) => {
             <HeadingLink link={item?.lien_registre_batiments} />
           </hgroup>
 
-          {console.log(item)}
-
           <h4>
             {!!+item?.no_postal && item?.no_postal} {item?.commune}
             <br />

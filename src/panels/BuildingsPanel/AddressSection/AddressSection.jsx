@@ -30,7 +30,7 @@ const AddressSection = ({
   }
 
   return (
-    <List title='Address:'>
+    <List>
       <ListItem>
         <hgroup>
           <h3>{address}</h3>
@@ -38,7 +38,10 @@ const AddressSection = ({
         </hgroup>
 
         <h4>
-          {commune}, {postCode}
+          {postCode} {commune}
+          {commune === 'Genève' ? '' : ','}
+          <br />
+          {commune === 'Genève' ? '' : 'Genève'}
         </h4>
 
         <CertificatesList

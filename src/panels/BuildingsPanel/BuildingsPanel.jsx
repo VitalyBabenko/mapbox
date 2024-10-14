@@ -13,7 +13,7 @@ import TransactionsSection from './TransactionsSection/TransactionsSection'
 import PermitsSection from './PermitsSection/PermitsSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
-import { useEventStore } from '../../store'
+import { useEventStore, useModeStore } from '../../store'
 import useDraggable from '../../hooks/useDraggable'
 
 const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
@@ -21,6 +21,7 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [buildingInfo, setBuildingInfo] = useState(null)
+  const { locale } = useModeStore()
   const { setClickedFeature } = useEventStore()
   const closeBuildingPanel = () => setClickedFeature(null)
 
@@ -30,6 +31,8 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
       setError('')
 
       const info = await buildingService.getByEgId(activeBuildingId)
+
+      console.log(info)
 
       if (info?.error?.message?.length) {
         setError('Building information is unavailable. Please try again later.')
@@ -77,6 +80,8 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
     )
   }
 
+  console.log(buildingInfo)
+
   return (
     <div
       className={style.panel}
@@ -98,12 +103,12 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
       )}
 
       <SpecsSection
+        locale={locale}
         constructionYear={buildingInfo.annee_de_construction_du_batiment}
         apartmentsQuantity={buildingInfo.building_apartments_qty}
         buildingArea={
           buildingInfo.surface_totale_des_logements_du_batiment_m2 || null
         }
-        postCode={buildingInfo.no_postal}
         roomQuantity={
           buildingInfo.nombre_total_de_pieces_des_logements_du_batiment
         }

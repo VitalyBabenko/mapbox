@@ -30,7 +30,7 @@ const DetailsSection = ({
   const isShowConstructionCard = constructionPeriod
 
   return (
-    <List title='Details:'>
+    <List>
       {isShowDimensionCard && (
         <ListItem>
           <h3>Dimension</h3>
