@@ -97,8 +97,6 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
     getData()
   }, [plotInfo])
 
-  console.log(plotInfo)
-
   useEffect(() => {
     if (!!errorBookmark || !!errorEmailAlerts) {
       toast.error('Error while receiving an email alert and bookmark')

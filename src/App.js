@@ -18,13 +18,14 @@ import { useFilterStore, useZoneStore } from './store'
 import Toast from './components/Toast/Toast.jsx'
 import ZonesMode from './modes/ZonesMode/ZonesMode.jsx'
 import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
+import globalStyle from './styles/global.module.scss'
 
 function App() {
   const mapRef = useRef(null)
   const wrapperRef = useRef(null)
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
-  const { mode, toggleSwitcher } = useModeStore()
+  const { locale, setLocale, mode, toggleSwitcher } = useModeStore()
   const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
   const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
     useEventStore()
@@ -101,6 +102,14 @@ function App() {
       observer.observe(wrapperRef.current)
     }
 
+    const lang = document.querySelector('html').lang
+
+    if (!['en', 'fr', 'de'].includes(locale)) {
+      setLocale('en')
+    }
+
+    setLocale(lang)
+
     return () => {
       if (wrapperRef.current) {
         observer.unobserve(wrapperRef.current)
@@ -109,7 +118,7 @@ function App() {
   }, [])
 
   return (
-    <div ref={wrapperRef}>
+    <div ref={wrapperRef} className={globalStyle.appWrapper}>
       <Map
         ref={mapRef}
         onClick={onClick}

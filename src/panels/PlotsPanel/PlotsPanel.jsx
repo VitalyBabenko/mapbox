@@ -11,12 +11,13 @@ import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import BuildingPermitsSection from './BuildingPermitsSection/BuildingPermitsSection'
 import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
-import { useEventStore } from '../../store'
+import { useEventStore, useModeStore } from '../../store'
 import HeadingSection from './HeadingSection/HeadingSection'
 import useDraggable from '../../hooks/useDraggable'
 
 const PlotsPanel = ({ activePlotId }) => {
   const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
+  const { locale } = useModeStore()
   const [plotInfo, setPlotInfo] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -77,7 +78,7 @@ const PlotsPanel = ({ activePlotId }) => {
         handleMouseDown={handleMouseDown}
       />
 
-      <SpecsSection plotInfo={plotInfo} />
+      <SpecsSection plotInfo={plotInfo} locale={locale} />
 
       <NotesSection plotInfo={plotInfo} />
 
@@ -91,7 +92,7 @@ const PlotsPanel = ({ activePlotId }) => {
         </List>
       )}
 
-      <AddressesSection plotInfo={plotInfo} />
+      <AddressesSection plotInfo={plotInfo} locale={locale} />
 
       <OwnersSection plotInfo={plotInfo} />
 
