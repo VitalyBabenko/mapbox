@@ -14,11 +14,18 @@ import PlotsMode from './modes/PlotsMode/PlotsMode.jsx'
 import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
 import Loader from './components/Loader/Loader.jsx'
 import { FiltersPanel, MapDataPanel } from './panels/index.js'
-import { useFilterStore, useZoneStore } from './store'
+import {
+  useFilterStore,
+  useTagsStore,
+  useToastStore,
+  useZoneStore,
+} from './store'
 import Toast from './components/Toast/Toast.jsx'
 import ZonesMode from './modes/ZonesMode/ZonesMode.jsx'
 import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
 import globalStyle from './styles/global.module.scss'
+import { plotService } from './service/plotService.js'
+import TagsModal from './components/TagsModal/TagsModal.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -30,6 +37,8 @@ function App() {
   const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
     useEventStore()
   const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
+  const toast = useToastStore()
+  const { allTags, setAllTags } = useTagsStore()
 
   const onMouseEnter = function () {
     setCursor('pointer')
@@ -88,6 +97,17 @@ function App() {
   }
 
   useEffect(() => {
+    const getTags = async () => {
+      const data = await plotService.getAllTagTitles()
+
+      if (data?.error) {
+        toast.error('Failed to fetch tags')
+        // setAllTags([])
+      }
+      // setAllTags(data?.tags)
+    }
+    getTags()
+
     const handleResize = () => {
       if (mapRef.current) {
         mapRef.current.resize()
@@ -153,6 +173,7 @@ function App() {
         <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
         <ZonesMode />
 
+        <TagsModal />
         <ModeSwitcher />
         <FiltersPanel />
         <MapDataPanel />

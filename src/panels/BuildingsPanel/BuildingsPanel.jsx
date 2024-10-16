@@ -32,8 +32,6 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
 
       const info = await buildingService.getByEgId(activeBuildingId)
 
-      console.log(info)
-
       if (info?.error?.message?.length) {
         setError('Building information is unavailable. Please try again later.')
         setIsLoading(false)

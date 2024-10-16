@@ -70,6 +70,39 @@ export const plotService = {
     return resp.data
   },
 
+  // tags
+  getAllTagTitles: async () => {
+    try {
+      const resp = await axiosInstance.get(`/user/tags/titles`)
+      if (!Array.isArray(resp?.data?.tags)) {
+        throw new Error()
+      }
+      return resp.data
+    } catch (error) {
+      return {
+        error,
+      }
+    }
+  },
+
+  getTagsByPlotId: async plotId => {
+    const resp = await axiosInstance.get(`/user/tags/${plotId}`)
+    if (!Array.isArray(resp?.data?.tags)) {
+      throw new Error()
+    }
+    return resp.data
+  },
+
+  assignTagToPlot: async (plotId, tag) => {
+    const resp = await axiosInstance.post(
+      `/user/plot/${plotId}/tag?title=${tag}`,
+    )
+    if (!resp?.data?.result) {
+      throw new Error()
+    }
+    return resp.data
+  },
+
   // notes
   getAllNotes: async plotId => {
     const resp = await axiosInstance.get(`/user/notes/all/${plotId}`)

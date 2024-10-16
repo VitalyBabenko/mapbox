@@ -199,7 +199,7 @@ const PlotsFilters = ({ setMapLoader }) => {
       <div>
         <button type='submit'>Apply</button>
         {filteredPlotsIds.length ? (
-          <button onClick={() => setFilteredPlotsIds([])}>reset</button>
+          <button onClick={() => setFilteredPlotsIds([])}>Reset</button>
         ) : null}
       </div>
     </form>

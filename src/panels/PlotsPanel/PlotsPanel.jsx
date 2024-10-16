@@ -21,7 +21,7 @@ const PlotsPanel = ({ activePlotId }) => {
   const [plotInfo, setPlotInfo] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { setClickedFeature } = useEventStore()
+  const { setClickedFeature, setClickedPlotInfo } = useEventStore()
 
   const closePlotPanel = () => setClickedFeature(null)
 
@@ -31,8 +31,6 @@ const PlotsPanel = ({ activePlotId }) => {
       setIsLoading(true)
       const info = await plotService.getPlotByEgrId(activePlotId)
 
-      console.log(info)
-
       if (info?.error?.message?.length) {
         setError('Building information is unavailable. Please try again later.')
         setIsLoading(false)
@@ -40,6 +38,7 @@ const PlotsPanel = ({ activePlotId }) => {
       }
 
       setPlotInfo(info)
+      setClickedPlotInfo(info)
       setIsLoading(false)
     }
 
@@ -96,7 +95,7 @@ const PlotsPanel = ({ activePlotId }) => {
 
       <AddressesSection plotInfo={plotInfo} locale={locale} />
 
-      <OwnersSection plotInfo={plotInfo} />
+      <OwnersSection plotInfo={plotInfo} locale={locale} />
 
       <TransactionsSection plotInfo={plotInfo} />
 

@@ -13,7 +13,8 @@ import {
   BiSolidBell as SolidBellIcon,
 } from 'react-icons/bi'
 import { plotService } from '../../../service/plotService'
-import { useToastStore } from '../../../store'
+import { useTagsStore, useToastStore } from '../../../store'
+import { PiTagBold as TagIcon } from 'react-icons/pi'
 
 const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
   const plotId = plotInfo?.mongo_id
@@ -29,6 +30,7 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
     loading: loadingEmailAlerts,
     handler: emailAlertsHandler,
   } = useQuery()
+  const { openTagsModal } = useTagsStore()
   const toast = useToastStore()
 
   const addToEmailAlerts = () => {
@@ -147,6 +149,12 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
           </IconButton>
         </Tooltip>
       )}
+
+      <Tooltip text='Assign tag' bottom='-40px'>
+        <IconButton disabled={loadingEmailAlerts}>
+          <TagIcon onClick={openTagsModal} />
+        </IconButton>
+      </Tooltip>
 
       {plotInfo?.extrait_rdppf_pdf && (
         <a

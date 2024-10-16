@@ -4,6 +4,7 @@ import { useFilterStore } from './filterStore'
 import { usePaintStore } from './paintStore'
 import { useToastStore } from './toastStore'
 import { useZoneStore } from './zoneStore'
+import { useTagsStore } from './tagsStore'
 
 export {
   useEventStore,
@@ -12,4 +13,5 @@ export {
   usePaintStore,
   useToastStore,
   useZoneStore,
+  useTagsStore,
 }
