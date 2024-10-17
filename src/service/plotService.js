@@ -77,7 +77,7 @@ export const plotService = {
       if (!Array.isArray(resp?.data?.tags)) {
         throw new Error()
       }
-      return resp.data
+      return resp.tags
     } catch (error) {
       return {
         error,
@@ -85,22 +85,15 @@ export const plotService = {
     }
   },
 
-  getTagsByPlotId: async plotId => {
-    const resp = await axiosInstance.get(`/user/tags/${plotId}`)
-    if (!Array.isArray(resp?.data?.tags)) {
-      throw new Error()
-    }
-    return resp.data
-  },
-
   assignTagToPlot: async (plotId, tag) => {
     const resp = await axiosInstance.post(
       `/user/plot/${plotId}/tag?title=${tag}`,
     )
+
     if (!resp?.data?.result) {
       throw new Error()
     }
-    return resp.data
+    return resp?.data
   },
 
   // notes

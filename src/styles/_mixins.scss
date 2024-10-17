@@ -26,6 +26,15 @@
   margin-left: 0px;
   box-shadow: none;
 
+  &:disabled {
+    cursor: not-allowed;
+    background: darken($blue-600, 10%);
+
+    &:hover {
+      background: darken($blue-600, 5%);
+    }
+  }
+
   &:hover {
     background: lighten($blue-600, 5%);
   }

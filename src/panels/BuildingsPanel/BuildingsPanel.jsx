@@ -78,8 +78,6 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
     )
   }
 
-  console.log(buildingInfo)
-
   return (
     <div
       className={style.panel}
