@@ -2,21 +2,17 @@ import { memo, useEffect, useState } from 'react'
 import Loader from '../../../components/Loader/Loader'
 import { plotService } from '../../../service/plotService'
 import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue'
-import { getCountyFeatureByName } from '../../../utils/getCountyFeatureByName'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
 import { useModeStore, useToastStore } from '../../../store'
 import { useFilterStore } from '../../../store'
-import bbox from '@turf/bbox'
-import { useMap } from 'react-map-gl'
 import FilterAccordion from '../../../components/Filters/FilterAccordion/FilterAccordion'
 import Checkbox from '../../../components/Checkbox/Checkbox'
 
 const PlotsFilters = ({ setMapLoader }) => {
-  const { current: map } = useMap()
   const [isLoading, setIsLoading] = useState(true)
   const [panelError, setPanelError] = useState('')
   const [error, setError] = useState('')
-  const { switchToPlotsMode } = useModeStore()
+  const { switchToFilterMode } = useModeStore()
   const toast = useToastStore()
   const {
     checkboxes,
@@ -28,35 +24,14 @@ const PlotsFilters = ({ setMapLoader }) => {
     formValues,
     setFormValues,
     setInputValue,
-    allCountiesFeatures,
     filteredPlotsIds,
     setFilteredPlotsIds,
   } = useFilterStore()
 
   const handleSubmit = async e => {
     e.preventDefault()
-
-    if (!formValues.commune_name[0].label) {
-      setError('Veuillez sélectionner une commune')
-      return
-    }
-
     setMapLoader(true)
-
-    const selectedCounty = await getCountyFeatureByName(
-      formValues.commune_name?.[0]?.label,
-      allCountiesFeatures,
-    )
-
-    const [minLng, minLat, maxLng, maxLat] = bbox(selectedCounty)
-    map.fitBounds(
-      [
-        [minLng, minLat],
-        [maxLng, maxLat],
-      ],
-      { padding: 0, duration: 1500, zoom: 13 },
-    )
-    switchToPlotsMode(selectedCounty)
+    switchToFilterMode()
 
     const formattedFilters = Object.keys(formValues).reduce((prev, next) => {
       const foundedFilter = allFilters.find(

@@ -1,22 +1,17 @@
 import { memo, useEffect, useState } from 'react'
 import Loader from '../../../components/Loader/Loader'
 import 'react-datepicker/dist/react-datepicker.css'
-import { getCountyFeatureByName } from '../../../utils/getCountyFeatureByName.js'
 import { buildingService } from '../../../service/buildingService.js'
-import { useFilterStore, useModeStore, useToastStore } from '../../../store'
+import { useFilterStore, useToastStore } from '../../../store'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.jsx'
 import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue.js'
-import { useMap } from 'react-map-gl'
-import bbox from '@turf/bbox'
 import FilterAccordion from '../../../components/Filters/FilterAccordion/FilterAccordion.jsx'
 import Checkbox from '../../../components/Checkbox/Checkbox'
 
 const BuildingsFilters = ({ setMapLoader }) => {
-  const { current: map } = useMap()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [panelError, setPanelError] = useState('')
-  const { switchToBuildingsMode } = useModeStore()
   const toast = useToastStore()
   const {
     checkboxes,
@@ -28,7 +23,6 @@ const BuildingsFilters = ({ setMapLoader }) => {
     formValues,
     setFormValues,
     setInputValue,
-    allCountiesFeatures,
     filteredBuildingsIds,
     setFilteredBuildingsIds,
   } = useFilterStore()
@@ -36,28 +30,7 @@ const BuildingsFilters = ({ setMapLoader }) => {
   const handleSubmit = async e => {
     e.preventDefault()
 
-    if (!formValues.commune_name?.[0]?.label) {
-      setError('Veuillez sélectionner une commune')
-      return
-    }
-
     setMapLoader(true)
-
-    const selectedCounty = getCountyFeatureByName(
-      formValues.commune_name?.[0]?.label,
-      allCountiesFeatures,
-    )
-
-    const [minLng, minLat, maxLng, maxLat] = bbox(selectedCounty)
-    map.fitBounds(
-      [
-        [minLng, minLat],
-        [maxLng, maxLat],
-      ],
-      { padding: 0, duration: 1500, zoom: 13 },
-    )
-
-    switchToBuildingsMode(selectedCounty)
 
     const formattedFilters = Object.keys(formValues).reduce((prev, next) => {
       const foundedFilter = allFilters.find(

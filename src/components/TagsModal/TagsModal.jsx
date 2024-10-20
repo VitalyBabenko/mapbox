@@ -74,6 +74,7 @@ const TagsModal = () => {
     return () => {
       window.removeEventListener('keyup', handleEscape)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

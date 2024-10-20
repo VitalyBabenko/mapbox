@@ -1,15 +1,28 @@
-import { Layer, Source, useMap } from 'react-map-gl'
+import { Layer, Popup, Source, useMap } from 'react-map-gl'
 import { memo, useEffect } from 'react'
-import HoverCounty from './HoverCounty/HoverCounty'
 import bbox from '@turf/bbox'
 import { useEventStore, useModeStore, usePaintStore } from '../../store'
 import { COUNTIES_SOURCE } from '../../constants'
+import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 
 const CountiesMode = ({ isActive }) => {
   const { current: map } = useMap()
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
-  const { clickedFeature } = useEventStore()
+  const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
   const { opacity } = usePaintStore()
+
+  const getFillOpacity = () => {
+    const hoverOpacity = (opacity[1] + 40) / 100
+    if (hoveredFeature?.properties?.genid) {
+      return [
+        'case',
+        ['==', ['get', 'genid'], hoveredFeature?.properties?.genid],
+        hoverOpacity > 1 ? 1 : hoverOpacity,
+        opacity[1] / 100,
+      ]
+    }
+    return opacity[1] / 100
+  }
 
   useEffect(() => {
     if (!isActive) return
@@ -39,12 +52,22 @@ const CountiesMode = ({ isActive }) => {
         paint={{
           'fill-outline-color': 'rgba(256,256,256,1)',
           'fill-color': '#024eaa',
-          'fill-opacity': opacity[1] / 100,
+          'fill-opacity': getFillOpacity(),
         }}
         beforeId='poi-label'
         layout={{ visibility: isActive ? 'visible' : 'none' }}
       />
-      <HoverCounty isActive={isActive} opacity={opacity[1]} />
+      {getCountyNameByFeature(hoveredFeature) && isActive && (
+        <Popup
+          longitude={hoverEvent.lngLat.lng}
+          latitude={hoverEvent.lngLat.lat}
+          offset={[0, -5]}
+          closeButton={false}
+          className='hover-popup'
+        >
+          {getCountyNameByFeature(hoveredFeature)}
+        </Popup>
+      )}
     </Source>
   )
 }

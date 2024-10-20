@@ -27,7 +27,4 @@ export const useFilterStore = create(set => ({
   filteredBuildingsIds: [],
   setFilteredBuildingsIds: filteredBuildingsIds =>
     set({ filteredBuildingsIds }),
-
-  allCountiesFeatures: [],
-  setAllCountiesFeatures: allCountiesFeatures => set({ allCountiesFeatures }),
 }))

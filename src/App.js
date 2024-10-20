@@ -1,11 +1,6 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import {
-  COUNTIES_SOURCE,
-  INITIAL_VIEW,
-  MAP_STYLES,
-  MODES,
-} from './constants/index.js'
+import { INITIAL_VIEW, MAP_STYLES, MODES } from './constants/index.js'
 import ModeSwitcher from './components/ModeSwitcher/ModeSwitcher.jsx'
 import { useEventStore } from './store/eventStore.js'
 import { useModeStore } from './store/modeStore.js'
@@ -14,17 +9,11 @@ import PlotsMode from './modes/PlotsMode/PlotsMode.jsx'
 import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
 import Loader from './components/Loader/Loader.jsx'
 import { FiltersPanel, MapDataPanel } from './panels/index.js'
-import {
-  useFilterStore,
-  useTagsStore,
-  useToastStore,
-  useZoneStore,
-} from './store'
+import { useZoneStore } from './store'
 import Toast from './components/Toast/Toast.jsx'
 import ZonesMode from './modes/ZonesMode/ZonesMode.jsx'
 import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
 import globalStyle from './styles/global.module.scss'
-import { plotService } from './service/plotService.js'
 import TagsModal from './components/TagsModal/TagsModal.jsx'
 
 function App() {
@@ -33,12 +22,9 @@ function App() {
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
   const { locale, setLocale, mode, toggleSwitcher } = useModeStore()
-  const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
   const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
     useEventStore()
   const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
-  const toast = useToastStore()
-  const { allTags, setAllTags } = useTagsStore()
 
   const onMouseEnter = function () {
     setCursor('pointer')
@@ -77,19 +63,6 @@ function App() {
     }
   }
 
-  const onSourceDataLoad = event => {
-    if (event.sourceId !== COUNTIES_SOURCE.id) return
-    if (allCountiesFeatures?.length === 52) return
-
-    const result = mapRef.current?.querySourceFeatures(COUNTIES_SOURCE.id, {
-      layer: 'counties',
-      sourceLayer: COUNTIES_SOURCE.sourceLayer,
-      validate: false,
-    })
-
-    setAllCountiesFeatures(result)
-  }
-
   const getIsModeActive = currentMode => {
     if (isMapLoading) return false
     if (isZonesPrimary && isZonesActive) return false
@@ -97,17 +70,6 @@ function App() {
   }
 
   useEffect(() => {
-    const getTags = async () => {
-      const data = await plotService.getAllTagTitles()
-
-      if (data?.error) {
-        toast.error('Failed to fetch tags')
-        // setAllTags([])
-      }
-      // setAllTags(data?.tags)
-    }
-    getTags()
-
     const handleResize = () => {
       if (mapRef.current) {
         mapRef.current.resize()
@@ -146,13 +108,13 @@ function App() {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onLoad={onMapLoad}
-        onSourceData={onSourceDataLoad}
         cursor={cursor}
         interactiveLayerIds={[
           'counties',
           'plots',
           'buildings',
           'protected',
+          'filteredPlots',
           'clusters',
           isZonesPrimary ? 'zones' : '',
         ]}
