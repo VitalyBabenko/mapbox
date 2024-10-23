@@ -24,8 +24,7 @@ const PlotsFilters = ({ setMapLoader }) => {
     formValues,
     setFormValues,
     setInputValue,
-    filteredPlotsIds,
-    setFilteredPlotsIds,
+    setFilteredPlotsFeatures,
   } = useFilterStore()
 
   const handleSubmit = async e => {
@@ -94,22 +93,21 @@ const PlotsFilters = ({ setMapLoader }) => {
       return prev
     }, {})
 
-    const filtersResult = await plotService.setFilters(formattedFilters)
-
-    if (filtersResult?.error?.message) {
+    const resp = await plotService.setFilters(formattedFilters)
+    if (resp?.error?.message) {
       toast.error("Une erreur s'est produite, réessayez plus tard")
       setMapLoader(false)
       return
     }
-    if (!filtersResult?.length) {
+    if (!resp?.features?.length) {
       toast.text('Aucune parcelle trouvée')
       setMapLoader(false)
       return
     }
 
-    setFilteredPlotsIds(filtersResult)
+    setFilteredPlotsFeatures(resp?.features)
     setMapLoader(false)
-    toast.success(`${filtersResult?.length} parcelles trouvées`)
+    toast.success(`${resp?.features?.length} parcelles trouvées`)
   }
 
   useEffect(() => {
@@ -166,6 +164,7 @@ const PlotsFilters = ({ setMapLoader }) => {
           filters={accordion.filters}
           formValues={formValues}
           setInputValue={setInputValue}
+          setError={setError}
         />
       ))}
 
@@ -173,9 +172,6 @@ const PlotsFilters = ({ setMapLoader }) => {
 
       <div>
         <button type='submit'>Apply</button>
-        {filteredPlotsIds.length ? (
-          <button onClick={() => setFilteredPlotsIds([])}>Reset</button>
-        ) : null}
       </div>
     </form>
   )

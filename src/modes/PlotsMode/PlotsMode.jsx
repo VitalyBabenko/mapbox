@@ -14,7 +14,7 @@ const PlotsMode = ({ isActive }) => {
   const { county } = useModeStore()
   const { opacity } = usePaintStore()
   const { hoverEvent, hoveredFeature, clickedFeature } = useEventStore()
-  const { filteredPlotsIds } = useFilterStore()
+  const { filteredPlotsFeatures } = useFilterStore()
 
   const getCountyName = () => {
     if (!county) return ''
@@ -24,21 +24,13 @@ const PlotsMode = ({ isActive }) => {
   }
 
   const plotsFilter = useMemo(() => {
-    if (filteredPlotsIds.length) {
-      return [
-        'all',
-        ['==', 'TYPE_PROPR', 'privé'],
-        ['in', 'EGRID', ...filteredPlotsIds],
-      ]
-    }
-
     const countyName = getCountyName()
     return [
       'all',
       ['match', ['get', 'TYPE_PROPR'], ['privé'], true, false],
       ['match', ['get', 'COMMUNE'], countyName, true, false],
     ]
-  }, [isActive, county, filteredPlotsIds])
+  }, [isActive, county])
 
   const getFillOpacity = () => {
     const hoverOpacity = (opacity[1] + 40) / 100
@@ -64,9 +56,29 @@ const PlotsMode = ({ isActive }) => {
     }
     return '#58dca6'
   }
+  const geojson = {
+    type: 'FeatureCollection',
+    features: filteredPlotsFeatures,
+  }
 
   return (
     <>
+      <Source id='filteredPlotsSource' type='geojson' data={geojson}>
+        <Layer
+          id='filteredPlots'
+          type='fill'
+          paint={{
+            'fill-color': getFillColor(),
+            'fill-outline-color': '#337f5f',
+            'fill-opacity': getFillOpacity(),
+          }}
+          beforeId='poi-label'
+          layout={{
+            visibility: filteredPlotsFeatures?.length ? 'visible' : 'none',
+          }}
+        />
+      </Source>
+
       <Source id={PLOTS_SOURCE.id} type='vector' url={PLOTS_SOURCE.url}>
         <Layer
           id='plots'

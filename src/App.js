@@ -116,6 +116,7 @@ function App() {
           'protected',
           'filteredPlots',
           'clusters',
+          'filteredPlots',
           isZonesPrimary ? 'zones' : '',
         ]}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
@@ -133,6 +134,7 @@ function App() {
         <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
         <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
         <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
+
         <ZonesMode />
 
         <TagsModal />

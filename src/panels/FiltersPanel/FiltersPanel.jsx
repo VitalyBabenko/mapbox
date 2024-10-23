@@ -13,7 +13,7 @@ import FiltersResult from './FiltersResult/FiltersResult'
 
 const FiltersPanel = () => {
   const { position, handleMouseDown } = useDraggable({ x: 10, y: 50 })
-  const { filteredPlotsIds, filteredBuildingsIds } = useFilterStore()
+  const { filteredPlotsFeatures } = useFilterStore()
   const [open, setOpen] = useState(false)
   const toggleOpen = () => setOpen(!open)
   const { switcher } = useModeStore()
@@ -29,11 +29,8 @@ const FiltersPanel = () => {
   }
 
   const getFilterPanelContent = () => {
-    if (filteredPlotsIds.length) {
-      return <FiltersResult resultIds={filteredPlotsIds} />
-    }
-    if (filteredBuildingsIds.length) {
-      return <FiltersResult resultIds={filteredBuildingsIds} />
+    if (filteredPlotsFeatures.length) {
+      return <FiltersResult features={filteredPlotsFeatures} />
     }
 
     return switcher === 'plots' ? (
@@ -71,12 +68,6 @@ const FiltersPanel = () => {
           </div>
 
           {getFilterPanelContent()}
-
-          {/* {switcher === 'plots' ? (
-            <PlotsFilters setMapLoader={setMapLoader} />
-          ) : (
-            <BuildingsFilters setMapLoader={setMapLoader} />
-          )} */}
         </div>
       </div>
     </>
