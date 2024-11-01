@@ -85,11 +85,10 @@ export const plotService = {
     }
   },
 
-  assignTagToPlot: async (plotId, tag) => {
+  assignTagToPlot: async (plotId, tag, color) => {
     const resp = await axiosInstance.post(
-      `/user/plot/${plotId}/tag?title=${tag}`,
+      `/user/plot/${plotId}/tag?title=${tag}&color=${color}`,
     )
-
     if (!resp?.data?.result) {
       throw new Error()
     }

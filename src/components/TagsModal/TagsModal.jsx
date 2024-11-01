@@ -6,9 +6,13 @@ import { PiTagBold as TagIcon } from 'react-icons/pi'
 import { useEffect, useRef, useState } from 'react'
 import { plotService } from '../../service/plotService'
 import Loader from '../../components/Loader/Loader'
+import { DEFAULT_TAG_COLORS } from '../../constants'
+import Tooltip from '../../components/Tooltip/Tooltip'
+import ColorPickerPopup from '../ColorPickerPopup/ColorPickerPopup'
 
 const TagsModal = () => {
   const typeaheadRef = useRef(null)
+  const [color, setColor] = useState(DEFAULT_TAG_COLORS[0])
   const [isLoading, setIsLoading] = useState(true)
   const { isTagModalOpen, closeTagsModal } = useTagsStore()
   const { clickedPlotInfo } = useEventStore()
@@ -30,6 +34,7 @@ const TagsModal = () => {
       const resp = await plotService.assignTagToPlot(
         clickedPlotInfo?.mongo_id,
         inputValue,
+        color,
       )
 
       if (resp?.result) {
@@ -84,12 +89,12 @@ const TagsModal = () => {
           <Loader />
         ) : (
           <>
-            {' '}
             <div className={style.heading}>
               <TagIcon className={style.tagIcon} />
               <h3 className={style.title}>Assign Tag</h3>
               <CrossIcon className={style.cross} onClick={handleClose} />
             </div>
+
             <Typeahead
               ref={typeaheadRef}
               className={style.typehead}
@@ -106,7 +111,25 @@ const TagsModal = () => {
               onInputChange={text => setInputValue(text)}
               onBlur={() => typeaheadRef.current.hideMenu()}
             />
+
             <div className={style.buttons}>
+              <div className={style.colors}>
+                {DEFAULT_TAG_COLORS.map(defaultColor => (
+                  <div
+                    key={defaultColor}
+                    className={`${style.color} ${
+                      defaultColor === color ? style.active : null
+                    }`}
+                    style={{ backgroundColor: defaultColor }}
+                    onClick={() => setColor(defaultColor)}
+                  />
+                ))}
+
+                <Tooltip text='Custom color' bottom='-40px'>
+                  <ColorPickerPopup color={color} onChange={setColor} />
+                </Tooltip>
+              </div>
+
               <button className={style.close} onClick={handleClose}>
                 Close
               </button>

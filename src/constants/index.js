@@ -40,6 +40,15 @@ export const MODES = {
   FILTER: 'filter',
 }
 
+export const DEFAULT_TAG_COLORS = [
+  '#006cd5',
+  '#58DCA6',
+  '#D60E00',
+  '#8523FD',
+  '#FBB43F',
+  '#85C1E9',
+]
+
 export const COUNTIES_SOURCE = {
   id: 'countiesSource',
   url: 'mapbox://lamapch.9a3g6tja',
