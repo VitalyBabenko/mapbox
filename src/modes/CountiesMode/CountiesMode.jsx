@@ -46,6 +46,8 @@ const CountiesMode = ({ isActive }) => {
     switcher === 'plots'
       ? switchToPlotsMode(clickedFeature)
       : switchToBuildingsMode(clickedFeature)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickedFeature])
 
   const getIsActive = () => {

@@ -5,8 +5,6 @@ const BuildingItem = ({ isActive, feature, handleItemClick }) => {
     ? `${style.buildingItem} ${style.active}`
     : style.buildingItem
 
-  console.log(feature.properties)
-
   return (
     <div className={itemClassName} onClick={() => handleItemClick(feature)}>
       {feature?.properties?.ADDR_NAME && (
@@ -18,11 +16,11 @@ const BuildingItem = ({ isActive, feature, handleItemClick }) => {
       <p className={style.county}>{feature?.properties?.COMMUNE}</p>
 
       <ul className={style.fields}>
-        {feature?.properties?.APARTS_QTY && (
+        {feature?.properties?.APARTS_QTY ? (
           <p className={style.field}>
             Unit(s): <span>{feature?.properties?.APARTS_QTY}</span>
           </p>
-        )}
+        ) : null}
 
         {feature?.properties?.NOMEN_CLAS && (
           <p className={style.field}>

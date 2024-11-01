@@ -27,6 +27,8 @@ const ModeSwitcher = () => {
   const { setActivePaint } = usePaintStore()
   const { setClickedFeature } = useEventStore()
 
+  console.log('render')
+
   const handleSwitch = clickedMode => {
     if (clickedMode === switcher) return
     if (mode === 'counties') {

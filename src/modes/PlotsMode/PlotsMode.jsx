@@ -11,7 +11,7 @@ import {
 } from '../../store'
 
 const PlotsMode = ({ isActive }) => {
-  const { county } = useModeStore()
+  const { county, switcher } = useModeStore()
   const { opacity } = usePaintStore()
   const { hoverEvent, hoveredFeature, clickedFeature } = useEventStore()
   const { filteredPlotsFeatures } = useFilterStore()
@@ -56,6 +56,10 @@ const PlotsMode = ({ isActive }) => {
     }
     return '#58dca6'
   }
+
+  const isFilteredFeaturesActive =
+    filteredPlotsFeatures?.length > 0 && switcher === 'plots'
+
   const geojson = {
     type: 'FeatureCollection',
     features: filteredPlotsFeatures,
@@ -74,7 +78,7 @@ const PlotsMode = ({ isActive }) => {
           }}
           beforeId='poi-label'
           layout={{
-            visibility: filteredPlotsFeatures?.length ? 'visible' : 'none',
+            visibility: isFilteredFeaturesActive ? 'visible' : 'none',
           }}
         />
       </Source>

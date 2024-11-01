@@ -115,6 +115,7 @@ function App() {
           'buildings',
           'protected',
           'filteredPlots',
+          'filteredBuildings',
           'clusters',
           'filteredPlots',
           isZonesPrimary ? 'zones' : '',
@@ -134,7 +135,6 @@ function App() {
         <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
         <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
         <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
-
         <ZonesMode />
 
         <TagsModal />
