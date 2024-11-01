@@ -31,4 +31,8 @@ export const useFilterStore = create(set => ({
   filteredPlotsFeatures: [],
   setFilteredPlotsFeatures: filteredPlotsFeatures =>
     set({ filteredPlotsFeatures }),
+
+  filteredBuildingsFeatures: [],
+  setFilteredBuildingsFeatures: filteredBuildingsFeatures =>
+    set({ filteredBuildingsFeatures }),
 }))

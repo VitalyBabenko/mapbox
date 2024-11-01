@@ -13,7 +13,7 @@ import FiltersResult from './FiltersResult/FiltersResult'
 
 const FiltersPanel = () => {
   const { position, handleMouseDown } = useDraggable({ x: 10, y: 50 })
-  const { filteredPlotsFeatures } = useFilterStore()
+  const { filteredPlotsFeatures, filteredBuildingsFeatures } = useFilterStore()
   const [open, setOpen] = useState(false)
   const toggleOpen = () => setOpen(!open)
   const { switcher } = useModeStore()
@@ -29,8 +29,12 @@ const FiltersPanel = () => {
   }
 
   const getFilterPanelContent = () => {
-    if (filteredPlotsFeatures.length) {
-      return <FiltersResult features={filteredPlotsFeatures} />
+    if (filteredPlotsFeatures.length && switcher === 'plots') {
+      return <FiltersResult switcher={switcher} />
+    }
+
+    if (filteredBuildingsFeatures.length && switcher === 'buildings') {
+      return <FiltersResult switcher={switcher} />
     }
 
     return switcher === 'plots' ? (

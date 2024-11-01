@@ -22,7 +22,8 @@ const ModeSwitcher = () => {
     switchToPlotsMode,
     switchToBuildingsMode,
   } = useModeStore()
-  const { setFilteredBuildingsIds, setFilteredPlotsFeatures } = useFilterStore()
+  const { setFilteredBuildingsFeatures, setFilteredPlotsFeatures } =
+    useFilterStore()
   const { setActivePaint } = usePaintStore()
   const { setClickedFeature } = useEventStore()
 
@@ -53,6 +54,7 @@ const ModeSwitcher = () => {
 
     setActivePaint(DEFAULT_PAINT)
     setFilteredPlotsFeatures([])
+    setFilteredBuildingsFeatures([])
     switchToCountiesMode()
     setClickedFeature(null)
   }

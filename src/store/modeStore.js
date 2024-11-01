@@ -22,7 +22,6 @@ export const useModeStore = create(set => ({
     set({ mode: MODES.PLOTS, county, switcher: MODES.PLOTS }),
   switchToBuildingsMode: county =>
     set({ mode: MODES.BUILDINGS, county, switcher: MODES.BUILDINGS }),
-  switchToFilterMode: () => set({ mode: MODES.FILTER }),
 
   switchToProtectedBuildingsMode: () =>
     set({ mode: MODES.PROTECTED, switcher: MODES.BUILDINGS }),

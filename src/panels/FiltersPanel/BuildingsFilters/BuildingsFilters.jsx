@@ -23,13 +23,11 @@ const BuildingsFilters = ({ setMapLoader }) => {
     formValues,
     setFormValues,
     setInputValue,
-    filteredBuildingsIds,
-    setFilteredBuildingsIds,
+    setFilteredBuildingsFeatures,
   } = useFilterStore()
 
   const handleSubmit = async e => {
     e.preventDefault()
-
     setMapLoader(true)
 
     const formattedFilters = Object.keys(formValues).reduce((prev, next) => {
@@ -109,23 +107,20 @@ const BuildingsFilters = ({ setMapLoader }) => {
       return prev
     }, {})
 
-    const filtersResult = await buildingService.setFilters(formattedFilters)
-
-    if (filtersResult?.error?.message) {
+    const resp = await buildingService.setFilters(formattedFilters)
+    if (resp?.error?.message) {
       toast.error("Une erreur s'est produite, réessayez plus tard")
       setMapLoader(false)
       return
     }
-
-    if (!filtersResult?.length) {
+    if (!resp?.features?.length) {
       toast.text('Aucun bâtiment trouvé')
       setMapLoader(false)
       return
     }
-
-    setFilteredBuildingsIds(filtersResult)
+    setFilteredBuildingsFeatures(resp.features)
     setMapLoader(false)
-    toast.success(`${filtersResult?.length} bâtiments trouvés`)
+    toast.success(`${resp.features?.length} bâtiments trouvés`)
   }
 
   useEffect(() => {
@@ -189,9 +184,6 @@ const BuildingsFilters = ({ setMapLoader }) => {
 
       <div>
         <button type='submit'>Apply</button>
-        {filteredBuildingsIds.length ? (
-          <button onClick={() => setFilteredBuildingsIds([])}>Reset</button>
-        ) : null}
       </div>
     </form>
   )

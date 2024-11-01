@@ -16,7 +16,7 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import { useEventStore, useModeStore } from '../../store'
 import useDraggable from '../../hooks/useDraggable'
 
-const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
+const BuildingsPanel = ({ activeBuildingId }) => {
   const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
@@ -76,6 +76,10 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
         <ErrorMessage message={error} onClose={closeBuildingPanel} />
       </div>
     )
+  }
+
+  if (!activeBuildingId) {
+    return null
   }
 
   return (

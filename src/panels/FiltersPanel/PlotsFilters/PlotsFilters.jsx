@@ -3,7 +3,7 @@ import Loader from '../../../components/Loader/Loader'
 import { plotService } from '../../../service/plotService'
 import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
-import { useModeStore, useToastStore } from '../../../store'
+import { useToastStore } from '../../../store'
 import { useFilterStore } from '../../../store'
 import FilterAccordion from '../../../components/Filters/FilterAccordion/FilterAccordion'
 import Checkbox from '../../../components/Checkbox/Checkbox'
@@ -12,7 +12,6 @@ const PlotsFilters = ({ setMapLoader }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [panelError, setPanelError] = useState('')
   const [error, setError] = useState('')
-  const { switchToFilterMode } = useModeStore()
   const toast = useToastStore()
   const {
     checkboxes,
@@ -30,7 +29,6 @@ const PlotsFilters = ({ setMapLoader }) => {
   const handleSubmit = async e => {
     e.preventDefault()
     setMapLoader(true)
-    switchToFilterMode()
 
     const formattedFilters = Object.keys(formValues).reduce((prev, next) => {
       const foundedFilter = allFilters.find(

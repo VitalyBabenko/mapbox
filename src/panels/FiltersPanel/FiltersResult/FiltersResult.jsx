@@ -1,17 +1,19 @@
 import { useMap } from 'react-map-gl'
 import style from './FiltersResult.module.scss'
-import { INITIAL_VIEW, PLOTS_SOURCE } from '../../../constants'
+import { INITIAL_VIEW } from '../../../constants'
 import { useEventStore, useFilterStore, useModeStore } from '../../../store'
-import { useEffect, useState } from 'react'
 import bbox from '@turf/bbox'
+import PlotItem from './PlotItem/PlotItem'
+import BuildingItem from './BuildingItem/BuildingItem'
 
-const FiltersResult = ({ features }) => {
+const FiltersResult = ({ switcher }) => {
   const { current: map } = useMap()
   const { switchToCountiesMode } = useModeStore()
   const {
     filteredPlotsFeatures,
     setFilteredPlotsFeatures,
-    setFilteredBuildingsIds,
+    filteredBuildingsFeatures,
+    setFilteredBuildingsFeatures,
   } = useFilterStore()
   const { clickedFeature, setClickedFeature } = useEventStore()
 
@@ -29,7 +31,8 @@ const FiltersResult = ({ features }) => {
 
   const handleReset = () => {
     setFilteredPlotsFeatures([])
-    setFilteredBuildingsIds([])
+    setFilteredBuildingsFeatures([])
+    setClickedFeature(null)
     switchToCountiesMode()
     map.flyTo({
       center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
@@ -38,12 +41,41 @@ const FiltersResult = ({ features }) => {
     })
   }
 
-  const getItemClassName = feature => {
-    if (clickedFeature?.properties?.EGRID === feature?.properties?.EGRID) {
-      return `${style.item} ${style.active}`
-    } else {
-      return style.item
+  const resultList = () => {
+    if (switcher === 'plots') {
+      return (
+        <div className={style.list}>
+          {filteredPlotsFeatures.map(feature => (
+            <PlotItem
+              key={feature.properties?.EGRID}
+              isActive={
+                clickedFeature?.properties?.EGRID === feature.properties?.EGRID
+              }
+              feature={feature}
+              handleItemClick={handleItemClick}
+            />
+          ))}
+        </div>
+      )
     }
+
+    if (switcher === 'buildings') {
+      return (
+        <div className={style.list}>
+          {filteredBuildingsFeatures.map(feature => (
+            <BuildingItem
+              key={feature.properties?.EGID}
+              isActive={
+                clickedFeature?.properties?.EGID === feature.properties?.EGID
+              }
+              feature={feature}
+              handleItemClick={handleItemClick}
+            />
+          ))}
+        </div>
+      )
+    }
+    return null
   }
 
   return (
@@ -55,38 +87,20 @@ const FiltersResult = ({ features }) => {
         </button>
       </div>
 
-      <div className={style.list}>
+      {resultList()}
+
+      {/* <div className={style.list}>
         {filteredPlotsFeatures.map(feature => (
-          <div
+          <PlotItem
+            isActive={
+              clickedFeature?.properties?.EGRID === feature.properties?.EGRID
+            }
             key={feature.properties?.EGRID}
-            className={getItemClassName(feature)}
-            onClick={() => handleItemClick(feature)}
-          >
-            <p className={style.itemTitle}>
-              Plot <span>{feature?.properties?.IDEDDP.replace(':', '/')}</span>
-            </p>
-            <p className={style.county}>{feature?.properties?.COMMUNE}</p>
-
-            <ul className={style.fields}>
-              {feature?.properties?.SURFACE && (
-                <p className={style.field}>
-                  Surface: <span>{feature?.properties?.SURFACE} m²</span>
-                </p>
-              )}
-
-              {feature?.properties?.TYPOLOGIE && (
-                <p className={style.field}>
-                  Typologie: <span>{feature?.properties?.TYPOLOGIE}</span>
-                </p>
-              )}
-
-              <p className={style.field}>
-                ERGID: <span>{feature?.properties?.EGRID}</span>
-              </p>
-            </ul>
-          </div>
+            feature={feature}
+            handleItemClick={handleItemClick}
+          />
         ))}
-      </div>
+      </div> */}
     </div>
   )
 }

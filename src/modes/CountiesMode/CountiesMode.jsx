@@ -1,7 +1,12 @@
 import { Layer, Popup, Source, useMap } from 'react-map-gl'
 import { memo, useEffect } from 'react'
 import bbox from '@turf/bbox'
-import { useEventStore, useModeStore, usePaintStore } from '../../store'
+import {
+  useEventStore,
+  useFilterStore,
+  useModeStore,
+  usePaintStore,
+} from '../../store'
 import { COUNTIES_SOURCE } from '../../constants'
 import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 
@@ -10,6 +15,7 @@ const CountiesMode = ({ isActive }) => {
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
   const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
   const { opacity } = usePaintStore()
+  const { filteredBuildingsFeatures, filteredPlotsFeatures } = useFilterStore()
 
   const getFillOpacity = () => {
     const hoverOpacity = (opacity[1] + 40) / 100
@@ -42,6 +48,18 @@ const CountiesMode = ({ isActive }) => {
       : switchToBuildingsMode(clickedFeature)
   }, [clickedFeature])
 
+  const getIsActive = () => {
+    if (filteredPlotsFeatures.length > 0 && switcher === 'plots') {
+      return false
+    }
+
+    if (filteredBuildingsFeatures.length > 0 && switcher === 'buildings') {
+      return false
+    }
+
+    return isActive
+  }
+
   return (
     <Source id={COUNTIES_SOURCE.id} url={COUNTIES_SOURCE.url} type='vector'>
       <Layer
@@ -55,7 +73,7 @@ const CountiesMode = ({ isActive }) => {
           'fill-opacity': getFillOpacity(),
         }}
         beforeId='poi-label'
-        layout={{ visibility: isActive ? 'visible' : 'none' }}
+        layout={{ visibility: getIsActive() ? 'visible' : 'none' }}
       />
       {getCountyNameByFeature(hoveredFeature) && isActive && (
         <Popup

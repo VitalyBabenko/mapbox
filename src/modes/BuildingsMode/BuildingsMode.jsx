@@ -1,8 +1,12 @@
 import { Layer, Popup, Source } from 'react-map-gl'
 import { BUILDINGS_SOURCE } from '../../constants'
 import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
-import { useEventStore, useModeStore, usePaintStore } from '../../store'
-import FilteredBuildings from './FilteredBuildings/FilteredBuildings'
+import {
+  useEventStore,
+  useFilterStore,
+  useModeStore,
+  usePaintStore,
+} from '../../store'
 import getBuildingHoverPopupText from '../../utils/getBuildingHoverPopup'
 import { BuildingsPanel } from '../../panels'
 
@@ -10,6 +14,7 @@ const BuildingsMode = ({ isActive }) => {
   const { county } = useModeStore()
   const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
   const { activePaint, opacity } = usePaintStore()
+  const { filteredBuildingsFeatures } = useFilterStore()
 
   const getCountyName = () => {
     if (!county) return ''
@@ -51,39 +56,61 @@ const BuildingsMode = ({ isActive }) => {
     return activePaint['fill-color']
   }
 
+  const geojson = {
+    type: 'FeatureCollection',
+    features: filteredBuildingsFeatures,
+  }
+
   return (
-    <Source id={BUILDINGS_SOURCE.id} type='vector' url={BUILDINGS_SOURCE.url}>
-      <Layer
-        id='buildings'
-        type='fill'
-        source-layer={BUILDINGS_SOURCE.sourceLayer}
-        paint={{
-          'fill-opacity': getFillOpacity(),
-          'fill-outline-color': 'rgba(256,256,256,1)',
-          'fill-color': getFillColor(),
-        }}
-        filter={buildingsFilter}
-        beforeId='poi-label'
-        layout={{ visibility: isActive ? 'visible' : 'none' }}
-      />
+    <>
+      <Source id='filteredBuildingsSource' type='geojson' data={geojson}>
+        <Layer
+          id='filteredBuildings'
+          type='fill'
+          paint={{
+            'fill-color': getFillColor(),
+            'fill-outline-color': 'rgba(256,256,256,1)',
+            'fill-opacity': getFillOpacity(),
+          }}
+          beforeId='poi-label'
+          layout={{
+            visibility: filteredBuildingsFeatures?.length ? 'visible' : 'none',
+          }}
+        />
+      </Source>
 
-      {hoveredFeature?.properties && isActive && (
-        <Popup
-          longitude={hoverEvent.lngLat.lng}
-          latitude={hoverEvent.lngLat.lat}
-          offset={[0, -5]}
-          closeButton={false}
-          className='hover-popup'
-        >
-          {getBuildingHoverPopupText(activePaint, hoveredFeature?.properties)}
-        </Popup>
-      )}
+      <Source id={BUILDINGS_SOURCE.id} type='vector' url={BUILDINGS_SOURCE.url}>
+        <Layer
+          id='buildings'
+          type='fill'
+          source-layer={BUILDINGS_SOURCE.sourceLayer}
+          paint={{
+            'fill-opacity': getFillOpacity(),
+            'fill-outline-color': 'rgba(256,256,256,1)',
+            'fill-color': getFillColor(),
+          }}
+          filter={buildingsFilter}
+          beforeId='poi-label'
+          layout={{ visibility: isActive ? 'visible' : 'none' }}
+        />
 
-      <BuildingsPanel
-        activeBuildingId={clickedFeature?.properties?.EGRID_CENT}
-      />
-      <FilteredBuildings isActive={isActive} />
-    </Source>
+        {hoveredFeature?.properties && isActive && (
+          <Popup
+            longitude={hoverEvent.lngLat.lng}
+            latitude={hoverEvent.lngLat.lat}
+            offset={[0, -5]}
+            closeButton={false}
+            className='hover-popup'
+          >
+            {getBuildingHoverPopupText(activePaint, hoveredFeature?.properties)}
+          </Popup>
+        )}
+
+        <BuildingsPanel
+          activeBuildingId={clickedFeature?.properties?.EGRID_CENT}
+        />
+      </Source>
+    </>
   )
 }
 
