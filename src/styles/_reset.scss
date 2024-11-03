@@ -1,6 +1,3 @@
-html,
-body,
-div,
 span,
 applet,
 object,
@@ -46,7 +43,6 @@ dt,
 dd,
 ol,
 ul,
-li,
 fieldset,
 form,
 label,
@@ -82,12 +78,9 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
   font: inherit;
   vertical-align: baseline;
 }
-
-/* HTML5 display-role reset for older browsers */
 article,
 aside,
 details,
@@ -106,10 +99,6 @@ section {
   box-sizing: border-box;
 }
 
-body {
-  line-height: 1;
-}
-
 ol,
 ul {
   list-style: none;
@@ -124,7 +113,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 

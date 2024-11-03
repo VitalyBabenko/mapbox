@@ -11,14 +11,17 @@ import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import BuildingPermitsSection from './BuildingPermitsSection/BuildingPermitsSection'
 import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
-import { useEventStore } from '../../store'
+import { useEventStore, useModeStore } from '../../store'
 import HeadingSection from './HeadingSection/HeadingSection'
+import useDraggable from '../../hooks/useDraggable'
 
 const PlotsPanel = ({ activePlotId }) => {
+  const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
+  const { locale } = useModeStore()
   const [plotInfo, setPlotInfo] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { setClickedFeature } = useEventStore()
+  const { setClickedFeature, setClickedPlotInfo } = useEventStore()
 
   const closePlotPanel = () => setClickedFeature(null)
 
@@ -28,8 +31,6 @@ const PlotsPanel = ({ activePlotId }) => {
       setIsLoading(true)
       const info = await plotService.getPlotByEgrId(activePlotId)
 
-      console.log(info)
-
       if (info?.error?.message?.length) {
         setError('Building information is unavailable. Please try again later.')
         setIsLoading(false)
@@ -37,6 +38,7 @@ const PlotsPanel = ({ activePlotId }) => {
       }
 
       setPlotInfo(info)
+      setClickedPlotInfo(info)
       setIsLoading(false)
     }
 
@@ -58,7 +60,11 @@ const PlotsPanel = ({ activePlotId }) => {
   return (
     <div
       className={style.panel}
-      style={{ overflow: isLoading ? 'hidden' : 'auto' }}
+      style={{
+        overflow: isLoading ? 'hidden' : 'auto',
+        top: position.y,
+        right: -position.x,
+      }}
     >
       {isLoading && (
         <div className={style['loader-drawer']}>
@@ -70,15 +76,10 @@ const PlotsPanel = ({ activePlotId }) => {
         plotInfo={plotInfo}
         isLoading={isLoading}
         closePlotPanel={closePlotPanel}
+        handleMouseDown={handleMouseDown}
       />
 
-      {plotInfo?.commune_name && (
-        <p className={style.commune}>
-          Commune: <span>{plotInfo.commune_name}</span>
-        </p>
-      )}
-
-      <SpecsSection plotInfo={plotInfo} />
+      <SpecsSection plotInfo={plotInfo} locale={locale} />
 
       <NotesSection plotInfo={plotInfo} />
 
@@ -92,9 +93,9 @@ const PlotsPanel = ({ activePlotId }) => {
         </List>
       )}
 
-      <AddressesSection plotInfo={plotInfo} />
+      <AddressesSection plotInfo={plotInfo} locale={locale} />
 
-      <OwnersSection plotInfo={plotInfo} />
+      <OwnersSection plotInfo={plotInfo} locale={locale} />
 
       <TransactionsSection plotInfo={plotInfo} />
 

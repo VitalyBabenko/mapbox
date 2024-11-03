@@ -13,12 +13,15 @@ import TransactionsSection from './TransactionsSection/TransactionsSection'
 import PermitsSection from './PermitsSection/PermitsSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
-import { useEventStore } from '../../store'
+import { useEventStore, useModeStore } from '../../store'
+import useDraggable from '../../hooks/useDraggable'
 
-const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
+const BuildingsPanel = ({ activeBuildingId }) => {
+  const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [buildingInfo, setBuildingInfo] = useState(null)
+  const { locale } = useModeStore()
   const { setClickedFeature } = useEventStore()
   const closeBuildingPanel = () => setClickedFeature(null)
 
@@ -55,7 +58,10 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
   if (!activeBuildingId) return null
   if (isLoading) {
     return (
-      <div className={style.panelLoading}>
+      <div
+        className={style.panelLoading}
+        style={{ top: position.y, right: -position.x }}
+      >
         <Loader />
       </div>
     )
@@ -63,20 +69,31 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
 
   if (error) {
     return (
-      <div className={style.panel}>
+      <div
+        className={style.panel}
+        style={{ top: position.y, right: -position.x }}
+      >
         <ErrorMessage message={error} onClose={closeBuildingPanel} />
       </div>
     )
   }
 
+  if (!activeBuildingId) {
+    return null
+  }
+
   return (
-    <div className={style.panel}>
+    <div
+      className={style.panel}
+      style={{ top: position.y, right: -position.x }}
+    >
       <HeadingSection
         plotId={buildingInfo?.plot?.no_commune_no_parcelle || null}
         buildingId={buildingInfo.no_batiment}
         egid={buildingInfo.egid}
         rdppf={buildingInfo?.plot?.extrait_rdppf_pdf}
         closeBuildingPanel={closeBuildingPanel}
+        handleMouseDown={handleMouseDown}
       />
 
       {buildingInfo?.egid && (
@@ -86,12 +103,12 @@ const BuildingsPanel = ({ activeBuildingId, setActiveBuildingId }) => {
       )}
 
       <SpecsSection
+        locale={locale}
         constructionYear={buildingInfo.annee_de_construction_du_batiment}
         apartmentsQuantity={buildingInfo.building_apartments_qty}
         buildingArea={
           buildingInfo.surface_totale_des_logements_du_batiment_m2 || null
         }
-        postCode={buildingInfo.no_postal}
         roomQuantity={
           buildingInfo.nombre_total_de_pieces_des_logements_du_batiment
         }

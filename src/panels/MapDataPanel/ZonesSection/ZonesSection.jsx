@@ -48,7 +48,6 @@ const ZonesSection = () => {
           className={isActive ? style.active : ''}
         >
           <img src={paintByZonesPreview} alt='preview' />
-          {/* <span>Zones</span> */}
         </li>
 
         {isActive && (
@@ -71,7 +70,7 @@ const ZonesSection = () => {
               <span className={isPrimary ? style.left : style.right}></span>
             </div>
 
-            <p>Opacity: {zoneOpacity[1]}%</p>
+            <p>Zone visibility: {zoneOpacity[1]}%</p>
 
             <RangeSlider
               className={`${style.range} single-thumb`}

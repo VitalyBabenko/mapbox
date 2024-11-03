@@ -37,7 +37,17 @@ export const MODES = {
   BUILDINGS: 'buildings',
   PLOTS: 'plots',
   PROTECTED: 'protected',
+  FILTER: 'filter',
 }
+
+export const DEFAULT_TAG_COLORS = [
+  '#006cd5',
+  '#58DCA6',
+  '#D60E00',
+  '#8523FD',
+  '#FBB43F',
+  '#85C1E9',
+]
 
 export const COUNTIES_SOURCE = {
   id: 'countiesSource',
@@ -52,13 +62,9 @@ export const PLOTS_SOURCE = {
 }
 
 export const BUILDINGS_SOURCE = {
-  // id: 'buildingsSource',
-  // url: 'mapbox://lamapch.02cb199k',
-  // sourceLayer: 'CAD_BATIMENT_HORSOL_WGS84-ack86c',
-
   id: 'buildingsSource',
-  url: 'mapbox://lamapch.469rm1o0',
-  sourceLayer: 'buildings_temp-arj1ps',
+  url: 'mapbox://lamapch.483o8fix',
+  sourceLayer: 'buildings-ci26qr',
 }
 
 export const ZONES_SOURCE = {
@@ -74,13 +80,11 @@ export const PROTECTED_SOURCE = {
 }
 
 export const DEFAULT_PAINT = {
-  'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': '#80b4f6',
   getItems: () => [],
 }
 
 export const PAINT_BY_TYPE = {
-  'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': [
     'match',
     ['get', 'TYPOLOGIE'],
@@ -198,7 +202,6 @@ export const PAINT_BY_TYPE = {
     '#FAE5D3',
     '#556A84',
   ],
-  'fill-opacity': 0.8,
   getItems: function () {
     const trimmedColors = this['fill-color'].slice(2).slice(0, -1)
 
@@ -220,7 +223,6 @@ export const PAINT_BY_TYPE = {
 }
 
 export const PAINT_BY_APARTS_QTY = {
-  'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': {
     property: 'APARTS_QTY',
     stops: [
@@ -233,7 +235,6 @@ export const PAINT_BY_APARTS_QTY = {
       [41, '#0D2A4E'],
     ],
   },
-  'fill-opacity': 0.8,
   getItems: function () {
     return [
       { name: 'No unit', color: '#D4E6F1' },
@@ -248,7 +249,6 @@ export const PAINT_BY_APARTS_QTY = {
 }
 
 export const PAINT_BY_CONSTRUCTION_PERIOD = {
-  'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': {
     property: 'EP_CONSTR',
     stops: [
@@ -262,7 +262,6 @@ export const PAINT_BY_CONSTRUCTION_PERIOD = {
       [2040, '#FAE5D3'],
     ],
   },
-  'fill-opacity': 0.8,
   getItems: () => {
     return [
       { name: 'Not found', color: '#556A84' },
@@ -278,7 +277,6 @@ export const PAINT_BY_CONSTRUCTION_PERIOD = {
 }
 
 export const PAINT_BY_LAST_TRANSACTION = {
-  'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': {
     property: 'TRNSC_DATE',
     default: '#4A235A',
@@ -291,7 +289,6 @@ export const PAINT_BY_LAST_TRANSACTION = {
       [2021, '#F5EEF8'],
     ],
   },
-  'fill-opacity': 0.8,
   getItems: () => {
     return [
       { name: 'No Transaction', color: '#4A235A' },
@@ -306,7 +303,6 @@ export const PAINT_BY_LAST_TRANSACTION = {
 }
 
 export const PAINT_BY_TRANSACTION_AMOUNT = {
-  'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': {
     property: 'TRNSC_PRC',
     default: '#556A84',
@@ -321,7 +317,6 @@ export const PAINT_BY_TRANSACTION_AMOUNT = {
       [50000000, '#ABEBC6'],
     ],
   },
-  'fill-opacity': 0.8,
   getItems: () => {
     return [
       { name: 'No Transaction', color: '#556A84' },
@@ -337,7 +332,6 @@ export const PAINT_BY_TRANSACTION_AMOUNT = {
 }
 
 export const PAINT_BY_STATUS = {
-  'fill-outline-color': 'rgba(256,256,256,1)',
   'fill-color': [
     'match',
     ['get', 'STATUT_DA'],
@@ -395,7 +389,6 @@ export const PAINT_BY_STATUS = {
     '#E7C30B',
     '#556A84',
   ],
-  'fill-opacity': 0.8,
   getItems: function () {
     const trimmedColors = this['fill-color'].slice(2).slice(0, -1)
     const notFoundItem = { name: 'Not found', color: '#556A84' }

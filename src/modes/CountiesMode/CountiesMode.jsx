@@ -1,14 +1,34 @@
-import { Layer, Source, useMap } from 'react-map-gl'
+import { Layer, Popup, Source, useMap } from 'react-map-gl'
 import { memo, useEffect } from 'react'
-import HoverCounty from './HoverCounty/HoverCounty'
 import bbox from '@turf/bbox'
-import { useEventStore, useModeStore } from '../../store'
+import {
+  useEventStore,
+  useFilterStore,
+  useModeStore,
+  usePaintStore,
+} from '../../store'
 import { COUNTIES_SOURCE } from '../../constants'
+import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 
 const CountiesMode = ({ isActive }) => {
   const { current: map } = useMap()
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
-  const { clickedFeature } = useEventStore()
+  const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
+  const { opacity } = usePaintStore()
+  const { filteredBuildingsFeatures, filteredPlotsFeatures } = useFilterStore()
+
+  const getFillOpacity = () => {
+    const hoverOpacity = (opacity[1] + 40) / 100
+    if (hoveredFeature?.properties?.genid) {
+      return [
+        'case',
+        ['==', ['get', 'genid'], hoveredFeature?.properties?.genid],
+        hoverOpacity > 1 ? 1 : hoverOpacity,
+        opacity[1] / 100,
+      ]
+    }
+    return opacity[1] / 100
+  }
 
   useEffect(() => {
     if (!isActive) return
@@ -26,7 +46,21 @@ const CountiesMode = ({ isActive }) => {
     switcher === 'plots'
       ? switchToPlotsMode(clickedFeature)
       : switchToBuildingsMode(clickedFeature)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickedFeature])
+
+  const getIsActive = () => {
+    if (filteredPlotsFeatures.length > 0 && switcher === 'plots') {
+      return false
+    }
+
+    if (filteredBuildingsFeatures.length > 0 && switcher === 'buildings') {
+      return false
+    }
+
+    return isActive
+  }
 
   return (
     <Source id={COUNTIES_SOURCE.id} url={COUNTIES_SOURCE.url} type='vector'>
@@ -38,12 +72,22 @@ const CountiesMode = ({ isActive }) => {
         paint={{
           'fill-outline-color': 'rgba(256,256,256,1)',
           'fill-color': '#024eaa',
-          'fill-opacity': 0.4,
+          'fill-opacity': getFillOpacity(),
         }}
         beforeId='poi-label'
-        layout={{ visibility: isActive ? 'visible' : 'none' }}
+        layout={{ visibility: getIsActive() ? 'visible' : 'none' }}
       />
-      <HoverCounty isActive={isActive} />
+      {getCountyNameByFeature(hoveredFeature) && isActive && (
+        <Popup
+          longitude={hoverEvent.lngLat.lng}
+          latitude={hoverEvent.lngLat.lat}
+          offset={[0, -5]}
+          closeButton={false}
+          className='hover-popup'
+        >
+          {getCountyNameByFeature(hoveredFeature)}
+        </Popup>
+      )}
     </Source>
   )
 }

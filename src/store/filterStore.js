@@ -1,8 +1,25 @@
 import { create } from 'zustand'
 
 export const useFilterStore = create(set => ({
-  allCountiesFeatures: [],
-  setAllCountiesFeatures: allCountiesFeatures => set({ allCountiesFeatures }),
+  allFilters: [],
+  setAllFilters: newFilters => set({ allFilters: newFilters }),
+
+  checkboxes: [],
+  setCheckboxes: checkboxes => set({ checkboxes }),
+
+  accordions: [],
+  setAccordions: accordions => set({ accordions }),
+
+  fromValues: {},
+  setFormValues: formValues => set({ formValues }),
+  setInputValue: (input, value) =>
+    set(prev => ({
+      ...prev,
+      formValues: {
+        ...prev.formValues,
+        [input]: value,
+      },
+    })),
 
   filteredPlotsIds: [],
   setFilteredPlotsIds: filteredPlotsIds => set({ filteredPlotsIds }),
@@ -10,4 +27,12 @@ export const useFilterStore = create(set => ({
   filteredBuildingsIds: [],
   setFilteredBuildingsIds: filteredBuildingsIds =>
     set({ filteredBuildingsIds }),
+
+  filteredPlotsFeatures: [],
+  setFilteredPlotsFeatures: filteredPlotsFeatures =>
+    set({ filteredPlotsFeatures }),
+
+  filteredBuildingsFeatures: [],
+  setFilteredBuildingsFeatures: filteredBuildingsFeatures =>
+    set({ filteredBuildingsFeatures }),
 }))

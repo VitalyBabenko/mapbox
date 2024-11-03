@@ -1,4 +1,4 @@
-@import "../../styles/variables";
+@import '../../styles/variables';
 
 .root {
   display: flex;
@@ -8,7 +8,12 @@
   font-weight: 500;
   line-height: 19.5px;
   color: $grey-600;
+  margin-bottom: 8px;
   cursor: pointer;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 
   span {
     display: flex;

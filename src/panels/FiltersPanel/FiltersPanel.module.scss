@@ -20,11 +20,15 @@
   top: 49px;
   left: 10px;
   width: 320px;
-  height: 600px;
+  height: fit-content;
+  min-height: 320px;
+  max-height: 80vh;
 
   .filtersPopup {
     position: relative;
-    height: 100%;
+    height: fit-content;
+    max-height: 80vh;
+    min-height: 320px;
     background: $white;
     border-radius: 4px;
     background: #f9fafb;
@@ -63,6 +67,15 @@
         color: $grey-700;
         margin-right: auto;
       }
+
+      .draggableIcon {
+        cursor: grab;
+        user-select: none;
+
+        &:active {
+          cursor: grabbing;
+        }
+      }
     }
 
     form {
@@ -80,12 +93,12 @@
         }
       }
 
-      h3 {
+      h4 {
         margin-top: 10px;
         margin-bottom: 0;
         height: 26px;
         @include section-title;
-        font-size: 17px;
+        font-size: 16px;
 
         &:first-of-type {
           margin-top: 0;
@@ -132,20 +145,7 @@
         }
 
         button[type='submit'] + button {
-          font-size: 15px;
-          background: none;
-          color: $grey-500;
-          transition: all ease 0.3s;
-          border: none;
-          cursor: pointer;
-          border-radius: 7px;
-          border: 1px solid transparent;
-          padding: 0 12px;
-
-          &:hover {
-            border-color: $grey-500;
-            color: $grey-900;
-          }
+          @include button-reset;
         }
       }
     }

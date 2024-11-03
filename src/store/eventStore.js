@@ -12,4 +12,7 @@ export const useEventStore = create(set => ({
 
   hoveredFeature: null,
   setHoveredFeature: hoveredFeature => set({ hoveredFeature }),
+
+  clickedPlotInfo: null,
+  setClickedPlotInfo: clickedPlotInfo => set({ clickedPlotInfo }),
 }))

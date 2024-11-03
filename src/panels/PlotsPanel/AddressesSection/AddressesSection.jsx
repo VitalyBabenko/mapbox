@@ -5,8 +5,22 @@ import Tooltip from '../../../components/Tooltip/Tooltip'
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
 
-const AddressesSection = ({ plotInfo }) => {
+const AddressesSection = ({ plotInfo, locale }) => {
   const availableAddresses = plotInfo?.addresses?.filter(item => item.adresse)
+
+  function addressToUpperCase(address) {
+    return address
+      .split(' ')
+      .map(word =>
+        word
+          .split('-')
+          .map(
+            part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(), // Преобразуем каждую часть
+          )
+          .join('-'),
+      )
+      .join(' ')
+  }
 
   const HeadingLink = ({ link }) => {
     if (!link) return null
@@ -25,12 +39,12 @@ const AddressesSection = ({ plotInfo }) => {
       {availableAddresses.map(item => (
         <ListItem>
           <hgroup>
-            <h3>{item.adresse}</h3>
+            <h3>{addressToUpperCase(item.adresse)}</h3>
             <HeadingLink link={item?.lien_registre_batiments} />
           </hgroup>
 
           <h4>
-            {item?.commune}, {!!+item?.no_postal && item?.no_postal}
+            {!!+item?.no_postal && item?.no_postal} {item?.commune}
             <br />
             {item?.nom_npa && 'Genève'}
           </h4>
@@ -41,7 +55,12 @@ const AddressesSection = ({ plotInfo }) => {
             isPpe={!!plotInfo?.ppe}
           />
 
-          <BuildingsList buildings={item?.housing_stats_data} />
+          <BuildingsList
+            plotInfo={plotInfo}
+            address={item}
+            buildings={item.buildings}
+            locale={locale}
+          />
         </ListItem>
       ))}
     </List>

@@ -5,6 +5,7 @@ import style from './HeadingSection.module.scss'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import { BiFileBlank as FileIcon } from 'react-icons/bi'
 import { useQuery } from '../../../hooks/useQuery'
+import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import {
   BiStar as StarIcon,
   BiSolidStar as SolidStarIcon,
@@ -12,10 +13,11 @@ import {
   BiSolidBell as SolidBellIcon,
 } from 'react-icons/bi'
 import { plotService } from '../../../service/plotService'
-import { useToastStore } from '../../../store'
+import { useTagsStore, useToastStore } from '../../../store'
+import { PiTagBold as TagIcon } from 'react-icons/pi'
 
-const HeadingSection = ({ plotInfo, closePlotPanel }) => {
-  const plotId = plotInfo?._id
+const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
+  const plotId = plotInfo?.mongo_id
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
   const {
@@ -28,6 +30,7 @@ const HeadingSection = ({ plotInfo, closePlotPanel }) => {
     loading: loadingEmailAlerts,
     handler: emailAlertsHandler,
   } = useQuery()
+  const { openTagsModal } = useTagsStore()
   const toast = useToastStore()
 
   const addToEmailAlerts = () => {
@@ -147,6 +150,12 @@ const HeadingSection = ({ plotInfo, closePlotPanel }) => {
         </Tooltip>
       )}
 
+      <Tooltip text='Assign tag' bottom='-40px'>
+        <IconButton disabled={loadingEmailAlerts}>
+          <TagIcon onClick={openTagsModal} />
+        </IconButton>
+      </Tooltip>
+
       {plotInfo?.extrait_rdppf_pdf && (
         <a
           className={style.fileLink}
@@ -159,6 +168,13 @@ const HeadingSection = ({ plotInfo, closePlotPanel }) => {
           </Tooltip>
         </a>
       )}
+
+      <Tooltip text='Move the panel' bottom='-40px'>
+        <DraggableIcon
+          className={style.draggableIcon}
+          onMouseDown={handleMouseDown}
+        />
+      </Tooltip>
 
       <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
     </div>

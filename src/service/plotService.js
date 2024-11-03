@@ -12,31 +12,6 @@ export const plotService = {
 
       if (!plot) throw new Error()
 
-      plot.getTransactions = function () {
-        return this.ownership_info
-          .map(info => info.last_transaction)
-          .filter(transaction => !!transaction?._id)
-      }
-
-      plot.getBuildings = function () {
-        const result = []
-        this?.addresses?.forEach(address => {
-          if (address?.housing_stats_data) {
-            result.push(address?.housing_stats_data)
-          }
-        })
-        return result
-      }
-
-      plot.getLivingSurface = function () {
-        return (
-          this?.addresses?.reduce((acc, item) => {
-            acc += +item?.surface_brut_de_plancher_hors_sol_m2 || 0
-            return +acc
-          }, 0) || null
-        )
-      }
-
       return plot
     } catch (error) {
       return {
@@ -95,6 +70,31 @@ export const plotService = {
     return resp.data
   },
 
+  // tags
+  getAllTagTitles: async () => {
+    try {
+      const resp = await axiosInstance.get(`/user/tags/titles`)
+      if (!Array.isArray(resp?.data?.tags)) {
+        throw new Error()
+      }
+      return resp.tags
+    } catch (error) {
+      return {
+        error,
+      }
+    }
+  },
+
+  assignTagToPlot: async (plotId, tag, color) => {
+    const resp = await axiosInstance.post(
+      `/user/plot/${plotId}/tag?title=${tag}&color=${color}`,
+    )
+    if (!resp?.data?.result) {
+      throw new Error()
+    }
+    return resp?.data
+  },
+
   // notes
   getAllNotes: async plotId => {
     const resp = await axiosInstance.get(`/user/notes/all/${plotId}`)
@@ -109,7 +109,7 @@ export const plotService = {
     formData.append('content', text)
 
     const resp = await axiosInstance.post(
-      `/plot/${plotId}/user/note`,
+      `/user/plot/${plotId}/note`,
       formData.toString(),
       {
         headers: {
@@ -138,16 +138,25 @@ export const plotService = {
       const lang = document.querySelector('html').lang
       const { data } = await axios.get(`${url}/api/filters/plots?lang=${lang}`)
 
-      const plotsFilters = data.data
-        .filter(item => item.view !== 'checkbox')
-        .sort((a, b) => a.position - b.position)
-        .sort((a, b) => b.show_on_top - a.show_on_top)
+      const filtersByCategory = Object.entries(
+        data.data.reduce((acc, item) => {
+          const key = item.category_title
+          if (key === null) return acc
 
-      const checkboxes = data.data.filter(item => {
-        return item.view === 'checkbox'
-      })
+          if (!acc[key]) {
+            acc[key] = []
+          }
 
-      return { list: plotsFilters, checkboxes }
+          acc[key].push(item)
+
+          return acc
+        }, {}),
+      ).map(([category, items]) => ({
+        title: category,
+        filters: items,
+      }))
+
+      return { filtersByCategory, filters: data.data }
     } catch (error) {
       return {
         error,

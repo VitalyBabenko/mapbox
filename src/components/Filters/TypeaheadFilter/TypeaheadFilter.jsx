@@ -10,9 +10,10 @@ const TypeaheadFilter = ({ filter, setSelected, value }) => {
 
   return (
     <>
-      <h3>{filter.title}</h3>
+      <h4>{filter.title}</h4>
 
       <Typeahead
+        positionFixed
         id={filter.attribute}
         onChange={setSelected}
         options={options}

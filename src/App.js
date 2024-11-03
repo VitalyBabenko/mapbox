@@ -1,11 +1,6 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
-import { memo, useCallback, useRef, useState } from 'react'
-import {
-  COUNTIES_SOURCE,
-  INITIAL_VIEW,
-  MAP_STYLES,
-  MODES,
-} from './constants/index.js'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { INITIAL_VIEW, MAP_STYLES, MODES } from './constants/index.js'
 import ModeSwitcher from './components/ModeSwitcher/ModeSwitcher.jsx'
 import { useEventStore } from './store/eventStore.js'
 import { useModeStore } from './store/modeStore.js'
@@ -14,17 +9,19 @@ import PlotsMode from './modes/PlotsMode/PlotsMode.jsx'
 import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
 import Loader from './components/Loader/Loader.jsx'
 import { FiltersPanel, MapDataPanel } from './panels/index.js'
-import { useFilterStore, useZoneStore } from './store'
+import { useZoneStore } from './store'
 import Toast from './components/Toast/Toast.jsx'
 import ZonesMode from './modes/ZonesMode/ZonesMode.jsx'
 import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
+import globalStyle from './styles/global.module.scss'
+import TagsModal from './components/TagsModal/TagsModal.jsx'
 
 function App() {
   const mapRef = useRef(null)
+  const wrapperRef = useRef(null)
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
-  const { mode, toggleSwitcher } = useModeStore()
-  const { setAllCountiesFeatures, allCountiesFeatures } = useFilterStore()
+  const { locale, setLocale, mode, toggleSwitcher } = useModeStore()
   const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
     useEventStore()
   const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
@@ -66,68 +63,89 @@ function App() {
     }
   }
 
-  const onSourceDataLoad = event => {
-    if (event.sourceId !== COUNTIES_SOURCE.id) return
-    if (allCountiesFeatures?.length === 52) return
-
-    const result = mapRef.current?.querySourceFeatures(COUNTIES_SOURCE.id, {
-      layer: 'counties',
-      sourceLayer: COUNTIES_SOURCE.sourceLayer,
-      validate: false,
-    })
-
-    setAllCountiesFeatures(result)
-  }
-
   const getIsModeActive = currentMode => {
     if (isMapLoading) return false
     if (isZonesPrimary && isZonesActive) return false
     return mode === currentMode
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (mapRef.current) {
+        mapRef.current.resize()
+      }
+    }
+
+    const observer = new ResizeObserver(() => {
+      handleResize()
+    })
+
+    if (wrapperRef.current) {
+      observer.observe(wrapperRef.current)
+    }
+
+    const lang = document.querySelector('html').lang
+
+    if (!['en', 'fr', 'de'].includes(locale)) {
+      setLocale('en')
+    }
+
+    setLocale(lang)
+
+    return () => {
+      if (wrapperRef.current) {
+        observer.unobserve(wrapperRef.current)
+      }
+    }
+  }, [])
+
   return (
-    <Map
-      ref={mapRef}
-      onClick={onClick}
-      onMouseMove={onHover}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onLoad={onMapLoad}
-      onSourceData={onSourceDataLoad}
-      cursor={cursor}
-      interactiveLayerIds={[
-        'counties',
-        'plots',
-        'buildings',
-        'protected',
-        'clusters',
-        isZonesPrimary ? 'zones' : '',
-      ]}
-      mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      mapStyle={MAP_STYLES[0].url}
-      attributionControl={false}
-      initialViewState={{
-        latitude: INITIAL_VIEW.LATITUDE,
-        longitude: INITIAL_VIEW.LONGITUDE,
-        zoom: INITIAL_VIEW.ZOOM,
-      }}
-      style={{ width: '100%', height: '100%' }}
-    >
-      {isMapLoading && <Loader withBackground />}
+    <div ref={wrapperRef} className={globalStyle.appWrapper}>
+      <Map
+        ref={mapRef}
+        onClick={onClick}
+        onMouseMove={onHover}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onLoad={onMapLoad}
+        cursor={cursor}
+        interactiveLayerIds={[
+          'counties',
+          'plots',
+          'buildings',
+          'protected',
+          'filteredPlots',
+          'filteredBuildings',
+          'clusters',
+          'filteredPlots',
+          isZonesPrimary ? 'zones' : '',
+        ]}
+        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        mapStyle={MAP_STYLES[0].url}
+        attributionControl={false}
+        initialViewState={{
+          latitude: INITIAL_VIEW.LATITUDE,
+          longitude: INITIAL_VIEW.LONGITUDE,
+          zoom: INITIAL_VIEW.ZOOM,
+        }}
+      >
+        {isMapLoading && <Loader withBackground />}
 
-      <CountiesMode isActive={getIsModeActive(MODES.COUNTIES)} />
-      <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
-      <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
-      <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
-      <ZonesMode />
+        <CountiesMode isActive={getIsModeActive(MODES.COUNTIES)} />
+        <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
+        <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
+        <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
+        <ZonesMode />
 
-      <ModeSwitcher />
-      <FiltersPanel />
-      <MapDataPanel />
-      <FullscreenControl position='top-right' />
-      <NavigationControl />
-      <Toast />
-    </Map>
+        <TagsModal />
+        <ModeSwitcher />
+        <FiltersPanel />
+        <MapDataPanel />
+        <FullscreenControl position='top-right' />
+        <NavigationControl />
+        <Toast />
+      </Map>
+    </div>
   )
 }
 
