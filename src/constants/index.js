@@ -63,8 +63,8 @@ export const PLOTS_SOURCE = {
 
 export const BUILDINGS_SOURCE = {
   id: 'buildingsSource',
-  url: 'mapbox://lamapch.9w4drdyx',
-  sourceLayer: 'buildings-6xiroi',
+  url: 'mapbox://lamapch.483o8fix',
+  sourceLayer: 'buildings-ci26qr',
 }
 
 export const ZONES_SOURCE = {
