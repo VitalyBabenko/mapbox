@@ -1,6 +1,11 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { INITIAL_VIEW, MAP_STYLES, MODES } from './constants/index.js'
+import {
+  INITIAL_VIEW,
+  MAP_STYLES,
+  MODES,
+  testDataBookmarks,
+} from './constants/index.js'
 import ModeSwitcher from './components/ModeSwitcher/ModeSwitcher.jsx'
 import { useEventStore } from './store/eventStore.js'
 import { useModeStore } from './store/modeStore.js'
@@ -9,12 +14,14 @@ import PlotsMode from './modes/PlotsMode/PlotsMode.jsx'
 import BuildingsMode from './modes/BuildingsMode/BuildingsMode.jsx'
 import Loader from './components/Loader/Loader.jsx'
 import { FiltersPanel, MapDataPanel } from './panels/index.js'
-import { useZoneStore } from './store'
+import { useTagsStore, useZoneStore } from './store'
 import Toast from './components/Toast/Toast.jsx'
 import ZonesMode from './modes/ZonesMode/ZonesMode.jsx'
 import ProtectedMode from './modes/ProtectedMode/ProtectedMode.jsx'
 import globalStyle from './styles/global.module.scss'
 import TagsModal from './components/TagsModal/TagsModal.jsx'
+import { plotService } from './service/plotService.js'
+import MarkedMode from './modes/MarkedMode/MarkedMode.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -25,6 +32,7 @@ function App() {
   const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
     useEventStore()
   const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
+  const { setPlotsWithBookmarks, setPlotsWithTags } = useTagsStore()
 
   const onMouseEnter = function () {
     setCursor('pointer')
@@ -54,13 +62,21 @@ function App() {
     }
   }
 
-  const onMapLoad = () => {
-    setIsMapLoading(false)
-    const pathname = window.location.pathname
+  const getMarkedFeatures = async () => {
+    const bookmarkedPlots = await plotService.getAllPlotsFeaturesWithBookmarks()
+    setPlotsWithBookmarks(bookmarkedPlots)
+    const taggedPlots = await plotService.getAllPlotsFeaturesWithTags()
+    setPlotsWithTags(taggedPlots.length ? taggedPlots : [])
+  }
 
+  const onMapLoad = () => {
+    getMarkedFeatures()
+
+    const pathname = window.location.pathname
     if (pathname.includes('/buildings')) {
       toggleSwitcher()
     }
+    setIsMapLoading(false)
   }
 
   const getIsModeActive = currentMode => {
@@ -116,8 +132,8 @@ function App() {
           'protected',
           'filteredPlots',
           'filteredBuildings',
-          'clusters',
-          'filteredPlots',
+          'markedBookmarks',
+          'markedTags',
           isZonesPrimary ? 'zones' : '',
         ]}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
@@ -135,6 +151,7 @@ function App() {
         <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
         <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
         <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
+        <MarkedMode isActive={getIsModeActive(MODES.MARKED)} />
         <ZonesMode />
 
         <TagsModal />

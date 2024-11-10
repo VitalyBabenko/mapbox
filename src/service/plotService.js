@@ -70,6 +70,18 @@ export const plotService = {
     return resp.data
   },
 
+  getAllPlotsFeaturesWithBookmarks: async () => {
+    try {
+      const resp = await axiosInstance.get(`/user/bookmarks/geo-json`)
+      if (!Array.isArray(resp?.data?.features)) {
+        throw new Error()
+      }
+      return resp.data.features
+    } catch (error) {
+      return []
+    }
+  },
+
   // tags
   getAllTagTitles: async () => {
     try {
@@ -93,6 +105,18 @@ export const plotService = {
       throw new Error()
     }
     return resp?.data
+  },
+
+  getAllPlotsFeaturesWithTags: async () => {
+    try {
+      const resp = await axiosInstance.get(`/user/tags/geo-json`)
+      if (!Array.isArray(resp?.data?.features)) {
+        throw new Error()
+      }
+      return resp?.data?.features
+    } catch (error) {
+      return []
+    }
   },
 
   // notes

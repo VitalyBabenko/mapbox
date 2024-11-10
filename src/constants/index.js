@@ -38,6 +38,7 @@ export const MODES = {
   PLOTS: 'plots',
   PROTECTED: 'protected',
   FILTER: 'filter',
+  MARKED: 'marked',
 }
 
 export const DEFAULT_TAG_COLORS = [

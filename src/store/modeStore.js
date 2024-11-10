@@ -29,6 +29,8 @@ export const useModeStore = create(set => ({
   switchToProtectedPlotsMode: () =>
     set({ mode: MODES.PROTECTED, switcher: MODES.PLOTS }),
 
+  switchToMarkedMode: () => set({ mode: MODES.MARKED, switcher: MODES.PLOTS }),
+
   mapStyle: MAP_STYLES[0],
   setMapStyle: mapStyle => set({ mapStyle }),
 }))
