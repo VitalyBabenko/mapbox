@@ -31,11 +31,11 @@ const TagsModal = () => {
 
   const assignTagToPlot = async () => {
     try {
-      const resp = await plotService.assignTagToPlot(
-        clickedPlotInfo?.mongo_id,
-        inputValue,
-        color,
-      )
+      const resp = await plotService.assignTagToPlot({
+        plotId: clickedPlotInfo?.mongo_id,
+        tag: inputValue,
+        color: color,
+      })
 
       if (resp?.result) {
         toast.success(resp?.message || 'Tag assigned successfully')

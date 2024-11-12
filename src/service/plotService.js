@@ -97,10 +97,14 @@ export const plotService = {
     }
   },
 
-  assignTagToPlot: async (plotId, tag, color) => {
-    const resp = await axiosInstance.post(
-      `/user/plot/${plotId}/tag?title=${tag}&color=${color}`,
-    )
+  assignTagToPlot: async ({ plotId, tag, color }) => {
+    const resp = await axiosInstance.post(`/user/plot/${plotId}/tag`, null, {
+      params: {
+        title: tag,
+        color: encodeURIComponent(color),
+      },
+    })
+
     if (!resp?.data?.result) {
       throw new Error()
     }
