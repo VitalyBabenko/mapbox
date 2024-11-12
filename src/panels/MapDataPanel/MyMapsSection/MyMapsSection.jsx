@@ -1,45 +1,18 @@
 import { useMap } from 'react-map-gl'
-import { INITIAL_VIEW } from '../../../constants'
-import { useModeStore, useTagsStore } from '../../../store'
+import { INITIAL_VIEW, MODES } from '../../../constants'
+import { useModeStore } from '../../../store'
 import style from './MyMapsSection.module.scss'
 
 const MyMapsSection = () => {
   const { current: map } = useMap()
   const {
-    isPlotsWithTagsShowed,
-    setIsPlotsWithTagsShowed,
-    isPlotsWithBookmarksShowed,
-    setIsPlotsWithBookmarksShowed,
-  } = useTagsStore()
-  const { switchToMarkedMode, switchToCountiesMode } = useModeStore()
+    mode,
+    switchToTagsMode,
+    switchToCountiesMode,
+    switchToBookmarksMode,
+  } = useModeStore()
 
-  const handlePlotsWithTagsClick = () => {
-    if (isPlotsWithTagsShowed) {
-      if (!isPlotsWithBookmarksShowed) {
-        switchToCountiesMode()
-      }
-      setIsPlotsWithTagsShowed(false)
-    } else {
-      switchToMarkedMode()
-      setIsPlotsWithTagsShowed(true)
-    }
-  }
-
-  const handlePlotsWithBookmarksClick = () => {
-    if (isPlotsWithBookmarksShowed) {
-      if (!isPlotsWithTagsShowed) {
-        switchToCountiesMode()
-      }
-      setIsPlotsWithBookmarksShowed(false)
-    } else {
-      switchToMarkedMode()
-      setIsPlotsWithBookmarksShowed(true)
-    }
-  }
-
-  const handleResetClick = () => {
-    setIsPlotsWithTagsShowed(false)
-    setIsPlotsWithBookmarksShowed(false)
+  const resetMap = () => {
     switchToCountiesMode()
     map.flyTo({
       center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
@@ -48,23 +21,36 @@ const MyMapsSection = () => {
     })
   }
 
-  const isResetButtonShowed =
-    isPlotsWithTagsShowed || isPlotsWithBookmarksShowed
+  const handlePlotsWithTagsClick = () => {
+    if (mode === MODES.TAGS) {
+      resetMap()
+    } else {
+      switchToTagsMode()
+    }
+  }
+
+  const handlePlotsWithBookmarksClick = () => {
+    if (mode === MODES.BOOKMARKS) {
+      resetMap()
+    } else {
+      switchToBookmarksMode()
+    }
+  }
+
+  const isResetButtonShowed = mode === MODES.TAGS || mode === MODES.BOOKMARKS
 
   return (
     <>
       <div className={style.heading}>
         <h3 className={style.title}>My Maps</h3>
 
-        {isResetButtonShowed && (
-          <button onClick={handleResetClick}>Reset</button>
-        )}
+        {isResetButtonShowed && <button onClick={resetMap}>Reset</button>}
       </div>
 
       <ul className={style.list}>
         <li
           onClick={() => handlePlotsWithTagsClick()}
-          className={isPlotsWithTagsShowed ? style.active : null}
+          className={mode === MODES.TAGS ? style.active : null}
         >
           <img src='https://via.placeholder.com/150' alt='placeholder' />
           <span>Plots with tags</span>
@@ -72,7 +58,7 @@ const MyMapsSection = () => {
 
         <li
           onClick={() => handlePlotsWithBookmarksClick()}
-          className={isPlotsWithBookmarksShowed ? style.active : null}
+          className={mode === MODES.BOOKMARKS ? style.active : null}
         >
           <img src='https://via.placeholder.com/150' alt='placeholder' />
           <span>Plots with bookmarks</span>

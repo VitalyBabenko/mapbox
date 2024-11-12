@@ -34,7 +34,7 @@ const TagsModal = () => {
       const resp = await plotService.assignTagToPlot({
         plotId: clickedPlotInfo?.mongo_id,
         tag: inputValue,
-        color: color,
+        color,
       })
 
       if (resp?.result) {

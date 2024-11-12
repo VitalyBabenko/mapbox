@@ -1,5 +1,5 @@
 import { useMap } from 'react-map-gl'
-import { DEFAULT_PAINT, INITIAL_VIEW } from '../../constants'
+import { DEFAULT_PAINT, INITIAL_VIEW, MODES } from '../../constants'
 import style from './ModeSwitcher.module.scss'
 import { BiBuildings as BuildingIcon } from 'react-icons/bi'
 import { BiArea as PlotIcon } from 'react-icons/bi'
@@ -29,18 +29,19 @@ const ModeSwitcher = () => {
 
   const handleSwitch = clickedMode => {
     if (clickedMode === switcher) return
-    if (mode === 'counties') {
+    if (mode === MODES.TAGS) return
+    if (mode === MODES.COUNTIES) {
       toggleSwitcher()
       return
     }
 
-    if (mode === 'protected') {
+    if (mode === MODES.PROTECTED) {
       toggleSwitcher()
       return
     }
 
     toggleSwitcher()
-    switcher === 'plots'
+    switcher === MODES.PLOTS
       ? switchToBuildingsMode(county)
       : switchToPlotsMode(county)
   }

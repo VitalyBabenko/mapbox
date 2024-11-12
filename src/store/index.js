@@ -5,6 +5,7 @@ import { usePaintStore } from './paintStore'
 import { useToastStore } from './toastStore'
 import { useZoneStore } from './zoneStore'
 import { useTagsStore } from './tagsStore'
+import { useBookmarksStore } from './bookmarksStore'
 
 export {
   useEventStore,
@@ -14,4 +15,5 @@ export {
   useToastStore,
   useZoneStore,
   useTagsStore,
+  useBookmarksStore,
 }

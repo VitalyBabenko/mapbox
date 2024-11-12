@@ -1,6 +1,7 @@
 import BuildingsPanel from './BuildingsPanel/BuildingsPanel'
-import PlotsPanel from './PlotsPanel/PlotsPanel'
-import MapDataPanel from './MapDataPanel/MapDataPanel'
 import FiltersPanel from './FiltersPanel/FiltersPanel'
+import MapDataPanel from './MapDataPanel/MapDataPanel'
+import PlotsPanel from './PlotsPanel/PlotsPanel'
+import ScalePanel from './ScalePanel/ScalePanel'
 
-export { BuildingsPanel, PlotsPanel, MapDataPanel, FiltersPanel }
+export { BuildingsPanel, FiltersPanel, MapDataPanel, PlotsPanel, ScalePanel }
