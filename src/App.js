@@ -3,7 +3,7 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import globalStyle from './styles/global.module.scss'
 import { plotService } from './service/plotService.js'
 import { ModeSwitcher, Loader, Toast, TagsModal } from './components'
-import { INITIAL_VIEW, MAP_STYLES, MODES, testDataBookmarks } from './constants'
+import { INITIAL_VIEW, MAP_STYLES, MODES } from './constants'
 import { FiltersPanel, MapDataPanel } from './panels'
 import {
   BookmarksMode,
@@ -64,7 +64,7 @@ function App() {
 
   const getMarkedFeatures = async () => {
     const bookmarkedPlots = await plotService.getAllPlotsFeaturesWithBookmarks()
-    setPlotsWithBookmarks(testDataBookmarks)
+    setPlotsWithBookmarks(bookmarkedPlots)
     const taggedPlotsGeojson = await plotService.getAllPlotsFeaturesWithTags()
     setPlotsWithTags(taggedPlotsGeojson)
   }
@@ -134,6 +134,7 @@ function App() {
           'filteredBuildings',
           'taggedPlots',
           'bookmarkedPlots',
+          'pools',
           isZonesPrimary ? 'zones' : '',
         ]}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}

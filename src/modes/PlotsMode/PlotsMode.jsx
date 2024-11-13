@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Layer, Popup, Source } from 'react-map-gl'
 import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
-import { PLOTS_SOURCE } from '../../constants'
+import { PLOTS_SOURCE, POOLS_SOURCE } from '../../constants'
 import { PlotsPanel } from '../../panels'
 import {
   useEventStore,
@@ -23,6 +23,8 @@ const PlotsMode = ({ isActive }) => {
     return name
   }
 
+  console.log({ county, hoveredFeature })
+
   const plotsFilter = useMemo(() => {
     const countyName = getCountyName()
     return [
@@ -30,6 +32,13 @@ const PlotsMode = ({ isActive }) => {
       ['match', ['get', 'TYPE_PROPR'], ['privé'], true, false],
       ['match', ['get', 'COMMUNE'], countyName, true, false],
     ]
+  }, [isActive, county])
+
+  const poolsFilter = useMemo(() => {
+    if (county?.id) {
+      return ['all', ['match', ['get', 'MUTCOM'], [24], true, false]]
+    }
+    return ['all', ['match', ['get', 'MUTCOM'], [''], true, false]]
   }, [isActive, county])
 
   const getFillOpacity = () => {
@@ -96,6 +105,24 @@ const PlotsMode = ({ isActive }) => {
             'fill-opacity': getFillOpacity(),
           }}
           beforeId='poi-label'
+          layout={{
+            visibility: isActive ? 'visible' : 'none',
+          }}
+        />
+      </Source>
+
+      <Source id={POOLS_SOURCE.id} type='vector' url={POOLS_SOURCE.url}>
+        <Layer
+          id='pools'
+          type='fill'
+          source={POOLS_SOURCE.id}
+          source-layer={POOLS_SOURCE.sourceLayer}
+          // filter={poolsFilter}
+          paint={{
+            'fill-color': '#006cd5',
+            'fill-outline-color': '#337f5f',
+            'fill-opacity': 0.6,
+          }}
           layout={{
             visibility: isActive ? 'visible' : 'none',
           }}

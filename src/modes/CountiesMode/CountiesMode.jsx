@@ -30,6 +30,8 @@ const CountiesMode = ({ isActive }) => {
     return opacity[1] / 100
   }
 
+  // console.log(clickedFeature)
+
   useEffect(() => {
     if (!isActive) return
     if (clickedFeature === null) return

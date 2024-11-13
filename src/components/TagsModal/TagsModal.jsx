@@ -19,6 +19,7 @@ const TagsModal = () => {
   const toast = useToastStore()
   const [inputValue, setInputValue] = useState('')
   const [options, setOptions] = useState([])
+  const { setPlotsWithTags } = useTagsStore()
   const overlayClassName = isTagModalOpen
     ? style.overlay
     : `${style.overlay} ${style.hidden}`
@@ -39,6 +40,8 @@ const TagsModal = () => {
 
       if (resp?.result) {
         toast.success(resp?.message || 'Tag assigned successfully')
+        const plotsWithTags = await plotService.getAllPlotsFeaturesWithTags()
+        setPlotsWithTags(plotsWithTags)
       }
     } catch (error) {
       toast.error('Failed to assign tag')
