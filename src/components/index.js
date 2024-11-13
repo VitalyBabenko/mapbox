@@ -9,6 +9,7 @@ import ModeSwitcher from './ModeSwitcher/ModeSwitcher'
 import TagsModal from './TagsModal/TagsModal'
 import Toast from './Toast/Toast'
 import Tooltip from './Tooltip/Tooltip'
+import PoolsLayer from './PoolsLayer/PoolsLayer'
 
 export {
   Checkbox,
@@ -22,4 +23,5 @@ export {
   TagsModal,
   Toast,
   Tooltip,
+  PoolsLayer,
 }

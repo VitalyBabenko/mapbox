@@ -2,7 +2,13 @@ import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import globalStyle from './styles/global.module.scss'
 import { plotService } from './service/plotService.js'
-import { ModeSwitcher, Loader, Toast, TagsModal } from './components'
+import {
+  ModeSwitcher,
+  Loader,
+  Toast,
+  TagsModal,
+  PoolsLayer,
+} from './components'
 import { INITIAL_VIEW, MAP_STYLES, MODES } from './constants'
 import { FiltersPanel, MapDataPanel } from './panels'
 import {
@@ -156,6 +162,7 @@ function App() {
         <BookmarksMode isActive={getIsModeActive(MODES.BOOKMARKS)} />
         <ZonesMode />
 
+        <PoolsLayer />
         <TagsModal />
         <ModeSwitcher />
         <FiltersPanel />

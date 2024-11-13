@@ -74,8 +74,6 @@ export const plotService = {
     try {
       const resp = await axiosInstance.get(`/user/bookmarks/geo-json`)
 
-      console.log({ resp })
-
       return resp.data
     } catch (error) {
       return {

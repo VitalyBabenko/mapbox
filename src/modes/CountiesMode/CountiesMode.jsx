@@ -8,7 +8,6 @@ import {
   usePaintStore,
 } from '../../store'
 import { COUNTIES_SOURCE } from '../../constants'
-import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 
 const CountiesMode = ({ isActive }) => {
   const { current: map } = useMap()
@@ -19,18 +18,16 @@ const CountiesMode = ({ isActive }) => {
 
   const getFillOpacity = () => {
     const hoverOpacity = (opacity[1] + 40) / 100
-    if (hoveredFeature?.properties?.genid) {
+    if (hoveredFeature?.properties?.NO_COMM) {
       return [
         'case',
-        ['==', ['get', 'genid'], hoveredFeature?.properties?.genid],
+        ['==', ['get', 'NO_COMM'], hoveredFeature?.properties?.NO_COMM],
         hoverOpacity > 1 ? 1 : hoverOpacity,
         opacity[1] / 100,
       ]
     }
     return opacity[1] / 100
   }
-
-  // console.log(clickedFeature)
 
   useEffect(() => {
     if (!isActive) return
@@ -79,7 +76,7 @@ const CountiesMode = ({ isActive }) => {
         beforeId='poi-label'
         layout={{ visibility: getIsActive() ? 'visible' : 'none' }}
       />
-      {getCountyNameByFeature(hoveredFeature) && isActive && (
+      {hoveredFeature?.properties?.COMMUNE && isActive && (
         <Popup
           longitude={hoverEvent.lngLat.lng}
           latitude={hoverEvent.lngLat.lat}
@@ -87,7 +84,7 @@ const CountiesMode = ({ isActive }) => {
           closeButton={false}
           className='hover-popup'
         >
-          {getCountyNameByFeature(hoveredFeature)}
+          {hoveredFeature?.properties?.COMMUNE}
         </Popup>
       )}
     </Source>

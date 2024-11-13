@@ -53,8 +53,8 @@ export const DEFAULT_TAG_COLORS = [
 
 export const COUNTIES_SOURCE = {
   id: 'countiesSource',
-  url: 'mapbox://lamapch.9a3g6tja',
-  sourceLayer: 'kanton_28-filt_reworked-a2cfbe',
+  url: 'mapbox://lamapch.3tdoe4uu',
+  sourceLayer: 'CAD_COMMUNE_WGS84-amqszz',
 }
 
 export const PLOTS_SOURCE = {
