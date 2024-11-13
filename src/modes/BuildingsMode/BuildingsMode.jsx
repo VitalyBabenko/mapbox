@@ -17,8 +17,8 @@ const BuildingsMode = ({ isActive }) => {
 
   const buildingsFilter = [
     'match',
-    ['get', 'COMMUNE'],
-    county?.properties?.COMMUNE || '',
+    ['get', 'NO_COMM'],
+    county?.properties?.NO_COMM || '',
     true,
     false,
   ]
@@ -102,9 +102,7 @@ const BuildingsMode = ({ isActive }) => {
         )}
       </Source>
 
-      <BuildingsPanel
-        activeBuildingId={clickedFeature?.properties?.EGRID_CENT}
-      />
+      <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
     </>
   )
 }
