@@ -2,6 +2,8 @@ import { useMap } from 'react-map-gl'
 import { INITIAL_VIEW, MODES } from '../../../constants'
 import { useModeStore } from '../../../store'
 import style from './MyMapsSection.module.scss'
+import bookmarksModePreview from '../../../assets/images/bookmarksModePreview.png'
+import tagsModePreview from '../../../assets/images/tagsModePreview.png'
 
 const MyMapsSection = () => {
   const { current: map } = useMap()
@@ -52,7 +54,7 @@ const MyMapsSection = () => {
           onClick={() => handlePlotsWithTagsClick()}
           className={mode === MODES.TAGS ? style.active : null}
         >
-          <img src='https://via.placeholder.com/150' alt='placeholder' />
+          <img src={tagsModePreview} alt='placeholder' />
           <span>Plots with tags</span>
         </li>
 
@@ -60,7 +62,7 @@ const MyMapsSection = () => {
           onClick={() => handlePlotsWithBookmarksClick()}
           className={mode === MODES.BOOKMARKS ? style.active : null}
         >
-          <img src='https://via.placeholder.com/150' alt='placeholder' />
+          <img src={bookmarksModePreview} alt='placeholder' />
           <span>Plots with bookmarks</span>
         </li>
       </ul>

@@ -8,7 +8,6 @@ import {
   useModeStore,
   usePaintStore,
 } from '../../store'
-import { PoolsLayer } from '../../components'
 
 const PlotsMode = ({ isActive }) => {
   const { county, switcher } = useModeStore()
@@ -58,18 +57,6 @@ const PlotsMode = ({ isActive }) => {
     features: filteredPlotsFeatures,
   }
 
-  const isHoverPopupOpen =
-    Boolean(hoveredFeature?.properties?.MUTCOM) &&
-    Boolean(hoveredFeature?.properties?.IDEDDP) &&
-    isActive
-
-  const getPopupText = () => {
-    if (hoveredFeature?.properties?.MUTCOM) {
-      return 'Pool'
-    }
-    return `Plot: ${hoveredFeature?.properties?.IDEDDP?.replace(':', '/')}`
-  }
-
   return (
     <>
       <Source id='filteredPlotsSource' type='geojson' data={geojson}>
@@ -107,7 +94,7 @@ const PlotsMode = ({ isActive }) => {
         />
       </Source>
 
-      {!isHoverPopupOpen && (
+      {Boolean(hoveredFeature?.properties?.IDEDDP) && isActive && (
         <Popup
           longitude={hoverEvent.lngLat.lng}
           latitude={hoverEvent.lngLat.lat}
@@ -115,7 +102,19 @@ const PlotsMode = ({ isActive }) => {
           closeButton={false}
           className='hover-popup'
         >
-          {getPopupText()}
+          Plot: {hoveredFeature?.properties?.IDEDDP?.replace(':', '/')}
+        </Popup>
+      )}
+
+      {hoveredFeature?.properties?.MUTCOM && isActive && (
+        <Popup
+          longitude={hoverEvent.lngLat.lng}
+          latitude={hoverEvent.lngLat.lat}
+          offset={[0, -5]}
+          closeButton={false}
+          className='hover-popup'
+        >
+          Pool
         </Popup>
       )}
 
