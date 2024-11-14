@@ -81,26 +81,16 @@ const FiltersResult = ({ switcher }) => {
   return (
     <div className={style.content}>
       <div className={style.contentHead}>
-        <h3 className={style.title}>Results:</h3>
+        <h3 className={style.title}>
+          Results: {filteredPlotsFeatures.length}
+          {switcher === 'plots' ? 'parcelle(s)' : 'bâtiment(s)'}
+        </h3>
         <button className={style.reset} onClick={handleReset}>
           reset
         </button>
       </div>
 
       {resultList()}
-
-      {/* <div className={style.list}>
-        {filteredPlotsFeatures.map(feature => (
-          <PlotItem
-            isActive={
-              clickedFeature?.properties?.EGRID === feature.properties?.EGRID
-            }
-            key={feature.properties?.EGRID}
-            feature={feature}
-            handleItemClick={handleItemClick}
-          />
-        ))}
-      </div> */}
     </div>
   )
 }

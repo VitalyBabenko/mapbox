@@ -50,7 +50,7 @@ const PlotsMode = ({ isActive }) => {
   }
 
   const isFilteredFeaturesActive =
-    filteredPlotsFeatures?.length > 0 && switcher === 'plots'
+    filteredPlotsFeatures?.length > 0 || switcher === 'plots'
 
   const geojson = {
     type: 'FeatureCollection',

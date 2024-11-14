@@ -3,6 +3,7 @@ import { DEFAULT_PAINT, INITIAL_VIEW, MODES } from '../../constants'
 import style from './ModeSwitcher.module.scss'
 import { BiBuildings as BuildingIcon } from 'react-icons/bi'
 import { BiArea as PlotIcon } from 'react-icons/bi'
+import { GrPowerReset as ResetIcon } from 'react-icons/gr'
 import {
   useEventStore,
   useFilterStore,
@@ -87,6 +88,7 @@ const ModeSwitcher = () => {
 
       {mode !== 'counties' && (
         <button onClick={resetView} className={style.resetButton}>
+          <ResetIcon />
           Reset view
         </button>
       )}
