@@ -58,6 +58,18 @@ const PlotsMode = ({ isActive }) => {
     features: filteredPlotsFeatures,
   }
 
+  const isHoverPopupOpen =
+    Boolean(hoveredFeature?.properties?.MUTCOM) &&
+    Boolean(hoveredFeature?.properties?.IDEDDP) &&
+    isActive
+
+  const getPopupText = () => {
+    if (hoveredFeature?.properties?.MUTCOM) {
+      return 'Pool'
+    }
+    return `Plot: ${hoveredFeature?.properties?.IDEDDP?.replace(':', '/')}`
+  }
+
   return (
     <>
       <Source id='filteredPlotsSource' type='geojson' data={geojson}>
@@ -95,7 +107,7 @@ const PlotsMode = ({ isActive }) => {
         />
       </Source>
 
-      {hoveredFeature?.properties?.IDEDDP && isActive && (
+      {!isHoverPopupOpen && (
         <Popup
           longitude={hoverEvent.lngLat.lng}
           latitude={hoverEvent.lngLat.lat}
@@ -103,9 +115,11 @@ const PlotsMode = ({ isActive }) => {
           closeButton={false}
           className='hover-popup'
         >
-          Plot: {hoveredFeature?.properties?.IDEDDP?.replace(':', '/')}
+          {getPopupText()}
         </Popup>
       )}
+
+      {hoveredFeature?.properties?.DATEDT}
 
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
     </>

@@ -12,8 +12,8 @@ const PLOTS_SOURCE = {
 
 const BUILDINGS_SOURCE = {
   id: 'buildingsSource',
-  url: 'mapbox://lamapch.5y1gfz4c',
-  sourceLayer: 'batiments-3h1hsm',
+  url: 'mapbox://lamapch.a77ua3tf',
+  sourceLayer: 'buildings-0geqfo',
 }
 
 const ZONES_SOURCE = {
