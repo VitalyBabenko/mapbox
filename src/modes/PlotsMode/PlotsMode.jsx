@@ -17,11 +17,7 @@ const PlotsMode = ({ isActive }) => {
 
   const plotsFilter = useMemo(() => {
     const countyName = county?.properties?.COMMUNE || ''
-    return [
-      'all',
-      ['match', ['get', 'TYPE_PROPR'], ['privé'], true, false],
-      ['match', ['get', 'COMMUNE'], countyName, true, false],
-    ]
+    return ['all', ['match', ['get', 'COMMUNE'], countyName, true, false]]
   }, [isActive, county])
 
   const getFillOpacity = () => {

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import axiosInstance from './axiosInstance'
 
-const url = 'https://777.adm-devs.com'
+const url = 'https://panel.lamap.ch'
 
 export const plotService = {
   getPlotByEgrId: async ergid => {

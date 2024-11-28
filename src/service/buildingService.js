@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'https://777.adm-devs.com'
+const url = 'https://panel.lamap.ch'
 
 export const buildingService = {
   getByEgId: async egId => {
