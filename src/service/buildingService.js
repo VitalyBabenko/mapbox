@@ -61,10 +61,11 @@ export const buildingService = {
     }
   },
 
-  setFilters: async filters => {
+  setFilters: async (filters, controller) => {
     try {
       const { data } = await axios.get(`${url}/api/map/buildings`, {
         params: filters,
+        signal: controller.signal,
       })
 
       return data

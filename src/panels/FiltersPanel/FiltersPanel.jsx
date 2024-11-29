@@ -10,6 +10,7 @@ import useDraggable from '../../hooks/useDraggable'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import Tooltip from '../../components/Tooltip/Tooltip'
 import FiltersResult from './FiltersResult/FiltersResult'
+import { TbZoomCancel as StopIcon } from 'react-icons/tb'
 
 const FiltersPanel = () => {
   const { position, handleMouseDown } = useDraggable({ x: 10, y: 50 })
@@ -18,6 +19,7 @@ const FiltersPanel = () => {
   const toggleOpen = () => setOpen(!open)
   const { switcher } = useModeStore()
   const [mapLoader, setMapLoader] = useState(false)
+  const controller = new AbortController()
 
   if (!open) {
     return (
@@ -26,6 +28,11 @@ const FiltersPanel = () => {
         Filters
       </button>
     )
+  }
+
+  const cancelSearch = () => {
+    controller.abort()
+    setMapLoader(false)
   }
 
   const getFilterPanelContent = () => {
@@ -38,15 +45,25 @@ const FiltersPanel = () => {
     }
 
     return switcher === 'plots' ? (
-      <PlotsFilters setMapLoader={setMapLoader} />
+      <PlotsFilters setMapLoader={setMapLoader} controller={controller} />
     ) : (
-      <BuildingsFilters setMapLoader={setMapLoader} />
+      <BuildingsFilters setMapLoader={setMapLoader} controller={controller} />
     )
   }
 
   return (
     <>
-      {mapLoader && <Loader withBackground />}
+      {mapLoader && (
+        <>
+          <Loader withBackground />
+
+          <button onClick={cancelSearch} className={style.stopQuery}>
+            <StopIcon />
+            Cancel search
+          </button>
+        </>
+      )}
+
       <div
         style={{ top: position.y, left: position.x }}
         className={style.filtersWrapper}
