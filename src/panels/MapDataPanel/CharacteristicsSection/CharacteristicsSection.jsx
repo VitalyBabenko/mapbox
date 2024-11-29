@@ -9,6 +9,7 @@ import {
   DEFAULT_PAINT,
   PAINT_BY_APARTS_QTY,
   PAINT_BY_CONSTRUCTION_PERIOD,
+  PAINT_BY_ENERGY,
   PAINT_BY_LAST_TRANSACTION,
   PAINT_BY_STATUS,
   PAINT_BY_TRANSACTION_AMOUNT,
@@ -20,6 +21,7 @@ import paintByPeriodPreview from '../../../assets/images/paintByConstructionPeri
 import paintByTransactionAmountPreview from '../../../assets/images/paintByTransactionAmountPreview.png'
 import paintByStatusPreview from '../../../assets/images/paintByStatusPreview.png'
 import paintByLastTransactionPreview from '../../../assets/images/paintByLastTransactionPreview.png'
+import paintByEnergyPreview from '../../../assets/images/paintByEnergyPreview.png'
 
 const CharacteristicsSection = () => {
   const { activePaint, setActivePaint } = usePaintStore()
@@ -134,13 +136,13 @@ const CharacteristicsSection = () => {
           <span>Mise à l'Enquête</span>
         </li>
 
-        {/* <li
-          onClick={handleClickOnProtected}
-          className={mode === MODES.PROTECTED ? style.active : ''}
+        <li
+          onClick={() => handleChangePaint(PAINT_BY_ENERGY)}
+          className={activePaint === PAINT_BY_ENERGY ? style.active : ''}
         >
-          <img src={paintByStatusPreview} alt='preview' />
-          <span>Batiments Protégés</span>
-        </li> */}
+          <img src={paintByEnergyPreview} alt='preview' />
+          <span>Energie</span>
+        </li>
       </ul>
     </>
   )

@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { Layer, Popup, Source } from 'react-map-gl'
-import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 import { PLOTS_SOURCE } from '../../constants'
 import { PlotsPanel } from '../../panels'
 import {
@@ -16,49 +15,38 @@ const PlotsMode = ({ isActive }) => {
   const { hoverEvent, hoveredFeature, clickedFeature } = useEventStore()
   const { filteredPlotsFeatures } = useFilterStore()
 
-  const getCountyName = () => {
-    if (!county) return ''
-    const name = getCountyNameByFeature(county)
-    if (name?.includes(', ')) return name.split(', ')
-    return name
-  }
-
   const plotsFilter = useMemo(() => {
-    const countyName = getCountyName()
-    return [
-      'all',
-      ['match', ['get', 'TYPE_PROPR'], ['privé'], true, false],
-      ['match', ['get', 'COMMUNE'], countyName, true, false],
-    ]
+    const countyName = county?.properties?.COMMUNE || ''
+    return ['all', ['match', ['get', 'COMMUNE'], countyName, true, false]]
   }, [isActive, county])
 
   const getFillOpacity = () => {
     const hoverOpacity = (opacity[1] + 40) / 100
-    if (hoveredFeature?.properties?.EGRID) {
-      return [
-        'case',
-        ['==', ['get', 'EGRID'], hoveredFeature?.properties?.EGRID],
-        hoverOpacity > 1 ? 1 : hoverOpacity,
-        opacity[1] / 100,
-      ]
+    if (!hoveredFeature?.properties?.EGRID) {
+      return opacity[1] / 100
     }
-    return opacity[1] / 100
+
+    return [
+      'case',
+      ['==', ['get', 'EGRID'], hoveredFeature?.properties?.EGRID],
+      hoverOpacity > 1 ? 1 : hoverOpacity,
+      opacity[1] / 100,
+    ]
   }
 
   const getFillColor = () => {
-    if (clickedFeature?.properties?.EGRID) {
-      return [
-        'case',
-        ['==', ['get', 'EGRID'], clickedFeature?.properties?.EGRID],
-        '#ed0e2c',
-        '#58dca6',
-      ]
-    }
-    return '#58dca6'
+    if (!clickedFeature?.properties?.EGRID) return '#58dca6'
+
+    return [
+      'case',
+      ['==', ['get', 'EGRID'], clickedFeature?.properties?.EGRID],
+      '#ed0e2c',
+      '#58dca6',
+    ]
   }
 
   const isFilteredFeaturesActive =
-    filteredPlotsFeatures?.length > 0 && switcher === 'plots'
+    filteredPlotsFeatures?.length > 0 || switcher === 'plots'
 
   const geojson = {
     type: 'FeatureCollection',
@@ -102,7 +90,7 @@ const PlotsMode = ({ isActive }) => {
         />
       </Source>
 
-      {hoveredFeature?.properties?.IDEDDP && isActive && (
+      {Boolean(hoveredFeature?.properties?.IDEDDP) && isActive && (
         <Popup
           longitude={hoverEvent.lngLat.lng}
           latitude={hoverEvent.lngLat.lat}
@@ -113,6 +101,20 @@ const PlotsMode = ({ isActive }) => {
           Plot: {hoveredFeature?.properties?.IDEDDP?.replace(':', '/')}
         </Popup>
       )}
+
+      {hoveredFeature?.properties?.MUTCOM && isActive && (
+        <Popup
+          longitude={hoverEvent.lngLat.lng}
+          latitude={hoverEvent.lngLat.lat}
+          offset={[0, -5]}
+          closeButton={false}
+          className='hover-popup'
+        >
+          Pool
+        </Popup>
+      )}
+
+      {hoveredFeature?.properties?.DATEDT}
 
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
     </>

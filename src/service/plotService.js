@@ -1,7 +1,7 @@
 import axios from 'axios'
 import axiosInstance from './axiosInstance'
 
-const url = 'https://777.adm-devs.com'
+const url = 'https://panel.lamap.ch'
 
 export const plotService = {
   getPlotByEgrId: async ergid => {
@@ -70,6 +70,19 @@ export const plotService = {
     return resp.data
   },
 
+  getAllPlotsFeaturesWithBookmarks: async () => {
+    try {
+      const resp = await axiosInstance.get(`/user/bookmarks/geo-json`)
+
+      return resp.data
+    } catch (error) {
+      return {
+        type: 'FeatureCollection',
+        features: [],
+      }
+    }
+  },
+
   // tags
   getAllTagTitles: async () => {
     try {
@@ -85,14 +98,30 @@ export const plotService = {
     }
   },
 
-  assignTagToPlot: async (plotId, tag, color) => {
-    const resp = await axiosInstance.post(
-      `/user/plot/${plotId}/tag?title=${tag}&color=${color}`,
-    )
+  assignTagToPlot: async ({ plotId, tag, color }) => {
+    const resp = await axiosInstance.post(`/user/plot/${plotId}/tag`, null, {
+      params: {
+        title: tag,
+        color: encodeURIComponent(color),
+      },
+    })
+
     if (!resp?.data?.result) {
       throw new Error()
     }
     return resp?.data
+  },
+
+  getAllPlotsFeaturesWithTags: async () => {
+    try {
+      const resp = await axiosInstance.get(`/user/tags/geo-json`)
+      return resp?.data
+    } catch (error) {
+      return {
+        type: 'FeatureCollection',
+        features: [],
+      }
+    }
   },
 
   // notes

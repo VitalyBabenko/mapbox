@@ -2,7 +2,8 @@
 @import './reset';
 
 .appWrapper {
-  height: 100vh;
+  display: grid;
+  min-height: calc(100vh - 180px);
 
   :global {
     .mapboxgl-map {

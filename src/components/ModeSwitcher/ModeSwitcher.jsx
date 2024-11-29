@@ -1,8 +1,9 @@
 import { useMap } from 'react-map-gl'
-import { DEFAULT_PAINT, INITIAL_VIEW } from '../../constants'
+import { DEFAULT_PAINT, INITIAL_VIEW, MODES } from '../../constants'
 import style from './ModeSwitcher.module.scss'
 import { BiBuildings as BuildingIcon } from 'react-icons/bi'
 import { BiArea as PlotIcon } from 'react-icons/bi'
+import { GrPowerReset as ResetIcon } from 'react-icons/gr'
 import {
   useEventStore,
   useFilterStore,
@@ -27,22 +28,21 @@ const ModeSwitcher = () => {
   const { setActivePaint } = usePaintStore()
   const { setClickedFeature } = useEventStore()
 
-  console.log('render')
-
   const handleSwitch = clickedMode => {
     if (clickedMode === switcher) return
-    if (mode === 'counties') {
+    if (mode === MODES.TAGS) return
+    if (mode === MODES.COUNTIES) {
       toggleSwitcher()
       return
     }
 
-    if (mode === 'protected') {
+    if (mode === MODES.PROTECTED) {
       toggleSwitcher()
       return
     }
 
     toggleSwitcher()
-    switcher === 'plots'
+    switcher === MODES.PLOTS
       ? switchToBuildingsMode(county)
       : switchToPlotsMode(county)
   }
@@ -88,6 +88,7 @@ const ModeSwitcher = () => {
 
       {mode !== 'counties' && (
         <button onClick={resetView} className={style.resetButton}>
+          <ResetIcon />
           Reset view
         </button>
       )}

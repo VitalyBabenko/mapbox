@@ -1,6 +1,5 @@
 import { Layer, Popup, Source } from 'react-map-gl'
 import { BUILDINGS_SOURCE } from '../../constants'
-import { getCountyNameByFeature } from '../../utils/getCountyNameByFeature'
 import {
   useEventStore,
   useFilterStore,
@@ -16,17 +15,10 @@ const BuildingsMode = ({ isActive }) => {
   const { activePaint, opacity } = usePaintStore()
   const { filteredBuildingsFeatures } = useFilterStore()
 
-  const getCountyName = () => {
-    if (!county) return ''
-    const name = getCountyNameByFeature(county)
-    if (name?.includes(', ')) return name.split(', ')
-    return name
-  }
-
   const buildingsFilter = [
     'match',
-    ['get', 'COMMUNE'],
-    getCountyName(),
+    ['get', 'NO_COMM'],
+    county?.properties?.NO_COMM || '',
     true,
     false,
   ]
@@ -108,11 +100,9 @@ const BuildingsMode = ({ isActive }) => {
             {getBuildingHoverPopupText(activePaint, hoveredFeature?.properties)}
           </Popup>
         )}
-
-        <BuildingsPanel
-          activeBuildingId={clickedFeature?.properties?.EGRID_CENT}
-        />
       </Source>
+
+      <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
     </>
   )
 }

@@ -13,13 +13,14 @@ import {
   BiSolidBell as SolidBellIcon,
 } from 'react-icons/bi'
 import { plotService } from '../../../service/plotService'
-import { useTagsStore, useToastStore } from '../../../store'
+import { useBookmarksStore, useTagsStore, useToastStore } from '../../../store'
 import { PiTagBold as TagIcon } from 'react-icons/pi'
 
 const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
   const plotId = plotInfo?.mongo_id
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
+  const { setPlotsWithBookmarks } = useBookmarksStore()
   const {
     error: errorBookmark,
     loading: loadingBookmark,
@@ -30,8 +31,15 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
     loading: loadingEmailAlerts,
     handler: emailAlertsHandler,
   } = useQuery()
+
   const { openTagsModal } = useTagsStore()
   const toast = useToastStore()
+
+  const updateBookmarkedPlots = async () => {
+    const plotsWithBookmarks =
+      await plotService.getAllPlotsFeaturesWithBookmarks()
+    setPlotsWithBookmarks(plotsWithBookmarks)
+  }
 
   const addToEmailAlerts = () => {
     emailAlertsHandler(async () => {
@@ -49,6 +57,7 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
     emailAlertsHandler(async () => {
       const data = await plotService.removeEmailAlerts(plotId)
       if (data.result) {
+        updateBookmarkedPlots()
         setIsAddedToEmailAlerts(false)
         toast.success('Removed from email alerts')
       } else {
@@ -61,6 +70,7 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
     bookmarkHandler(async () => {
       const data = await plotService.addToBookmarksAlerts(plotId)
       if (data.result) {
+        updateBookmarkedPlots()
         setIsAddedToBookmarks(true)
         toast.success(data.message)
       } else {

@@ -5,7 +5,7 @@ import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import { memo, useState } from 'react'
 import BasemapSection from './BasemapSection/BasemapSection'
 import CharacteristicsSection from './CharacteristicsSection/CharacteristicsSection'
-import ScalePanel from '../ScalePanel/ScalePanel'
+import { ScalePanel } from '../../panels'
 import ZonesSection from './ZonesSection/ZonesSection'
 import ProtectedSection from './ProtectedSection/ProtectedSection'
 import { useModeStore } from '../../store'
@@ -13,6 +13,7 @@ import useDraggable from '../../hooks/useDraggable'
 import Tooltip from '../../components/Tooltip/Tooltip'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import OpacitySection from './OpacitySection/OpacitySection'
+import MyMapsSection from './MyMapsSection/MyMapsSection'
 
 const MapDataPanel = () => {
   const { position, handleMouseDown } = useDraggable({ x: -50, y: 10 })
@@ -57,6 +58,8 @@ const MapDataPanel = () => {
         <ZonesSection />
 
         {county ? <CharacteristicsSection /> : null}
+
+        <MyMapsSection />
 
         <OpacitySection />
       </div>

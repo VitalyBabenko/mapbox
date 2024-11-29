@@ -4,4 +4,7 @@ export const useTagsStore = create(set => ({
   isTagModalOpen: false,
   openTagsModal: () => set({ isTagModalOpen: true }),
   closeTagsModal: () => set({ isTagModalOpen: false }),
+
+  plotsWithTags: {},
+  setPlotsWithTags: plotsWithTags => set({ plotsWithTags }),
 }))

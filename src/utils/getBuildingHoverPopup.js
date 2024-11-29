@@ -1,6 +1,7 @@
 import {
   PAINT_BY_APARTS_QTY,
   PAINT_BY_CONSTRUCTION_PERIOD,
+  PAINT_BY_ENERGY,
   PAINT_BY_LAST_TRANSACTION,
   PAINT_BY_STATUS,
   PAINT_BY_TRANSACTION_AMOUNT,
@@ -8,6 +9,10 @@ import {
 } from '../constants'
 
 const getBuildingHoverPopupText = (activePaint, hoverBuilding) => {
+  if (hoverBuilding?.DATEDT) {
+    return 'Pool'
+  }
+
   switch (activePaint) {
     case PAINT_BY_TYPE:
       return hoverBuilding?.TYPOLOGIE || 'Not found'
@@ -40,6 +45,9 @@ const getBuildingHoverPopupText = (activePaint, hoverBuilding) => {
         hoverBuilding?.STATUT_DA.slice(1).toLowerCase()
 
       return result || 'No found'
+
+    case PAINT_BY_ENERGY:
+      return hoverBuilding?.ENRG || 'Not found'
 
     default:
       return hoverBuilding?.ADDR_NAME
