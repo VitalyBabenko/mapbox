@@ -15,6 +15,25 @@
   font-size: 18px;
 }
 
+.stopQuery {
+  @include button-mapbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translate(-50%);
+  font-size: 18px;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    height: 100%;
+  }
+}
+
 .filtersWrapper {
   position: absolute;
   top: 49px;
@@ -22,7 +41,7 @@
   width: 320px;
   height: fit-content;
   min-height: 320px;
-  max-height: 80vh;
+  max-height: calc(100vh - 269px);
 
   .filtersPopup {
     position: relative;

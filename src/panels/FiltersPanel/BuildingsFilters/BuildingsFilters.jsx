@@ -8,7 +8,7 @@ import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue.
 import FilterAccordion from '../../../components/Filters/FilterAccordion/FilterAccordion.jsx'
 import Checkbox from '../../../components/Checkbox/Checkbox'
 
-const BuildingsFilters = ({ setMapLoader }) => {
+const BuildingsFilters = ({ setMapLoader, startRequest }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [panelError, setPanelError] = useState('')
@@ -107,7 +107,9 @@ const BuildingsFilters = ({ setMapLoader }) => {
       return prev
     }, {})
 
-    const resp = await buildingService.setFilters(formattedFilters)
+    const controller = startRequest()
+
+    const resp = await buildingService.setFilters(formattedFilters, controller)
     if (resp?.error?.message) {
       toast.error("Une erreur s'est produite, réessayez plus tard")
       setMapLoader(false)

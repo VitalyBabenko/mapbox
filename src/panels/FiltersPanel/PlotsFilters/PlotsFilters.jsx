@@ -8,7 +8,7 @@ import { useFilterStore } from '../../../store'
 import FilterAccordion from '../../../components/Filters/FilterAccordion/FilterAccordion'
 import Checkbox from '../../../components/Checkbox/Checkbox'
 
-const PlotsFilters = ({ setMapLoader }) => {
+const PlotsFilters = ({ setMapLoader, startRequest }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [panelError, setPanelError] = useState('')
   const [error, setError] = useState('')
@@ -91,7 +91,9 @@ const PlotsFilters = ({ setMapLoader }) => {
       return prev
     }, {})
 
-    const resp = await plotService.setFilters(formattedFilters)
+    const controller = startRequest()
+
+    const resp = await plotService.setFilters(formattedFilters, controller)
     if (resp?.error?.message) {
       toast.error("Une erreur s'est produite, réessayez plus tard")
       setMapLoader(false)
