@@ -19,7 +19,7 @@ const FiltersPanel = () => {
   const toggleOpen = () => setOpen(!open)
   const { switcher } = useModeStore()
   const [mapLoader, setMapLoader] = useState(false)
-  const controller = new AbortController()
+  const [controller, setController] = useState(null)
 
   if (!open) {
     return (
@@ -30,9 +30,17 @@ const FiltersPanel = () => {
     )
   }
 
+  const startRequest = () => {
+    const newController = new AbortController()
+    setController(newController)
+    return newController
+  }
+
   const cancelSearch = () => {
-    controller.abort()
-    setMapLoader(false)
+    if (controller) {
+      controller.abort()
+      setMapLoader(false)
+    }
   }
 
   const getFilterPanelContent = () => {
@@ -45,9 +53,12 @@ const FiltersPanel = () => {
     }
 
     return switcher === 'plots' ? (
-      <PlotsFilters setMapLoader={setMapLoader} controller={controller} />
+      <PlotsFilters setMapLoader={setMapLoader} startRequest={startRequest} />
     ) : (
-      <BuildingsFilters setMapLoader={setMapLoader} controller={controller} />
+      <BuildingsFilters
+        setMapLoader={setMapLoader}
+        startRequest={startRequest}
+      />
     )
   }
 
