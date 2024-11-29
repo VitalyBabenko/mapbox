@@ -23,8 +23,12 @@ const ModeSwitcher = () => {
     switchToPlotsMode,
     switchToBuildingsMode,
   } = useModeStore()
-  const { setFilteredBuildingsFeatures, setFilteredPlotsFeatures } =
-    useFilterStore()
+  const {
+    filteredBuildingsFeatures,
+    setFilteredBuildingsFeatures,
+    filteredPlotsFeatures,
+    setFilteredPlotsFeatures,
+  } = useFilterStore()
   const { setActivePaint } = usePaintStore()
   const { setClickedFeature } = useEventStore()
 
@@ -61,6 +65,10 @@ const ModeSwitcher = () => {
     setClickedFeature(null)
   }
 
+  const isFilter =
+    filteredBuildingsFeatures?.length || filteredPlotsFeatures?.length
+  const isResetButtonVisible = mode !== 'counties' || isFilter
+
   return (
     <>
       <div className={style.wrapper}>
@@ -86,7 +94,7 @@ const ModeSwitcher = () => {
         </div>
       </div>
 
-      {mode !== 'counties' && (
+      {isResetButtonVisible && (
         <button onClick={resetView} className={style.resetButton}>
           <ResetIcon />
           Reset view
