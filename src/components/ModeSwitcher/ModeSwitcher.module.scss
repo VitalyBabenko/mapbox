@@ -14,6 +14,21 @@
   .modeSwitcher {
     @include switcher;
   }
+
+  &.filtering {
+    width: fit-content;
+
+    button {
+      padding-left: 20px;
+      padding-right: 20px;
+      width: 100%;
+    }
+
+    span {
+      min-width: 100%;
+      transform: translate(0%) !important;
+    }
+  }
 }
 
 .resetButton {

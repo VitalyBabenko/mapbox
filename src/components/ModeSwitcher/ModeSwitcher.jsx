@@ -66,28 +66,35 @@ const ModeSwitcher = () => {
   }
 
   const isFilter =
-    filteredBuildingsFeatures?.length || filteredPlotsFeatures?.length
+    !!filteredBuildingsFeatures?.length || !!filteredPlotsFeatures?.length
   const isResetButtonVisible = mode !== 'counties' || isFilter
+
+  console.log(!!isFilter)
 
   return (
     <>
-      <div className={style.wrapper}>
+      <div className={`${style.wrapper} ${isFilter ? style.filtering : ''}`}>
         <div className={style.modeSwitcher}>
-          <button
-            onClick={() => handleSwitch('plots')}
-            className={switcher === 'plots' ? style.active : ''}
-          >
-            <PlotIcon size={20} />
-            Plots
-          </button>
+          {filteredBuildingsFeatures?.length ? null : (
+            <button
+              onClick={() => handleSwitch('plots')}
+              className={switcher === 'plots' ? style.active : ''}
+            >
+              <PlotIcon size={20} />
+              Plots
+            </button>
+          )}
 
-          <button
-            onClick={() => handleSwitch('buildings')}
-            className={switcher === 'buildings' ? style.active : ''}
-          >
-            <BuildingIcon size={20} />
-            Buildings
-          </button>
+          {filteredPlotsFeatures?.length ? null : (
+            <button
+              onClick={() => handleSwitch('buildings')}
+              className={switcher === 'buildings' ? style.active : ''}
+            >
+              <BuildingIcon size={20} />
+              Buildings
+            </button>
+          )}
+
           <span
             className={switcher === 'plots' ? style.left : style.right}
           ></span>
