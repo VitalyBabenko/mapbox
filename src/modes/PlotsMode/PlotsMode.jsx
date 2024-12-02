@@ -114,8 +114,6 @@ const PlotsMode = ({ isActive }) => {
         </Popup>
       )}
 
-      {hoveredFeature?.properties?.DATEDT}
-
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
     </>
   )
