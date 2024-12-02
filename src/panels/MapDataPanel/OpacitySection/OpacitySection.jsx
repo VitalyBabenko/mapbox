@@ -4,11 +4,13 @@ import RangeSlider from 'react-range-slider-input'
 import { useModeStore, usePaintStore } from '../../../store'
 import { MODES } from '../../../constants'
 
-const OpacitySection = () => {
+const OpacitySection = ({ title }) => {
   const { opacity, setOpacity } = usePaintStore()
   const { mode } = useModeStore()
 
   const getTitle = () => {
+    if (title) return title
+
     switch (mode) {
       case MODES.COUNTIES:
         return 'Communes visibility'

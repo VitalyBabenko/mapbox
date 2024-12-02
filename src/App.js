@@ -2,24 +2,9 @@ import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import globalStyle from './styles/global.module.scss'
 import { plotService } from './service/plotService.js'
-import {
-  ModeSwitcher,
-  Loader,
-  Toast,
-  TagsModal,
-  PoolsLayer,
-} from './components'
-import { INITIAL_VIEW, MAP_STYLES, MODES } from './constants'
-import { FiltersPanel, MapDataPanel } from './panels'
-import {
-  BookmarksMode,
-  BuildingsMode,
-  CountiesMode,
-  PlotsMode,
-  ProtectedMode,
-  TagsMode,
-  ZonesMode,
-} from './modes'
+import { Loader, TagsModal, Toast } from './components'
+import { INITIAL_VIEW, MAP_STYLES } from './constants'
+
 import {
   useEventStore,
   useModeStore,
@@ -27,6 +12,8 @@ import {
   useBookmarksStore,
   useZoneStore,
 } from './store'
+import MainPage from './pages/MainPage/MainPage.jsx'
+import TagsPage from './pages/TagsPage/TagsPage.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -39,6 +26,7 @@ function App() {
   const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
   const { setPlotsWithTags } = useTagsStore()
   const { setPlotsWithBookmarks } = useBookmarksStore()
+  const pathname = window.location.pathname
 
   const onMouseEnter = function () {
     setCursor('pointer')
@@ -83,12 +71,6 @@ function App() {
       toggleSwitcher()
     }
     setIsMapLoading(false)
-  }
-
-  const getIsModeActive = currentMode => {
-    if (isMapLoading) return false
-    if (isZonesPrimary && isZonesActive) return false
-    return mode === currentMode
   }
 
   useEffect(() => {
@@ -154,19 +136,25 @@ function App() {
       >
         {isMapLoading && <Loader withBackground />}
 
-        <CountiesMode isActive={getIsModeActive(MODES.COUNTIES)} />
-        <PlotsMode isActive={getIsModeActive(MODES.PLOTS)} />
-        <BuildingsMode isActive={getIsModeActive(MODES.BUILDINGS)} />
-        <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
-        <TagsMode isActive={getIsModeActive(MODES.TAGS)} />
-        <BookmarksMode isActive={getIsModeActive(MODES.BOOKMARKS)} />
-        <ZonesMode />
+        {pathname === '/explore/map/plots' ? (
+          <MainPage
+            isMapLoading={isMapLoading}
+            isZonesActive={isZonesActive}
+            isZonesPrimary={isZonesPrimary}
+            mode={mode}
+          />
+        ) : null}
 
-        <PoolsLayer />
+        {pathname === '/explore/map/tags' ? (
+          <TagsPage
+            isMapLoading={isMapLoading}
+            isZonesActive={isZonesActive}
+            isZonesPrimary={isZonesPrimary}
+            mode={mode}
+          />
+        ) : null}
+
         <TagsModal />
-        <ModeSwitcher />
-        <FiltersPanel />
-        <MapDataPanel />
         <FullscreenControl position='top-right' />
         <NavigationControl />
         <Toast />

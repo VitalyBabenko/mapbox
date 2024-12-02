@@ -69,8 +69,6 @@ const ModeSwitcher = () => {
     !!filteredBuildingsFeatures?.length || !!filteredPlotsFeatures?.length
   const isResetButtonVisible = mode !== 'counties' || isFilter
 
-  console.log(!!isFilter)
-
   return (
     <>
       <div className={`${style.wrapper} ${isFilter ? style.filtering : ''}`}>
