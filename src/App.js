@@ -14,6 +14,7 @@ import {
 } from './store'
 import MainPage from './pages/MainPage/MainPage.jsx'
 import TagsPage from './pages/TagsPage/TagsPage.jsx'
+import BookmarksPage from './pages/BookmarksPage/BookmarksPage.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -147,6 +148,15 @@ function App() {
 
         {pathname === '/explore/map/tags' ? (
           <TagsPage
+            isMapLoading={isMapLoading}
+            isZonesActive={isZonesActive}
+            isZonesPrimary={isZonesPrimary}
+            mode={mode}
+          />
+        ) : null}
+
+        {pathname === '/explore/map/bookmarks' ? (
+          <BookmarksPage
             isMapLoading={isMapLoading}
             isZonesActive={isZonesActive}
             isZonesPrimary={isZonesPrimary}
