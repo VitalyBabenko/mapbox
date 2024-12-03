@@ -9,7 +9,17 @@ import useDraggable from '../../hooks/useDraggable'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 
-const FeaturesPanel = ({ icon, title, buttonIcon, buttonText, features }) => {
+import { LuMapPinOff as PinIcon } from 'react-icons/lu'
+
+const FeaturesPanel = ({
+  icon,
+  title,
+  buttonIcon,
+  buttonText,
+  emptyTitle,
+  emptyText,
+  features,
+}) => {
   const [open, setOpen] = useState(false)
   const closePanel = () => setOpen(false)
   const { current: map } = useMap()
@@ -67,7 +77,13 @@ const FeaturesPanel = ({ icon, title, buttonIcon, buttonText, features }) => {
             />
           ))}
         </div>
-      ) : null}
+      ) : (
+        <div className={style.noResults}>
+          <PinIcon size={24} />
+          <h3>{emptyTitle}</h3>
+          <p>{emptyText}</p>
+        </div>
+      )}
     </div>
   )
 }

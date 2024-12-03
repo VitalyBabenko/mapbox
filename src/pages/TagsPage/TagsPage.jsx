@@ -32,6 +32,7 @@ const TagsPage = ({ isMapLoading, isZonesPrimary, isZonesActive, mode }) => {
         buttonIcon={<TagIcon />}
         buttonText='Tags'
         features={plotsWithTags.features}
+        emptyTitle='Tags Empty'
       />
     </>
   )
