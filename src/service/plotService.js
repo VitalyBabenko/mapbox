@@ -61,6 +61,15 @@ const testData = {
         TYPOLOGIE: 'Habitation un logement',
         EPOQUE: '1961 à 1970',
       },
+      tags: [
+        { title: 'test 14353452453', color: '#59DCA7' },
+        { title: 'test 2', color: '#8524FD' },
+        { title: 'test 3', color: '#D60E00' },
+
+        { title: 'test 1', color: '#59DCA7' },
+        { title: 'test 2', color: '#8524FD' },
+        { title: 'test 3', color: '#000' },
+      ],
     },
     {
       type: 'Feature',
@@ -197,6 +206,18 @@ export const plotService = {
     return resp.data
   },
 
+  getAllPlotsFeaturesWithAlerts: async () => {
+    try {
+      const resp = await axiosInstance.get(`/user/alerts/geo-json`)
+      return resp?.data
+    } catch (error) {
+      return {
+        type: 'FeatureCollection',
+        features: [],
+      }
+    }
+  },
+
   // bookmarks
   getBookmarksAlerts: async plotId => {
     const resp = await axiosInstance.get(`/user/bookmarks/all/${plotId}`)
@@ -266,8 +287,10 @@ export const plotService = {
 
   getAllPlotsFeaturesWithTags: async () => {
     try {
-      const resp = await axiosInstance.get(`/user/tags/geo-json`)
-      return resp?.data
+      // const resp = await axiosInstance.get(`/user/tags/geo-json`)
+      // return resp?.data
+
+      return testData
     } catch (error) {
       return {
         type: 'FeatureCollection',

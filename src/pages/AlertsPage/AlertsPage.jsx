@@ -1,20 +1,15 @@
 import { MODES } from '../../constants'
 import { BookmarksMode, ProtectedMode, ZonesMode } from '../../modes'
+import AlertsMode from '../../modes/AlertsMode/AlertsMode'
 import { PlotsPanel } from '../../panels'
 import FeaturesPanel from '../../panels/FeaturesPanel/FeaturesPanel'
 import SettingsPanel from '../../panels/SettingsPanel/SettingsPanel'
-import { useBookmarksStore, useEventStore } from '../../store'
-import { FaRegBookmark as BookmarkIcon } from 'react-icons/fa6'
-import { FaBookmark as BookmarkIconSolid } from 'react-icons/fa6'
+import { useAlertsStore, useEventStore } from '../../store'
+import { FaRegBell as BellIcon, FaBell as BellIconSolid } from 'react-icons/fa'
 
-const BookmarksPage = ({
-  isMapLoading,
-  isZonesPrimary,
-  isZonesActive,
-  mode,
-}) => {
+const AlertsPage = ({ isMapLoading, isZonesPrimary, isZonesActive, mode }) => {
   const { clickedFeature } = useEventStore()
-  const { plotsWithBookmarks } = useBookmarksStore()
+  const { plotsWithAlerts } = useAlertsStore()
 
   const getIsModeActive = currentMode => {
     if (isMapLoading) return false
@@ -22,23 +17,25 @@ const BookmarksPage = ({
     return mode === currentMode
   }
 
+  console.log(plotsWithAlerts)
+
   return (
     <>
       <SettingsPanel />
-      <BookmarksMode isActive={true} />
+      <AlertsMode isActive={true} />
       <ZonesMode />
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
       <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
       <FeaturesPanel
-        icon={<BookmarkIconSolid />}
-        title='Bookmarks'
-        buttonIcon={<BookmarkIcon size={16} />}
-        buttonText='Bookmarks'
-        features={plotsWithBookmarks.features}
-        emptyTitle='Bookmarks Empty'
+        icon={<BellIconSolid />}
+        title='Alerts'
+        buttonIcon={<BellIcon size={16} />}
+        buttonText='Alerts'
+        features={plotsWithAlerts.features}
+        emptyTitle='Alerts Empty'
       />
     </>
   )
 }
 
-export default BookmarksPage
+export default AlertsPage

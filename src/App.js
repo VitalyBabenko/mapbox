@@ -11,10 +11,12 @@ import {
   useTagsStore,
   useBookmarksStore,
   useZoneStore,
+  useAlertsStore,
 } from './store'
 import MainPage from './pages/MainPage/MainPage.jsx'
 import TagsPage from './pages/TagsPage/TagsPage.jsx'
 import BookmarksPage from './pages/BookmarksPage/BookmarksPage.jsx'
+import AlertsPage from './pages/AlertsPage/AlertsPage.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -27,6 +29,7 @@ function App() {
   const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
   const { setPlotsWithTags } = useTagsStore()
   const { setPlotsWithBookmarks } = useBookmarksStore()
+  const { setPlotsWithAlerts } = useAlertsStore()
   const pathname = window.location.pathname
 
   const onMouseEnter = function () {
@@ -62,6 +65,8 @@ function App() {
     setPlotsWithBookmarks(bookmarkedPlots)
     const taggedPlotsGeojson = await plotService.getAllPlotsFeaturesWithTags()
     setPlotsWithTags(taggedPlotsGeojson)
+    const alertedPlots = await plotService.getAllPlotsFeaturesWithAlerts()
+    setPlotsWithAlerts(alertedPlots)
   }
 
   const onMapLoad = () => {
@@ -157,6 +162,15 @@ function App() {
 
         {pathname === '/explore/map/bookmarks' ? (
           <BookmarksPage
+            isMapLoading={isMapLoading}
+            isZonesActive={isZonesActive}
+            isZonesPrimary={isZonesPrimary}
+            mode={mode}
+          />
+        ) : null}
+
+        {pathname === '/explore/map/alerts' ? (
+          <AlertsPage
             isMapLoading={isMapLoading}
             isZonesActive={isZonesActive}
             isZonesPrimary={isZonesPrimary}

@@ -35,6 +35,31 @@ const FeatureItem = ({ isActive, feature, handleItemClick }) => {
           ERGID: <span>{feature?.properties?.EGRID}</span>
         </p>
       </ul>
+
+      {feature?.tags?.length > 0 && (
+        <div className={style.tags}>
+          {feature?.tags?.map((tag, index) => (
+            <span
+              key={index}
+              className={style.tag}
+              style={
+                tag?.color
+                  ? {
+                      borderColor: tag.color,
+                    }
+                  : null
+              }
+            >
+              <span className={style.title}>{tag.title}</span>
+
+              <div
+                className={style.background}
+                style={tag?.color ? { backgroundColor: tag.color } : null}
+              />
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

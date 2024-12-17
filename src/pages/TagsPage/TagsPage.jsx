@@ -17,6 +17,8 @@ const TagsPage = ({ isMapLoading, isZonesPrimary, isZonesActive, mode }) => {
     return mode === currentMode
   }
 
+  console.log(plotsWithTags)
+
   return (
     <>
       <SettingsPanel />

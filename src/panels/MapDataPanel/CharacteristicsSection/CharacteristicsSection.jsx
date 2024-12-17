@@ -34,7 +34,7 @@ const CharacteristicsSection = () => {
     switchToCountiesMode,
   } = useModeStore()
   const toast = useToastStore()
-  const { setFIlteredBuildingsFeatures, setFilteredPlotsFeatures } =
+  const { setFilteredBuildingsFeatures, setFilteredPlotsFeatures } =
     useFilterStore()
 
   const handleChangePaint = clickedPaint => {
@@ -59,7 +59,7 @@ const CharacteristicsSection = () => {
       setActivePaint(DEFAULT_PAINT)
       return
     }
-    setFIlteredBuildingsFeatures([])
+    setFilteredBuildingsFeatures([])
     setFilteredPlotsFeatures([])
 
     setActivePaint(clickedPaint)
