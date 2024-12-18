@@ -29,7 +29,7 @@ const NotesSection = ({ plotInfo }) => {
 
   const deleteNote = async id => {
     handler(async () => {
-      const data = await plotService.removeNote(plotInfo.mongo_id, id)
+      const data = await plotService.removeNote(id)
       if (!data?.result) return
 
       setNotes(notes.filter(note => note.id !== id))
