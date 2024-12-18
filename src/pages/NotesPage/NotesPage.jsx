@@ -3,7 +3,7 @@ import { BookmarksMode, ProtectedMode, ZonesMode } from '../../modes'
 import { PlotsPanel } from '../../panels'
 import FeaturesPanel from '../../panels/FeaturesPanel/FeaturesPanel'
 import SettingsPanel from '../../panels/SettingsPanel/SettingsPanel'
-import { useBookmarksStore, useEventStore } from '../../store'
+import { useBookmarksStore, useEventStore, useNotesStore } from '../../store'
 // import { FaRegBookmark as BookmarkIcon } from 'react-icons/fa6'
 // import { FaBookmark as BookmarkIconSolid } from 'react-icons/fa6'
 import {
@@ -13,7 +13,7 @@ import {
 
 const NotesPage = ({ isMapLoading, isZonesPrimary, isZonesActive, mode }) => {
   const { clickedFeature } = useEventStore()
-  const { plotsWithBookmarks } = useBookmarksStore()
+  const { plotsWithNotes } = useNotesStore()
 
   const getIsModeActive = currentMode => {
     if (isMapLoading) return false
@@ -33,7 +33,7 @@ const NotesPage = ({ isMapLoading, isZonesPrimary, isZonesActive, mode }) => {
         title='Notes'
         buttonIcon={<NoteIcon size={16} />}
         buttonText='Notes'
-        features={plotsWithBookmarks.features}
+        features={plotsWithNotes.features}
         emptyTitle='Notes Empty'
       />
     </>
