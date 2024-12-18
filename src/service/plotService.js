@@ -287,10 +287,8 @@ export const plotService = {
 
   getAllPlotsFeaturesWithTags: async () => {
     try {
-      // const resp = await axiosInstance.get(`/user/tags/geo-json`)
-      // return resp?.data
-
-      return testData
+      const resp = await axiosInstance.get(`/user/tags/geo-json`)
+      return resp?.data
     } catch (error) {
       return {
         type: 'FeatureCollection',
@@ -335,6 +333,18 @@ export const plotService = {
       throw new Error()
     }
     return resp.data
+  },
+
+  getAllPlotsFeaturesWithNotes: async () => {
+    try {
+      const resp = await axiosInstance.get(`/user/notes/geo-json`)
+      return resp?.data
+    } catch (error) {
+      return {
+        type: 'FeatureCollection',
+        features: [],
+      }
+    }
   },
 
   getFilters: async () => {

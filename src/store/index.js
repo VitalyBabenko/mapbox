@@ -7,6 +7,7 @@ import { useZoneStore } from './zoneStore'
 import { useTagsStore } from './tagsStore'
 import { useBookmarksStore } from './bookmarksStore'
 import { useAlertsStore } from './alertsStore'
+import { useNotesStore } from './notesStore'
 
 export {
   useEventStore,
@@ -18,4 +19,5 @@ export {
   useTagsStore,
   useBookmarksStore,
   useAlertsStore,
+  useNotesStore,
 }

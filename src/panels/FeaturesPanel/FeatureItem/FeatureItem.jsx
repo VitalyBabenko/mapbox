@@ -60,6 +60,16 @@ const FeatureItem = ({ isActive, feature, handleItemClick }) => {
           ))}
         </div>
       )}
+
+      {feature?.notes?.length > 0 && (
+        <div className={style.notes}>
+          {feature?.notes?.map((note, index) => (
+            <span key={index} className={style.note}>
+              {note}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
