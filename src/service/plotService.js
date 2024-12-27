@@ -331,7 +331,7 @@ export const plotService = {
   },
 
   removeNote: async noteId => {
-    const resp = await axiosInstance.delete(`/user/plot/note/${noteId}`)
+    const resp = await axiosInstance.delete(`/user/notes/${noteId}`)
     if (!resp?.data?.result) {
       throw new Error()
     }

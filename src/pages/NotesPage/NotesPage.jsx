@@ -3,9 +3,7 @@ import { BookmarksMode, ProtectedMode, ZonesMode } from '../../modes'
 import { PlotsPanel } from '../../panels'
 import FeaturesPanel from '../../panels/FeaturesPanel/FeaturesPanel'
 import SettingsPanel from '../../panels/SettingsPanel/SettingsPanel'
-import { useBookmarksStore, useEventStore, useNotesStore } from '../../store'
-// import { FaRegBookmark as BookmarkIcon } from 'react-icons/fa6'
-// import { FaBookmark as BookmarkIconSolid } from 'react-icons/fa6'
+import { useEventStore, useNotesStore } from '../../store'
 import {
   FaRegNoteSticky as NoteIcon,
   FaNoteSticky as NoteIconSolid,
