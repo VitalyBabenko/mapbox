@@ -66,10 +66,16 @@ const FeatureItem = ({ isActive, feature, handleItemClick }) => {
       )}
 
       {feature?.notes?.length > 0 && (
-        <div className={style.notes} onClick={e => e.stopPropagation()}>
+        <div className={style.notes}>
+          <p className={style.notesTitle}>Notes:</p>
+
           {feature?.notes?.map(note => (
-            <span key={note.id} className={style.note}>
-              {note.content}
+            <span
+              key={note.id}
+              className={style.note}
+              onClick={e => e.stopPropagation()}
+            >
+              {note.title}
 
               <DeleteIcon
                 className={style.deleteIcon}

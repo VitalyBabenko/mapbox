@@ -1,7 +1,8 @@
 import axios from 'axios'
 import axiosInstance from './axiosInstance'
+import { getHostname } from '../utils/getHostname'
 
-const url = 'https://panel.lamap.ch'
+const url = getHostname()
 
 // const testData = {
 //   features: [

@@ -1,5 +1,6 @@
 import { MODES } from '../../constants'
-import { BookmarksMode, ProtectedMode, ZonesMode } from '../../modes'
+import { ProtectedMode, ZonesMode } from '../../modes'
+import NotesMode from '../../modes/NotesMode/NotesMode'
 import { PlotsPanel } from '../../panels'
 import FeaturesPanel from '../../panels/FeaturesPanel/FeaturesPanel'
 import SettingsPanel from '../../panels/SettingsPanel/SettingsPanel'
@@ -22,7 +23,7 @@ const NotesPage = ({ isMapLoading, isZonesPrimary, isZonesActive, mode }) => {
   return (
     <>
       <SettingsPanel />
-      <BookmarksMode isActive={true} />
+      <NotesMode isActive={true} />
       <ZonesMode />
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
       <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
