@@ -12,6 +12,7 @@ import BasemapSection from '../MapDataPanel/BasemapSection/BasemapSection'
 import ProtectedSection from '../MapDataPanel/ProtectedSection/ProtectedSection'
 import ZonesSection from '../MapDataPanel/ZonesSection/ZonesSection'
 import OpacitySection from '../MapDataPanel/OpacitySection/OpacitySection'
+import MyMapsSection from '../MapDataPanel/MyMapsSection/MyMapsSection'
 
 const SettingsPanel = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
@@ -48,6 +49,8 @@ const SettingsPanel = () => {
       </div>
 
       <BasemapSection />
+
+      <MyMapsSection />
 
       <ProtectedSection />
 

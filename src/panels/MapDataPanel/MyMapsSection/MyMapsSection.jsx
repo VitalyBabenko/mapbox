@@ -4,15 +4,14 @@ import { useModeStore } from '../../../store'
 import style from './MyMapsSection.module.scss'
 import bookmarksModePreview from '../../../assets/images/bookmarksModePreview.png'
 import tagsModePreview from '../../../assets/images/tagsModePreview.png'
+import alertsModePreview from '../../../assets/images/alertsModePreview.png'
+import notesModePreview from '../../../assets/images/notesModePreview.png'
+import { Link } from 'react-router-dom'
 
 const MyMapsSection = () => {
   const { current: map } = useMap()
-  const {
-    mode,
-    switchToTagsMode,
-    switchToCountiesMode,
-    switchToBookmarksMode,
-  } = useModeStore()
+  const { mode, switchToCountiesMode } = useModeStore()
+  const pathname = window.location.pathname
 
   const resetMap = () => {
     switchToCountiesMode()
@@ -23,21 +22,30 @@ const MyMapsSection = () => {
     })
   }
 
-  const handlePlotsWithTagsClick = () => {
-    if (mode === MODES.TAGS) {
-      resetMap()
-    } else {
-      switchToTagsMode()
-    }
-  }
+  const links = [
+    {
+      href: '/explore/map/tags',
+      title: 'Plots with tags',
+      image: tagsModePreview,
+    },
+    {
+      href: '/explore/map/bookmarks',
+      title: 'Plots with bookmarks',
+      image: bookmarksModePreview,
+    },
+    {
+      href: '/explore/map/alerts',
+      title: 'Plots with alerts',
+      image: alertsModePreview,
+    },
+    {
+      href: '/explore/map/notes',
+      title: 'Plots with notes',
+      image: notesModePreview,
+    },
+  ]
 
-  const handlePlotsWithBookmarksClick = () => {
-    if (mode === MODES.BOOKMARKS) {
-      resetMap()
-    } else {
-      switchToBookmarksMode()
-    }
-  }
+  const isResetShowed = pathname === '/explore/map/plots'
 
   const isResetButtonShowed = mode === MODES.TAGS || mode === MODES.BOOKMARKS
 
@@ -46,25 +54,25 @@ const MyMapsSection = () => {
       <div className={style.heading}>
         <h3 className={style.title}>My Maps</h3>
 
-        {isResetButtonShowed && <button onClick={resetMap}>Reset</button>}
+        {!isResetShowed && (
+          <Link className={style.reset} to='/explore/map/plots'>
+            Reset
+          </Link>
+        )}
       </div>
 
       <ul className={style.list}>
-        <li
-          onClick={() => handlePlotsWithTagsClick()}
-          className={mode === MODES.TAGS ? style.active : null}
-        >
-          <img src={tagsModePreview} alt='placeholder' />
-          <span>Plots with tags</span>
-        </li>
-
-        <li
-          onClick={() => handlePlotsWithBookmarksClick()}
-          className={mode === MODES.BOOKMARKS ? style.active : null}
-        >
-          <img src={bookmarksModePreview} alt='placeholder' />
-          <span>Plots with bookmarks</span>
-        </li>
+        {links.map(link => (
+          <li
+            key={link.href}
+            className={pathname === link.href ? style.active : null}
+          >
+            <Link to={link.href}>
+              <img src={link.image} alt='placeholder' />
+              <span>{link.title}</span>
+            </Link>
+          </li>
+        ))}
       </ul>
     </>
   )

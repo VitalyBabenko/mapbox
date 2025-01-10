@@ -53,13 +53,13 @@ const MapDataPanel = () => {
 
         <BasemapSection />
 
+        <MyMapsSection />
+
         <ProtectedSection />
 
         <ZonesSection />
 
         {county ? <CharacteristicsSection /> : null}
-
-        <MyMapsSection />
 
         <OpacitySection />
       </div>
