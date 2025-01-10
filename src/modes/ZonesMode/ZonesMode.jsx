@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 
 // can work in parallel with other modes if isPrimary === false
 
-const ZonesMode = () => {
+const ZonesMode = ({ isZonesPrimary }) => {
   const { isActive, zoneOpacity, isPrimary, togglePrimary } = useZoneStore()
   const { activePaint } = usePaintStore()
   const { hoveredFeature, hoverEvent } = useEventStore()

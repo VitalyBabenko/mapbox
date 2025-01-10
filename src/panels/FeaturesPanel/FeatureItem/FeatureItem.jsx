@@ -75,7 +75,7 @@ const FeatureItem = ({ isActive, feature, handleItemClick }) => {
               className={style.note}
               onClick={e => e.stopPropagation()}
             >
-              {note.title}
+              {note.content}
 
               <DeleteIcon
                 className={style.deleteIcon}

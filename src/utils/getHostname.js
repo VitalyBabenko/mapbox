@@ -3,5 +3,5 @@ export const getHostname = () => {
     return 'https://panel.lamap.ch'
   }
 
-  return window.location.hostname
+  return window.location.origin
 }

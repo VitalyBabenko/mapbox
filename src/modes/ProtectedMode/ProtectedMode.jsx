@@ -3,8 +3,10 @@ import { MODES, PROTECTED_SOURCE } from '../../constants'
 import HoverProtected from './HoverProtected/HoverProtected'
 import { useModeStore } from '../../store'
 
-const ProtectedMode = ({ isActive }) => {
-  const { switcher } = useModeStore()
+const ProtectedMode = () => {
+  const { switcher, mode } = useModeStore()
+
+  const isActive = mode === MODES.PROTECTED
 
   const filter =
     switcher === MODES.PLOTS

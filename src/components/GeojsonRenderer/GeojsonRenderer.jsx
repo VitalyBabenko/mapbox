@@ -1,8 +1,8 @@
+import React from 'react'
+import { useEventStore, usePaintStore } from '../../store'
 import { Layer, Source } from 'react-map-gl'
-import { useEventStore, useNotesStore, usePaintStore } from '../../store'
 
-const NotesMode = ({ isActive }) => {
-  const { plotsWithNotes } = useNotesStore()
+const GeojsonRenderer = ({ sourceId, layerId, isActive, geojson }) => {
   const { opacity } = usePaintStore()
   const { hoveredFeature, clickedFeature } = useEventStore()
 
@@ -32,9 +32,9 @@ const NotesMode = ({ isActive }) => {
   }
 
   return (
-    <Source id='plotsWithBookmarks' type='geojson' data={plotsWithNotes}>
+    <Source id={sourceId} type='geojson' data={geojson}>
       <Layer
-        id='bookmarkedPlots'
+        id={layerId}
         type='fill'
         paint={{
           'fill-outline-color': '#006cd5',
@@ -50,4 +50,4 @@ const NotesMode = ({ isActive }) => {
   )
 }
 
-export default NotesMode
+export default GeojsonRenderer

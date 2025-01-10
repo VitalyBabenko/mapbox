@@ -1,34 +1,41 @@
-import { MODES } from '../../constants'
-import { BookmarksMode, ProtectedMode, ZonesMode } from '../../modes'
+import { useEffect, useState } from 'react'
+import { BookmarksMode } from '../../modes'
 import { PlotsPanel } from '../../panels'
 import FeaturesPanel from '../../panels/FeaturesPanel/FeaturesPanel'
 import SettingsPanel from '../../panels/SettingsPanel/SettingsPanel'
-import { useBookmarksStore, useEventStore } from '../../store'
+import { useEventStore } from '../../store'
 import { FaRegBookmark as BookmarkIcon } from 'react-icons/fa6'
 import { FaBookmark as BookmarkIconSolid } from 'react-icons/fa6'
+import { plotService } from '../../service/plotService'
+import GeojsonRenderer from '../../components/GeojsonRenderer/GeojsonRenderer'
 
-const BookmarksPage = ({
-  isMapLoading,
-  isZonesPrimary,
-  isZonesActive,
-  mode,
-}) => {
+const BookmarksPage = () => {
+  const [plotsWithBookmarks, setPlotsWithBookmarks] = useState([])
   const { clickedFeature } = useEventStore()
-  const { plotsWithBookmarks } = useBookmarksStore()
 
-  const getIsModeActive = currentMode => {
-    if (isMapLoading) return false
-    if (isZonesPrimary && isZonesActive) return false
-    return mode === currentMode
-  }
+  useEffect(() => {
+    const getPlotsWithBookmarks = async () => {
+      const resp = await plotService.getAllPlotsFeaturesWithBookmarks()
+      setPlotsWithBookmarks(resp)
+    }
+    getPlotsWithBookmarks()
+  }, [])
 
   return (
     <>
       <SettingsPanel />
+
+      <GeojsonRenderer
+        sourceId='bookmarksSource'
+        layerId='bookmarksLayer'
+        geojson={plotsWithBookmarks}
+        isActive={true}
+      />
+
       <BookmarksMode isActive={true} />
-      <ZonesMode />
+
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
-      <ProtectedMode isActive={getIsModeActive(MODES.PROTECTED)} />
+
       <FeaturesPanel
         icon={<BookmarkIconSolid />}
         title='Bookmarks'

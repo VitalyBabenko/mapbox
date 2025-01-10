@@ -1,39 +1,23 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import globalStyle from './styles/global.module.scss'
-import { plotService } from './service/plotService.js'
-import { Loader, TagsModal, Toast } from './components'
-import { INITIAL_VIEW, MAP_STYLES } from './constants'
+import { TagsModal, Toast } from './components'
+import { INITIAL_VIEW, INTERACTIVE_LAYER_IDS, MAP_STYLES } from './constants'
 
-import {
-  useEventStore,
-  useModeStore,
-  useTagsStore,
-  useBookmarksStore,
-  useZoneStore,
-  useAlertsStore,
-  useNotesStore,
-} from './store'
-import MainPage from './pages/MainPage/MainPage.jsx'
-import TagsPage from './pages/TagsPage/TagsPage.jsx'
-import BookmarksPage from './pages/BookmarksPage/BookmarksPage.jsx'
-import AlertsPage from './pages/AlertsPage/AlertsPage.jsx'
-import NotesPage from './pages/NotesPage/NotesPage.jsx'
+import { useEventStore, useModeStore, useZoneStore } from './store'
+import { BrowserRouter } from 'react-router-dom'
+import AppRoutes from './routes/AppRoutes.jsx'
+import { ProtectedMode, ZonesMode } from './modes/index.js'
 
 function App() {
   const mapRef = useRef(null)
   const wrapperRef = useRef(null)
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
-  const { locale, setLocale, mode, toggleSwitcher } = useModeStore()
+  const { locale, setLocale, toggleSwitcher } = useModeStore()
   const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
     useEventStore()
-  const { isPrimary: isZonesPrimary, isActive: isZonesActive } = useZoneStore()
-  const { setPlotsWithTags } = useTagsStore()
-  const { setPlotsWithBookmarks } = useBookmarksStore()
-  const { setPlotsWithAlerts } = useAlertsStore()
-  const { setPlotsWithNotes } = useNotesStore()
-  const pathname = window.location.pathname
+  const { isPrimary: isZonesPrimary } = useZoneStore()
 
   const onMouseEnter = function () {
     setCursor('pointer')
@@ -63,20 +47,7 @@ function App() {
     }
   }
 
-  const getMarkedFeatures = async () => {
-    const bookmarkedPlots = await plotService.getAllPlotsFeaturesWithBookmarks()
-    setPlotsWithBookmarks(bookmarkedPlots)
-    const taggedPlotsGeojson = await plotService.getAllPlotsFeaturesWithTags()
-    setPlotsWithTags(taggedPlotsGeojson)
-    const alertedPlots = await plotService.getAllPlotsFeaturesWithAlerts()
-    setPlotsWithAlerts(alertedPlots)
-    const notedPlots = await plotService.getAllPlotsFeaturesWithNotes()
-    setPlotsWithNotes(notedPlots)
-  }
-
   const onMapLoad = () => {
-    getMarkedFeatures()
-
     const pathname = window.location.pathname
     if (pathname.includes('/buildings')) {
       toggleSwitcher()
@@ -115,89 +86,40 @@ function App() {
   }, [])
 
   return (
-    <div ref={wrapperRef} className={globalStyle.appWrapper}>
-      <Map
-        ref={mapRef}
-        onClick={onClick}
-        onMouseMove={onHover}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onLoad={onMapLoad}
-        cursor={cursor}
-        interactiveLayerIds={[
-          'counties',
-          'plots',
-          'buildings',
-          'protected',
-          'filteredPlots',
-          'filteredBuildings',
-          'taggedPlots',
-          'bookmarkedPlots',
-          'pools',
-          isZonesPrimary ? 'zones' : '',
-        ]}
-        mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        mapStyle={MAP_STYLES[0].url}
-        attributionControl={false}
-        initialViewState={{
-          latitude: INITIAL_VIEW.LATITUDE,
-          longitude: INITIAL_VIEW.LONGITUDE,
-          zoom: INITIAL_VIEW.ZOOM,
-        }}
-      >
-        {isMapLoading && <Loader withBackground />}
+    <BrowserRouter>
+      <div ref={wrapperRef} className={globalStyle.appWrapper}>
+        <Map
+          ref={mapRef}
+          onClick={onClick}
+          onMouseMove={onHover}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onLoad={onMapLoad}
+          cursor={cursor}
+          interactiveLayerIds={[
+            ...INTERACTIVE_LAYER_IDS,
+            isZonesPrimary ? 'zones' : '',
+          ]}
+          mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+          mapStyle={MAP_STYLES[0].url}
+          attributionControl={false}
+          initialViewState={{
+            latitude: INITIAL_VIEW.LATITUDE,
+            longitude: INITIAL_VIEW.LONGITUDE,
+            zoom: INITIAL_VIEW.ZOOM,
+          }}
+        >
+          <AppRoutes isMapLoading={isMapLoading} />
 
-        {pathname === '/explore/map/plots' ? (
-          <MainPage
-            isMapLoading={isMapLoading}
-            isZonesActive={isZonesActive}
-            isZonesPrimary={isZonesPrimary}
-            mode={mode}
-          />
-        ) : null}
-
-        {pathname === '/explore/map/tags' ? (
-          <TagsPage
-            isMapLoading={isMapLoading}
-            isZonesActive={isZonesActive}
-            isZonesPrimary={isZonesPrimary}
-            mode={mode}
-          />
-        ) : null}
-
-        {pathname === '/explore/map/bookmarks' ? (
-          <BookmarksPage
-            isMapLoading={isMapLoading}
-            isZonesActive={isZonesActive}
-            isZonesPrimary={isZonesPrimary}
-            mode={mode}
-          />
-        ) : null}
-
-        {pathname === '/explore/map/alerts' ? (
-          <AlertsPage
-            isMapLoading={isMapLoading}
-            isZonesActive={isZonesActive}
-            isZonesPrimary={isZonesPrimary}
-            mode={mode}
-          />
-        ) : null}
-
-        {pathname === '/explore/map/notes' ? (
-          <NotesPage
-            isMapLoading={isMapLoading}
-            isZonesActive={isZonesActive}
-            isZonesPrimary={isZonesPrimary}
-            mode={mode}
-          />
-        ) : null}
-
-        <TagsModal />
-        <FullscreenControl position='top-right' />
-        <NavigationControl />
-        <Toast />
-      </Map>
-    </div>
+          <ProtectedMode />
+          <ZonesMode isZonesPrimary={isZonesPrimary} />
+          <TagsModal />
+          <FullscreenControl position='top-right' />
+          <NavigationControl />
+          <Toast />
+        </Map>
+      </div>
+    </BrowserRouter>
   )
 }
 

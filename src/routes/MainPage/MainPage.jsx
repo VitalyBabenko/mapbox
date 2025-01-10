@@ -10,10 +10,13 @@ import {
 import { ModeSwitcher, PoolsLayer } from '../../components'
 import { FiltersPanel, MapDataPanel } from '../../panels'
 import { MODES } from '../../constants'
+import { useModeStore, useZoneStore } from '../../store'
 
-const MainPage = ({ isMapLoading, isZonesActive, isZonesPrimary, mode }) => {
+const MainPage = () => {
+  const { isZonesActive, isZonesPrimary } = useZoneStore()
+  const { mode } = useModeStore()
+
   const getIsModeActive = currentMode => {
-    if (isMapLoading) return false
     if (isZonesPrimary && isZonesActive) return false
     return mode === currentMode
   }

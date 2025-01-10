@@ -44,6 +44,20 @@ export const DEFAULT_TAG_COLORS = [
   '#85C1E9',
 ]
 
+export const INTERACTIVE_LAYER_IDS = [
+  'counties',
+  'plots',
+  'buildings',
+  'protected',
+  'filteredPlots',
+  'filteredBuildings',
+  'pools',
+  'tagsLayer',
+  'notesLayer',
+  'alertsLayer',
+  'bookmarksLayer',
+]
+
 export {
   MAP_STYLES,
   COUNTIES_SOURCE,
