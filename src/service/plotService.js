@@ -3,6 +3,10 @@ import { MockData } from './mock'
 
 export const plotService = {
   getPlotByEgrId: async ergid => {
+    if (window.location.hostname === 'localhost') {
+      return MockData.getPlot()
+    }
+
     try {
       const resp = await axiosInstance.get(`/api/map/plots/${ergid}`)
 

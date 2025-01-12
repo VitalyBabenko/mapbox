@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { Layer, Popup, Source } from 'react-map-gl'
 import { PLOTS_SOURCE } from '../../constants'
-import { PlotsPanel } from '../../panels'
 import {
   useEventStore,
   useFilterStore,
@@ -113,8 +112,6 @@ const PlotsMode = ({ isActive }) => {
           Pool
         </Popup>
       )}
-
-      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
     </>
   )
 }

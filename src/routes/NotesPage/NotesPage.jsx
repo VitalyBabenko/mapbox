@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MODES } from '../../constants'
-import { ProtectedMode, ZonesMode } from '../../modes'
-import { PlotsPanel } from '../../panels'
-import FeaturesPanel from '../../panels/FeaturesPanel/FeaturesPanel'
-import SettingsPanel from '../../panels/SettingsPanel/SettingsPanel'
+import { PlotsPanel, FeaturesPanel, SettingsPanel } from '../../panels'
 import { useEventStore } from '../../store'
 import {
   FaRegNoteSticky as NoteIcon,
@@ -12,7 +8,7 @@ import {
 import { plotService } from '../../service/plotService'
 import GeojsonRenderer from '../../components/GeojsonRenderer/GeojsonRenderer'
 
-const NotesPage = ({ isMapLoading, isZonesPrimary, isZonesActive, mode }) => {
+const NotesPage = () => {
   const [plotsWithNotes, setPlotsWithNotes] = useState([])
   const { clickedFeature } = useEventStore()
 
@@ -23,12 +19,6 @@ const NotesPage = ({ isMapLoading, isZonesPrimary, isZonesActive, mode }) => {
     }
     getPlotsWithNotes()
   }, [])
-
-  const getIsModeActive = currentMode => {
-    if (isMapLoading) return false
-    if (isZonesPrimary && isZonesActive) return false
-    return mode === currentMode
-  }
 
   return (
     <>

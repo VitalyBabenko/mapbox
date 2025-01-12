@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
-import { PlotsPanel } from '../../panels'
-import FeaturesPanel from '../../panels/FeaturesPanel/FeaturesPanel'
-import SettingsPanel from '../../panels/SettingsPanel/SettingsPanel'
+import { PlotsPanel, FeaturesPanel, SettingsPanel } from '../../panels'
 import { useEventStore } from '../../store'
 import { FaRegBell as BellIcon, FaBell as BellIconSolid } from 'react-icons/fa'
 import { plotService } from '../../service/plotService'

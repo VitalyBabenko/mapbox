@@ -1,7 +1,5 @@
-import { PlotsPanel } from '../../panels'
-import SettingsPanel from '../../panels/SettingsPanel/SettingsPanel'
+import { PlotsPanel, SettingsPanel, FeaturesPanel } from '../../panels'
 import { useEventStore } from '../../store'
-import FeaturesPanel from '../../panels/FeaturesPanel/FeaturesPanel'
 import { PiTagBold as TagIcon } from 'react-icons/pi'
 import { PiTagFill as TagIconFill } from 'react-icons/pi'
 import { useEffect, useState } from 'react'
