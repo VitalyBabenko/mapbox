@@ -7,6 +7,7 @@ import { useToastStore } from '../../../store'
 import { useFilterStore } from '../../../store'
 import FilterAccordion from '../../../components/Filters/FilterAccordion/FilterAccordion'
 import Checkbox from '../../../components/Checkbox/Checkbox'
+import { getInitialFiltersValue } from '../../../utils/getInitialFiltersValue'
 
 const PlotsFilters = ({ setMapLoader, startRequest }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -131,12 +132,27 @@ const PlotsFilters = ({ setMapLoader, startRequest }) => {
       setCheckboxes(resp.filters.filter(item => item.view === 'checkbox'))
       setAllFilters(resp.filters)
       setAccordions(resp.filtersByCategory)
-      setFormValues(
-        resp.filters.reduce((prev, next) => {
-          prev[next.attribute] = getFilterAttributeValue(next.view, next.values)
-          return prev
-        }, {}),
-      )
+      const newFormValues = resp.filters.reduce((prev, next) => {
+        prev[next.attribute] = getFilterAttributeValue(next.view, next.values)
+        return prev
+      }, {})
+
+      const params = new URL(window.location.href).searchParams
+
+      if (params.size) {
+        const initialFiltersValue = getInitialFiltersValue(
+          params,
+          resp.filters,
+          newFormValues,
+        )
+
+        console.log(initialFiltersValue)
+
+        setFormValues(initialFiltersValue)
+      } else {
+        setFormValues(newFormValues)
+      }
+
       setIsLoading(false)
     }
 
