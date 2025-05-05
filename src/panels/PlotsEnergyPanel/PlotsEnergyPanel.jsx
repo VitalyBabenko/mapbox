@@ -34,8 +34,6 @@ const PlotsEnergyPanel = ({ activePlotId }) => {
     if (activePlotId) getData()
   }, [activePlotId])
 
-  console.log(plotInfo)
-
   if (!activePlotId) return null
 
   if (error)
