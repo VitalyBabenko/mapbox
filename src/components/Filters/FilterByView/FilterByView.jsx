@@ -14,17 +14,17 @@ const rangeIcons = {
   age: null,
 }
 
-const FilterByView = ({ view, filter }) => {
-  const { formValues, setInputValue } = useFilterStore()
+const FilterByView = ({ filter }) => {
+  const { setFilterValue } = useFilterStore()
 
-  switch (view) {
+  switch (filter.view) {
     case 'input':
       return (
         <>
           <h4>{filter.title}</h4>
           <input
-            value={formValues[filter.attribute]}
-            onChange={e => setInputValue(filter.attribute, e.target.value)}
+            value={filter.value}
+            onChange={e => setFilterValue(filter.id, e.target.value)}
           />
         </>
       )
@@ -33,8 +33,8 @@ const FilterByView = ({ view, filter }) => {
       return (
         <TypeaheadFilter
           filter={filter}
-          value={[...formValues[filter.attribute]]}
-          setSelected={s => setInputValue(filter.attribute, s)}
+          value={[...filter.value]}
+          setSelected={s => setFilterValue(filter.id, s)}
         />
       )
 
@@ -46,9 +46,9 @@ const FilterByView = ({ view, filter }) => {
           <Select
             name={filter.attribute}
             styles={selectStyles}
-            value={formValues[filter.attribute]}
+            value={filter.value}
             onChange={newValue => {
-              setInputValue(filter.attribute, newValue)
+              setFilterValue(filter.id, newValue)
             }}
             options={filter.values.map(v => ({
               value: v,
@@ -65,8 +65,8 @@ const FilterByView = ({ view, filter }) => {
           icon={rangeIcons[filter.attribute]}
           min={filter.values.min || 0}
           max={filter.values.max || 0}
-          value={formValues[filter.attribute]}
-          setValue={v => setInputValue(filter.attribute, v)}
+          value={filter.value}
+          setValue={v => setFilterValue(filter.id, v)}
         />
       )
 
@@ -75,10 +75,10 @@ const FilterByView = ({ view, filter }) => {
         <DateFilter
           key={filter.attribute}
           label={filter.title}
-          startValue={formValues[filter.attribute]?.start}
-          setStartValue={v => setInputValue(filter.attribute, v)}
-          endValue={formValues[filter.attribute]?.end}
-          setEndValue={v => setInputValue(filter.attribute, v)}
+          startValue={filter.values.min}
+          setStartValue={v => setFilterValue(filter.id, v)}
+          endValue={filter.values.max}
+          setEndValue={v => setFilterValue(filter.id, v)}
         />
       )
     default:

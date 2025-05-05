@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoFilter as FilterIcon } from 'react-icons/io5'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import style from './FiltersPanel.module.scss'
@@ -20,6 +20,13 @@ const FiltersPanel = () => {
   const { switcher } = useModeStore()
   const [mapLoader, setMapLoader] = useState(false)
   const [controller, setController] = useState(null)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.size) {
+      setOpen(true)
+    }
+  }, [])
 
   if (!open) {
     return (

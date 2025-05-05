@@ -1,25 +1,23 @@
 import style from './FilterAccordionValues.module.scss'
 
-const FilterAccordionValues = ({ filters, formValues }) => {
+const FilterAccordionValues = ({ filters }) => {
   const isValueShowed = filter => {
-    const filterValue = formValues[filter.attribute]
-
     switch (filter.view) {
       case 'input':
-        return !!filterValue.length
+        return !!filter.value.length
 
       case 'multiple_dropdown': {
-        if (Array.isArray(filterValue)) return !!filterValue.length
-        return !!filterValue?.label?.length
+        if (Array.isArray(filter.value)) return !!filter.value.length
+        return !!filter.value?.label?.length
       }
 
       case 'typeahead_input':
-        return !!filterValue?.[0]?.label
+        return !!filter.value?.[0]?.label
 
       case 'range':
         return !(
-          filter.values.min === filterValue[0] ||
-          filter.values.max === filterValue[1]
+          filter.values.min === filter.value[0] ||
+          filter.values.max === filter.value[1]
         )
       default:
         return false
@@ -27,17 +25,15 @@ const FilterAccordionValues = ({ filters, formValues }) => {
   }
 
   const getFormattedInputValue = filter => {
-    const filterValue = formValues[filter.attribute]
-
     switch (filter.view) {
       case 'input':
-        return filterValue
+        return filter.value
       case 'multiple_dropdown':
-        return filterValue?.label
+        return filter.value?.label
       case 'typeahead_input':
-        return filterValue[0].label
+        return filter.value[0].label
       case 'range':
-        return filterValue.join(' - ')
+        return filter.value.join(' - ')
       default:
         return null
     }

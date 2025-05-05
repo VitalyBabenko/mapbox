@@ -39,6 +39,9 @@ const FiltersResult = ({ switcher }) => {
       zoom: INITIAL_VIEW.ZOOM,
       essential: true,
     })
+    const url = new URL(window.location.href)
+    url.search = ''
+    window.history.replaceState({}, '', url)
   }
 
   const resultList = () => {

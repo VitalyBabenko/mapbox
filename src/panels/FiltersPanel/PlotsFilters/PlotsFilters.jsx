@@ -1,159 +1,61 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import Loader from '../../../components/Loader/Loader'
-import { plotService } from '../../../service/plotService'
-import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
 import { useToastStore } from '../../../store'
 import { useFilterStore } from '../../../store'
 import FilterAccordion from '../../../components/Filters/FilterAccordion/FilterAccordion'
 import Checkbox from '../../../components/Checkbox/Checkbox'
-import { getInitialFiltersValue } from '../../../utils/getInitialFiltersValue'
+import { filterService } from '../../../service/filtersService'
 
 const PlotsFilters = ({ setMapLoader, startRequest }) => {
+  const submitBtnRef = useRef(null)
   const [isLoading, setIsLoading] = useState(true)
   const [panelError, setPanelError] = useState('')
-  const [error, setError] = useState('')
   const toast = useToastStore()
-  const {
-    checkboxes,
-    setCheckboxes,
-    allFilters,
-    setAllFilters,
-    accordions,
-    setAccordions,
-    formValues,
-    setFormValues,
-    setInputValue,
-    setFilteredPlotsFeatures,
-  } = useFilterStore()
+  const { filters, setFilters, setFilterValue, setFilteredPlotsFeatures } =
+    useFilterStore()
 
   const handleSubmit = async e => {
     e.preventDefault()
-    setMapLoader(true)
 
-    const formattedFilters = Object.keys(formValues).reduce((prev, next) => {
-      const foundedFilter = allFilters.find(
-        ({ attribute }) => attribute === next,
-      )
+    try {
+      setMapLoader(true)
+      const params = filters.getValuesAsParams()
+      const signal = startRequest().signal
 
-      switch (foundedFilter.view) {
-        case 'input': {
-          if (formValues[next]) {
-            prev[`filters[${foundedFilter.id}]`] = formValues[next]
-          }
-          break
-        }
-
-        case 'typeahead_input': {
-          if (formValues[next].length) {
-            prev[`filters[${foundedFilter.id}]`] = formValues[next]
-              .map(({ label }) => label)
-              .join(',')
-          }
-          break
-        }
-
-        case 'multiple_dropdown': {
-          if (formValues[next]) {
-            const result = []
-            result[0] =
-              formValues[next]?.value || formValues[next][0]?.label || ''
-            prev[`filters[${foundedFilter.id}][]`] = result
-          }
-          break
-        }
-
-        case 'range': {
-          prev[`filters[${foundedFilter.id}][min]`] = formValues[next][0] || 0
-
-          if (formValues[next][1]) {
-            prev[`filters[${foundedFilter.id}][max]`] = formValues[next][1]
-          }
-
-          break
-        }
-
-        case 'date_range': {
-          prev[`filters[${foundedFilter.id}][min]`] = formValues[next].start
-          prev[`filters[${foundedFilter.id}][max]`] = formValues[next].end
-          break
-        }
-
-        case 'checkbox': {
-          prev[`filters[${foundedFilter.id}]`] = formValues[next] ? 1 : 0
-
-          break
-        }
-
-        default:
-          break
+      const resp = await filterService.setFilters('plots', params, signal)
+      if (resp?.error) {
+        throw new Error("Une erreur s'est produite, réessayez plus tard")
       }
 
-      return prev
-    }, {})
-
-    const controller = startRequest()
-
-    const resp = await plotService.setFilters(formattedFilters, controller)
-    if (resp?.error?.message) {
+      toast.success(`${resp?.features?.length} parcelles trouvées`)
+      setFilteredPlotsFeatures(resp?.features)
+    } catch (err) {
+      console.log(err)
       toast.error("Une erreur s'est produite, réessayez plus tard")
+    } finally {
       setMapLoader(false)
-      return
     }
-    if (!resp?.features?.length) {
-      toast.text('Aucune parcelle trouvée')
-      setMapLoader(false)
-      return
-    }
-
-    setFilteredPlotsFeatures(resp?.features)
-    setMapLoader(false)
-    toast.success(`${resp?.features?.length} parcelles trouvées`)
   }
 
   useEffect(() => {
-    if (error.length && formValues.commune_name[0]?.label) {
-      setError('')
-    }
-  }, [formValues])
-
-  useEffect(() => {
     const getFilters = async () => {
-      setIsLoading(true)
-      const resp = await plotService.getFilters()
-
-      if (resp?.error?.message) {
+      try {
+        setIsLoading(true)
+        const resp = await filterService.getFilters('plots')
+        setFilters(resp)
+      } catch (error) {
         setPanelError(
           `Filtering service is unavailable, please try again later.`,
         )
+      } finally {
         setIsLoading(false)
-        return
-      }
-      setCheckboxes(resp.filters.filter(item => item.view === 'checkbox'))
-      setAllFilters(resp.filters)
-      setAccordions(resp.filtersByCategory)
-      const newFormValues = resp.filters.reduce((prev, next) => {
-        prev[next.attribute] = getFilterAttributeValue(next.view, next.values)
-        return prev
-      }, {})
-
-      const params = new URL(window.location.href).searchParams
-
-      if (params.size) {
-        const initialFiltersValue = getInitialFiltersValue(
-          params,
-          resp.filters,
-          newFormValues,
-        )
-
-        console.log(initialFiltersValue)
-
-        setFormValues(initialFiltersValue)
-      } else {
-        setFormValues(newFormValues)
       }
 
-      setIsLoading(false)
+      const params = new URLSearchParams(window.location.search)
+      if (params.size > 0) {
+        submitBtnRef?.current?.click()
+      }
     }
 
     getFilters()
@@ -164,30 +66,27 @@ const PlotsFilters = ({ setMapLoader, startRequest }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {checkboxes.map(filter => (
+      {filters.getCheckboxes().map(filter => (
         <Checkbox
           key={filter.id}
           label={filter.title}
-          checked={formValues[filter.attribute]}
-          onChange={e => setInputValue(filter.attribute, e.target.checked)}
+          checked={filter.value}
+          onChange={e => setFilterValue(filter.id, e.target.checked)}
         />
       ))}
 
-      {accordions.map(accordion => (
+      {filters.getAccordions().map(accordion => (
         <FilterAccordion
           key={accordion.title}
           title={accordion.title}
           filters={accordion.filters}
-          formValues={formValues}
-          setInputValue={setInputValue}
-          setError={setError}
         />
       ))}
 
-      {error && <span role='alert'>{error}</span>}
-
       <div>
-        <button type='submit'>Apply</button>
+        <button ref={submitBtnRef} type='submit'>
+          Apply
+        </button>
       </div>
     </form>
   )
