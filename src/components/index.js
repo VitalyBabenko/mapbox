@@ -10,12 +10,14 @@ import TagsModal from './TagsModal/TagsModal'
 import Toast from './Toast/Toast'
 import Tooltip from './Tooltip/Tooltip'
 import PoolsLayer from './PoolsLayer/PoolsLayer'
+import ResetViewButton from './ResetViewButton/ResetViewButton'
 
 export {
   Checkbox,
   ColorPickerPopup,
   ErrorMessage,
   IconButton,
+  ResetViewButton,
   List,
   ListItem,
   Loader,

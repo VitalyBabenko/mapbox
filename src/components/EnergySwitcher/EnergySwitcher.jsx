@@ -1,43 +1,13 @@
 import { BiBuildings as BuildingIcon } from 'react-icons/bi'
-import { GrPowerReset as ResetIcon } from 'react-icons/gr'
 import style from './EnergySwitcher.module.scss'
-import {
-  useEventStore,
-  useFilterStore,
-  useModeStore,
-  usePaintStore,
-} from '../../store'
-import {
-  MODES,
-  INITIAL_VIEW,
-  DEFAULT_PAINT,
-  PAINT_BY_ENERGY,
-} from '../../constants'
+import { useModeStore, usePaintStore } from '../../store'
+import { MODES, DEFAULT_PAINT, PAINT_BY_ENERGY } from '../../constants'
 import { SlEnergy as EnergyIcon } from 'react-icons/sl'
-import { useMap } from 'react-map-gl'
+import ResetViewButton from '../ResetViewButton/ResetViewButton'
 
 const EnergySwitcher = () => {
   const { mode } = useModeStore()
-  const { current: map } = useMap()
   const { activePaint, setActivePaint } = usePaintStore()
-  const { setFilteredPlotsFeatures, setFilteredBuildingsFeatures } =
-    useFilterStore()
-  const { switchToCountiesMode } = useModeStore()
-  const { setClickedFeature } = useEventStore()
-
-  const resetView = () => {
-    map.flyTo({
-      center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
-      zoom: INITIAL_VIEW.ZOOM,
-      essential: true,
-    })
-
-    setActivePaint(DEFAULT_PAINT)
-    setFilteredPlotsFeatures([])
-    setFilteredBuildingsFeatures([])
-    switchToCountiesMode()
-    setClickedFeature(null)
-  }
 
   const handleSwitch = paint => {
     setActivePaint(paint)
@@ -71,12 +41,11 @@ const EnergySwitcher = () => {
         </div>
       </div>
 
-      {mode === MODES.BUILDINGS && (
-        <button onClick={resetView} className={style.resetButton}>
-          <ResetIcon />
-          Reset view
-        </button>
-      )}
+      <ResetViewButton
+        top={10}
+        right={170}
+        isVisible={mode === MODES.BUILDINGS}
+      />
     </>
   )
 }

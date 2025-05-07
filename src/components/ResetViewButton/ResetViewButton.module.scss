@@ -1,0 +1,19 @@
+@import '../../styles/mixins';
+
+.resetButton {
+  @include button-mapbox;
+  padding: 2.5px 10px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 29px;
+  top: 10px;
+  right: 213px;
+  gap: 5px;
+  font-size: 18px;
+  max-width: 132px;
+
+  svg {
+    padding: 0.9px;
+  }
+}

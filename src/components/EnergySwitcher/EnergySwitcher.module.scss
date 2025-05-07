@@ -1,6 +1,4 @@
 @import '../../styles/mixins';
-
-@import '../../styles/mixins';
 @import '../../styles/variables';
 
 .wrapper {
@@ -31,32 +29,4 @@
       transform: translate(0%) !important;
     }
   }
-}
-
-// .buildingButton {
-//   @include button-mapbox;
-//   display: flex;
-//   align-items: center;
-//   gap: 5px;
-//   padding: 2.5px 10px;
-//   font-size: 18px !important;
-//   position: absolute;
-//   top: 10px;
-//   left: 10px;
-
-//   svg {
-//     padding: 0.9px;
-//   }
-// }
-
-.resetButton {
-  @include button-mapbox;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 2.5px 10px;
-  font-size: 18px !important;
-  position: absolute;
-  top: 10px;
-  right: 170px;
 }

@@ -1,25 +1,22 @@
-import { memo, useEffect, useState } from 'react'
-import Loader from '../../components/Loader/Loader'
-import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
-import SpecsSection from './SpecsSection/SpecsSection'
-import style from './PlotsPanel.module.scss'
-import AddressesSection from './AddressesSection/AddressesSection'
-import OwnersSection from './OwnersSection/OwnersSection'
-import TransactionsSection from './TransactionsSection/TransactionsSection'
-import NotesSection from './NotesSection/NotesSection'
-import { convertTimeFormat } from '../../utils/convertTimeFormat'
-import BuildingPermitsSection from './BuildingPermitsSection/BuildingPermitsSection'
-import List from '../../components/List/List'
-import { plotService } from '../../service/plotService'
-import { useEventStore, useModeStore } from '../../store'
-import HeadingSection from './HeadingSection/HeadingSection'
+import { useEffect, useState } from 'react'
 import useDraggable from '../../hooks/useDraggable'
-import DDPSection from './DDPSection/DDPSection'
+import { useEventStore, useModeStore } from '../../store'
+import { plotService } from '../../service/plotService'
+import { List } from '../../components'
+import style from './CertsPanel.module.scss'
+import HeadingSection from '../PlotsPanel/HeadingSection/HeadingSection'
+import SpecsSection from '../PlotsPanel/SpecsSection/SpecsSection'
+import CertsSection from './CertsSection/CertsSection'
+import NotesSection from '../PlotsPanel/NotesSection/NotesSection'
+import OwnersSection from '../PlotsPanel/OwnersSection/OwnersSection'
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
+import { convertTimeFormat } from '../../utils/convertTimeFormat'
+import DDPSection from '../PlotsPanel/DDPSection/DDPSection'
 
-const PlotsPanel = ({ activePlotId }) => {
+const CertsPanel = ({ activePlotId }) => {
   const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
-  const { locale } = useModeStore()
   const [plotInfo, setPlotInfo] = useState(null)
+  const { locale } = useModeStore()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const { setClickedFeature, setClickedPlotInfo } = useEventStore()
@@ -67,12 +64,6 @@ const PlotsPanel = ({ activePlotId }) => {
         right: -position.x,
       }}
     >
-      {isLoading && (
-        <div className={style['loader-drawer']}>
-          <Loader />
-        </div>
-      )}
-
       <HeadingSection
         plotInfo={plotInfo}
         isLoading={isLoading}
@@ -96,13 +87,9 @@ const PlotsPanel = ({ activePlotId }) => {
         </List>
       )}
 
-      <AddressesSection plotInfo={plotInfo} locale={locale} />
+      <CertsSection certs={plotInfo?.construction_certs} />
 
       <OwnersSection plotInfo={plotInfo} locale={locale} />
-
-      <TransactionsSection plotInfo={plotInfo} />
-
-      <BuildingPermitsSection plotInfo={plotInfo} />
 
       {plotInfo?.derniere_modification && (
         <p className={style.lastEdits}>
@@ -114,4 +101,4 @@ const PlotsPanel = ({ activePlotId }) => {
   )
 }
 
-export default memo(PlotsPanel)
+export default CertsPanel

@@ -23,7 +23,7 @@ const SettingsPanel = () => {
   if (!isPanelOpen) {
     return (
       <button onClick={openPanel} className={style.openButton}>
-        <SettingsIcon size={18} />
+        <SettingsIcon size={24} />
         Settings
       </button>
     )
