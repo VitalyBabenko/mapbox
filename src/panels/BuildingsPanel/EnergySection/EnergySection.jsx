@@ -2,6 +2,8 @@ import ListItem from '../../../components/List/ListItem/ListItem'
 import style from './EnergySection.module.scss'
 
 const EnergySection = ({ heating, hot }) => {
+  if (!heating?.length && !hot?.length) return null
+
   return (
     <div className={style.energySection}>
       {heating?.length && (
