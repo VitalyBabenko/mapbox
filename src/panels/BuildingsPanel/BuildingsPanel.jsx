@@ -15,6 +15,7 @@ import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import { useEventStore, useModeStore } from '../../store'
 import useDraggable from '../../hooks/useDraggable'
+import EnergySection from './EnergySection/EnergySection'
 
 const BuildingsPanel = ({ activeBuildingId }) => {
   const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
@@ -37,6 +38,8 @@ const BuildingsPanel = ({ activeBuildingId }) => {
         setIsLoading(false)
         return
       }
+
+      console.log(info)
 
       setBuildingInfo(info)
       setIsLoading(false)
@@ -139,6 +142,11 @@ const BuildingsPanel = ({ activeBuildingId }) => {
         }
         isConstructionCerts={buildingInfo?.plot?.construction_certs?.length}
         buildingInfo={buildingInfo}
+      />
+
+      <EnergySection
+        heating={buildingInfo?.chauffage}
+        hot={buildingInfo?.chaude}
       />
 
       <DetailsSection
