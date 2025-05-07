@@ -4,8 +4,11 @@ import { DEFAULT_PAINT, PAINT_BY_ZONE } from '../../constants'
 import { memo } from 'react'
 import useDraggable from '../../hooks/useDraggable'
 
-const ScalePanel = () => {
-  const { position, handleMouseDown } = useDraggable({ x: -401, y: 10 })
+const ScalePanel = ({
+  initialPosition = { x: -401, y: 10 },
+  side = 'right',
+}) => {
+  const { position, handleMouseDown } = useDraggable(initialPosition)
   const { activePaint } = usePaintStore()
   const { isActive: isZonesActive, isPrimary: isZonesPrimary } = useZoneStore()
   const isOpen =
@@ -16,9 +19,14 @@ const ScalePanel = () => {
       ? PAINT_BY_ZONE.getItems()
       : activePaint.getItems()
 
+  const positionStyle =
+    side === 'right'
+      ? { top: position.y, right: -position.x }
+      : { top: position.y, left: -position.x }
+
   return (
     <div
-      style={{ top: position.y, right: -position.x }}
+      style={positionStyle}
       className={isOpen ? style.panel : style.hidden}
       onMouseDown={handleMouseDown}
     >
