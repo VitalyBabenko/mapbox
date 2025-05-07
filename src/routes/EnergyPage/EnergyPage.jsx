@@ -2,18 +2,14 @@ import { MODES } from '../../constants'
 import { BuildingsMode, CountiesMode } from '../../modes'
 import { SettingsPanel } from '../../panels'
 import { useModeStore } from '../../store'
-import { BiBuildings as BuildingIcon } from 'react-icons/bi'
-import style from './EnergyPage.module.scss'
+import EnergySwitcher from '../../components/EnergySwitcher/EnergySwitcher'
 
 const EnergyPage = () => {
   const { mode } = useModeStore()
 
   return (
     <>
-      <button className={style.buildingButton}>
-        <BuildingIcon size={20} />
-        Buildings
-      </button>
+      <EnergySwitcher />
 
       <CountiesMode
         isActive={mode === MODES.COUNTIES}

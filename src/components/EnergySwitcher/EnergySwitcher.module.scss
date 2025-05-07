@@ -1,0 +1,62 @@
+@import '../../styles/mixins';
+
+@import '../../styles/mixins';
+@import '../../styles/variables';
+
+.wrapper {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 250px;
+  height: 29px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+
+  .modeSwitcher {
+    @include switcher;
+  }
+
+  &.filtering {
+    width: fit-content;
+
+    button {
+      padding-left: 20px;
+      padding-right: 20px;
+      width: 100%;
+    }
+
+    span {
+      min-width: 100%;
+      transform: translate(0%) !important;
+    }
+  }
+}
+
+// .buildingButton {
+//   @include button-mapbox;
+//   display: flex;
+//   align-items: center;
+//   gap: 5px;
+//   padding: 2.5px 10px;
+//   font-size: 18px !important;
+//   position: absolute;
+//   top: 10px;
+//   left: 10px;
+
+//   svg {
+//     padding: 0.9px;
+//   }
+// }
+
+.resetButton {
+  @include button-mapbox;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 10px;
+  font-size: 18px !important;
+  position: absolute;
+  top: 10px;
+  right: 170px;
+}
