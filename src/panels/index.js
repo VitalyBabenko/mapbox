@@ -1,5 +1,4 @@
 import BuildingsPanel from './BuildingsPanel/BuildingsPanel'
-import PlotsEnergyPanel from './PlotsEnergyPanel/PlotsEnergyPanel'
 import FiltersPanel from './FiltersPanel/FiltersPanel'
 import MapDataPanel from './MapDataPanel/MapDataPanel'
 import PlotsPanel from './PlotsPanel/PlotsPanel'
@@ -15,5 +14,4 @@ export {
   ScalePanel,
   FeaturesPanel,
   SettingsPanel,
-  PlotsEnergyPanel,
 }

@@ -1,20 +1,28 @@
 import { MODES } from '../../constants'
-import { CountiesMode, PlotsMode } from '../../modes'
-import { MapDataPanel, PlotsEnergyPanel } from '../../panels'
-import { useEventStore, useModeStore } from '../../store'
+import { BuildingsMode, CountiesMode } from '../../modes'
+import { SettingsPanel } from '../../panels'
+import { useModeStore } from '../../store'
+import { BiBuildings as BuildingIcon } from 'react-icons/bi'
+import style from './EnergyPage.module.scss'
 
 const EnergyPage = () => {
-  const { clickedFeature } = useEventStore()
   const { mode } = useModeStore()
 
   return (
     <>
-      <PlotsEnergyPanel activePlotId={clickedFeature?.properties?.EGRID} />
+      <button className={style.buildingButton}>
+        <BuildingIcon size={20} />
+        Buildings
+      </button>
 
-      <CountiesMode isActive={mode === MODES.COUNTIES} />
-      <PlotsMode isActive={mode === MODES.PLOTS} />
+      <CountiesMode
+        isActive={mode === MODES.COUNTIES}
+        modeOnCountyClick={MODES.BUILDINGS}
+      />
 
-      <MapDataPanel />
+      <BuildingsMode isActive={mode === MODES.BUILDINGS} />
+
+      <SettingsPanel />
     </>
   )
 }
