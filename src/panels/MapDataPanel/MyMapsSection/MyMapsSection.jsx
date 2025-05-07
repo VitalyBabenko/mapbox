@@ -45,16 +45,18 @@ const MyMapsSection = () => {
     },
   ]
 
-  const isResetShowed = pathname === '/explore/map/plots'
-
-  const isResetButtonShowed = mode === MODES.TAGS || mode === MODES.BOOKMARKS
+  const isResetShowed =
+    pathname.includes('notes') ||
+    pathname.includes('alerts') ||
+    pathname.includes('bookmarks') ||
+    pathname.includes('tags')
 
   return (
     <>
       <div className={style.heading}>
         <h3 className={style.title}>My Maps</h3>
 
-        {!isResetShowed && (
+        {isResetShowed && (
           <Link className={style.reset} to='/explore/map/plots'>
             Reset
           </Link>
