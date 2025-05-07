@@ -7,19 +7,23 @@ import AlertsPage from './AlertsPage/AlertsPage'
 import NotesPage from './NotesPage/NotesPage'
 import EnergyPage from './EnergyPage/EnergyPage'
 import CertsPage from './CertsPage/CertsPage'
+import TransactionsPage from './TransactionsPage/TransactionsPage'
 
 const AppRoutes = ({ isMapLoading }) => {
   if (isMapLoading) return <Loader withBackground />
 
+  const getPath = path => `/explore/map/${path}`
+
   return (
     <Routes>
-      <Route path='/explore/map/plots' element={<MainPage />} />
-      <Route path='/explore/map/tags' element={<TagsPage />} />
-      <Route path='/explore/map/bookmarks' element={<BookmarksPage />} />
-      <Route path='/explore/map/alerts' element={<AlertsPage />} />
-      <Route path='/explore/map/notes' element={<NotesPage />} />
-      <Route path='/explore/map/energies' element={<EnergyPage />} />
-      <Route path='/explore/map/construction-certs' element={<CertsPage />} />
+      <Route path={getPath('plots')} element={<MainPage />} />
+      <Route path={getPath('tags')} element={<TagsPage />} />
+      <Route path={getPath('bookmarks')} element={<BookmarksPage />} />
+      <Route path={getPath('alerts')} element={<AlertsPage />} />
+      <Route path={getPath('notes')} element={<NotesPage />} />
+      <Route path={getPath('energies')} element={<EnergyPage />} />
+      <Route path={getPath('construction-certs')} element={<CertsPage />} />
+      <Route path={getPath('transactions')} element={<TransactionsPage />} />
     </Routes>
   )
 }

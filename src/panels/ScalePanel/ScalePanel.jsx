@@ -8,7 +8,7 @@ const ScalePanel = ({
   initialPosition = { x: -401, y: 10 },
   side = 'right',
 }) => {
-  const { position, handleMouseDown } = useDraggable(initialPosition)
+  const { position, handleMouseDown } = useDraggable(initialPosition, side)
   const { activePaint } = usePaintStore()
   const { isActive: isZonesActive, isPrimary: isZonesPrimary } = useZoneStore()
   const isOpen =
@@ -19,10 +19,11 @@ const ScalePanel = ({
       ? PAINT_BY_ZONE.getItems()
       : activePaint.getItems()
 
-  const positionStyle =
-    side === 'right'
-      ? { top: position.y, right: -position.x }
-      : { top: position.y, left: -position.x }
+  const positionStyle = {
+    position: 'absolute',
+    top: position.y,
+    ...(side === 'right' ? { right: position.x } : { left: position.x }),
+  }
 
   return (
     <div

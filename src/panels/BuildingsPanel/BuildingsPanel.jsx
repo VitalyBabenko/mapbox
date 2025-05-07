@@ -192,4 +192,4 @@ const BuildingsPanel = ({ activeBuildingId }) => {
   )
 }
 
-export default memo(BuildingsPanel)
+export default BuildingsPanel

@@ -1,4 +1,5 @@
 import { BiBuildings as BuildingIcon } from 'react-icons/bi'
+
 import style from './EnergySwitcher.module.scss'
 import { useModeStore, usePaintStore } from '../../store'
 import { MODES, DEFAULT_PAINT, PAINT_BY_ENERGY } from '../../constants'
