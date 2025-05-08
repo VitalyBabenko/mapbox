@@ -1,5 +1,5 @@
 import style from './BuildingsPanel.module.scss'
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Loader from '../../components/Loader/Loader'
 import { buildingService } from '../../service/buildingService'
@@ -39,8 +39,6 @@ const BuildingsPanel = ({ activeBuildingId }) => {
         return
       }
 
-      console.log(info)
-
       setBuildingInfo(info)
       setIsLoading(false)
     }
@@ -79,10 +77,6 @@ const BuildingsPanel = ({ activeBuildingId }) => {
         <ErrorMessage message={error} onClose={closeBuildingPanel} />
       </div>
     )
-  }
-
-  if (!activeBuildingId) {
-    return null
   }
 
   return (
