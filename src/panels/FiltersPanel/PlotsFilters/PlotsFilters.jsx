@@ -20,10 +20,8 @@ const PlotsFilters = ({ setMapLoader, startRequest }) => {
 
     try {
       setMapLoader(true)
-      const params = filters.getValuesAsParams()
       const signal = startRequest().signal
-
-      const resp = await filterService.setFilters('plots', params, signal)
+      const resp = await filterService.fetchResults('plots', filters, signal)
       if (resp?.error) {
         throw new Error("Une erreur s'est produite, réessayez plus tard")
       }
@@ -31,7 +29,6 @@ const PlotsFilters = ({ setMapLoader, startRequest }) => {
       toast.success(`${resp?.features?.length} parcelles trouvées`)
       setFilteredPlotsFeatures(resp?.features)
     } catch (err) {
-      console.log(err)
       toast.error("Une erreur s'est produite, réessayez plus tard")
     } finally {
       setMapLoader(false)
@@ -42,7 +39,7 @@ const PlotsFilters = ({ setMapLoader, startRequest }) => {
     const getFilters = async () => {
       try {
         setIsLoading(true)
-        const resp = await filterService.getFilters('plots')
+        const resp = await filterService.fetchFilters('plots')
         setFilters(resp)
       } catch (error) {
         setPanelError(

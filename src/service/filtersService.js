@@ -73,22 +73,22 @@ class Filters extends Array {
     const setValueFromParams = () => {
       this.forEach(filter => {
         if (filter.view === 'input') {
-          filter.value = paramsObj[`filters[${filter.id}]`]
+          filter.value = paramsObj[`filters[${filter.id}]`] || ''
         }
 
         if (filter.view === 'typeahead_input') {
-          filter.value = [{ label: paramsObj[`filters[${filter.id}]`] }]
+          filter.value = [{ label: paramsObj[`filters[${filter.id}]`] || '' }]
         }
 
         if (filter.view === 'multiple_dropdown') {
           const result = paramsObj[`filters[${filter.id}]`]
             ? {
-                value: paramsObj[`filters[${filter.id}]`],
-                label: paramsObj[`filters[${filter.id}]`],
+                value: paramsObj[`filters[${filter.id}]`] || '',
+                label: paramsObj[`filters[${filter.id}]`] || '',
               }
             : {
-                value: paramsObj[`filters[${filter.id}][0]`],
-                label: paramsObj[`filters[${filter.id}][0]`],
+                value: paramsObj[`filters[${filter.id}][0]`] || '',
+                label: paramsObj[`filters[${filter.id}][0]`] || '',
               }
 
           filter.value = result
@@ -96,15 +96,21 @@ class Filters extends Array {
 
         if (filter.view === 'range') {
           filter.value = [
-            paramsObj[`filters[${filter.id}][min]`],
-            paramsObj[`filters[${filter.id}][max]`],
+            paramsObj[`filters[${filter.id}][min]`] || filter?.values?.min || 0,
+            paramsObj[`filters[${filter.id}][max]`] || filter?.values?.max || 0,
           ]
         }
 
         if (filter.view === 'date_range') {
           filter.value = {
-            start: paramsObj[`filters[${filter.id}][min]`],
-            end: paramsObj[`filters[${filter.id}][max]`],
+            start:
+              paramsObj[`filters[${filter.id}][min]`] ||
+              filter?.values?.min ||
+              0,
+            end:
+              paramsObj[`filters[${filter.id}][max]`] ||
+              filter?.values?.max ||
+              0,
           }
         }
 
@@ -121,23 +127,19 @@ class Filters extends Array {
     const result = {}
 
     this.forEach(filter => {
-      if (filter.name === 'age') {
-        console.log(filter.value?.[0])
-      }
-
       if (filter.view === 'input') {
-        const value = encodeURIComponent(filter.value)
+        const value = filter.value
         result[`filters[${filter.id}]`] = value
       }
 
       if (filter.view === 'typeahead_input') {
-        const value = encodeURIComponent(filter?.value?.[0]?.label) && ''
+        const value = filter?.value?.[0]?.label || ''
         result[`filters[${filter.id}]`] = value
       }
 
-      if (filter.view === 'multiple_dropdown[]') {
-        const value = encodeURIComponent(filter?.value?.label) && ''
-        result[`filters[${filter.id}]`] = value
+      if (filter.view === 'multiple_dropdown') {
+        const value = filter?.value?.label || ''
+        result[`filters[${filter.id}][]`] = value
       }
 
       if (filter.view === 'checkbox') {
@@ -146,26 +148,25 @@ class Filters extends Array {
       }
 
       if (filter.view === 'range') {
-        const min = filter?.value?.[0] && ''
-        const max = filter?.value?.[1] && ''
-        result[`filters[${filter.id}][min]`] = min
-        result[`filters[${filter.id}][max]`] = max
+        const min = filter?.value?.[0] || filter?.values?.min || '0'
+        const max = filter?.value?.[1] || filter?.values?.max || ''
+        result[`filters[${filter.id}][min]`] = min.toString()
+        result[`filters[${filter.id}][max]`] = max.toString()
       }
 
       if (filter.view === 'date_range') {
-        const start = filter?.value?.start && ''
-        const end = filter?.value?.end && ''
+        const start = filter?.value?.start || ''
+        const end = filter?.value?.end || ''
         result[`filters[${filter.id}][min]`] = start
         result[`filters[${filter.id}][max]`] = end
       }
     })
-
     return result
   }
 }
 
 export const filterService = {
-  getFilters: async function (filtersFor) {
+  fetchFilters: async function (filtersFor) {
     const allowedFiltersFor = ['plots', 'buildings', 'transactions']
 
     if (!allowedFiltersFor.includes(filtersFor)) {
@@ -174,9 +175,15 @@ export const filterService = {
 
     try {
       const lang = document.querySelector('html').lang
-      const url = `/api/filters/${filtersFor}?lang=${lang}`
-      const resp = await axiosInstance.get(url)
-      const filters = new Filters(...resp.data.data)
+      const url = `/api/filters/${filtersFor}`
+      const resp = await axiosInstance.get(url, { params: { lang } })
+      const result = resp.data.data.map(item => {
+        return {
+          ...item,
+          title: `${item.title} ${item.id} ${item.view}`,
+        }
+      })
+      const filters = new Filters(...result)
       filters.setInitialValues()
 
       return filters
@@ -185,8 +192,12 @@ export const filterService = {
     }
   },
 
-  setFilters: async function (filtersFor, params, signal) {
+  fetchResults: async function (filtersFor, filters, signal) {
     try {
+      const params = filters.getValuesAsParams()
+
+      console.log(params)
+
       const url = `/api/map/${filtersFor}`
       const { data } = await axiosInstance.get(url, {
         params,
@@ -195,7 +206,6 @@ export const filterService = {
 
       return data
     } catch (error) {
-      console.log(error)
       return {
         error,
       }
