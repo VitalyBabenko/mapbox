@@ -13,6 +13,13 @@
     color: $grey-700;
   }
 
+  h2 + div button svg {
+    max-width: 21px;
+    max-height: 21px;
+    padding: 1px !important;
+    border-radius: 7px !important;
+  }
+
   a {
     display: flex;
     align-items: center;

@@ -19,6 +19,8 @@ const TypeaheadFilter = ({ filter, setSelected, value }) => {
         options={options}
         selected={value}
         maxResults={10}
+        allowNew
+        newSelectionPrefix=''
         className={style.typehead}
       />
     </>

@@ -10,12 +10,15 @@ import TagsModal from './TagsModal/TagsModal'
 import Toast from './Toast/Toast'
 import Tooltip from './Tooltip/Tooltip'
 import PoolsLayer from './PoolsLayer/PoolsLayer'
+import ResetViewButton from './ResetViewButton/ResetViewButton'
+import TransactionsSwitcher from './TransactionsSwitcher/TransactionsSwitcher'
 
 export {
   Checkbox,
   ColorPickerPopup,
   ErrorMessage,
   IconButton,
+  ResetViewButton,
   List,
   ListItem,
   Loader,
@@ -24,4 +27,5 @@ export {
   Toast,
   Tooltip,
   PoolsLayer,
+  TransactionsSwitcher,
 }

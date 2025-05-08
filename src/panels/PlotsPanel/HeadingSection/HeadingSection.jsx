@@ -7,11 +7,13 @@ import { BiFileBlank as FileIcon } from 'react-icons/bi'
 import { useQuery } from '../../../hooks/useQuery'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import {
-  BiStar as StarIcon,
-  BiSolidStar as SolidStarIcon,
   BiBell as BellIcon,
   BiSolidBell as SolidBellIcon,
 } from 'react-icons/bi'
+import {
+  FaRegBookmark as BookmarkIcon,
+  FaBookmark as SolidBookmarkIcon,
+} from 'react-icons/fa6'
 import { plotService } from '../../../service/plotService'
 import { useBookmarksStore, useTagsStore, useToastStore } from '../../../store'
 import { PiTagBold as TagIcon } from 'react-icons/pi'
@@ -129,7 +131,7 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
       {isAddedToBookmarks ? (
         <Tooltip text='Remove plot from bookmarks alerts' bottom='-40px'>
           <IconButton disabled={loadingBookmark}>
-            <SolidStarIcon
+            <SolidBookmarkIcon
               className={`${style.star}`}
               onClick={removeFromBookmarks}
             />
@@ -138,7 +140,7 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
       ) : (
         <Tooltip text='Add plot to bookmarks alerts' bottom='-40px'>
           <IconButton disabled={loadingBookmark}>
-            <StarIcon
+            <BookmarkIcon
               className={`${style.star}`}
               onClick={addToBookmarkAlerts}
             />

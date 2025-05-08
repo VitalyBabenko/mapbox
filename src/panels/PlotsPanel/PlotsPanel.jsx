@@ -14,6 +14,7 @@ import { plotService } from '../../service/plotService'
 import { useEventStore, useModeStore } from '../../store'
 import HeadingSection from './HeadingSection/HeadingSection'
 import useDraggable from '../../hooks/useDraggable'
+import DDPSection from './DDPSection/DDPSection'
 
 const PlotsPanel = ({ activePlotId }) => {
   const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
@@ -82,6 +83,8 @@ const PlotsPanel = ({ activePlotId }) => {
       <SpecsSection plotInfo={plotInfo} locale={locale} />
 
       <NotesSection plotInfo={plotInfo} />
+
+      <DDPSection info={plotInfo?.ddp} />
 
       {Array.isArray(plotInfo?.zone) && (
         <List title='Zone:' className={style.zone}>

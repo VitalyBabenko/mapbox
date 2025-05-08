@@ -1,12 +1,14 @@
-import axios from 'axios'
 import axiosInstance from './axiosInstance'
-
-const url = 'https://panel.lamap.ch'
+import { MockData } from './mock'
 
 export const plotService = {
   getPlotByEgrId: async ergid => {
+    if (window.location.hostname === 'localhost') {
+      return MockData.getPlot()
+    }
+
     try {
-      const resp = await axios.get(`${url}/api/map/plots/${ergid}`)
+      const resp = await axiosInstance.get(`/api/map/plots/${ergid}`)
 
       const plot = resp?.data?.data
 
@@ -45,6 +47,22 @@ export const plotService = {
     return resp.data
   },
 
+  getAllPlotsFeaturesWithAlerts: async () => {
+    if (window.location.hostname === 'localhost') {
+      return MockData.getAlertedPlots()
+    }
+
+    try {
+      const resp = await axiosInstance.get(`/user/alerts/geo-json`)
+      return resp?.data
+    } catch (error) {
+      return {
+        type: 'FeatureCollection',
+        features: [],
+      }
+    }
+  },
+
   // bookmarks
   getBookmarksAlerts: async plotId => {
     const resp = await axiosInstance.get(`/user/bookmarks/all/${plotId}`)
@@ -71,6 +89,10 @@ export const plotService = {
   },
 
   getAllPlotsFeaturesWithBookmarks: async () => {
+    if (window.location.hostname === 'localhost') {
+      return MockData.getBookmarkedPlots()
+    }
+
     try {
       const resp = await axiosInstance.get(`/user/bookmarks/geo-json`)
 
@@ -113,6 +135,10 @@ export const plotService = {
   },
 
   getAllPlotsFeaturesWithTags: async () => {
+    if (window.location.hostname === 'localhost') {
+      return MockData.getTaggedPlots()
+    }
+
     try {
       const resp = await axiosInstance.get(`/user/tags/geo-json`)
       return resp?.data
@@ -152,20 +178,36 @@ export const plotService = {
     return resp.data
   },
 
-  removeNote: async (plotId, noteId) => {
-    const resp = await axiosInstance.delete(
-      `/user/plot/${plotId}/note/${noteId}`,
-    )
+  removeNote: async noteId => {
+    const resp = await axiosInstance.delete(`/user/notes/${noteId}`)
     if (!resp?.data?.result) {
       throw new Error()
     }
     return resp.data
   },
 
+  getAllPlotsFeaturesWithNotes: async () => {
+    if (window.location.hostname === 'localhost') {
+      return MockData.getNotedPlots()
+    }
+
+    try {
+      const resp = await axiosInstance.get(`/user/notes/geo-json`)
+      return resp?.data
+    } catch (error) {
+      return {
+        type: 'FeatureCollection',
+        features: [],
+      }
+    }
+  },
+
   getFilters: async () => {
     try {
       const lang = document.querySelector('html').lang
-      const { data } = await axios.get(`${url}/api/filters/plots?lang=${lang}`)
+      const { data } = await axiosInstance.get(
+        `/api/filters/plots?lang=${lang}`,
+      )
 
       const filtersByCategory = Object.entries(
         data.data.reduce((acc, item) => {
@@ -195,7 +237,7 @@ export const plotService = {
 
   setFilters: async (filters, controller) => {
     try {
-      const { data } = await axios.get(`${url}/api/map/plots`, {
+      const { data } = await axiosInstance.get(`/api/map/plots`, {
         params: filters,
         signal: controller.signal,
       })

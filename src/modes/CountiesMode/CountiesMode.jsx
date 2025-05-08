@@ -9,7 +9,7 @@ import {
 } from '../../store'
 import { COUNTIES_SOURCE } from '../../constants'
 
-const CountiesMode = ({ isActive }) => {
+const CountiesMode = ({ isActive, modeOnCountyClick }) => {
   const { current: map } = useMap()
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
   const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
@@ -43,9 +43,15 @@ const CountiesMode = ({ isActive }) => {
       { padding: 0, duration: 1500, zoom: 13 },
     )
 
-    switcher === 'plots'
-      ? switchToPlotsMode(clickedFeature)
-      : switchToBuildingsMode(clickedFeature)
+    if (modeOnCountyClick === 'plots') {
+      switchToPlotsMode(clickedFeature)
+    } else if (modeOnCountyClick === 'buildings') {
+      switchToBuildingsMode(clickedFeature)
+    } else {
+      switcher === 'plots'
+        ? switchToPlotsMode(clickedFeature)
+        : switchToBuildingsMode(clickedFeature)
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickedFeature])

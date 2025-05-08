@@ -1,5 +1,5 @@
 import style from './BuildingsPanel.module.scss'
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Loader from '../../components/Loader/Loader'
 import { buildingService } from '../../service/buildingService'
@@ -15,6 +15,7 @@ import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import { useEventStore, useModeStore } from '../../store'
 import useDraggable from '../../hooks/useDraggable'
+import EnergySection from './EnergySection/EnergySection'
 
 const BuildingsPanel = ({ activeBuildingId }) => {
   const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
@@ -78,10 +79,6 @@ const BuildingsPanel = ({ activeBuildingId }) => {
     )
   }
 
-  if (!activeBuildingId) {
-    return null
-  }
-
   return (
     <div
       className={style.panel}
@@ -141,6 +138,11 @@ const BuildingsPanel = ({ activeBuildingId }) => {
         buildingInfo={buildingInfo}
       />
 
+      <EnergySection
+        heating={buildingInfo?.chauffage}
+        hot={buildingInfo?.chaude}
+      />
+
       <DetailsSection
         buildingArea={buildingInfo?.plot?.surface_immeuble_sum}
         plotArea={buildingInfo?.plot?.surface_parcelle_m2}
@@ -184,4 +186,4 @@ const BuildingsPanel = ({ activeBuildingId }) => {
   )
 }
 
-export default memo(BuildingsPanel)
+export default BuildingsPanel

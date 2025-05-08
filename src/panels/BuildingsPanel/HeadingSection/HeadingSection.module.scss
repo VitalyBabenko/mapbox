@@ -45,11 +45,11 @@
     }
   }
 
-  .draggableIcon {
+  div:has(.draggableIcon) {
     display: block;
-    margin: auto;
-    margin-right: 0;
+    margin-left: auto;
     cursor: grab;
+    max-height: 24px;
 
     &:active {
       cursor: grabbing;

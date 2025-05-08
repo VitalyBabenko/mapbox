@@ -1,0 +1,134 @@
+@import '../../../styles/variables';
+
+.featureItem {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  background: white;
+  box-shadow: 4px 8px 20px 0px rgba(31, 25, 46, 0.0509803922);
+  border-radius: 5px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease-in;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $grey-300;
+  }
+
+  &.active {
+    border-color: $blue-600;
+  }
+
+  .itemTitle {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #344054;
+  }
+
+  .county {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 19.5px;
+    color: #475467;
+    margin-bottom: 5px;
+  }
+
+  .fields {
+    padding-left: 7px;
+    border-left: 2px solid $blue-600;
+
+    .field {
+      display: flex;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 19.5px;
+      color: #475467;
+
+      span {
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 19.5px;
+        color: #344054;
+      }
+    }
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    gap: 5px;
+
+    .tag {
+      overflow: hidden;
+      position: relative;
+      padding: 1px 10px 1px 22px;
+      border-radius: 5px;
+      border: 1px solid #344054;
+
+      .color {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 16px;
+        height: 100%;
+        opacity: 0.6;
+      }
+
+      .title {
+        position: relative;
+        z-index: 2;
+        font-size: 14.5px;
+        font-weight: 500;
+        color: #344054;
+      }
+    }
+  }
+
+  .notes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+
+    .notesTitle {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 20px;
+      color: #344054;
+    }
+
+    .note {
+      position: relative;
+      padding: 6px 27px 6px 12px;
+      border-radius: 5px;
+      border-left: 2px solid $blue-600;
+      font-size: 16px;
+      font-weight: 500;
+      color: #344054;
+      cursor: auto;
+
+      .deleteIcon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 10px;
+        cursor: pointer;
+
+        path {
+          fill: #344054;
+          transition: fill ease 0.4s;
+        }
+
+        &:hover {
+          path {
+            fill: $red;
+          }
+        }
+      }
+    }
+  }
+}
