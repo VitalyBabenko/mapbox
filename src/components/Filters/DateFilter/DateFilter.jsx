@@ -14,7 +14,7 @@ const DateFilter = props => {
         <DatePicker
           selectsStart
           selected={startValue}
-          onChange={date => setStartValue({ start: date, end: endValue })}
+          onChange={date => setStartValue({ min: date, max: endValue })}
           wrapperClassName={style.inputWrapper}
           calendarClassName={style.calendarStart}
           placeholderText='From'
@@ -29,7 +29,7 @@ const DateFilter = props => {
         <DatePicker
           selectsEnd
           selected={endValue}
-          onChange={date => setEndValue({ start: startValue, end: date })}
+          onChange={date => setEndValue({ min: startValue, max: date })}
           wrapperClassName={style.inputWrapper}
           calendarClassName={style.calendarEnd}
           placeholderText='To'

@@ -75,10 +75,20 @@ const FilterByView = ({ filter }) => {
         <DateFilter
           key={filter.attribute}
           label={filter.title}
-          startValue={filter.values.min}
-          setStartValue={v => setFilterValue(filter.id, v)}
-          endValue={filter.values.max}
-          setEndValue={v => setFilterValue(filter.id, v)}
+          startValue={filter.value.min}
+          setStartValue={v => {
+            const min = new Date(v.min).toISOString().split('T')[0]
+            const max = new Date(v.max).toISOString().split('T')[0]
+            const result = { min, max }
+            setFilterValue(filter.id, result)
+          }}
+          endValue={filter.value.max}
+          setEndValue={v => {
+            const min = new Date(v.min).toISOString().split('T')[0]
+            const max = new Date(v.max).toISOString().split('T')[0]
+            const result = { min, max }
+            setFilterValue(filter.id, result)
+          }}
         />
       )
     default:

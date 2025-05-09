@@ -16,8 +16,13 @@ const FilterAccordionValues = ({ filters }) => {
 
       case 'range':
         return !(
-          filter.values.min === filter.value[0] ||
-          filter.values.max === filter.value[1]
+          filter.values.min?.toString() === filter.value[0]?.toString() &&
+          filter.values.max?.toString() === filter.value[1]?.toString()
+        )
+      case 'date_range':
+        return !(
+          filter.values.min === filter.value.min &&
+          filter.values.max === filter.value.max
         )
       default:
         return false
@@ -33,7 +38,11 @@ const FilterAccordionValues = ({ filters }) => {
       case 'typeahead_input':
         return filter.value[0].label
       case 'range':
-        return filter.value.join(' - ')
+        return filter.value
+          .map(val => val?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '))
+          .join(' - ')
+      case 'date_range':
+        return `${filter.value.min} - ${filter.value.max}`
       default:
         return null
     }

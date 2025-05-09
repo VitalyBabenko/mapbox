@@ -1,5 +1,6 @@
 import axiosInstance from './axiosInstance'
 
+const removeCommas = val => val?.toString()?.replace(/,/g, '')
 class Filters extends Array {
   constructor(...args) {
     super(...args)
@@ -51,11 +52,19 @@ class Filters extends Array {
             break
 
           case 'range':
-            filter.value = [filter.values.min, filter.values.max]
+            filter.value = [
+              removeCommas(filter.values.min),
+              removeCommas(filter.values.max),
+            ]
+
+            filter.values = {
+              min: removeCommas(filter?.values?.min || 0).toString(),
+              max: removeCommas(filter?.values?.max || 0).toString(),
+            }
             break
 
           case 'date_range':
-            filter.value = { start: filter.values.min, end: filter.values.max }
+            filter.value = filter.values
             break
 
           case 'checkbox':
@@ -96,18 +105,31 @@ class Filters extends Array {
 
         if (filter.view === 'range') {
           filter.value = [
-            paramsObj[`filters[${filter.id}][min]`] || filter?.values?.min || 0,
-            paramsObj[`filters[${filter.id}][max]`] || filter?.values?.max || 0,
+            removeCommas(
+              paramsObj[`filters[${filter.id}][min]`] ||
+                filter?.values?.min ||
+                0,
+            ),
+            removeCommas(
+              paramsObj[`filters[${filter.id}][max]`] ||
+                filter?.values?.max ||
+                0,
+            ),
           ]
+
+          filter.values = {
+            min: removeCommas(filter?.values?.min || 0).toString(),
+            max: removeCommas(filter?.values?.max || 0).toString(),
+          }
         }
 
         if (filter.view === 'date_range') {
           filter.value = {
-            start:
+            min:
               paramsObj[`filters[${filter.id}][min]`] ||
               filter?.values?.min ||
               0,
-            end:
+            max:
               paramsObj[`filters[${filter.id}][max]`] ||
               filter?.values?.max ||
               0,
@@ -149,7 +171,7 @@ class Filters extends Array {
 
       if (filter.view === 'range') {
         const min = filter?.value?.[0] || filter?.values?.min || '0'
-        const max = filter?.value?.[1] || filter?.values?.max || ''
+        const max = filter?.value?.[1] || filter?.values?.max || '0'
         result[`filters[${filter.id}][min]`] = min.toString()
         result[`filters[${filter.id}][max]`] = max.toString()
       }
@@ -167,7 +189,12 @@ class Filters extends Array {
 
 export const filterService = {
   fetchFilters: async function (filtersFor) {
-    const allowedFiltersFor = ['plots', 'buildings', 'transactions']
+    const allowedFiltersFor = [
+      'plots',
+      'buildings',
+      'transactions',
+      'construction-certs',
+    ]
 
     if (!allowedFiltersFor.includes(filtersFor)) {
       return { error: 'Invalid filtersFor argument' }

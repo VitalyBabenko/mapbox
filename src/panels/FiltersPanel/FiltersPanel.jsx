@@ -30,26 +30,34 @@ const FiltersPanel = ({
   } = useFilterStore()
 
   const handleSubmit = async e => {
-    setLoading(true)
-    setMapLoading(true)
-    const newController = new AbortController()
-    const signal = newController.signal
-    setController(newController)
-    const resp = await filterService.fetchResults(filtersFor, filters, signal)
+    try {
+      setLoading(true)
+      setMapLoading(true)
+      const newController = new AbortController()
+      setController(newController)
+      const signal = newController.signal
 
-    if (resp?.error) {
-      toast.error("Une erreur s'est produite, réessayez plus tard")
-      setError(resp.error)
+      const resp = await filterService.fetchResults(filtersFor, filters, signal)
+
+      if (resp?.error) {
+        if (resp?.error?.message === 'canceled') {
+          setError('')
+          toast.text('Requête annulée')
+        } else {
+          setError(resp?.error?.message)
+          toast.error("Une erreur s'est produite, réessayez plus tard")
+        }
+      } else {
+        setFiltersResult(resp?.features)
+        toast.success(`${resp?.features?.length} parcelles trouvées`)
+      }
+    } catch (err) {
+      toast.error('Erreur réseau ou requête annulée')
+      setError(err)
+    } finally {
       setLoading(false)
       setMapLoading(false)
-      return
     }
-
-    setFiltersResult(resp?.features)
-    toast.success(`${resp?.features?.length} parcelles trouvées`)
-    setFilters(resp)
-    setLoading(false)
-    setMapLoading(false)
   }
 
   const cancelSearch = () => {
@@ -61,6 +69,7 @@ const FiltersPanel = ({
 
   useEffect(() => {
     const fetchFilters = async () => {
+      setError('')
       setLoading(true)
       const resp = await filterService.fetchFilters(filtersFor)
       resp?.error ? setError(resp.error) : setFilters(resp)

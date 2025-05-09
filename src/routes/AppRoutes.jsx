@@ -24,6 +24,7 @@ const AppRoutes = ({ isMapLoading }) => {
       <Route path={getPath('energies')} element={<EnergyPage />} />
       <Route path={getPath('construction-certs')} element={<CertsPage />} />
       <Route path={getPath('transactions')} element={<TransactionsPage />} />
+      <Route path='*' element={<MainPage />} />
     </Routes>
   )
 }
