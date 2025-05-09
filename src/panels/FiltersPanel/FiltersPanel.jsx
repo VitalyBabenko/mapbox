@@ -1,116 +1,135 @@
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { IoFilter as FilterIcon } from 'react-icons/io5'
-import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
-import style from './FiltersPanel.module.scss'
-import { useFilterStore, useModeStore } from '../../store'
-import PlotsFilters from './PlotsFilters/PlotsFilters'
-import BuildingsFilters from './BuildingsFilters/BuildingsFilters'
-import Loader from '../../components/Loader/Loader'
-import useDraggable from '../../hooks/useDraggable'
-import { RiDraggable as DraggableIcon } from 'react-icons/ri'
-import Tooltip from '../../components/Tooltip/Tooltip'
+import { useFilterStore, useToastStore } from '../../store'
 import FiltersResult from './FiltersResult/FiltersResult'
 import { TbZoomCancel as StopIcon } from 'react-icons/tb'
+import { Checkbox, Panel } from '../../components'
+import style from './FiltersPanel.module.scss'
+import { filterService } from '../../service/filtersService'
+import FilterAccordion from '../../components/Filters/FilterAccordion/FilterAccordion'
 
-const FiltersPanel = () => {
-  const { position, handleMouseDown } = useDraggable({ x: 10, y: 50 })
-  const { filteredPlotsFeatures, filteredBuildingsFeatures } = useFilterStore()
+const FiltersPanel = ({
+  filtersFor = 'plots',
+  panelPosition = { x: 10, y: 50 },
+  panelSide = 'left',
+  buttonPosition = { top: 49, left: 10 },
+}) => {
   const [open, setOpen] = useState(false)
-  const toggleOpen = () => setOpen(!open)
-  const { switcher } = useModeStore()
-  const [mapLoader, setMapLoader] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [mapLoading, setMapLoading] = useState(false)
+  const [error, setError] = useState('')
   const [controller, setController] = useState(null)
+  const submitBtnRef = useRef(null)
+  const toast = useToastStore()
+  const {
+    filters,
+    setFilters,
+    filtersResult,
+    setFiltersResult,
+    setFilterValue,
+  } = useFilterStore()
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (params.size) {
-      setOpen(true)
-    }
-  }, [])
-
-  if (!open) {
-    return (
-      <button className={style.filtersButton} onClick={toggleOpen}>
-        <FilterIcon size={19} />
-        Filters
-      </button>
-    )
-  }
-
-  const startRequest = () => {
+  const handleSubmit = async e => {
+    setLoading(true)
+    setMapLoading(true)
     const newController = new AbortController()
+    const signal = newController.signal
     setController(newController)
-    return newController
+    const resp = await filterService.fetchResults(filtersFor, filters, signal)
+
+    if (resp?.error) {
+      toast.error("Une erreur s'est produite, réessayez plus tard")
+      setError(resp.error)
+      setLoading(false)
+      setMapLoading(false)
+      return
+    }
+
+    setFiltersResult(resp?.features)
+    toast.success(`${resp?.features?.length} parcelles trouvées`)
+    setFilters(resp)
+    setLoading(false)
+    setMapLoading(false)
   }
 
   const cancelSearch = () => {
     if (controller) {
       controller.abort()
-      setMapLoader(false)
+      setLoading(false)
     }
   }
 
-  const getFilterPanelContent = () => {
-    if (filteredPlotsFeatures.length && switcher === 'plots') {
-      return <FiltersResult switcher={switcher} />
+  useEffect(() => {
+    const fetchFilters = async () => {
+      setLoading(true)
+      const resp = await filterService.fetchFilters(filtersFor)
+      resp?.error ? setError(resp.error) : setFilters(resp)
+      setLoading(false)
     }
 
-    if (filteredBuildingsFeatures.length && switcher === 'buildings') {
-      return <FiltersResult switcher={switcher} />
-    }
-
-    return switcher === 'plots' ? (
-      <PlotsFilters setMapLoader={setMapLoader} startRequest={startRequest} />
-    ) : (
-      <BuildingsFilters
-        setMapLoader={setMapLoader}
-        startRequest={startRequest}
-      />
-    )
-  }
+    fetchFilters()
+  }, [filtersFor, open, filtersResult])
 
   return (
     <>
-      {mapLoader && (
-        <>
-          <Loader withBackground />
-
-          <button onClick={cancelSearch} className={style.stopQuery}>
-            <StopIcon />
-            Cancel search
-          </button>
-        </>
-      )}
-
-      <div
-        style={{ top: position.y, left: position.x }}
-        className={style.filtersWrapper}
+      <Panel
+        open={open}
+        setOpen={setOpen}
+        loading={loading}
+        error={error}
+        className={style.filterPanel}
+        panelPosition={panelPosition}
+        panelSide={panelSide}
+        buttonText='Filters'
+        buttonIcon={<FilterIcon size={19} />}
+        buttonPosition={buttonPosition}
+        heading={
+          <>
+            <FilterIcon size={20} />
+            <h2>Filters</h2>
+          </>
+        }
       >
-        <div className={style.filtersPopup}>
-          <div className={style.top}>
-            <FilterIcon className={style.filterIcon} />
-            <h2>{switcher === 'plots' ? 'Plots' : 'Buildings'} Filters</h2>
+        {filtersResult.length ? (
+          <FiltersResult filtersFor={filtersFor} />
+        ) : (
+          filters.length && (
+            <form onSubmit={handleSubmit}>
+              {filters?.getCheckboxes().map(filter => (
+                <Checkbox
+                  key={filter.id}
+                  label={filter.title}
+                  checked={filter.value}
+                  onChange={e => setFilterValue(filter.id, e.target.checked)}
+                />
+              ))}
 
-            <Tooltip text='Move the panel' bottom='-40px'>
-              <DraggableIcon
-                size={24}
-                className={style.draggableIcon}
-                onMouseDown={handleMouseDown}
-              />
-            </Tooltip>
+              {filters?.getAccordions().map(accordion => (
+                <FilterAccordion
+                  key={accordion.title}
+                  title={accordion.title}
+                  filters={accordion.filters}
+                />
+              ))}
 
-            <CrossIcon
-              size={24}
-              className={style.closeBtn}
-              onClick={toggleOpen}
-            />
-          </div>
+              <div>
+                <button ref={submitBtnRef} type='submit'>
+                  Apply
+                </button>
+              </div>
+            </form>
+          )
+        )}
+      </Panel>
 
-          {getFilterPanelContent()}
-        </div>
-      </div>
+      {mapLoading && (
+        <button onClick={cancelSearch} className={style.stopQuery}>
+          <StopIcon />
+          Cancel search
+        </button>
+      )}
     </>
   )
 }
 
-export default FiltersPanel
+export default memo(FiltersPanel)

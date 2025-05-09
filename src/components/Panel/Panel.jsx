@@ -1,45 +1,52 @@
-import { useState } from 'react'
 import useDraggable from '../../hooks/useDraggable'
 import style from './Panel.module.scss'
 import Tooltip from '../Tooltip/Tooltip'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
+import { memo } from 'react'
+import ErrorMessage from '../ErrorMessage/ErrorMessage'
+import Loader from '../Loader/Loader'
 
 const Panel = props => {
   const {
-    initialPosition = { x: 10, y: 50 },
+    open,
+    setOpen,
+    className,
+    error,
+    loading,
+    panelPosition = { x: 10, y: 50 },
+    panelSide = 'left',
     children,
     heading,
     buttonIcon,
     buttonText,
-    buttonPosition = { top: 0, left: 0 },
+    buttonPosition = { top: 0, left: 0, right: 0, bottom: 0 },
   } = props
+  const { position, handleMouseDown } = useDraggable(panelPosition)
 
-  const [open, setOpen] = useState(false)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const { position, handleMouseDown } = useDraggable(initialPosition)
-
-  const openPanel = () => setOpen(true)
-  const closePanel = () => setOpen(false)
-  const togglePanel = () => setOpen(prev => !prev)
-
-  const panelPosition = {
+  const panelInlineStyle = {
     top: position.y,
-    left: position.x,
+    left: panelSide === 'left' ? position.x : 'unset',
+    right: panelSide === 'right' ? -position.x : 'unset',
   }
 
-  const buttonPositionStyle = {
+  const buttonInlineStyle = {
     top: buttonPosition.top,
     left: buttonPosition.left,
+    right: buttonPosition.right,
+    bottom: buttonPosition.bottom,
   }
 
   if (!open) {
+    if (!buttonIcon || !buttonText) {
+      return null
+    }
+
     return (
       <button
         className={style.button}
-        style={buttonPositionStyle}
-        onClick={openPanel}
+        style={buttonInlineStyle}
+        onClick={() => setOpen(true)}
       >
         {buttonIcon}
         {buttonText}
@@ -47,35 +54,37 @@ const Panel = props => {
     )
   }
 
+  const getContent = () => {
+    if (error) return <ErrorMessage message={error} />
+    if (loading) return <Loader />
+    return children
+  }
+
   return (
-    <div className={style.panel} style={panelPosition}>
+    <div className={`${style.panel} ${className}`} style={panelInlineStyle}>
       <div className={style.heading}>
-        <div className={style.title}>{heading}</div>
+        {error ? <h2>Error</h2> : heading}
 
-        <Tooltip text='Move the panel' bottom='-40px'>
-          <DraggableIcon
+        <div className={style.controls}>
+          <Tooltip text='Move the panel' bottom='-40px'>
+            <DraggableIcon
+              size={24}
+              className={style.draggableIcon}
+              onMouseDown={handleMouseDown}
+            />
+          </Tooltip>
+
+          <CrossIcon
             size={24}
-            className={style.draggableIcon}
-            onMouseDown={handleMouseDown}
+            className={style.crossIcon}
+            onClick={() => setOpen(false)}
           />
-        </Tooltip>
-
-        <CrossIcon size={24} className={style.closeBtn} onClick={closePanel} />
+        </div>
       </div>
 
-      {typeof children === 'function'
-        ? children({
-            openPanel,
-            closePanel,
-            togglePanel,
-            error,
-            setError,
-            loading,
-            setLoading,
-          })
-        : children}
+      {getContent()}
     </div>
   )
 }
 
-export default Panel
+export default memo(Panel)

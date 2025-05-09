@@ -13,6 +13,9 @@ export const useFilterStore = create(set => ({
     }))
   },
 
+  filtersResult: [],
+  setFiltersResult: filtersResult => set({ filtersResult }),
+
   // ----------------------
 
   allFilters: [],

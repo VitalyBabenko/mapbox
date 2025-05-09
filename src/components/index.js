@@ -12,6 +12,7 @@ import Tooltip from './Tooltip/Tooltip'
 import PoolsLayer from './PoolsLayer/PoolsLayer'
 import ResetViewButton from './ResetViewButton/ResetViewButton'
 import TransactionsSwitcher from './TransactionsSwitcher/TransactionsSwitcher'
+import Panel from './Panel/Panel'
 
 export {
   Checkbox,
@@ -23,6 +24,7 @@ export {
   ListItem,
   Loader,
   ModeSwitcher,
+  Panel,
   TagsModal,
   Toast,
   Tooltip,

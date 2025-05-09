@@ -1,4 +1,5 @@
 @import '../../styles/mixins';
+@import '../../styles/variables';
 
 .button {
   @include button-mapbox;
@@ -13,4 +14,74 @@
 }
 
 .panel {
+  position: absolute;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  background: $white;
+  overflow: auto;
+  @include custom-scrollbar;
+
+  .heading {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 16px;
+    color: #344054;
+
+    h2 {
+      font-size: 18px;
+      font-weight: 500;
+      cursor: default;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-left: auto;
+
+      .draggableIcon,
+      .crossIcon {
+        min-width: 24px;
+        height: 24px;
+        padding: 1px;
+        border-radius: 2px;
+        cursor: pointer;
+
+        path {
+          fill: $grey-600;
+        }
+
+        &:hover {
+          background: #f2f2f2;
+        }
+      }
+
+      .draggableIcon {
+        margin-left: auto;
+        cursor: grab;
+        user-select: none;
+
+        &:active {
+          cursor: grabbing;
+        }
+      }
+
+      .crossIcon {
+        width: 20px;
+        border-radius: 2px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #f2f2f2;
+        }
+      }
+    }
+  }
+
+  .loaderWithButton {
+    margin-bottom: 16px;
+  }
 }

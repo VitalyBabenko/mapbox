@@ -2,6 +2,8 @@
   display: flex;
 
   .inputWrapper {
+    position: relative;
+
     &:hover {
       .inputIcon {
         path {

@@ -2,8 +2,6 @@ import { convertTimeFormat } from '../../../utils/convertTimeFormat'
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
 
-// pourmille_ppe in Chemin de la vendée 24
-
 const TransactionsSection = ({ plotInfo }) => {
   const transactions = plotInfo?.ownership_info
     ?.map(info => info?.last_transaction)

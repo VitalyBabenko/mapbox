@@ -1,13 +1,13 @@
 @import '../../../styles/variables';
 
+h3.title {
+  margin-bottom: 12px !important;
+}
+
 .list {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 16px;
-
-  .title {
-    margin-bottom: 12px;
-  }
 
   &:last-child {
     margin-bottom: 0;

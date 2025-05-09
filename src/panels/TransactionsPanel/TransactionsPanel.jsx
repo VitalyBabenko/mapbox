@@ -1,89 +1,71 @@
 import { useEffect, useState } from 'react'
-import useDraggable from '../../hooks/useDraggable'
 import style from './TransactionsPanel.module.scss'
 import { useEventStore, useModeStore } from '../../store'
 import { buildingService } from '../../service/buildingService'
-import Loader from '../../components/Loader/Loader'
-import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import HeadingSection from '../BuildingsPanel/HeadingSection/HeadingSection'
 import SpecsSection from '../BuildingsPanel/SpecsSection/SpecsSection'
-import { List } from '../../components'
+import { List, Panel } from '../../components'
 import TransactionsSection from '../BuildingsPanel/TransactionsSection/TransactionsSection'
 import OwnersSection from '../BuildingsPanel/OwnersSection/OwnersSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
+import { plotService } from '../../service/plotService'
+import { LuFileSearch as DocumentMissingIcon } from 'react-icons/lu'
 
-const TransactionsPanel = ({ activeBuildingId }) => {
-  const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
+const TransactionsPanel = () => {
   const [buildingInfo, setBuildingInfo] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const { locale } = useModeStore()
-  const { setClickedFeature } = useEventStore()
-  const closeBuildingPanel = () => setClickedFeature(null)
+  const { setClickedFeature, clickedFeature } = useEventStore()
+  const activeBuildingId = clickedFeature?.properties?.EGID
+
+  const open = !!activeBuildingId
+  const closePanel = () => setClickedFeature(null)
 
   useEffect(() => {
     const getData = async () => {
-      setIsLoading(true)
+      setLoading(true)
       setError('')
-
       const info = await buildingService.getByEgId(activeBuildingId)
+      const transactions = await plotService.getTransactions(info?.ergid)
 
-      if (info?.error?.message?.length) {
+      if (info?.error || transactions?.error) {
         setError('Building information is unavailable. Please try again later.')
-        setIsLoading(false)
+        setLoading(false)
         return
       }
-
+      info.transactions = transactions || []
       setBuildingInfo(info)
-      setIsLoading(false)
+      setLoading(false)
     }
 
-    if (activeBuildingId) getData()
-  }, [activeBuildingId])
+    if (clickedFeature) getData()
+  }, [clickedFeature])
 
-  if (!activeBuildingId) return null
-  if (isLoading) {
-    return (
-      <div
-        className={style.panelLoading}
-        style={{ top: position.y, right: -position.x }}
-      >
-        <Loader />
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div
-        className={style.panel}
-        style={{ top: position.y, right: -position.x }}
-      >
-        <ErrorMessage message={error} onClose={closeBuildingPanel} />
-      </div>
-    )
-  }
+  if (!buildingInfo) return null
 
   return (
-    <div
-      className={style.panel}
-      style={{ top: position.y, right: -position.x }}
+    <Panel
+      open={open}
+      setOpen={closePanel}
+      error={error}
+      loading={loading}
+      className={style.transactionsPanel}
+      panelPosition={{ x: -50, y: 50 }}
+      panelSide='right'
+      heading={
+        <HeadingSection
+          plotId={buildingInfo?.plot?.no_commune_no_parcelle || null}
+          buildingId={buildingInfo?.no_batiment || null}
+          rdppf={buildingInfo?.plot?.extrait_rdppf_pdf || null}
+        />
+      }
     >
-      <HeadingSection
-        plotId={buildingInfo?.plot?.no_commune_no_parcelle || null}
-        buildingId={buildingInfo.no_batiment}
-        egid={buildingInfo.egid}
-        rdppf={buildingInfo?.plot?.extrait_rdppf_pdf}
-        closeBuildingPanel={closeBuildingPanel}
-        handleMouseDown={handleMouseDown}
-      />
-
       {buildingInfo?.egid && (
         <p className={style.commune}>
           EGID: <span>{buildingInfo.egid}</span>
         </p>
       )}
-
       <SpecsSection
         locale={locale}
         constructionYear={buildingInfo.annee_de_construction_du_batiment}
@@ -95,7 +77,6 @@ const TransactionsPanel = ({ activeBuildingId }) => {
           buildingInfo.nombre_total_de_pieces_des_logements_du_batiment
         }
       />
-
       {Array.isArray(buildingInfo?.plot?.zone) && (
         <List title='Zone:' className={style.zone}>
           {buildingInfo.plot?.zone?.map(item => (
@@ -106,9 +87,16 @@ const TransactionsPanel = ({ activeBuildingId }) => {
         </List>
       )}
 
-      <TransactionsSection
-        transactions={buildingInfo?.plot?.transactions_list}
-      />
+      {buildingInfo?.transactions?.length ? (
+        <TransactionsSection transactions={buildingInfo?.transactions} />
+      ) : (
+        <section className={style.noTransactions}>
+          <h3>Transactions:</h3>
+
+          <DocumentMissingIcon size={24} />
+          <p>Aucune transaction trouvée</p>
+        </section>
+      )}
 
       <OwnersSection owners={buildingInfo?.getOwners()} />
 
@@ -118,7 +106,7 @@ const TransactionsPanel = ({ activeBuildingId }) => {
           <b>{convertTimeFormat(buildingInfo?.plot?.derniere_modification)}</b>
         </p>
       )}
-    </div>
+    </Panel>
   )
 }
 

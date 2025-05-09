@@ -177,27 +177,24 @@ export const filterService = {
       const lang = document.querySelector('html').lang
       const url = `/api/filters/${filtersFor}`
       const resp = await axiosInstance.get(url, { params: { lang } })
-      const result = resp.data.data.map(item => {
-        return {
-          ...item,
-          title: `${item.title} ${item.id} ${item.view}`,
-        }
-      })
-      const filters = new Filters(...result)
+      const filters = new Filters(...resp.data.data)
       filters.setInitialValues()
 
       return filters
     } catch (err) {
-      return { error: 'Error fetching filters', info: err }
+      return { error: 'Filter service unavailable, try again later' }
     }
   },
 
   fetchResults: async function (filtersFor, filters, signal) {
     try {
+      const acceptedFiltersFor = ['plots', 'buildings']
+
+      if (!acceptedFiltersFor.includes(filtersFor)) {
+        filtersFor = 'plots'
+      }
+
       const params = filters.getValuesAsParams()
-
-      console.log(params)
-
       const url = `/api/map/${filtersFor}`
       const { data } = await axiosInstance.get(url, {
         params,

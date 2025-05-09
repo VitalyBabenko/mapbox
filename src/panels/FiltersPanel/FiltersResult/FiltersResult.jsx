@@ -6,15 +6,10 @@ import bbox from '@turf/bbox'
 import PlotItem from './PlotItem/PlotItem'
 import BuildingItem from './BuildingItem/BuildingItem'
 
-const FiltersResult = ({ switcher }) => {
+const FiltersResult = ({ filtersFor }) => {
   const { current: map } = useMap()
+  const { filtersResult, setFiltersResult } = useFilterStore()
   const { switchToCountiesMode } = useModeStore()
-  const {
-    filteredPlotsFeatures,
-    setFilteredPlotsFeatures,
-    filteredBuildingsFeatures,
-    setFilteredBuildingsFeatures,
-  } = useFilterStore()
   const { clickedFeature, setClickedFeature } = useEventStore()
 
   const handleItemClick = feature => {
@@ -30,9 +25,8 @@ const FiltersResult = ({ switcher }) => {
   }
 
   const handleReset = () => {
-    setFilteredPlotsFeatures([])
-    setFilteredBuildingsFeatures([])
     setClickedFeature(null)
+    setFiltersResult([])
     switchToCountiesMode()
     map.flyTo({
       center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
@@ -44,56 +38,68 @@ const FiltersResult = ({ switcher }) => {
     window.history.replaceState({}, '', url)
   }
 
-  const resultList = () => {
-    if (switcher === 'plots') {
-      return (
-        <div className={style.list}>
-          {filteredPlotsFeatures.map(feature => (
-            <PlotItem
-              key={feature.properties?.EGRID}
-              isActive={
-                clickedFeature?.properties?.EGRID === feature.properties?.EGRID
-              }
-              feature={feature}
-              handleItemClick={handleItemClick}
-            />
-          ))}
-        </div>
-      )
+  const getTitle = () => {
+    let item = ''
+    switch (filtersFor) {
+      case 'buildings':
+        item = 'bâtiment(s)'
+        break
+      case 'transactions':
+        item = 'transaction(s)'
+        break
+      case 'construction-certs':
+        item = 'certificat(s)'
+        break
+      default:
+        item = 'parcelle(s)'
     }
-
-    if (switcher === 'buildings') {
-      return (
-        <div className={style.list}>
-          {filteredBuildingsFeatures.map(feature => (
-            <BuildingItem
-              key={feature.properties?.EGID}
-              isActive={
-                clickedFeature?.properties?.EGID === feature.properties?.EGID
-              }
-              feature={feature}
-              handleItemClick={handleItemClick}
-            />
-          ))}
-        </div>
-      )
-    }
-    return null
+    return `Results ${filtersResult?.length} ${item}`
   }
 
   return (
     <div className={style.content}>
       <div className={style.contentHead}>
-        <h3 className={style.title}>
-          Results: {filteredPlotsFeatures.length}
-          {switcher === 'plots' ? 'parcelle(s)' : 'bâtiment(s)'}
-        </h3>
+        <h3 className={style.title}>{getTitle()}</h3>
+
         <button className={style.reset} onClick={handleReset}>
           reset
         </button>
       </div>
 
-      {resultList()}
+      <div className={style.list}>
+        {filtersResult.map(feature => {
+          if (
+            filtersFor === 'plots' ||
+            filtersFor === 'transactions' ||
+            filtersFor === 'construction-certs'
+          ) {
+            return (
+              <PlotItem
+                key={feature.properties?.EGRID}
+                isActive={
+                  clickedFeature?.properties?.EGRID ===
+                  feature.properties?.EGRID
+                }
+                feature={feature}
+                handleItemClick={handleItemClick}
+              />
+            )
+          }
+
+          if (filtersFor === 'buildings') {
+            return (
+              <BuildingItem
+                key={feature.properties?.EGID}
+                isActive={
+                  clickedFeature?.properties?.EGID === feature.properties?.EGID
+                }
+                feature={feature}
+                handleItemClick={handleItemClick}
+              />
+            )
+          }
+        })}
+      </div>
     </div>
   )
 }

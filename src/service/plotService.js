@@ -22,6 +22,26 @@ export const plotService = {
     }
   },
 
+  getTransactions: async ergid => {
+    if (window.location.hostname === 'localhost') {
+      return MockData.getPlot().transactions
+    }
+
+    try {
+      const resp = await axiosInstance.get(`/api/map/plots/${ergid}`)
+
+      const transactions = resp?.data?.data?.transactions || []
+
+      if (!transactions) throw new Error()
+
+      return transactions
+    } catch (error) {
+      return {
+        error,
+      }
+    }
+  },
+
   // email alerts
   getEmailAlerts: async plotId => {
     const resp = await axiosInstance.get(`/user/alerts/all/${plotId}`)

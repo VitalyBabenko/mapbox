@@ -6,7 +6,7 @@ import { useFilterStore, useModeStore } from '../../store'
 import { memo } from 'react'
 import ResetViewButton from '../ResetViewButton/ResetViewButton'
 
-const ModeSwitcher = () => {
+const ModeSwitcher = ({ isResetButtonNeeded = true }) => {
   const {
     county,
     mode,
@@ -15,7 +15,7 @@ const ModeSwitcher = () => {
     switchToPlotsMode,
     switchToBuildingsMode,
   } = useModeStore()
-  const { filteredBuildingsFeatures, filteredPlotsFeatures } = useFilterStore()
+  const { filtersResult } = useFilterStore()
 
   const handleSwitch = clickedMode => {
     if (clickedMode === switcher) return
@@ -36,15 +36,16 @@ const ModeSwitcher = () => {
       : switchToPlotsMode(county)
   }
 
-  const isFilter =
-    !!filteredBuildingsFeatures?.length || !!filteredPlotsFeatures?.length
+  const isFilter = !!filtersResult.length
   const isResetButtonVisible = mode !== 'counties' || isFilter
+  const isPlotsVisible = !filtersResult?.[0]?.properties?.EGID
+  const isBuildingsVisible = !filtersResult?.[0]?.properties?.EGRID
 
   return (
     <>
       <div className={`${style.wrapper} ${isFilter ? style.filtering : ''}`}>
         <div className={style.modeSwitcher}>
-          {filteredBuildingsFeatures?.length ? null : (
+          {isPlotsVisible && (
             <button
               onClick={() => handleSwitch('plots')}
               className={switcher === 'plots' ? style.active : ''}
@@ -54,7 +55,7 @@ const ModeSwitcher = () => {
             </button>
           )}
 
-          {filteredPlotsFeatures?.length ? null : (
+          {isBuildingsVisible && (
             <button
               onClick={() => handleSwitch('buildings')}
               className={switcher === 'buildings' ? style.active : ''}
@@ -70,7 +71,13 @@ const ModeSwitcher = () => {
         </div>
       </div>
 
-      <ResetViewButton top={10} right={213} isVisible={isResetButtonVisible} />
+      {isResetButtonNeeded && (
+        <ResetViewButton
+          top={10}
+          right={213}
+          isVisible={isResetButtonVisible}
+        />
+      )}
     </>
   )
 }

@@ -1,6 +1,4 @@
 import { memo, useEffect, useState } from 'react'
-import Loader from '../../components/Loader/Loader'
-import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import SpecsSection from './SpecsSection/SpecsSection'
 import style from './PlotsPanel.module.scss'
 import AddressesSection from './AddressesSection/AddressesSection'
@@ -13,73 +11,50 @@ import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
 import { useEventStore, useModeStore } from '../../store'
 import HeadingSection from './HeadingSection/HeadingSection'
-import useDraggable from '../../hooks/useDraggable'
 import DDPSection from './DDPSection/DDPSection'
+import { Panel } from '../../components'
+import CertsSection from '../CertsPanel/CertsSection/CertsSection'
 
 const PlotsPanel = ({ activePlotId }) => {
-  const { position, handleMouseDown } = useDraggable({ x: -50, y: 50 })
-  const { locale } = useModeStore()
   const [plotInfo, setPlotInfo] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const { locale } = useModeStore()
   const { setClickedFeature, setClickedPlotInfo } = useEventStore()
-
-  const closePlotPanel = () => setClickedFeature(null)
+  const open = !!activePlotId
+  const closePanel = () => setClickedFeature(null)
 
   useEffect(() => {
     const getData = async () => {
       setError(null)
-      setIsLoading(true)
+      setLoading(true)
       const info = await plotService.getPlotByEgrId(activePlotId)
 
       if (info?.error?.message?.length) {
         setError('Building information is unavailable. Please try again later.')
-        setIsLoading(false)
+        setLoading(false)
         return
       }
 
       setPlotInfo(info)
       setClickedPlotInfo(info)
-      setIsLoading(false)
+      setLoading(false)
     }
 
     if (activePlotId) getData()
   }, [activePlotId])
 
-  if (!activePlotId) return null
-
-  if (error)
-    return (
-      <div className={style.panel}>
-        <ErrorMessage
-          message='Plot information is unavailable. Please try again later.'
-          onClose={closePlotPanel}
-        />
-      </div>
-    )
-
   return (
-    <div
-      className={style.panel}
-      style={{
-        overflow: isLoading ? 'hidden' : 'auto',
-        top: position.y,
-        right: -position.x,
-      }}
+    <Panel
+      open={open}
+      setOpen={closePanel}
+      loading={loading}
+      error={error}
+      heading={<HeadingSection plotInfo={plotInfo} isLoading={loading} />}
+      panelPosition={{ x: -50, y: 50 }}
+      panelSide='right'
+      className={style.plotPanel}
     >
-      {isLoading && (
-        <div className={style['loader-drawer']}>
-          <Loader />
-        </div>
-      )}
-
-      <HeadingSection
-        plotInfo={plotInfo}
-        isLoading={isLoading}
-        closePlotPanel={closePlotPanel}
-        handleMouseDown={handleMouseDown}
-      />
-
       <SpecsSection plotInfo={plotInfo} locale={locale} />
 
       <NotesSection plotInfo={plotInfo} />
@@ -102,6 +77,8 @@ const PlotsPanel = ({ activePlotId }) => {
 
       <TransactionsSection plotInfo={plotInfo} />
 
+      <CertsSection certs={plotInfo?.construction_certs} />
+
       <BuildingPermitsSection plotInfo={plotInfo} />
 
       {plotInfo?.derniere_modification && (
@@ -110,7 +87,7 @@ const PlotsPanel = ({ activePlotId }) => {
           <b>{convertTimeFormat(plotInfo?.derniere_modification)}</b>
         </p>
       )}
-    </div>
+    </Panel>
   )
 }
 

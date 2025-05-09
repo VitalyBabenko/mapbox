@@ -18,7 +18,7 @@ import { plotService } from '../../../service/plotService'
 import { useBookmarksStore, useTagsStore, useToastStore } from '../../../store'
 import { PiTagBold as TagIcon } from 'react-icons/pi'
 
-const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
+const HeadingSection = ({ plotInfo }) => {
   const plotId = plotInfo?.mongo_id
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
@@ -117,16 +117,9 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
     }
   }, [errorBookmark, errorEmailAlerts])
 
-  if (!plotInfo)
-    return (
-      <div className={style.heading}>
-        <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
-      </div>
-    )
-
   return (
     <div className={style.heading}>
-      <h2>Plot {plotInfo?.no_commune_no_parcelle}</h2>
+      <h2 className={style.title}>Plot {plotInfo?.no_commune_no_parcelle}</h2>
 
       {isAddedToBookmarks ? (
         <Tooltip text='Remove plot from bookmarks alerts' bottom='-40px'>
@@ -180,15 +173,6 @@ const HeadingSection = ({ plotInfo, closePlotPanel, handleMouseDown }) => {
           </Tooltip>
         </a>
       )}
-
-      <Tooltip text='Move the panel' bottom='-40px'>
-        <DraggableIcon
-          className={style.draggableIcon}
-          onMouseDown={handleMouseDown}
-        />
-      </Tooltip>
-
-      <CrossIcon onClick={closePlotPanel} className={style.crossIcon} />
     </div>
   )
 }

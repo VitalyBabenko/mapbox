@@ -8,6 +8,7 @@ import { useEventStore, useModeStore, useZoneStore } from './store'
 import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes.jsx'
 import { ProtectedMode, ZonesMode } from './modes/index.js'
+import 'react-datepicker/dist/react-datepicker.css'
 
 function App() {
   const mapRef = useRef(null)

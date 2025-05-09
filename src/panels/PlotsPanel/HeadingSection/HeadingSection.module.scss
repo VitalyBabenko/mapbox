@@ -4,9 +4,9 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 20px;
+  max-height: 30px;
 
-  h2 {
+  h2.title {
     font-size: 20px;
     font-weight: 600;
     line-height: 30px;
@@ -50,29 +50,6 @@
     & > div > div {
       display: flex;
       align-items: center;
-    }
-  }
-
-  .draggableIcon {
-    display: block;
-    margin: auto;
-    margin-right: 0;
-    cursor: grab;
-    user-select: none;
-
-    &:active {
-      cursor: grabbing;
-    }
-  }
-
-  .crossIcon {
-    width: 24px;
-    height: 24px;
-    border-radius: 2px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #f2f2f2;
     }
   }
 }

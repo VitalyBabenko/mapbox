@@ -8,14 +8,20 @@ import {
   ZonesMode,
 } from '../../modes'
 import { ModeSwitcher, PoolsLayer } from '../../components'
-import { FiltersPanel, MapDataPanel, PlotsPanel } from '../../panels'
+import {
+  BuildingsPanel,
+  FiltersPanel,
+  MapDataPanel,
+  PlotsPanel,
+  ScalePanel,
+} from '../../panels'
 import { MODES } from '../../constants'
 import { useEventStore, useModeStore, useZoneStore } from '../../store'
 
 const MainPage = () => {
   const { clickedFeature } = useEventStore()
   const { isZonesActive, isZonesPrimary } = useZoneStore()
-  const { mode } = useModeStore()
+  const { mode, switcher } = useModeStore()
 
   const getIsModeActive = currentMode => {
     if (isZonesPrimary && isZonesActive) return false
@@ -33,9 +39,13 @@ const MainPage = () => {
       <ZonesMode />
       <PoolsLayer />
       <ModeSwitcher />
-      <FiltersPanel />
+      <FiltersPanel
+        filtersFor={switcher === MODES.PLOTS ? 'plots' : 'buildings'}
+      />
       <MapDataPanel />
+      <ScalePanel />
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
+      <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
     </>
   )
 }

@@ -1,21 +1,9 @@
 @import '../../styles/variables';
-@import '../../styles/mixins';
 
-.panel {
-  position: absolute;
-  top: 50px;
-  right: 50px;
+.buildingPanel {
   width: 428px;
   height: 500px;
   background: $grey-50;
-  border-radius: 4px;
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  z-index: 2;
-  overflow-y: auto;
-  box-sizing: border-box;
-  user-select: none;
-  @include custom-scrollbar;
 
   .address {
     font-size: 18px;
@@ -70,19 +58,5 @@
       line-height: 19.5px;
       color: $grey-700;
     }
-  }
-}
-
-.panelLoading {
-  @extend .panel;
-  height: 500px;
-}
-
-@media (max-width: 568px) {
-  .panel {
-    right: 10px;
-    width: calc(100% - 20px);
-    height: fit-content;
-    max-height: calc(100% - 100px);
   }
 }

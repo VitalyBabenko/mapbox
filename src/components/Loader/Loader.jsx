@@ -1,9 +1,12 @@
 import style from './Loader.module.scss'
 
-const Loader = ({ withBackground }) => {
+const Loader = ({ withBackground, className }) => {
   const Spinner = () => {
     return (
-      <svg className={style.spinner} viewBox='0 0 50 50'>
+      <svg
+        className={`${style.spinner} ${className ? className : ''}`}
+        viewBox='0 0 50 50'
+      >
         <circle
           className={style.path}
           cx='25'

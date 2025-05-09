@@ -12,7 +12,7 @@ const PlotsMode = ({ isActive }) => {
   const { county, switcher } = useModeStore()
   const { opacity } = usePaintStore()
   const { hoverEvent, hoveredFeature, clickedFeature } = useEventStore()
-  const { filteredPlotsFeatures } = useFilterStore()
+  const { filteredPlotsFeatures, filtersResult } = useFilterStore()
 
   const plotsFilter = useMemo(() => {
     const countyName = county?.properties?.COMMUNE || ''
@@ -45,11 +45,11 @@ const PlotsMode = ({ isActive }) => {
   }
 
   const isFilteredFeaturesActive =
-    filteredPlotsFeatures?.length > 0 || switcher === 'plots'
+    switcher === 'plots' && filtersResult?.[0]?.properties?.EGRID
 
   const geojson = {
     type: 'FeatureCollection',
-    features: filteredPlotsFeatures,
+    features: filtersResult,
   }
 
   return (

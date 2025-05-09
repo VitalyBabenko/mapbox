@@ -7,13 +7,12 @@ import {
   usePaintStore,
 } from '../../store'
 import getBuildingHoverPopupText from '../../utils/getBuildingHoverPopup'
-import { BuildingsPanel } from '../../panels'
 
 const BuildingsMode = ({ isActive }) => {
   const { county, switcher } = useModeStore()
   const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
   const { activePaint, opacity } = usePaintStore()
-  const { filteredBuildingsFeatures } = useFilterStore()
+  const { filtersResult } = useFilterStore()
 
   const buildingsFilter = [
     'match',
@@ -49,11 +48,11 @@ const BuildingsMode = ({ isActive }) => {
   }
 
   const isFilteredFeaturesActive =
-    switcher === 'buildings' && filteredBuildingsFeatures.length > 0
+    switcher === 'buildings' && filtersResult?.[0]?.properties?.EGID
 
   const geojson = {
     type: 'FeatureCollection',
-    features: filteredBuildingsFeatures,
+    features: filtersResult,
   }
 
   return (
@@ -101,8 +100,6 @@ const BuildingsMode = ({ isActive }) => {
           </Popup>
         )}
       </Source>
-
-      <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
     </>
   )
 }
