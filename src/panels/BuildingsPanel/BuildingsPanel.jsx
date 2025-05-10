@@ -7,7 +7,7 @@ import AddressSection from './AddressSection/AddressSection'
 import OwnersSection from './OwnersSection/OwnersSection'
 import List from '../../components/List/List'
 import DetailsSection from './DetailsSection/DetailsSection'
-import TransactionsSection from './TransactionsSection/TransactionsSection'
+import TransactionsSection from '../PlotsPanel/TransactionsSection/TransactionsSection'
 import PermitsSection from './PermitsSection/PermitsSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import { useEventStore, useModeStore } from '../../store'
@@ -150,9 +150,7 @@ const BuildingsPanel = ({ activeBuildingId }) => {
 
       <OwnersSection owners={buildingInfo?.getOwners()} />
 
-      <TransactionsSection
-        transactions={buildingInfo?.plot?.transactions_list}
-      />
+      <TransactionsSection info={buildingInfo?.transactions} />
 
       <PermitsSection permits={buildingInfo?.plot?.construction_certs} />
 

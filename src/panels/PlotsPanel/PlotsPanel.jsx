@@ -6,14 +6,13 @@ import OwnersSection from './OwnersSection/OwnersSection'
 import TransactionsSection from './TransactionsSection/TransactionsSection'
 import NotesSection from './NotesSection/NotesSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
-import BuildingPermitsSection from './BuildingPermitsSection/BuildingPermitsSection'
 import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
 import { useEventStore, useModeStore } from '../../store'
 import HeadingSection from './HeadingSection/HeadingSection'
 import DDPSection from './DDPSection/DDPSection'
 import { Panel } from '../../components'
-import CertsSection from '../CertsPanel/CertsSection/CertsSection'
+import CertsSection from './CertsSection/CertsSection'
 
 const PlotsPanel = ({ activePlotId }) => {
   const [plotInfo, setPlotInfo] = useState(null)
@@ -44,6 +43,8 @@ const PlotsPanel = ({ activePlotId }) => {
     if (activePlotId) getData()
   }, [activePlotId])
 
+  console.log(plotInfo)
+
   return (
     <Panel
       open={open}
@@ -71,15 +72,13 @@ const PlotsPanel = ({ activePlotId }) => {
         </List>
       )}
 
-      <AddressesSection plotInfo={plotInfo} locale={locale} />
+      <AddressesSection info={plotInfo} locale={locale} />
 
       <OwnersSection plotInfo={plotInfo} locale={locale} />
 
-      <TransactionsSection plotInfo={plotInfo} />
+      <TransactionsSection info={plotInfo} />
 
-      <CertsSection certs={plotInfo?.construction_certs} />
-
-      <BuildingPermitsSection plotInfo={plotInfo} />
+      <CertsSection info={plotInfo} />
 
       {plotInfo?.derniere_modification && (
         <p className={style.lastEdits}>

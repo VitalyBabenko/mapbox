@@ -192,6 +192,7 @@ export const filterService = {
     const allowedFiltersFor = [
       'plots',
       'buildings',
+      'energies',
       'transactions',
       'construction-certs',
     ]

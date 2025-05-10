@@ -1,7 +1,7 @@
 import { ResetViewButton } from '../../components'
 import { MODES } from '../../constants'
-import { CountiesMode, PlotsMode } from '../../modes'
-import { CertsPanel, SettingsPanel } from '../../panels'
+import { BuildingsMode, CountiesMode, PlotsMode } from '../../modes'
+import { BuildingsPanel, PlotsPanel, SettingsPanel } from '../../panels'
 import { useEventStore, useModeStore } from '../../store'
 
 const CertsPage = () => {
@@ -16,9 +16,10 @@ const CertsPage = () => {
       />
 
       <PlotsMode isActive={mode === MODES.PLOTS} />
+      <BuildingsMode isActive={mode === MODES.BUILDINGS} />
 
-      <CertsPanel activePlotId={clickedFeature?.properties?.EGRID} />
-
+      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
+      <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
       <SettingsPanel />
 
       <ResetViewButton top={10} right={175} isVisible={mode === MODES.PLOTS} />

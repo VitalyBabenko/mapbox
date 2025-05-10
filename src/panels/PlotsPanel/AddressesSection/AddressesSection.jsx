@@ -5,8 +5,8 @@ import Tooltip from '../../../components/Tooltip/Tooltip'
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
 
-const AddressesSection = ({ plotInfo, locale }) => {
-  const availableAddresses = plotInfo?.addresses?.filter(item => item.adresse)
+const AddressesSection = ({ info, locale }) => {
+  const availableAddresses = info?.addresses?.filter(item => item.adresse)
 
   function addressToUpperCase(address) {
     return address
@@ -51,12 +51,12 @@ const AddressesSection = ({ plotInfo, locale }) => {
 
           <CertificatesList
             isMinergie={!!item?.certificat_minergie_details?.length}
-            isConstructionCerts={!!plotInfo?.construction_certs?.length}
-            isPpe={!!plotInfo?.ppe}
+            isConstructionCerts={!!info?.construction_certs?.length}
+            isPpe={!!info?.ppe}
           />
 
           <BuildingsList
-            plotInfo={plotInfo}
+            plotInfo={info}
             address={item}
             buildings={item.buildings}
             locale={locale}

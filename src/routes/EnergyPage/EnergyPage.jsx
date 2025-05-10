@@ -1,11 +1,18 @@
 import { MODES } from '../../constants'
 import { BuildingsMode, CountiesMode } from '../../modes'
-import { FiltersPanel, ScalePanel, SettingsPanel } from '../../panels'
-import { useModeStore } from '../../store'
+import {
+  BuildingsPanel,
+  FiltersPanel,
+  PlotsPanel,
+  ScalePanel,
+  SettingsPanel,
+} from '../../panels'
+import { useModeStore, useEventStore } from '../../store'
 import EnergySwitcher from '../../components/EnergySwitcher/EnergySwitcher'
 
 const EnergyPage = () => {
   const { mode } = useModeStore()
+  const { clickedFeature } = useEventStore()
 
   return (
     <>
@@ -15,14 +22,15 @@ const EnergyPage = () => {
         isActive={mode === MODES.COUNTIES}
         modeOnCountyClick={MODES.BUILDINGS}
       />
-
       <BuildingsMode isActive={mode === MODES.BUILDINGS} />
 
-      <ScalePanel initialPosition={{ x: -10, y: 50 }} side='left' />
+      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
+      <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
 
-      <FiltersPanel />
-
+      {/* TODO: change filtersFor = 'energies', when backend is ready */}
+      <FiltersPanel filtersFor='plots' />
       <SettingsPanel />
+      <ScalePanel initialPosition={{ x: 10, y: 88 }} side='left' />
     </>
   )
 }

@@ -32,7 +32,8 @@ const TransactionsPage = () => {
         filtersFor='transactions'
       />
       <SettingsPanel />
-      <ScalePanel initialPosition={{ x: 10, y: 89 }} side='left' />
+
+      <ScalePanel initialPosition={{ x: -50, y: 89 }} side='left' />
     </>
   )
 }

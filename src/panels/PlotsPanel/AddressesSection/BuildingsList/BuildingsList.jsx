@@ -13,6 +13,12 @@ const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
       de: 'Gebäudetypologie:',
     },
 
+    buildingStatus: {
+      en: 'Building Status:',
+      fr: 'Statut du Bâtiment:',
+      de: 'Gebäudestatus:',
+    },
+
     sadLink: {
       en: 'Links SAD:',
       fr: 'Liens SAD:',
@@ -37,12 +43,14 @@ const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
   }
 
   const getCertificatesByBuildingAddress = address => {
-    if (!address) return null
+    if (!address?.length) return null
     const buildingNumber = address?.split(' ').slice(-1)[0]
 
     const certs = plotInfo?.construction_certs.filter(item =>
       item.adresse.includes(buildingNumber),
     )
+
+    if (!certs?.length) return null
 
     return (
       <p className={style.certs}>
@@ -94,6 +102,13 @@ const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
               <p>
                 {titles.typology[locale]}{' '}
                 <b> {address?.typologie_d_immeuble}</b>
+              </p>
+            )}
+
+            {building?.statut_du_batiment && (
+              <p>
+                {titles.buildingStatus[locale]}{' '}
+                <b> {building?.statut_du_batiment}</b>
               </p>
             )}
 
