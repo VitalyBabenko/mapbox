@@ -30,6 +30,7 @@ const FiltersPanel = ({
   } = useFilterStore()
 
   const handleSubmit = async e => {
+    e.preventDefault()
     try {
       setLoading(true)
       setMapLoading(true)
@@ -73,11 +74,21 @@ const FiltersPanel = ({
       setLoading(true)
       const resp = await filterService.fetchFilters(filtersFor)
       resp?.error ? setError(resp.error) : setFilters(resp)
+
       setLoading(false)
     }
 
     fetchFilters()
   }, [filtersFor, open, filtersResult])
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+
+    if (params.size && filters.length) {
+      setOpen(true)
+      submitBtnRef?.current?.click()
+    }
+  }, [filters])
 
   return (
     <>
