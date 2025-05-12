@@ -14,8 +14,7 @@ const CountiesMode = ({ isActive, modeOnCountyClick }) => {
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
   const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
   const { opacity } = usePaintStore()
-  const { filteredBuildingsFeatures, filteredPlotsFeatures, filtersResult } =
-    useFilterStore()
+  const { filtersResult } = useFilterStore()
 
   const getFillOpacity = () => {
     const hoverOpacity = (opacity[1] + 40) / 100
@@ -61,14 +60,6 @@ const CountiesMode = ({ isActive, modeOnCountyClick }) => {
     if (filtersResult?.length) {
       return false
     }
-
-    // if (filteredPlotsFeatures.length > 0 && switcher === 'plots') {
-    //   return false
-    // }
-
-    // if (filteredBuildingsFeatures.length > 0 && switcher === 'buildings') {
-    //   return false
-    // }
 
     return isActive
   }
