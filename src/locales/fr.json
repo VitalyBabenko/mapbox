@@ -102,6 +102,39 @@
       }
     },
 
+    "mapData": {
+      "title": "Cartes & Données",
+      "basemap": "Fond de carte",
+      "myMaps": "Mes Cartes",
+      "plotsWithTags": "Parcelles avec étiquettes",
+      "plotsWithBookmarks": "Parcelles avec marque-pages",
+      "plotsWithAlerts": "Parcelles avec alertes",
+      "plotsWithNotes": "Parcelles avec remarques",
+      "protected": "Protégé",
+      "protectedBuildings": "Bâtiments Protégés",
+      "protectedPlots": "Parcelles Protégées",
+      "zone": "Zone",
+      "primary": "Primaire",
+      "background": "Arrière-plan",
+      "zoneVisibility": "Visibilité de la zone",
+      "characteristics": "Caractéristiques",
+      "buildings": "Bâtiments",
+      "units": "Unités",
+      "constructionYear": "Année de construction",
+      "lastTransaction": "Dernière transaction",
+      "transactionAmount": "Montant de la transaction",
+      "energy": "Énergie",
+      "status": "Statut",
+      "countiesToast": "Pour utiliser cet outil, vous devez sélectionner un comté",
+      "countiesVisibility": "Visibilité des comtés",
+      "plotsVisibility": "Visibilité des parcelles",
+      "buildingsVisibility": "Visibilité des bâtiments",
+      "layerOpacity": "Opacité de la couche",
+      "buttons": {
+        "reset": "Réinitialiser"
+      }
+    },
+
     "plots": {
       "error": "Les informations sur la parcelle ne sont pas disponibles. Veuillez réessayer plus tard.",
       "lastEdits": "Dernières modifications",
