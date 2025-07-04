@@ -2,9 +2,6 @@ import { create } from 'zustand'
 import { MAP_STYLES, MODES } from '../constants'
 
 export const useModeStore = create(set => ({
-  locale: 'en',
-  setLocale: locale => set({ locale }),
-
   county: null,
   mode: MODES.COUNTIES,
   switcher: MODES.PLOTS,

@@ -8,6 +8,24 @@
   background: $grey-50;
 
   form {
+    .checkboxesContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      margin-bottom: 16px;
+
+      .checkboxesTitle {
+        font-size: 18px;
+        font-weight: 600;
+        color: $grey-700;
+      }
+
+      // svg {
+      //   background: red;
+      // }
+    }
+
     & > div:has(label) {
       display: flex;
       flex-wrap: wrap;

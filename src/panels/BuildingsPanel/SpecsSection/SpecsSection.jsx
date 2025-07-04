@@ -1,3 +1,4 @@
+import { useLocale } from '../../../hooks/useLocale'
 import style from './SpecsSection.module.scss'
 import {
   BiTimeFive as ClockIcon,
@@ -9,22 +10,15 @@ const SpecsSection = ({
   constructionYear,
   apartmentsQuantity,
   buildingArea,
-  locale,
 }) => {
-  const titles = {
-    constructionYear: {
-      en: 'Building Construction Year:',
-      fr: 'Annee de Construction du Batiment:',
-      de: 'Baujahr des Gebäudes:',
-    },
-  }
+  const { t } = useLocale('panels.buildings')
 
   return (
     <ul className={style.section}>
       {constructionYear && (
         <li>
           <ClockIcon size={40} />
-          <span>{titles.constructionYear[locale]}</span>
+          <span>{t('constructionYear')}</span>
           <p>{constructionYear}</p>
         </li>
       )}
@@ -32,7 +26,7 @@ const SpecsSection = ({
       {apartmentsQuantity && (
         <li>
           <DoorIcon size={40} />
-          <span>Apartments qty</span>
+          <span>{t('apartmentsQuantity')}</span>
           <p>{apartmentsQuantity}</p>
         </li>
       )}
@@ -40,7 +34,7 @@ const SpecsSection = ({
       {buildingArea && (
         <li>
           <AreaIcon size={40} />
-          <span>Building surface</span>
+          <span>{t('buildingArea')}</span>
           <p>{buildingArea}m²</p>
         </li>
       )}

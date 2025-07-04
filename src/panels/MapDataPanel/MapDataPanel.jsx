@@ -10,15 +10,17 @@ import { useModeStore } from '../../store'
 import OpacitySection from './OpacitySection/OpacitySection'
 import MyMapsSection from './MyMapsSection/MyMapsSection'
 import { Panel } from '../../components'
+import { useLocale } from '../../hooks/useLocale'
 
 const MapDataPanel = () => {
+  const { t } = useLocale('panels.mapData')
   const [open, setOpen] = useState(false)
   const { county } = useModeStore()
 
   const heading = (
     <>
       <MapDataBlackIcon size={20} />
-      <h2>Maps & Data</h2>
+      <h2>{t('title')}</h2>
     </>
   )
 
@@ -28,7 +30,7 @@ const MapDataPanel = () => {
       setOpen={setOpen}
       heading={heading}
       buttonIcon={<MapDataIcon size={24} />}
-      buttonText='Maps & Data'
+      buttonText={t('title')}
       buttonPosition={{ top: 10, right: 50 }}
       panelPosition={{ x: -50, y: 10 }}
       panelSide='right'

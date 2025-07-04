@@ -1,0 +1,52 @@
+@import '../../styles/variables';
+
+.root {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  margin-top: 6px;
+  margin-bottom: 6px;
+
+  .input {
+    display: none;
+  }
+
+  .slider {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background: #ddd;
+    border-radius: 999px;
+    transition: background 0.3s;
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: 2px;
+      left: 2px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+  }
+
+  .input:checked + .slider {
+    background: $blue-600;
+  }
+
+  .input:checked + .slider:before {
+    transform: translateX(16px);
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.4);
+  }
+
+  p {
+    font-size: 16px;
+    color: $grey-600;
+    line-height: 1.5rem;
+    font-weight: 500;
+  }
+}

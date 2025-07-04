@@ -5,8 +5,10 @@ import { plotService } from '../../../service/plotService'
 import Loader from '../../../components/Loader/Loader'
 import { useQuery } from '../../../hooks/useQuery'
 import { useToastStore } from '../../../store'
+import { useLocale } from '../../../hooks/useLocale'
 
 const NotesSection = ({ plotInfo }) => {
+  const { t } = useLocale('panels.plots')
   const [notes, setNotes] = useState([])
   const { loading, error, handler } = useQuery()
   const [inputValue, setInputValue] = useState('')
@@ -46,7 +48,7 @@ const NotesSection = ({ plotInfo }) => {
   }, [plotInfo])
 
   useEffect(() => {
-    if (error) toast.error('Something went wrong. Please try again later.')
+    if (error) toast.error(t('notesError'))
   }, [error])
 
   return (
@@ -59,14 +61,14 @@ const NotesSection = ({ plotInfo }) => {
 
       <form onSubmit={createNote}>
         <label>
-          <h3>Notes</h3>
+          <h3>{t('notes')}</h3>
           <input
             value={inputValue}
             onChange={e => setInputValue(e.target.value)}
-            placeholder='Enter note...'
+            placeholder={t('enterNote')}
           />
         </label>
-        <button type='submit'>Send</button>
+        <button type='submit'>{t('send')}</button>
       </form>
 
       <ul className={style.notes}>

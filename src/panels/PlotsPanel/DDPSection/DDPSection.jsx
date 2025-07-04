@@ -2,19 +2,17 @@ import { List, ListItem, Tooltip } from '../../../components'
 import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
 import style from './DDPSection.module.scss'
 import { convertTimeFormat } from '../../../utils/convertTimeFormat'
+import { useLocale } from '../../../hooks/useLocale'
 
 const DDPSection = ({ info }) => {
+  const { t } = useLocale('panels.plots')
   if (!info?.ddp_ind) return null
 
   const GovLink = () => {
     if (!info?.lien_ddp) return null
     return (
       <a target='_blank' href={info?.lien_ddp} rel='noreferrer'>
-        <Tooltip
-          text="Details on the government's website"
-          top='-35px'
-          right='-16px'
-        >
+        <Tooltip text={t('ddpDetails')} top='-35px' right='-16px'>
           <LinkIcon className={style.linkIcon} color='#475467' size={20} />
         </Tooltip>
       </a>
@@ -28,11 +26,11 @@ const DDPSection = ({ info }) => {
           <GovLink />
 
           <ul>
-            <h3>Droit distinct et permanent</h3>
+            <h3>{t('ddpTitle')}</h3>
             {info?.genre_ddp && (
               <li>
                 <p>
-                  Right to surface: <b>{info?.genre_ddp}</b>
+                  {t('rightToSurface')}: <b>{info?.genre_ddp}</b>
                 </p>
               </li>
             )}
@@ -40,7 +38,8 @@ const DDPSection = ({ info }) => {
             {info?.date_ddp && (
               <li>
                 <p>
-                  Effective Date: <b>{convertTimeFormat(info?.date_ddp)}</b>
+                  {t('effectiveDate')}:{' '}
+                  <b>{convertTimeFormat(info?.date_ddp)}</b>
                 </p>
               </li>
             )}
@@ -48,7 +47,7 @@ const DDPSection = ({ info }) => {
             {info?.validite_ddp && (
               <li>
                 <p>
-                  Validity: <b>{info?.validite_ddp}</b>
+                  {t('validity')}: <b>{info?.validite_ddp}</b>
                 </p>
               </li>
             )}
@@ -56,7 +55,7 @@ const DDPSection = ({ info }) => {
             {info?.type_propriete_ddp && (
               <li>
                 <p>
-                  Type of ownership: <b>{info.type_propriete_ddp}</b>
+                  {t('typeOfOwnership')}: <b>{info.type_propriete_ddp}</b>
                 </p>
               </li>
             )}
@@ -64,7 +63,7 @@ const DDPSection = ({ info }) => {
             {info?.surface_ddp_m2 && (
               <li>
                 <p>
-                  Area covered by DDP: <b>{info.surface_ddp_m2}m²</b>
+                  {t('areaCoveredByDDP')}: <b>{info.surface_ddp_m2}m²</b>
                 </p>
               </li>
             )}
@@ -72,7 +71,7 @@ const DDPSection = ({ info }) => {
             {info?.provenance_ddp && (
               <li>
                 <p>
-                  Provenance: <b>{info.provenance_ddp}</b>
+                  {t('provenance')}: <b>{info.provenance_ddp}</b>
                 </p>
               </li>
             )}

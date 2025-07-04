@@ -3,8 +3,10 @@ import { useModeStore, usePaintStore } from '../../../store'
 import style from '../CharacteristicsSection/CharacteristicsSection.module.scss'
 import protectedBuildingsPreview from '../../../assets/images/protectedBuildingsPreview.png'
 import protectedPlotsPreview from '../../../assets/images/protectedPlotsPreview.png'
+import { useLocale } from '../../../hooks/useLocale'
 
 const ProtectedSection = () => {
+  const { t } = useLocale('panels.mapData')
   const {
     mode,
     county,
@@ -60,10 +62,10 @@ const ProtectedSection = () => {
   return (
     <>
       <div className={style.heading}>
-        <h3>Protégés</h3>
+        <h3>{t('protected')}</h3>
 
         {mode === 'protected' && (
-          <button onClick={handleResetClick}>Reset</button>
+          <button onClick={handleResetClick}>{t('buttons.reset')}</button>
         )}
       </div>
 
@@ -81,7 +83,7 @@ const ProtectedSection = () => {
           }
         >
           <img src={protectedBuildingsPreview} alt='preview' />
-          <span>Batiments Protégés</span>
+          <span>{t('protectedBuildings')}</span>
         </li>
 
         <li
@@ -95,7 +97,7 @@ const ProtectedSection = () => {
           }
         >
           <img src={protectedPlotsPreview} alt='preview' />
-          <span>Parcelles Protégées</span>
+          <span>{t('protectedPlots')}</span>
         </li>
         <li style={{ pointerEvents: 'none' }}></li>
       </ul>

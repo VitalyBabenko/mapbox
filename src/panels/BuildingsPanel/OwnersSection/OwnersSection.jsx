@@ -1,7 +1,10 @@
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
+import { useLocale } from '../../../hooks/useLocale'
 
 const OwnersSection = ({ owners }) => {
+  const { t } = useLocale('panels.buildings')
+
   const calcAge = milliseconds => {
     let days = Math.floor(milliseconds / (1000 * 60 * 60 * 24))
     let startDate = new Date(1970, 0, 1)
@@ -15,7 +18,7 @@ const OwnersSection = ({ owners }) => {
 
   if (!owners?.length) return null
   return (
-    <List title='Owner(s):'>
+    <List title={t('owners')}>
       {owners.map(owner => (
         <ListItem key={owner?.name}>
           {owner?.name && <h3> {owner.name}</h3>}
@@ -24,11 +27,11 @@ const OwnersSection = ({ owners }) => {
             <ul>
               <li>
                 <p>
-                  Date of birth:{' '}
+                  {t('dateOfBirth')}:{' '}
                   <b>
                     {calcAge(owner?.date_de_naissance?.$date?.$numberLong)}{' '}
                   </b>
-                  ({owner.age} years old)
+                  ({owner.age} {t('yearsOld')})
                 </p>
               </li>
             </ul>

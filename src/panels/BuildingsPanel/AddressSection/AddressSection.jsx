@@ -3,6 +3,7 @@ import ListItem from '../../../components/List/ListItem/ListItem'
 import CertificatesList from '../../PlotsPanel/AddressesSection/CertificatesList/CertificatesList'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
+import { useLocale } from '../../../hooks/useLocale'
 
 const AddressSection = ({
   address,
@@ -18,11 +19,13 @@ const AddressSection = ({
   isConstructionCerts,
   buildingInfo,
 }) => {
+  const { t } = useLocale('panels.buildings')
+
   const HeadingLink = () => {
     if (!registerOfBuildingsLink) return null
     return (
       <a target='_blank' href={registerOfBuildingsLink} rel='noreferrer'>
-        <Tooltip text='Registre des Bâtiments' top='-35px' right='-16px'>
+        <Tooltip text={t('registerOfBuildings')} top='-35px' right='-16px'>
           <LinkIcon />
         </Tooltip>
       </a>
@@ -56,38 +59,38 @@ const AddressSection = ({
           <li style={{ gap: '8px' }}>
             {buildingNumber && (
               <p>
-                Building: <br /> <b> {buildingNumber}</b>
+                {t('building')}: <br /> <b> {buildingNumber}</b>
               </p>
             )}
 
             {isPPE && (
               <p>
-                Building regime type: <br /> <b> {isPPE}</b>
+                {t('buildingRegimeType')}: <br /> <b> {isPPE}</b>
               </p>
             )}
 
             {buildingTypology && (
               <p>
-                Building typology: <br /> <b> {buildingTypology}</b>
+                {t('buildingTypology')}: <br /> <b> {buildingTypology}</b>
               </p>
             )}
 
             {buildingCategory && (
               <p>
-                Building category: <br />
+                {t('buildingCategory')}: <br />
                 <b> {buildingCategory}</b>
               </p>
             )}
 
             {buildingType && (
               <p>
-                Building type: <br /> <b> {buildingType}</b>
+                {t('buildingType')}: <br /> <b> {buildingType}</b>
               </p>
             )}
 
             {buildingClass && (
               <p>
-                Building class: <br /> <b> {buildingClass}</b>
+                {t('buildingClass')}: <br /> <b> {buildingClass}</b>
               </p>
             )}
           </li>

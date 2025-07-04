@@ -2,21 +2,17 @@ import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
-
-// building with construction_certs: Route de malagnou 17
+import { useLocale } from '../../../hooks/useLocale'
 
 const BuildingPermitsSection = ({ plotInfo }) => {
+  const { t } = useLocale('panels.plots')
   const certificates = plotInfo?.construction_certs || []
 
   const CertificateLink = ({ link }) => {
     if (!link) return null
     return (
       <a target='_blank' href={link} rel='noreferrer'>
-        <Tooltip
-          text="Full details on the government's website"
-          top='-35px'
-          right='-16px'
-        >
+        <Tooltip text={t('buildingPermitsDetails')} top='-35px' right='-16px'>
           <LinkIcon />
         </Tooltip>
       </a>
@@ -25,11 +21,13 @@ const BuildingPermitsSection = ({ plotInfo }) => {
 
   if (!certificates.length) return null
   return (
-    <List title='Building permit(s):'>
+    <List title={t('buildingPermits')}>
       {certificates.map((cert, i) => (
         <ListItem key={i}>
           <hgroup>
-            <h3>File: {cert?.numero}</h3>
+            <h3>
+              {t('file')}: {cert?.numero}
+            </h3>
 
             <CertificateLink link={cert?.url} />
           </hgroup>
@@ -38,22 +36,22 @@ const BuildingPermitsSection = ({ plotInfo }) => {
             <li>
               {cert?.statut_dossier && (
                 <p>
-                  Status: <b>{cert.statut_dossier}</b>
+                  {t('status')}: <b>{cert.statut_dossier}</b>
                 </p>
               )}
 
               <p>
-                Active:
+                {t('active')}:
                 {cert?.date_depot && (
                   <>
                     {' '}
-                    from <b>{cert?.date_depot}</b>
+                    {t('from')}: <b>{cert?.date_depot}</b>
                   </>
                 )}
                 {cert?.date_statut && (
                   <>
                     {' '}
-                    to <b>{cert?.date_statut}</b>
+                    {t('to')}: <b>{cert?.date_statut}</b>
                   </>
                 )}
               </p>

@@ -4,8 +4,10 @@ import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
+import { useLocale } from '../../../hooks/useLocale'
 
 const AddressesSection = ({ info, locale }) => {
+  const { t } = useLocale('panels.plots')
   const availableAddresses = info?.addresses?.filter(item => item.adresse)
 
   function addressToUpperCase(address) {
@@ -26,7 +28,7 @@ const AddressesSection = ({ info, locale }) => {
     if (!link) return null
     return (
       <a target='_blank' href={link} rel='noreferrer'>
-        <Tooltip text='Registre des Bâtiments' top='-35px' right='-16px'>
+        <Tooltip text={t('buildingRegistry')} top='-35px' right='-16px'>
           <LinkIcon />
         </Tooltip>
       </a>
@@ -35,7 +37,7 @@ const AddressesSection = ({ info, locale }) => {
 
   if (!availableAddresses?.length) return null
   return (
-    <List title='Address(es):'>
+    <List title={t('addresses')}>
       {availableAddresses.map(item => (
         <ListItem>
           <hgroup>
@@ -46,7 +48,7 @@ const AddressesSection = ({ info, locale }) => {
           <h4>
             {!!+item?.no_postal && item?.no_postal} {item?.commune}
             <br />
-            {item?.nom_npa && 'Genève'}
+            {item?.nom_npa && t('geneva')}
           </h4>
 
           <CertificatesList

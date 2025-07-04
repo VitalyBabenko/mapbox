@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react'
 import IconButton from '../../../components/IconButton/IconButton'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import style from './HeadingSection.module.scss'
-import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import { BiFileBlank as FileIcon } from 'react-icons/bi'
 import { useQuery } from '../../../hooks/useQuery'
-import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import {
   BiBell as BellIcon,
   BiSolidBell as SolidBellIcon,
@@ -17,8 +15,10 @@ import {
 import { plotService } from '../../../service/plotService'
 import { useBookmarksStore, useTagsStore, useToastStore } from '../../../store'
 import { PiTagBold as TagIcon } from 'react-icons/pi'
+import { useLocale } from '../../../hooks/useLocale'
 
 const HeadingSection = ({ plotInfo }) => {
+  const { t } = useLocale('panels.plots')
   const plotId = plotInfo?.mongo_id
   const [isAddedToBookmarks, setIsAddedToBookmarks] = useState(false)
   const [isAddedToEmailAlerts, setIsAddedToEmailAlerts] = useState(false)
@@ -50,7 +50,7 @@ const HeadingSection = ({ plotInfo }) => {
         setIsAddedToEmailAlerts(true)
         toast.success(data.message)
       } else {
-        toast.error('Failed to add to email alerts')
+        toast.error(t('failedToAddToEmailAlerts'))
       }
     })
   }
@@ -63,7 +63,7 @@ const HeadingSection = ({ plotInfo }) => {
         setIsAddedToEmailAlerts(false)
         toast.success('Removed from email alerts')
       } else {
-        toast.error('Failed to remove from email alerts')
+        toast.error(t('failedToRemoveFromEmailAlerts'))
       }
     })
   }
@@ -76,7 +76,7 @@ const HeadingSection = ({ plotInfo }) => {
         setIsAddedToBookmarks(true)
         toast.success(data.message)
       } else {
-        toast.error('Failed to add to bookmarks')
+        toast.error(t('failedToAddToBookmarks'))
       }
     })
   }
@@ -86,9 +86,9 @@ const HeadingSection = ({ plotInfo }) => {
       const data = await plotService.removeBookmarksAlerts(plotId)
       if (data.result) {
         setIsAddedToBookmarks(false)
-        toast.success('Removed from bookmarks')
+        toast.success(t('removedFromBookmarks'))
       } else {
-        toast.error('Failed to remove from bookmarks')
+        toast.error(t('failedToRemoveFromBookmarks'))
       }
     })
   }
@@ -113,16 +113,18 @@ const HeadingSection = ({ plotInfo }) => {
 
   useEffect(() => {
     if (!!errorBookmark || !!errorEmailAlerts) {
-      toast.error('Error while receiving an email alert and bookmark')
+      toast.error(t('errorEmailAndBookmark'))
     }
   }, [errorBookmark, errorEmailAlerts])
 
   return (
     <div className={style.heading}>
-      <h2 className={style.title}>Plot {plotInfo?.no_commune_no_parcelle}</h2>
+      <h2 className={style.title}>
+        {t('plot')} {plotInfo?.no_commune_no_parcelle}
+      </h2>
 
       {isAddedToBookmarks ? (
-        <Tooltip text='Remove plot from bookmarks alerts' bottom='-40px'>
+        <Tooltip text={t('removePlotFromBookmarksAlerts')} bottom='-40px'>
           <IconButton disabled={loadingBookmark}>
             <SolidBookmarkIcon
               className={`${style.star}`}
@@ -131,7 +133,7 @@ const HeadingSection = ({ plotInfo }) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip text='Add plot to bookmarks alerts' bottom='-40px'>
+        <Tooltip text={t('addPlotToBookmarksAlerts')} bottom='-40px'>
           <IconButton disabled={loadingBookmark}>
             <BookmarkIcon
               className={`${style.star}`}
@@ -142,20 +144,20 @@ const HeadingSection = ({ plotInfo }) => {
       )}
 
       {isAddedToEmailAlerts ? (
-        <Tooltip text='Remove plot from email alerts' bottom='-40px'>
+        <Tooltip text={t('removePlotFromEmailAlerts')} bottom='-40px'>
           <IconButton disabled={loadingEmailAlerts}>
             <SolidBellIcon onClick={removeFromEmailAlerts} />
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip text='Add plot to email alerts' bottom='-40px'>
+        <Tooltip text={t('addPlotToEmailAlerts')} bottom='-40px'>
           <IconButton disabled={loadingEmailAlerts}>
             <BellIcon onClick={addToEmailAlerts} />
           </IconButton>
         </Tooltip>
       )}
 
-      <Tooltip text='Assign tag' bottom='-40px'>
+      <Tooltip text={t('assignTag')} bottom='-40px'>
         <IconButton disabled={loadingEmailAlerts}>
           <TagIcon onClick={openTagsModal} />
         </IconButton>

@@ -1,5 +1,6 @@
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
+import { useLocale } from '../../../hooks/useLocale'
 
 const DetailsSection = ({
   buildingArea,
@@ -16,6 +17,8 @@ const DetailsSection = ({
   renovationDate,
   demolitionDate,
 }) => {
+  const { t } = useLocale('panels.buildings')
+
   const isShowDimensionCard =
     plotArea ||
     buildingArea ||
@@ -33,50 +36,50 @@ const DetailsSection = ({
     <List>
       {isShowDimensionCard && (
         <ListItem>
-          <h3>Dimension</h3>
+          <h3>{t('dimension')}</h3>
 
           <ul>
             <li>
               {plotArea && (
                 <p>
-                  Plot surface: <b> {plotArea} m²</b>
+                  {t('plotArea')}: <b> {plotArea} m²</b>
                 </p>
               )}
 
               {buildingArea && (
                 <p>
-                  Building surface: <b> {buildingArea} m²</b>
+                  {t('buildingArea')}: <b> {buildingArea} m²</b>
                 </p>
               )}
 
               {livingArea && (
                 <p>
-                  Living surface above ground: <b> {livingArea} m²</b>
+                  {t('livingAreaAboveGround')}: <b> {livingArea} m²</b>
                 </p>
               )}
 
               {livingArea && (
                 <p>
-                  Living surface above ground: <b> {livingArea} m²</b>
+                  {t('livingAreaBelowGround')}: <b> {livingArea} m²</b>
                 </p>
               )}
 
               {buildingAreaOnTheGround && (
                 <p>
-                  Building surface on ground:{' '}
+                  {t('buildingAreaOnTheGround')}:{' '}
                   <b> {buildingAreaOnTheGround} m²</b>
                 </p>
               )}
 
               {totalGroundArea && (
                 <p>
-                  Total ground surface: <b> {totalGroundArea} m²</b>
+                  {t('totalGroundArea')}: <b> {totalGroundArea} m²</b>
                 </p>
               )}
 
               {buildingVolume && (
                 <p>
-                  Building volume: <b> {buildingVolume} m³</b>
+                  {t('buildingVolume')}: <b> {buildingVolume} m³</b>
                 </p>
               )}
             </li>
@@ -86,31 +89,31 @@ const DetailsSection = ({
 
       {isShowHeightCard && (
         <ListItem>
-          <h3>Height</h3>
+          <h3>{t('height')}</h3>
 
           <ul>
             <li>
               {levelsAboveGround && (
                 <p>
-                  Levels above ground: <b> {levelsAboveGround}</b>
+                  {t('levelsAboveGround')}: <b> {levelsAboveGround}</b>
                 </p>
               )}
 
               {levelsUnderGround && (
                 <p>
-                  Levels under ground: <b> {levelsUnderGround}</b>
+                  {t('levelsUnderGround')}: <b> {levelsUnderGround}</b>
                 </p>
               )}
 
               {totalLevels && (
                 <p>
-                  Total levels: <b> {totalLevels}</b>
+                  {t('totalLevels')}: <b> {totalLevels}</b>
                 </p>
               )}
 
               {buildingHeight ? (
                 <p>
-                  Building height: <b> {buildingHeight} m</b>
+                  {t('buildingHeight')}: <b> {buildingHeight} m</b>
                 </p>
               ) : null}
             </li>
@@ -120,25 +123,25 @@ const DetailsSection = ({
 
       {isShowConstructionCard && (
         <ListItem>
-          <h3>Construction</h3>
+          <h3>{t('construction')}</h3>
 
           <ul>
             <li>
               {constructionPeriod && (
                 <p>
-                  Construction period: <b> Période de {constructionPeriod}</b>
+                  {t('constructionPeriod')}: <b> {constructionPeriod}</b>
                 </p>
               )}
 
               {renovationDate && (
                 <p>
-                  Renovation year: <b> {renovationDate}</b>
+                  {t('renovationYear')}: <b> {renovationDate}</b>
                 </p>
               )}
 
               {demolitionDate && (
                 <p>
-                  Demolition date: <b> {demolitionDate}</b>
+                  {t('demolitionDate')}: <b> {demolitionDate}</b>
                 </p>
               )}
             </li>

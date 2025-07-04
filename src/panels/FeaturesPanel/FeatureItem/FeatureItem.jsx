@@ -2,8 +2,10 @@ import { plotService } from '../../../service/plotService'
 import { useToastStore } from '../../../store'
 import style from './FeatureItem.module.scss'
 import { BiTrashAlt as DeleteIcon } from 'react-icons/bi'
+import { useLocale } from '../../../hooks/useLocale'
 
 const FeatureItem = ({ isActive, feature, handleItemClick }) => {
+  const { t } = useLocale('panels.features')
   const { toast } = useToastStore()
   const itemClassName = isActive
     ? `${style.featureItem} ${style.active}`
@@ -25,7 +27,7 @@ const FeatureItem = ({ isActive, feature, handleItemClick }) => {
     <div className={itemClassName} onClick={() => handleItemClick(feature)}>
       {feature?.properties?.IDEDDP && (
         <p className={style.itemTitle}>
-          Plot
+          {t('plot')}
           <span> {feature?.properties?.IDEDDP.replace(':', '/')}</span>
         </p>
       )}
@@ -35,18 +37,18 @@ const FeatureItem = ({ isActive, feature, handleItemClick }) => {
       <ul className={style.fields}>
         {feature?.properties?.SURFACE && (
           <p className={style.field}>
-            Surface: <span>{feature?.properties?.SURFACE} m²</span>
+            {t('surface')}: <span>{feature?.properties?.SURFACE} m²</span>
           </p>
         )}
 
         {feature?.properties?.TYPOLOGIE && (
           <p className={style.field}>
-            Typologie: <span>{feature?.properties?.TYPOLOGIE}</span>
+            {t('typology')}: <span>{feature?.properties?.TYPOLOGIE}</span>
           </p>
         )}
 
         <p className={style.field}>
-          ERGID: <span>{feature?.properties?.EGRID}</span>
+          {t('egrid')}: <span>{feature?.properties?.EGRID}</span>
         </p>
       </ul>
 
@@ -67,7 +69,7 @@ const FeatureItem = ({ isActive, feature, handleItemClick }) => {
 
       {feature?.notes?.length > 0 && (
         <div className={style.notes}>
-          <p className={style.notesTitle}>Notes:</p>
+          <p className={style.notesTitle}>{t('notes')}:</p>
 
           {feature?.notes?.map(note => (
             <span

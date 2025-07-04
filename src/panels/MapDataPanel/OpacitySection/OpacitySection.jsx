@@ -3,8 +3,10 @@ import RangeSlider from 'react-range-slider-input'
 
 import { useModeStore, usePaintStore } from '../../../store'
 import { MODES } from '../../../constants'
+import { useLocale } from '../../../hooks/useLocale'
 
 const OpacitySection = ({ title }) => {
+  const { t } = useLocale('panels.mapData')
   const { opacity, setOpacity } = usePaintStore()
   const { mode } = useModeStore()
 
@@ -13,22 +15,22 @@ const OpacitySection = ({ title }) => {
 
     switch (mode) {
       case MODES.COUNTIES:
-        return 'Communes visibility'
+        return t('countiesVisibility')
 
       case MODES.PLOTS:
-        return 'Plots visibility'
+        return t('plotsVisibility')
 
       case MODES.BUILDINGS:
-        return 'Buildings visibility'
+        return t('buildingsVisibility')
 
       default:
-        return 'Layer opacity'
+        return t('layerOpacity')
     }
   }
 
   const resetButton = () => (
     <button className={style.reset} onClick={() => setOpacity([0, 40])}>
-      Reset
+      {t('buttons.reset')}
     </button>
   )
 

@@ -8,17 +8,18 @@ import NotesSection from './NotesSection/NotesSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
-import { useEventStore, useModeStore } from '../../store'
+import { useEventStore } from '../../store'
 import HeadingSection from './HeadingSection/HeadingSection'
 import DDPSection from './DDPSection/DDPSection'
 import { Panel } from '../../components'
 import CertsSection from './CertsSection/CertsSection'
+import { useLocale } from '../../hooks/useLocale'
 
 const PlotsPanel = ({ activePlotId }) => {
   const [plotInfo, setPlotInfo] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { locale } = useModeStore()
+  const { t } = useLocale('panels.plots')
   const { setClickedFeature, setClickedPlotInfo } = useEventStore()
   const open = !!activePlotId
   const closePanel = () => setClickedFeature(null)
@@ -30,7 +31,7 @@ const PlotsPanel = ({ activePlotId }) => {
       const info = await plotService.getPlotByEgrId(activePlotId)
 
       if (info?.error?.message?.length) {
-        setError('Building information is unavailable. Please try again later.')
+        setError(t('error'))
         setLoading(false)
         return
       }
@@ -43,8 +44,6 @@ const PlotsPanel = ({ activePlotId }) => {
     if (activePlotId) getData()
   }, [activePlotId])
 
-  console.log(plotInfo)
-
   return (
     <Panel
       open={open}
@@ -56,14 +55,14 @@ const PlotsPanel = ({ activePlotId }) => {
       panelSide='right'
       className={style.plotPanel}
     >
-      <SpecsSection plotInfo={plotInfo} locale={locale} />
+      <SpecsSection plotInfo={plotInfo} />
 
       <NotesSection plotInfo={plotInfo} />
 
       <DDPSection info={plotInfo?.ddp} />
 
       {Array.isArray(plotInfo?.zone) && (
-        <List title='Zone:' className={style.zone}>
+        <List title={t('zone')} className={style.zone}>
           {plotInfo?.zone?.map(item => (
             <li key={item} className={style.zoneItem}>
               {item}
@@ -72,9 +71,9 @@ const PlotsPanel = ({ activePlotId }) => {
         </List>
       )}
 
-      <AddressesSection info={plotInfo} locale={locale} />
+      <AddressesSection info={plotInfo} />
 
-      <OwnersSection plotInfo={plotInfo} locale={locale} />
+      <OwnersSection plotInfo={plotInfo} />
 
       <TransactionsSection info={plotInfo} />
 
@@ -82,7 +81,7 @@ const PlotsPanel = ({ activePlotId }) => {
 
       {plotInfo?.derniere_modification && (
         <p className={style.lastEdits}>
-          Last edits:{' '}
+          {t('lastEdits')}:{' '}
           <b>{convertTimeFormat(plotInfo?.derniere_modification)}</b>
         </p>
       )}

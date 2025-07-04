@@ -5,8 +5,10 @@ import RangeSlider from 'react-range-slider-input'
 import 'react-range-slider-input/dist/style.css'
 import bbox from '@turf/bbox'
 import { useMap } from 'react-map-gl'
+import { useLocale } from '../../../hooks/useLocale'
 
 const ZonesSection = () => {
+  const { t } = useLocale('panels.mapData')
   const { current: map } = useMap()
   const { county } = useModeStore()
   const {
@@ -37,9 +39,11 @@ const ZonesSection = () => {
   return (
     <>
       <div className={style.heading}>
-        <h3>Zone</h3>
+        <h3>{t('zone')}</h3>
 
-        {isActive && <button onClick={() => resetZones()}>Reset</button>}
+        {isActive && (
+          <button onClick={() => resetZones()}>{t('buttons.reset')}</button>
+        )}
       </div>
 
       <ul className={style.list}>
@@ -57,20 +61,22 @@ const ZonesSection = () => {
                 onClick={() => togglePrimary(true)}
                 className={isPrimary ? style.active : ''}
               >
-                Primary
+                {t('primary')}
               </button>
 
               <button
                 onClick={handleBackgroundClick}
                 className={!isPrimary ? style.active : ''}
               >
-                Background
+                {t('background')}
               </button>
 
               <span className={isPrimary ? style.left : style.right}></span>
             </div>
 
-            <p>Zone visibility: {zoneOpacity[1]}%</p>
+            <p>
+              {t('zoneVisibility')}: {zoneOpacity[1]}%
+            </p>
 
             <RangeSlider
               className={`${style.range} single-thumb`}

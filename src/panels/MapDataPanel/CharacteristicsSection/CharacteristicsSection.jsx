@@ -22,8 +22,10 @@ import paintByTransactionAmountPreview from '../../../assets/images/paintByTrans
 import paintByStatusPreview from '../../../assets/images/paintByStatusPreview.png'
 import paintByLastTransactionPreview from '../../../assets/images/paintByLastTransactionPreview.png'
 import paintByEnergyPreview from '../../../assets/images/paintByEnergyPreview.png'
+import { useLocale } from '../../../hooks/useLocale'
 
 const CharacteristicsSection = () => {
+  const { t } = useLocale('panels.mapData')
   const { activePaint, setActivePaint } = usePaintStore()
   const {
     mode,
@@ -39,7 +41,7 @@ const CharacteristicsSection = () => {
 
   const handleChangePaint = clickedPaint => {
     if (mode === 'counties' && activePaint === DEFAULT_PAINT) {
-      toast.text('Pour utiliser cet outil, vous devez sélectionner un comté')
+      toast.text(t('countiesToast'))
     }
 
     if (mode === 'counties' && switcher === 'plots') {
@@ -72,13 +74,15 @@ const CharacteristicsSection = () => {
   return (
     <>
       <div className={style.heading}>
-        <h3>Characteristics</h3>
+        <h3>{t('characteristics')}</h3>
         {activePaint !== DEFAULT_PAINT && mode !== 'protectedBuildings' && (
-          <button onClick={handleResetClick}>Reset</button>
+          <button onClick={handleResetClick}>{t('buttons.reset')}</button>
         )}
 
         {mode === 'zones' && (
-          <button onClick={() => switchToCountiesMode()}>Reset</button>
+          <button onClick={() => switchToCountiesMode()}>
+            {t('buttons.reset')}
+          </button>
         )}
       </div>
 
@@ -88,7 +92,7 @@ const CharacteristicsSection = () => {
           className={activePaint === PAINT_BY_TYPE ? style.active : ''}
         >
           <img src={paintByTypePreview} alt='preview' />
-          <span>Batiments</span>
+          <span>{t('buildings')}</span>
         </li>
 
         <li
@@ -96,7 +100,7 @@ const CharacteristicsSection = () => {
           className={activePaint === PAINT_BY_APARTS_QTY ? style.active : ''}
         >
           <img src={paintByApartsPreview} alt='preview' />
-          <span>Unités</span>
+          <span>{t('units')}</span>
         </li>
 
         <li
@@ -106,7 +110,7 @@ const CharacteristicsSection = () => {
           }
         >
           <img src={paintByPeriodPreview} alt='preview' />
-          <span>Année de construction</span>
+          <span>{t('constructionYear')}</span>
         </li>
 
         <li
@@ -116,7 +120,7 @@ const CharacteristicsSection = () => {
           }
         >
           <img src={paintByLastTransactionPreview} alt='preview' />
-          <span>Last Transaction</span>
+          <span>{t('lastTransaction')}</span>
         </li>
 
         <li
@@ -126,7 +130,7 @@ const CharacteristicsSection = () => {
           }
         >
           <img src={paintByTransactionAmountPreview} alt='preview' />
-          <span>Transaction Amount</span>
+          <span>{t('transactionAmount')}</span>
         </li>
 
         <li
@@ -134,7 +138,7 @@ const CharacteristicsSection = () => {
           className={activePaint === PAINT_BY_STATUS ? style.active : ''}
         >
           <img src={paintByStatusPreview} alt='preview' />
-          <span>Mise à l'Enquête</span>
+          <span>{t('status')}</span>
         </li>
 
         <li
@@ -142,7 +146,7 @@ const CharacteristicsSection = () => {
           className={activePaint === PAINT_BY_ENERGY ? style.active : ''}
         >
           <img src={paintByEnergyPreview} alt='preview' />
-          <span>Energie</span>
+          <span>{t('energy')}</span>
         </li>
       </ul>
     </>

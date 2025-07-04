@@ -12,7 +12,6 @@ const FeaturesPanel = ({
   icon,
   title,
   buttonIcon,
-  buttonText,
   emptyTitle,
   emptyText,
   features,

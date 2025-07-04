@@ -9,16 +9,18 @@ import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes.jsx'
 import { ProtectedMode, ZonesMode } from './modes/index.js'
 import 'react-datepicker/dist/react-datepicker.css'
+import { useLocaleStore } from './store/localeStore.js'
 
 function App() {
   const mapRef = useRef(null)
   const wrapperRef = useRef(null)
   const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
-  const { locale, setLocale, toggleSwitcher } = useModeStore()
+  const { toggleSwitcher } = useModeStore()
   const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
     useEventStore()
   const { isPrimary: isZonesPrimary } = useZoneStore()
+  const { initializeLocale } = useLocaleStore()
 
   const onMouseEnter = function () {
     setCursor('pointer')
@@ -71,20 +73,16 @@ function App() {
       observer.observe(wrapperRef.current)
     }
 
-    const lang = document.querySelector('html').lang
-
-    if (!['en', 'fr', 'de'].includes(locale)) {
-      setLocale('en')
-    }
-
-    setLocale(lang)
-
     return () => {
       if (wrapperRef.current) {
         observer.unobserve(wrapperRef.current)
       }
     }
   }, [])
+
+  useEffect(() => {
+    initializeLocale()
+  }, [initializeLocale])
 
   return (
     <BrowserRouter>

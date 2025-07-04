@@ -3,10 +3,13 @@ import { IoFilter as FilterIcon } from 'react-icons/io5'
 import { useFilterStore, useToastStore } from '../../store'
 import FiltersResult from './FiltersResult/FiltersResult'
 import { TbZoomCancel as StopIcon } from 'react-icons/tb'
-import { Checkbox, Panel } from '../../components'
+import { Panel, Tooltip } from '../../components'
 import style from './FiltersPanel.module.scss'
 import { filterService } from '../../service/filtersService'
 import FilterAccordion from '../../components/Filters/FilterAccordion/FilterAccordion'
+import { IoIosInformationCircleOutline as InfoIcon } from 'react-icons/io'
+import Switch from '../../components/Switch/Switch'
+import { useLocale } from '../../hooks/useLocale'
 
 const FiltersPanel = ({
   filtersFor = 'plots',
@@ -20,6 +23,7 @@ const FiltersPanel = ({
   const [error, setError] = useState('')
   const [controller, setController] = useState(null)
   const submitBtnRef = useRef(null)
+  const { t } = useLocale('panels.filters')
   const toast = useToastStore()
   const {
     filters,
@@ -43,17 +47,17 @@ const FiltersPanel = ({
       if (resp?.error) {
         if (resp?.error?.message === 'canceled') {
           setError('')
-          toast.text('Requête annulée')
+          toast.text(t('toast.canceled'))
         } else {
           setError(resp?.error?.message)
-          toast.error("Une erreur s'est produite, réessayez plus tard")
+          toast.error(t('toast.error'))
         }
       } else {
         setFiltersResult(resp?.features)
-        toast.success(`${resp?.features?.length} parcelles trouvées`)
+        toast.success(t('toast.success', { count: resp?.features?.length }))
       }
     } catch (err) {
-      toast.error('Erreur réseau ou requête annulée')
+      toast.error(t('toast.error'))
       setError(err)
     } finally {
       setLoading(false)
@@ -106,7 +110,7 @@ const FiltersPanel = ({
         heading={
           <>
             <FilterIcon size={20} />
-            <h2>Filters</h2>
+            <h2>{t('title')}</h2>
           </>
         }
       >
@@ -115,8 +119,19 @@ const FiltersPanel = ({
         ) : (
           filters.length && (
             <form onSubmit={handleSubmit}>
+              <div className={style.checkboxesContainer}>
+                <p className={style.checkboxesTitle}>{t('checkboxes.title')}</p>
+                <Tooltip
+                  text={t('checkboxes.info')}
+                  left='-200px'
+                  bottom='-55px'
+                  className={style.infoIcon}
+                >
+                  <InfoIcon size={22} />
+                </Tooltip>
+              </div>
               {filters?.getCheckboxes().map(filter => (
-                <Checkbox
+                <Switch
                   key={filter.id}
                   label={filter.title}
                   checked={filter.value}
@@ -134,7 +149,7 @@ const FiltersPanel = ({
 
               <div>
                 <button ref={submitBtnRef} type='submit'>
-                  Apply
+                  {t('buttons.apply')}
                 </button>
               </div>
             </form>
@@ -145,7 +160,7 @@ const FiltersPanel = ({
       {mapLoading && (
         <button onClick={cancelSearch} className={style.stopQuery}>
           <StopIcon />
-          Cancel search
+          {t('buttons.cancelSearch')}
         </button>
       )}
     </>

@@ -3,8 +3,11 @@ import ListItem from '../../../components/List/ListItem/ListItem'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
 import style from './PermitsSection.module.scss'
+import { useLocale } from '../../../hooks/useLocale'
 
 const PermitsSection = ({ permits }) => {
+  const { t } = useLocale('panels.buildings')
+
   const lastPermit = permits
     ?.filter(p => p?.date_statut)
     ?.sort((a, b) => new Date(b.date_statut) - new Date(a.date_statut))[0]
@@ -22,7 +25,7 @@ const PermitsSection = ({ permits }) => {
 
   if (!lastPermit) return null
   return (
-    <List title='Last building permit:'>
+    <List title={t('lastBuildingPermit')}>
       <ListItem>
         {lastPermit?.url && (
           <hgroup className={style.hgroup}>
@@ -34,19 +37,19 @@ const PermitsSection = ({ permits }) => {
           <li>
             {lastPermit?.date_statut && (
               <p>
-                Date: <b> {lastPermit.date_statut}</b>
+                {t('date')}: <b> {lastPermit.date_statut}</b>
               </p>
             )}
 
             {lastPermit?.type && (
               <p>
-                Building permit type: <b> {lastPermit.type}</b>
+                {t('buildingPermitType')}: <b> {lastPermit.type}</b>
               </p>
             )}
 
             {lastPermit?.numero && (
               <p>
-                Permit number: <b> {lastPermit.numero}</b>
+                {t('permitNumber')}: <b> {lastPermit.numero}</b>
               </p>
             )}
           </li>

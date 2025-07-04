@@ -10,15 +10,16 @@ import DetailsSection from './DetailsSection/DetailsSection'
 import TransactionsSection from '../PlotsPanel/TransactionsSection/TransactionsSection'
 import PermitsSection from './PermitsSection/PermitsSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
-import { useEventStore, useModeStore } from '../../store'
+import { useEventStore } from '../../store'
 import EnergySection from './EnergySection/EnergySection'
 import { Panel } from '../../components'
+import { useLocale } from '../../hooks/useLocale'
 
 const BuildingsPanel = ({ activeBuildingId }) => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [buildingInfo, setBuildingInfo] = useState(null)
-  const { locale } = useModeStore()
+  const { locale, t } = useLocale('panels.buildings')
   const { setClickedFeature } = useEventStore()
 
   const open = !!activeBuildingId
@@ -32,7 +33,7 @@ const BuildingsPanel = ({ activeBuildingId }) => {
       const info = await buildingService.getByEgId(activeBuildingId)
 
       if (info?.error?.message?.length) {
-        setError('Building information is unavailable. Please try again later.')
+        setError(t('error'))
         setLoading(false)
         return
       }
@@ -80,7 +81,6 @@ const BuildingsPanel = ({ activeBuildingId }) => {
       )}
 
       <SpecsSection
-        locale={locale}
         constructionYear={buildingInfo.annee_de_construction_du_batiment}
         apartmentsQuantity={buildingInfo.building_apartments_qty}
         buildingArea={
@@ -92,7 +92,7 @@ const BuildingsPanel = ({ activeBuildingId }) => {
       />
 
       {Array.isArray(buildingInfo?.plot?.zone) && (
-        <List title='Zone:' className={style.zone}>
+        <List title={t('zone')} className={style.zone}>
           {buildingInfo.plot?.zone?.map(item => (
             <li key={item} className={style.zoneItem}>
               {item}
@@ -156,7 +156,7 @@ const BuildingsPanel = ({ activeBuildingId }) => {
 
       {buildingInfo?.plot?.derniere_modification && (
         <p className={style.lastEdits}>
-          Last edits:{' '}
+          {t('lastEdits')}:{' '}
           <b>{convertTimeFormat(buildingInfo?.plot?.derniere_modification)}</b>
         </p>
       )}

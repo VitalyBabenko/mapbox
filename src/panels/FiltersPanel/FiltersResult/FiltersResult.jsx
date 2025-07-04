@@ -5,8 +5,10 @@ import { useEventStore, useFilterStore, useModeStore } from '../../../store'
 import bbox from '@turf/bbox'
 import PlotItem from './PlotItem/PlotItem'
 import BuildingItem from './BuildingItem/BuildingItem'
+import { useLocale } from '../../../hooks/useLocale'
 
 const FiltersResult = ({ filtersFor }) => {
+  const { t } = useLocale('panels.filters')
   const { current: map } = useMap()
   const { filtersResult, setFiltersResult } = useFilterStore()
   const { switchToCountiesMode } = useModeStore()
@@ -53,7 +55,7 @@ const FiltersResult = ({ filtersFor }) => {
       default:
         item = 'parcelle(s)'
     }
-    return `Results ${filtersResult?.length} ${item}`
+    return `${t('results.title')} ${filtersResult?.length} ${item}`
   }
 
   return (
@@ -62,7 +64,7 @@ const FiltersResult = ({ filtersFor }) => {
         <h3 className={style.title}>{getTitle()}</h3>
 
         <button className={style.reset} onClick={handleReset}>
-          reset
+          {t('buttons.reset')}
         </button>
       </div>
 

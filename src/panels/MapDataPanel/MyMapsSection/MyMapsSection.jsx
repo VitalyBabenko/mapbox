@@ -1,46 +1,34 @@
-import { useMap } from 'react-map-gl'
-import { INITIAL_VIEW, MODES } from '../../../constants'
-import { useModeStore } from '../../../store'
 import style from './MyMapsSection.module.scss'
 import bookmarksModePreview from '../../../assets/images/bookmarksModePreview.png'
 import tagsModePreview from '../../../assets/images/tagsModePreview.png'
 import alertsModePreview from '../../../assets/images/alertsModePreview.png'
 import notesModePreview from '../../../assets/images/notesModePreview.png'
 import { Link } from 'react-router-dom'
+import { useLocale } from '../../../hooks/useLocale'
 
 const MyMapsSection = () => {
-  const { current: map } = useMap()
-  const { mode, switchToCountiesMode } = useModeStore()
+  const { t } = useLocale('panels.mapData')
   const pathname = window.location.pathname
-
-  const resetMap = () => {
-    switchToCountiesMode()
-    map.flyTo({
-      center: [INITIAL_VIEW.LONGITUDE, INITIAL_VIEW.LATITUDE],
-      zoom: INITIAL_VIEW.ZOOM,
-      essential: true,
-    })
-  }
 
   const links = [
     {
       href: '/explore/map/tags',
-      title: 'Plots with tags',
+      title: t('plotsWithTags'),
       image: tagsModePreview,
     },
     {
       href: '/explore/map/bookmarks',
-      title: 'Plots with bookmarks',
+      title: t('plotsWithBookmarks'),
       image: bookmarksModePreview,
     },
     {
       href: '/explore/map/alerts',
-      title: 'Plots with alerts',
+      title: t('plotsWithAlerts'),
       image: alertsModePreview,
     },
     {
       href: '/explore/map/notes',
-      title: 'Plots with notes',
+      title: t('plotsWithNotes'),
       image: notesModePreview,
     },
   ]
@@ -54,11 +42,11 @@ const MyMapsSection = () => {
   return (
     <>
       <div className={style.heading}>
-        <h3 className={style.title}>My Maps</h3>
+        <h3 className={style.title}>{t('myMaps')}</h3>
 
         {isResetShowed && (
           <Link className={style.reset} to='/explore/map/plots'>
-            Reset
+            {t('buttons.reset')}
           </Link>
         )}
       </div>

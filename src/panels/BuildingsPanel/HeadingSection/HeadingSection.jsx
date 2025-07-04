@@ -1,10 +1,13 @@
 import style from './HeadingSection.module.scss'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import { BiFileBlank as FileIcon } from 'react-icons/bi'
+import { useLocale } from '../../../hooks/useLocale'
 
 const HeadingSection = ({ plotId, buildingId, rdppf }) => {
+  const { t } = useLocale('panels.buildings')
+
   const getHeading = () => {
-    return plotId ? `Plot ${plotId}` : `Building ${buildingId}`
+    return plotId ? `${t('plot')} ${plotId}` : `${t('building')} ${buildingId}`
   }
 
   return (
