@@ -622,7 +622,7 @@ export class MockData {
           mutnum: '0',
           n: '1118216.33',
           nbre_preneur: '1',
-          niveaux_hors_sol: null,
+          niveaux_hors_sol: '1',
           niveaux_sous_sol: null,
           no_batiment: 'G307',
           no_commune: '21',

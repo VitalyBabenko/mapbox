@@ -10,8 +10,8 @@ const TransactionsSection = ({ info }) => {
   if (!transactions?.length) return null
   return (
     <List title={t('transactions')}>
-      {transactions.map(transaction => (
-        <TransactionCard transaction={transaction} />
+      {transactions.map((transaction, i) => (
+        <TransactionCard key={i} transaction={transaction} />
       ))}
     </List>
   )

@@ -190,7 +190,16 @@
       "validityEndDate": "Date de fin de validité",
       "active": "Actif",
       "from": "Du",
-      "to": "Au"
+      "to": "Au",
+      "copyEgrid": "Copier EGRID",
+      "copiedToClipboard": "EGRID copié dans le presse-papiers",
+      "sadLink": "Lien SAD",
+      "livingSurface": "Surface habitable",
+      "typology": "Typologie",
+      "buildingStatus": "Statut du bâtiment",
+      "apartQyt": "Nombre d'appartements",
+      "aboveGroundLevels": "Niveaux Hors Sol",
+      "buildingHeight": "Hauteur"
     }
   }
 }

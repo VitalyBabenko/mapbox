@@ -6,7 +6,7 @@ import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
 import { useLocale } from '../../../hooks/useLocale'
 
-const AddressesSection = ({ info, locale }) => {
+const AddressesSection = ({ info }) => {
   const { t } = useLocale('panels.plots')
   const availableAddresses = info?.addresses?.filter(item => item.adresse)
 
@@ -38,8 +38,8 @@ const AddressesSection = ({ info, locale }) => {
   if (!availableAddresses?.length) return null
   return (
     <List title={t('addresses')}>
-      {availableAddresses.map(item => (
-        <ListItem>
+      {availableAddresses.map((item, i) => (
+        <ListItem key={i}>
           <hgroup>
             <h3>{addressToUpperCase(item.adresse)}</h3>
             <HeadingLink link={item?.lien_registre_batiments} />
@@ -61,7 +61,6 @@ const AddressesSection = ({ info, locale }) => {
             plotInfo={info}
             address={item}
             buildings={item.buildings}
-            locale={locale}
           />
         </ListItem>
       ))}

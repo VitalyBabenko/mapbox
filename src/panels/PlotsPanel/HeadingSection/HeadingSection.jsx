@@ -33,7 +33,6 @@ const HeadingSection = ({ plotInfo }) => {
     loading: loadingEmailAlerts,
     handler: emailAlertsHandler,
   } = useQuery()
-
   const { openTagsModal } = useTagsStore()
   const toast = useToastStore()
 
@@ -118,64 +117,66 @@ const HeadingSection = ({ plotInfo }) => {
   }, [errorBookmark, errorEmailAlerts])
 
   return (
-    <div className={style.heading}>
-      <h2 className={style.title}>
-        {t('plot')} {plotInfo?.no_commune_no_parcelle}
-      </h2>
+    <>
+      <div className={style.heading}>
+        <h2 className={style.title}>
+          {t('plot')} {plotInfo?.no_commune_no_parcelle}
+        </h2>
 
-      {isAddedToBookmarks ? (
-        <Tooltip text={t('removePlotFromBookmarksAlerts')} bottom='-40px'>
-          <IconButton disabled={loadingBookmark}>
-            <SolidBookmarkIcon
-              className={`${style.star}`}
-              onClick={removeFromBookmarks}
-            />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip text={t('addPlotToBookmarksAlerts')} bottom='-40px'>
-          <IconButton disabled={loadingBookmark}>
-            <BookmarkIcon
-              className={`${style.star}`}
-              onClick={addToBookmarkAlerts}
-            />
-          </IconButton>
-        </Tooltip>
-      )}
-
-      {isAddedToEmailAlerts ? (
-        <Tooltip text={t('removePlotFromEmailAlerts')} bottom='-40px'>
-          <IconButton disabled={loadingEmailAlerts}>
-            <SolidBellIcon onClick={removeFromEmailAlerts} />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip text={t('addPlotToEmailAlerts')} bottom='-40px'>
-          <IconButton disabled={loadingEmailAlerts}>
-            <BellIcon onClick={addToEmailAlerts} />
-          </IconButton>
-        </Tooltip>
-      )}
-
-      <Tooltip text={t('assignTag')} bottom='-40px'>
-        <IconButton disabled={loadingEmailAlerts}>
-          <TagIcon onClick={openTagsModal} />
-        </IconButton>
-      </Tooltip>
-
-      {plotInfo?.extrait_rdppf_pdf && (
-        <a
-          className={style.fileLink}
-          href={plotInfo.extrait_rdppf_pdf}
-          target='_blank'
-          rel='noreferrer'
-        >
-          <Tooltip text='RDPPF' bottom='-40px'>
-            <FileIcon />
+        {isAddedToBookmarks ? (
+          <Tooltip text={t('removePlotFromBookmarksAlerts')} bottom='-40px'>
+            <IconButton disabled={loadingBookmark}>
+              <SolidBookmarkIcon
+                className={`${style.star}`}
+                onClick={removeFromBookmarks}
+              />
+            </IconButton>
           </Tooltip>
-        </a>
-      )}
-    </div>
+        ) : (
+          <Tooltip text={t('addPlotToBookmarksAlerts')} bottom='-40px'>
+            <IconButton disabled={loadingBookmark}>
+              <BookmarkIcon
+                className={`${style.star}`}
+                onClick={addToBookmarkAlerts}
+              />
+            </IconButton>
+          </Tooltip>
+        )}
+
+        {isAddedToEmailAlerts ? (
+          <Tooltip text={t('removePlotFromEmailAlerts')} bottom='-40px'>
+            <IconButton disabled={loadingEmailAlerts}>
+              <SolidBellIcon onClick={removeFromEmailAlerts} />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip text={t('addPlotToEmailAlerts')} bottom='-40px'>
+            <IconButton disabled={loadingEmailAlerts}>
+              <BellIcon onClick={addToEmailAlerts} />
+            </IconButton>
+          </Tooltip>
+        )}
+
+        <Tooltip text={t('assignTag')} bottom='-40px'>
+          <IconButton disabled={loadingEmailAlerts}>
+            <TagIcon onClick={openTagsModal} />
+          </IconButton>
+        </Tooltip>
+
+        {plotInfo?.extrait_rdppf_pdf && (
+          <a
+            className={style.fileLink}
+            href={plotInfo.extrait_rdppf_pdf}
+            target='_blank'
+            rel='noreferrer'
+          >
+            <Tooltip text='RDPPF' bottom='-40px'>
+              <FileIcon />
+            </Tooltip>
+          </a>
+        )}
+      </div>
+    </>
   )
 }
 

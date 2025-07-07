@@ -1,35 +1,8 @@
 import style from './BuildingList.module.scss'
+import { useLocale } from '../../../../hooks/useLocale'
 
-const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
-  const titles = {
-    livingSurface: {
-      en: 'Gross Floor Surface Above Ground (m2):',
-      fr: 'Surface Brut de Plancher Hors Sol (m2):',
-      de: 'Oberirdische Bruttogeschossfläche (m2):',
-    },
-    typology: {
-      en: 'Building Typology:',
-      fr: 'Typologie d’Immeuble:',
-      de: 'Gebäudetypologie:',
-    },
-
-    buildingStatus: {
-      en: 'Building Status:',
-      fr: 'Statut du Bâtiment:',
-      de: 'Gebäudestatus:',
-    },
-
-    sadLink: {
-      en: 'Links SAD:',
-      fr: 'Liens SAD:',
-      de: 'Links SAD:',
-    },
-    apartQyt: {
-      en: 'Building Apartments Qty:',
-      fr: `Qté d'Appartements dans le Bâtiment:`,
-      de: 'Gebäude Wohnungen Qty:',
-    },
-  }
+const BuildingsList = ({ plotInfo, address, buildings }) => {
+  const { t } = useLocale('panels.plots')
 
   const constructionField = (minYear, maxYear) => {
     if (!minYear) return null
@@ -40,6 +13,12 @@ const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
         Construction year: <b>{maxYear}</b>
       </p>
     )
+  }
+
+  function normalizeHeight(value) {
+    if (typeof value !== 'number') return null
+
+    return `${Math.round(value)}m`
   }
 
   const getCertificatesByBuildingAddress = address => {
@@ -54,11 +33,12 @@ const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
 
     return (
       <p className={style.certs}>
-        {titles.sadLink[locale]}{' '}
+        {t('sadLink')}{' '}
         <div className={style.list}>
           {' '}
-          {certs.map(cert => (
+          {certs.map((cert, i) => (
             <a
+              key={i}
               className={style.link}
               target='_blank'
               href={cert?.url}
@@ -78,7 +58,7 @@ const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
   return (
     <>
       {buildings.map((building, i) => (
-        <ul style={{ marginTop: '16px' }}>
+        <ul key={i} style={{ marginTop: '16px' }}>
           <li key={building?.egrid && i}>
             {building?.egid && (
               <p>
@@ -93,22 +73,20 @@ const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
 
             {address?.surface_brut_de_plancher_hors_sol_m2 ? (
               <p>
-                {titles.livingSurface[locale]}{' '}
+                {t('livingSurface')}:{' '}
                 <b> {address?.surface_brut_de_plancher_hors_sol_m2}m²</b>
               </p>
             ) : null}
 
             {address?.typologie_d_immeuble && (
               <p>
-                {titles.typology[locale]}{' '}
-                <b> {address?.typologie_d_immeuble}</b>
+                {t('typology')}: <b> {address?.typologie_d_immeuble}</b>
               </p>
             )}
 
             {building?.statut_du_batiment && (
               <p>
-                {titles.buildingStatus[locale]}{' '}
-                <b> {building?.statut_du_batiment}</b>
+                {t('buildingStatus')}: <b> {building?.statut_du_batiment}</b>
               </p>
             )}
 
@@ -120,8 +98,20 @@ const BuildingsList = ({ plotInfo, address, buildings, locale }) => {
 
             {building?.building_apartments_qty && (
               <p>
-                {titles.apartQyt[locale]}{' '}
-                <b> {building?.building_apartments_qty}</b>
+                {t('apartQyt')}: <b> {building?.building_apartments_qty}</b>
+              </p>
+            )}
+
+            {address?.niveaux_hors_sol && (
+              <p>
+                {t('aboveGroundLevels')}: <b> {address?.niveaux_hors_sol}</b>
+              </p>
+            )}
+
+            {address?.hauteur_immeuble_m && (
+              <p>
+                {t('buildingHeight')}:{' '}
+                <b> {normalizeHeight(address?.hauteur_immeuble_m)}</b>
               </p>
             )}
 

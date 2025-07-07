@@ -169,7 +169,7 @@
       "areaCoveredByDDP": "Area covered by DDP",
       "provenance": "Provenance",
       "addresses": "Address(es)",
-      "buildingRegistry": "Registre des Bâtiments",
+      "buildingRegistry": "Building registry",
       "geneva": "Genève",
       "minergie": "Minergie",
       "specificType": "Specific type",
@@ -192,7 +192,16 @@
       "buildingPermitsDetails": "Full details on the government's website",
       "active": "Active",
       "from": "From",
-      "to": "To"
+      "to": "To",
+      "copyEgrid": "Copy EGRID",
+      "copiedToClipboard": "EGRID copied to clipboard",
+      "sadLink": "SAD link",
+      "livingSurface": "Living surface",
+      "typology": "Typology",
+      "buildingStatus": "Building status",
+      "apartQyt": "Apartments quantity",
+      "aboveGroundLevels": "Above Ground Levels",
+      "buildingHeight": "Height"
     }
   }
 }
