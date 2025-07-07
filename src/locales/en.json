@@ -90,7 +90,8 @@
           "title": "Plot",
           "surface": "Surface",
           "typology": "Typology",
-          "egrid": "ERGID"
+          "egrid": "ERGID",
+          "addresses": "Address(es)"
         },
         "buildingItem": {
           "title": "Building",

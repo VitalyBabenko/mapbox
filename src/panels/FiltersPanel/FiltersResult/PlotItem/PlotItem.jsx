@@ -35,6 +35,12 @@ const PlotItem = ({ isActive, feature, handleItemClick }) => {
         <p className={style.field}>
           {t('egrid')}: <span>{feature?.properties?.EGRID}</span>
         </p>
+
+        {feature?.properties?.ADDRESS && (
+          <p className={style.field}>
+            {t('addresses')}: <span>{feature?.properties?.ADDRESS}</span>
+          </p>
+        )}
       </ul>
     </div>
   )
