@@ -72,11 +72,7 @@ const ModeSwitcher = ({ isResetButtonNeeded = true }) => {
       </div>
 
       {isResetButtonNeeded && (
-        <ResetViewButton
-          top={10}
-          right={213}
-          isVisible={isResetButtonVisible}
-        />
+        <ResetViewButton top={10} isVisible={isResetButtonVisible} />
       )}
     </>
   )

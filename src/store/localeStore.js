@@ -19,7 +19,8 @@ export const useLocaleStore = create((set, get) => ({
   initializeLocale: () => {
     const { isInitialized } = get()
     if (!isInitialized) {
-      const htmlLang = document.querySelector('html').lang
+      // const htmlLang = document.querySelector('html').lang
+      const htmlLang = 'fr'
       const initialLocale = ['en', 'fr'].includes(htmlLang) ? htmlLang : 'en'
 
       set({
