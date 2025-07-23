@@ -201,7 +201,8 @@
       "buildingStatus": "Building status",
       "apartQyt": "Apartments quantity",
       "aboveGroundLevels": "Above Ground Levels",
-      "buildingHeight": "Height"
+      "buildingHeight": "Height",
+      "constructionYear": "Construction year"
     }
   }
 }

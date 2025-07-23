@@ -10,7 +10,7 @@ const BuildingsList = ({ plotInfo, address, buildings }) => {
 
     return (
       <p>
-        Construction year: <b>{maxYear}</b>
+        {t('constructionYear')}: <b>{maxYear}</b>
       </p>
     )
   }

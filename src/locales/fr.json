@@ -199,7 +199,8 @@
       "buildingStatus": "Statut du bâtiment",
       "apartQyt": "Nombre d'appartements",
       "aboveGroundLevels": "Niveaux Hors Sol",
-      "buildingHeight": "Hauteur"
+      "buildingHeight": "Hauteur",
+      "constructionYear": "Année de construction"
     }
   }
 }
