@@ -10,6 +10,7 @@ import FilterAccordion from '../../components/Filters/FilterAccordion/FilterAcco
 import { IoIosInformationCircleOutline as InfoIcon } from 'react-icons/io'
 import Switch from '../../components/Switch/Switch'
 import { useLocale } from '../../hooks/useLocale'
+import { removeQueryParams } from '../../utils/removeQueryParams'
 
 const FiltersPanel = ({
   filtersFor = 'plots',
@@ -32,6 +33,12 @@ const FiltersPanel = ({
     setFiltersResult,
     setFilterValue,
   } = useFilterStore()
+
+  const clearQueryParamsOnClose = () => {
+    const url = window.location.href
+    const cleanedUrl = removeQueryParams(url) // используем утилиту из utils
+    window.history.replaceState({}, '', cleanedUrl)
+  }
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -98,7 +105,10 @@ const FiltersPanel = ({
     <>
       <Panel
         open={open}
-        setOpen={setOpen}
+        setOpen={value => {
+          setOpen(value)
+          if (!value) clearQueryParamsOnClose()
+        }}
         loading={loading}
         error={error}
         className={style.filterPanel}
@@ -123,7 +133,7 @@ const FiltersPanel = ({
                 <p className={style.checkboxesTitle}>{t('checkboxes.title')}</p>
                 <Tooltip
                   text={t('checkboxes.info')}
-                  left='-200px'
+                  left='-210px'
                   bottom='-55px'
                   className={style.infoIcon}
                 >
