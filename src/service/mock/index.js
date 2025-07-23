@@ -751,6 +751,38 @@ export class MockData {
           },
         },
         {
+          id: 24,
+          mongo_id: '670c0dbd7c5a9608956dca2b',
+          affaire: '2016/13001/0',
+          communes: [
+            {
+              commune: 'Carouge',
+              commune_num: '8',
+            },
+            {
+              commune: 'Genève-Eaux-Vives',
+              commune_num: '22',
+            },
+            {
+              commune: 'Genève-Petit-Saconnex',
+              commune_num: '23',
+            },
+          ],
+          mongo_created_at: '2024-10-13T20:04:51.000000Z',
+          date_de_parution_au_rf: null,
+          prix: null,
+          transaction:
+            '20.12.2016 - Carouge, 8 - Genève-Eaux-Vives, 22 - Genève-Petit-Saconnex, 23 - Affaire 2016/13001/0. Héritage - Ancien(s): Feu ASTRUC Yvonne, Cointrin, notamment depuis le 21.10.1965. - Nouveau(x): IMBRUGLIA Christine, Genève, ASTRUC Pierre, Genève, en communauté héréditaire, B-F Carouge, 8/428, 249 m2, Habitation à plusieurs logements avec rez-de-chaussée commercial, A2005, 113 m2, Bâtiment plus petit que 20m2, A2006, 3 m2, Bâtiment plus petit que 20m2, A2007, 11 m2, Rue Ancienne 60, 1227 Carouge GE| B-F Genève-Eaux-Vives, 22/724, 189 m2, Habitation à plusieurs logements avec rez-de-chaussée commercial, D405, 189 m2, Route de Chêne 3, 1207 Genève| B-F Genève-Petit-Saconnex, 23/4217, 2616 m2, Garage privé, D1459, 15 m2, Bâtiment plus petit que 20m2, D1458, 3 m2, Bâtiment plus petit que 20m2, D1462, 17 m2, Garage privé, D896, 17 m2, Garage privé, D1461, 19 m2, Habitation à deux logements, D895, 144 m2, Bâtiment plus grand que 20 m2 non classé ailleurs, D898, 20 m2, Garage privé, D1460, 15 m2, Bâtiment plus petit que 20m2, D897, 9 m2, Avenue de la Forêt 2, 1202 Genève| Partage - Ancien(s): Hoirie de ASTRUC Yvonne. - Nouveau(x): ASTRUC Pierre, Genève, B-F Carouge, 8/428 sus désigné| - Nouveau(x): IMBRUGLIA Christine, Genève, B-F Genève-Eaux-Vives, 22/724 sus désigné| - Nouveau(x): ASTRUC Pierre, Genève, IMBRUGLIA Christine, Genève, cop. 1/2 chacun, B-F Genève-Petit-Saconnex, 23/4217 sus désigné.',
+          type: 'Héritage',
+          transaction_date: '20-12-2016',
+          created_at: '2024-11-26T00:00:22.000000Z',
+          updated_at: '2024-11-26T00:00:22.000000Z',
+          pivot: {
+            plot_id: 63844,
+            transaction_id: 24,
+          },
+        },
+        {
           id: 56931,
           mongo_id: '670c0dca7c5a9608956ea876',
           affaire: '2018/10223/0',
