@@ -17,8 +17,10 @@ import {
 } from '../../panels'
 import { MODES } from '../../constants'
 import { useEventStore, useModeStore, useZoneStore } from '../../store'
+import { useRef } from 'react'
 
 const MainPage = () => {
+  const resetViewButtonRef = useRef(null)
   const { clickedFeature } = useEventStore()
   const { isZonesActive, isZonesPrimary } = useZoneStore()
   const { mode, switcher } = useModeStore()
@@ -38,9 +40,10 @@ const MainPage = () => {
       <BookmarksMode isActive={getIsModeActive(MODES.BOOKMARKS)} />
       <ZonesMode />
       <PoolsLayer />
-      <ModeSwitcher />
+      <ModeSwitcher resetViewButtonRef={resetViewButtonRef} />
       <FiltersPanel
         filtersFor={switcher === MODES.PLOTS ? 'plots' : 'buildings'}
+        resetViewButtonRef={resetViewButtonRef}
       />
       <MapDataPanel />
       <ScalePanel />

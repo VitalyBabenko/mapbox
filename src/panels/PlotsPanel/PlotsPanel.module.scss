@@ -5,6 +5,23 @@
   height: 500px;
   background: $grey-50;
 
+  .egrid {
+    margin-top: -7px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 19.5px;
+    margin-bottom: 7px;
+    color: $grey-700;
+    cursor: pointer;
+
+    b {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 19.5px;
+      color: $grey-600;
+    }
+  }
+
   .commune {
     font-size: 13px;
     font-weight: 400;

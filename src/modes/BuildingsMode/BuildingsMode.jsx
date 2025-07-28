@@ -13,6 +13,7 @@ const BuildingsMode = ({ isActive }) => {
   const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
   const { activePaint, opacity } = usePaintStore()
   const { filtersResult } = useFilterStore()
+  const isSearch = Boolean(filtersResult?.length)
 
   const buildingsFilter = [
     'match',
@@ -23,17 +24,47 @@ const BuildingsMode = ({ isActive }) => {
   ]
 
   const getFillOpacity = () => {
-    const hoverOpacity = (opacity[1] + 40) / 100
-    if (hoveredFeature?.properties?.EGID) {
-      return [
-        'case',
-        ['==', ['get', 'EGID'], hoveredFeature?.properties?.EGID],
-        hoverOpacity > 1 ? 1 : hoverOpacity,
-        opacity[1] / 100,
-      ]
+    const hoverOpacity = Math.min((opacity[1] + 40) / 100, 1)
+    const baseOpacity = opacity[1] / 100
+    const highlightedOpacity = Math.min(baseOpacity + 0.7, 1)
+
+    const searchedEgids = isSearch
+      ? filtersResult.map(f => f?.properties?.EGID?.trim?.()).filter(Boolean)
+      : []
+
+    const hoveredEgid = hoveredFeature?.properties?.EGID?.trim?.()
+
+    if (!searchedEgids.length && !hoveredEgid) {
+      return baseOpacity
     }
-    return opacity[1] / 100
+
+    const opacityCase = ['match', ['get', 'EGID']]
+
+    searchedEgids.forEach(id => {
+      opacityCase.push(id, highlightedOpacity)
+    })
+
+    if (hoveredEgid) {
+      opacityCase.push(hoveredEgid, hoverOpacity)
+    }
+
+    opacityCase.push(baseOpacity)
+
+    return opacityCase
   }
+
+  // const getFillOpacity = () => {
+  //   const hoverOpacity = (opacity[1] + 40) / 100
+  //   if (hoveredFeature?.properties?.EGID) {
+  //     return [
+  //       'case',
+  //       ['==', ['get', 'EGID'], hoveredFeature?.properties?.EGID],
+  //       hoverOpacity > 1 ? 1 : hoverOpacity,
+  //       opacity[1] / 100,
+  //     ]
+  //   }
+  //   return opacity[1] / 100
+  // }
 
   const getFillColor = () => {
     if (clickedFeature?.properties?.EGID) {

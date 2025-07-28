@@ -9,10 +9,11 @@ import {
 } from '../../store'
 
 const PlotsMode = ({ isActive }) => {
-  const { county, switcher } = useModeStore()
+  const { county } = useModeStore()
   const { opacity } = usePaintStore()
   const { hoverEvent, hoveredFeature, clickedFeature } = useEventStore()
-  const { filteredPlotsFeatures, filtersResult } = useFilterStore()
+  const { filtersResult, filters } = useFilterStore()
+  const isSearch = Boolean(filtersResult?.length)
 
   const plotsFilter = useMemo(() => {
     const countyName = county?.properties?.COMMUNE || ''
@@ -20,17 +21,33 @@ const PlotsMode = ({ isActive }) => {
   }, [isActive, county])
 
   const getFillOpacity = () => {
-    const hoverOpacity = (opacity[1] + 40) / 100
-    if (!hoveredFeature?.properties?.EGRID) {
-      return opacity[1] / 100
+    const hoverOpacity = Math.min((opacity[1] + 40) / 100, 1)
+    const baseOpacity = opacity[1] / 100
+    const highlightedOpacity = Math.min(baseOpacity + 0.4, 1)
+
+    const searchedEgrids = isSearch
+      ? filtersResult.map(f => f?.properties?.EGRID?.trim?.()).filter(Boolean)
+      : []
+
+    const hoveredEgrid = hoveredFeature?.properties?.EGRID?.trim?.()
+
+    if (!searchedEgrids.length && !hoveredEgrid) {
+      return baseOpacity
     }
 
-    return [
-      'case',
-      ['==', ['get', 'EGRID'], hoveredFeature?.properties?.EGRID],
-      hoverOpacity > 1 ? 1 : hoverOpacity,
-      opacity[1] / 100,
-    ]
+    const opacityCase = ['match', ['get', 'EGRID']]
+
+    searchedEgrids.forEach(id => {
+      opacityCase.push(id, highlightedOpacity)
+    })
+
+    if (hoveredEgrid) {
+      opacityCase.push(hoveredEgrid, hoverOpacity)
+    }
+
+    opacityCase.push(baseOpacity)
+
+    return opacityCase
   }
 
   const getFillColor = () => {
@@ -43,9 +60,6 @@ const PlotsMode = ({ isActive }) => {
       '#58dca6',
     ]
   }
-
-  const isFilteredFeaturesActive =
-    switcher === 'plots' && filtersResult?.[0]?.properties?.EGRID
 
   const geojson = {
     type: 'FeatureCollection',
@@ -65,7 +79,7 @@ const PlotsMode = ({ isActive }) => {
           }}
           beforeId='poi-label'
           layout={{
-            visibility: isFilteredFeaturesActive ? 'visible' : 'none',
+            visibility: !filters[3]?.value?.length ? 'visible' : 'none',
           }}
         />
       </Source>

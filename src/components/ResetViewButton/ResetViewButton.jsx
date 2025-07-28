@@ -8,14 +8,22 @@ import {
   useModeStore,
   usePaintStore,
 } from '../../store'
+import { useLocale } from '../../hooks/useLocale'
 
-const ResetViewButton = ({ top, left, right, bottom, isVisible }) => {
+const ResetViewButton = ({
+  top,
+  left,
+  right,
+  bottom,
+  isVisible,
+  resetViewButtonRef,
+}) => {
   const { current: map } = useMap()
   const { switchToCountiesMode } = useModeStore()
-  const { setFilteredPlotsFeatures, setFilteredBuildingsFeatures } =
-    useFilterStore()
+  const { setFiltersResult } = useFilterStore()
   const { setActivePaint } = usePaintStore()
   const { setClickedFeature } = useEventStore()
+  const { locale } = useLocale()
 
   const resetView = () => {
     map.flyTo({
@@ -25,8 +33,7 @@ const ResetViewButton = ({ top, left, right, bottom, isVisible }) => {
     })
 
     setActivePaint(DEFAULT_PAINT)
-    setFilteredPlotsFeatures([])
-    setFilteredBuildingsFeatures([])
+    setFiltersResult([])
     switchToCountiesMode()
     setClickedFeature(null)
   }
@@ -44,7 +51,8 @@ const ResetViewButton = ({ top, left, right, bottom, isVisible }) => {
     <button
       onClick={resetView}
       style={inlineStyles}
-      className={style.resetButton}
+      className={`${style.resetButton} ${style[locale]}`}
+      ref={resetViewButtonRef}
     >
       <ResetIcon />
       Reset view

@@ -5,13 +5,15 @@ import { useLocale } from '../../../hooks/useLocale'
 const TransactionsSection = ({ info }) => {
   const { t } = useLocale('panels.plots')
 
-  const transactions = Array.from(new Set(info?.transactions))
+  const uniqueTransactions = Array.from(
+    new Map(info?.transactions.map(tx => [tx.affaire, tx])).values(),
+  )
 
-  if (!transactions?.length) return null
+  if (!uniqueTransactions?.length) return null
   return (
     <List title={t('transactions')}>
-      {transactions.map(transaction => (
-        <TransactionCard transaction={transaction} />
+      {uniqueTransactions.map((transaction, i) => (
+        <TransactionCard key={i} transaction={transaction} />
       ))}
     </List>
   )

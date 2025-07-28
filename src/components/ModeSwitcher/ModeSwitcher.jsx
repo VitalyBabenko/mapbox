@@ -6,7 +6,7 @@ import { useFilterStore, useModeStore } from '../../store'
 import { memo } from 'react'
 import ResetViewButton from '../ResetViewButton/ResetViewButton'
 
-const ModeSwitcher = ({ isResetButtonNeeded = true }) => {
+const ModeSwitcher = ({ isResetButtonNeeded = true, resetViewButtonRef }) => {
   const {
     county,
     mode,
@@ -74,8 +74,8 @@ const ModeSwitcher = ({ isResetButtonNeeded = true }) => {
       {isResetButtonNeeded && (
         <ResetViewButton
           top={10}
-          right={213}
           isVisible={isResetButtonVisible}
+          resetViewButtonRef={resetViewButtonRef}
         />
       )}
     </>

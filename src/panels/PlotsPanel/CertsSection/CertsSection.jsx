@@ -10,8 +10,8 @@ const CertsSection = ({ info }) => {
   if (!certs?.length) return null
   return (
     <List title={t('buildingPermits')} className={style.certs}>
-      {certs?.map(cert => (
-        <CertCard key={cert?.numero} cert={cert} />
+      {certs?.map((cert, i) => (
+        <CertCard key={`${cert?.numero}-${i}`} cert={cert} />
       ))}
     </List>
   )

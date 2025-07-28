@@ -8,10 +8,10 @@ import NotesSection from './NotesSection/NotesSection'
 import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import List from '../../components/List/List'
 import { plotService } from '../../service/plotService'
-import { useEventStore } from '../../store'
+import { useEventStore, useToastStore } from '../../store'
 import HeadingSection from './HeadingSection/HeadingSection'
 import DDPSection from './DDPSection/DDPSection'
-import { Panel } from '../../components'
+import { Panel, Tooltip } from '../../components'
 import CertsSection from './CertsSection/CertsSection'
 import { useLocale } from '../../hooks/useLocale'
 
@@ -23,6 +23,12 @@ const PlotsPanel = ({ activePlotId }) => {
   const { setClickedFeature, setClickedPlotInfo } = useEventStore()
   const open = !!activePlotId
   const closePanel = () => setClickedFeature(null)
+  const toast = useToastStore()
+
+  const copyToClipboard = text => {
+    navigator.clipboard.writeText(text)
+    toast.success(t('copiedToClipboard'))
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -55,6 +61,19 @@ const PlotsPanel = ({ activePlotId }) => {
       panelSide='right'
       className={style.plotPanel}
     >
+      {plotInfo?.egrid && (
+        <Tooltip text={t('copyEgrid')} bottom='-28px' left='0px'>
+          <div className={style.egrid}>
+            <p
+              onClick={() => copyToClipboard(plotInfo?.egrid)}
+              className={style.egrid}
+            >
+              <b>EGRID</b>: {plotInfo?.egrid}
+            </p>
+          </div>
+        </Tooltip>
+      )}
+
       <SpecsSection plotInfo={plotInfo} />
 
       <NotesSection plotInfo={plotInfo} />
