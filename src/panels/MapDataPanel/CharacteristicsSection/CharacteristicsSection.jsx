@@ -7,6 +7,7 @@ import {
 import style from './CharacteristicsSection.module.scss'
 import {
   DEFAULT_PAINT,
+  MODES,
   PAINT_BY_APARTS_QTY,
   PAINT_BY_CONSTRUCTION_PERIOD,
   PAINT_BY_ENERGY,
@@ -36,8 +37,7 @@ const CharacteristicsSection = () => {
     switchToCountiesMode,
   } = useModeStore()
   const toast = useToastStore()
-  const { setFilteredBuildingsFeatures, setFilteredPlotsFeatures } =
-    useFilterStore()
+  const { setFiltersResult, filtersResult } = useFilterStore()
 
   const handleChangePaint = clickedPaint => {
     if (mode === 'counties' && activePaint === DEFAULT_PAINT) {
@@ -61,8 +61,8 @@ const CharacteristicsSection = () => {
       setActivePaint(DEFAULT_PAINT)
       return
     }
-    setFilteredBuildingsFeatures([])
-    setFilteredPlotsFeatures([])
+
+    setFiltersResult([])
 
     setActivePaint(clickedPaint)
   }
@@ -70,6 +70,8 @@ const CharacteristicsSection = () => {
   const handleResetClick = () => {
     handleChangePaint(DEFAULT_PAINT)
   }
+
+  if (mode === MODES.PLOTS && filtersResult?.length) return null
 
   return (
     <>

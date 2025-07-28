@@ -15,34 +15,4 @@ export const useFilterStore = create(set => ({
 
   filtersResult: [],
   setFiltersResult: filtersResult => set({ filtersResult }),
-
-  // ----------------------
-
-  allFilters: [],
-  setAllFilters: newFilters => set({ allFilters: newFilters }),
-
-  checkboxes: [],
-  setCheckboxes: checkboxes => set({ checkboxes }),
-
-  accordions: [],
-  setAccordions: accordions => set({ accordions }),
-
-  fromValues: {},
-  setFormValues: formValues => set({ formValues }),
-  setInputValue: (input, value) =>
-    set(prev => ({
-      ...prev,
-      formValues: {
-        ...prev.formValues,
-        [input]: value,
-      },
-    })),
-
-  filteredPlotsFeatures: [],
-  setFilteredPlotsFeatures: filteredPlotsFeatures =>
-    set({ filteredPlotsFeatures }),
-
-  filteredBuildingsFeatures: [],
-  setFilteredBuildingsFeatures: filteredBuildingsFeatures =>
-    set({ filteredBuildingsFeatures }),
 }))

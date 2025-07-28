@@ -36,8 +36,6 @@ const PlotsPanel = ({ activePlotId }) => {
       setLoading(true)
       const info = await plotService.getPlotByEgrId(activePlotId)
 
-      console.log(info)
-
       if (info?.error?.message?.length) {
         setError(t('error'))
         setLoading(false)
