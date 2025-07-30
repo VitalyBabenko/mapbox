@@ -5,6 +5,7 @@ import { PlotsPopup } from './components/PlotsPopup'
 import Default from './layers/Default'
 import FilteredWithoutCounty from './layers/FilteredWithoutCounty'
 import FilteredWithCounty from './layers/FilteredWithCounty'
+import PublicPlotsSwitcher from './components/PublicPlotsSwitcher/PublicPlotsSwitcher'
 
 /**
  * PlotsMode — land plots display mode.
@@ -63,6 +64,8 @@ const PlotsMode = () => {
           Pool
         </Popup>
       )}
+
+      <PublicPlotsSwitcher />
     </>
   )
 }

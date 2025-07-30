@@ -82,4 +82,4 @@ const ModeSwitcher = ({ isResetButtonNeeded = true, resetViewButtonRef }) => {
   )
 }
 
-export default memo(ModeSwitcher)
+export default ModeSwitcher

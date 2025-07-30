@@ -87,4 +87,4 @@ const Panel = props => {
   )
 }
 
-export default memo(Panel)
+export default Panel

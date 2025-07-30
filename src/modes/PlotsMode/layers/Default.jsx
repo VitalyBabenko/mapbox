@@ -3,6 +3,7 @@ import { PLOTS_SOURCE } from '../../../constants'
 import usePlotsFilter from '../hooks/usePlotsFilter'
 import { usePaintStore } from '../../../store/paintStore'
 import { useEventStore } from '../../../store/eventStore'
+import { PUBLIC_PLOTS_TYPES } from '../../../constants/mapSources'
 
 const Default = ({ county }) => {
   const { opacity } = usePaintStore()
@@ -30,17 +31,21 @@ const Default = ({ county }) => {
 
   const getFillColor = () => {
     const clickedEgrid = clickedFeature?.properties?.EGRID
+      ? String(clickedFeature.properties.EGRID)
+      : null
 
-    if (!clickedEgrid) {
-      return '#58dca6'
-    }
+    const publicPlotsCase = PUBLIC_PLOTS_TYPES.flatMap(type => [
+      ['==', ['get', 'TYPE_PROPR'], type],
+      '#fff59d',
+    ])
 
-    return [
-      'case',
-      ['==', ['get', 'EGRID'], clickedEgrid],
-      '#ed0e2c',
-      '#58dca6',
-    ]
+    const clickedCase = clickedEgrid
+      ? [['==', ['to-string', ['get', 'EGRID']], clickedEgrid], '#ed0e2c']
+      : []
+
+    const defaultCase = ['#58dca6']
+
+    return ['case', ...clickedCase, ...publicPlotsCase, ...defaultCase]
   }
 
   return (

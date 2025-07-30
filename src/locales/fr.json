@@ -202,5 +202,10 @@
       "buildingHeight": "Hauteur",
       "constructionYear": "Année de construction"
     }
+  },
+
+  "publicPlotsSwitcher": {
+    "text": "Parcelles publiques",
+    "tooltip": "Afficher ou masquer les parcelles publiques telles que les routes et les terres communales"
   }
 }

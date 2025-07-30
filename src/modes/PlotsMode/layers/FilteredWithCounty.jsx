@@ -2,6 +2,7 @@ import { Layer, Source } from 'react-map-gl'
 import usePlotsFilter from '../hooks/usePlotsFilter'
 import { PLOTS_SOURCE } from '../../../constants'
 import { useEventStore, usePaintStore } from '../../../store'
+import { PUBLIC_PLOTS_TYPES } from '../../../constants/mapSources'
 
 const FilteredWithCounty = ({ county, filtersResult }) => {
   const { opacity } = usePaintStore()
@@ -18,22 +19,39 @@ const FilteredWithCounty = ({ county, filtersResult }) => {
       .filter(Boolean)
       .map(String)
 
-    return [
-      'case',
+    const clickedAndSearchedCase = [
       clickedEgrid && searchedEgrids.includes(clickedEgrid)
         ? ['==', ['to-string', ['get', 'EGRID']], clickedEgrid]
         : false,
       '#ff6f31',
+    ]
 
+    const clickedCase = [
       clickedEgrid
         ? ['==', ['to-string', ['get', 'EGRID']], clickedEgrid]
         : false,
       '#ed0e2c',
+    ]
 
+    const searchedCase = [
       ['in', ['to-string', ['get', 'EGRID']], ['literal', searchedEgrids]],
       '#00C0F0',
+    ]
 
-      '#58dca6',
+    const publicPlotsCases = PUBLIC_PLOTS_TYPES.map(type => [
+      ['==', ['get', 'TYPE_PROPR'], type],
+      '#fff59d',
+    ]).flat()
+
+    const defaultCase = ['#58dca6']
+
+    return [
+      'case',
+      ...clickedAndSearchedCase,
+      ...clickedCase,
+      ...searchedCase,
+      ...publicPlotsCases,
+      ...defaultCase,
     ]
   }
 

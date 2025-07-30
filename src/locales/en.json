@@ -204,5 +204,12 @@
       "buildingHeight": "Height",
       "constructionYear": "Construction year"
     }
+  },
+
+  "buttons": {
+    "publicPlotsSwitcher": {
+      "text": "Public plots",
+      "tooltip": "Show or hide public plots such as roads and municipal lands"
+    }
   }
 }

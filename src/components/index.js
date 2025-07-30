@@ -13,6 +13,7 @@ import PoolsLayer from './PoolsLayer/PoolsLayer'
 import ResetViewButton from './ResetViewButton/ResetViewButton'
 import TransactionsSwitcher from './TransactionsSwitcher/TransactionsSwitcher'
 import Panel from './Panel/Panel'
+import Switch from './Switch/Switch'
 
 export {
   Checkbox,
@@ -30,4 +31,5 @@ export {
   Tooltip,
   PoolsLayer,
   TransactionsSwitcher,
+  Switch,
 }
