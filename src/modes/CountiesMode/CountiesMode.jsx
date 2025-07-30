@@ -79,6 +79,7 @@ const CountiesMode = ({ isActive, modeOnCountyClick }) => {
         beforeId='poi-label'
         layout={{ visibility: getIsActive() ? 'visible' : 'none' }}
       />
+
       {hoveredFeature?.properties?.COMMUNE && isActive && (
         <Popup
           longitude={hoverEvent.lngLat.lng}

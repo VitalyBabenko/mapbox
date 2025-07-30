@@ -1,6 +1,6 @@
 import ListItem from '../../../components/List/ListItem/ListItem'
 import style from './EnergySection.module.scss'
-import { useLocale } from '../../../hooks/useLocale'
+import { useLocale } from '../../../hooks'
 
 const EnergySection = ({ heating, hot }) => {
   const { t } = useLocale('panels.buildings')

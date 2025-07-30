@@ -9,13 +9,13 @@ import { filterService } from '../../service/filtersService'
 import FilterAccordion from '../../components/Filters/FilterAccordion/FilterAccordion'
 import { IoIosInformationCircleOutline as InfoIcon } from 'react-icons/io'
 import Switch from '../../components/Switch/Switch'
-import { useLocale } from '../../hooks/useLocale'
+import { useLocale } from '../../hooks'
 import { removeQueryParams } from '../../utils/removeQueryParams'
 import { MODES } from '../../constants'
 import { getCountyByName } from '../../utils/getCountyByName'
 import { useMap } from 'react-map-gl'
 import bbox from '@turf/bbox'
-import { delay } from '../../store/delay'
+import { delay } from '../../utils/delay'
 
 const FiltersPanel = ({
   filtersFor = 'plots',
@@ -88,8 +88,6 @@ const FiltersPanel = ({
 
       const countyFilter = filters.find(f => f.attribute === 'commune_name')
       const searchedCounty = countyFilter?.value?.[0]?.label
-
-      console.log({ countyFilter, searchedCounty })
 
       if (searchedCounty) {
         const countyFeature = getCountyByName(map, searchedCounty)

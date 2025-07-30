@@ -13,7 +13,7 @@ import { convertTimeFormat } from '../../utils/convertTimeFormat'
 import { useEventStore } from '../../store'
 import EnergySection from './EnergySection/EnergySection'
 import { Panel } from '../../components'
-import { useLocale } from '../../hooks/useLocale'
+import { useLocale } from '../../hooks'
 
 const BuildingsPanel = ({ activeBuildingId }) => {
   const [error, setError] = useState('')

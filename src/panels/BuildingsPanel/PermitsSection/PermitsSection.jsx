@@ -3,7 +3,7 @@ import ListItem from '../../../components/List/ListItem/ListItem'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import { BiLinkExternal as LinkIcon } from 'react-icons/bi'
 import style from './PermitsSection.module.scss'
-import { useLocale } from '../../../hooks/useLocale'
+import { useLocale } from '../../../hooks'
 
 const PermitsSection = ({ permits }) => {
   const { t } = useLocale('panels.buildings')

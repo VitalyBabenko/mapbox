@@ -4,12 +4,16 @@ import {
   PAINT_BY_LAST_TRANSACTION,
   PAINT_BY_TRANSACTION_AMOUNT,
 } from '../../constants'
-import { useFilterStore, useModeStore, usePaintStore } from '../../store'
+import {
+  useFilterStore,
+  useModeStore,
+  usePaintStore,
+  useEventStore,
+} from '../../store'
 import { BiCalendar as CalendarIcon } from 'react-icons/bi'
 import { BiMoney as MoneyIcon } from 'react-icons/bi'
 import ResetViewButton from '../ResetViewButton/ResetViewButton'
 import style from './TransactionsSwitcher.module.scss'
-import { useEventStore } from '../../store'
 import ModeSwitcher from '../ModeSwitcher/ModeSwitcher'
 
 const TransactionsSwitcher = () => {
