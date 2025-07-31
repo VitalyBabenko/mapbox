@@ -195,14 +195,18 @@
       "to": "To",
       "copyEgrid": "Copy EGRID",
       "copiedToClipboard": "EGRID copied to clipboard",
-      "sadLink": "SAD link",
+      "sadLink": "SAD links",
       "livingSurface": "Living surface",
       "typology": "Typology",
       "buildingStatus": "Building status",
       "apartQyt": "Apartments quantity",
       "aboveGroundLevels": "Above Ground Levels",
       "buildingHeight": "Height",
-      "constructionYear": "Construction year"
+      "constructionYear": "Construction year",
+      "quickLinks": "Quick Links",
+      "landRegistry": "Land Registry",
+      "RDPPF": "RDPPF",
+      "searchLink": "Find the owner on search.ch"
     }
   },
 

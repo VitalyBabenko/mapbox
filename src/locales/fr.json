@@ -193,14 +193,18 @@
       "to": "Au",
       "copyEgrid": "Copier EGRID",
       "copiedToClipboard": "EGRID copié dans le presse-papiers",
-      "sadLink": "Lien SAD",
+      "sadLink": "Liens SAD",
       "livingSurface": "Surface habitable",
       "typology": "Typologie",
       "buildingStatus": "Statut du bâtiment",
       "apartQyt": "Nombre d'appartements",
       "aboveGroundLevels": "Niveaux Hors Sol",
       "buildingHeight": "Hauteur",
-      "constructionYear": "Année de construction"
+      "constructionYear": "Année de construction",
+      "quickLinks": "Liens rapides",
+      "landRegistry": "Registre Foncier",
+      "RDPPF": "RDPPF",
+      "searchLink": "Trouver le propriétaire sur search.ch"
     }
   },
 

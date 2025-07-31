@@ -83,8 +83,6 @@ const NotesSection = ({ plotInfo }) => {
           </li>
         ))}
       </ul>
-
-      <div className={style.divider}></div>
     </section>
   )
 }
