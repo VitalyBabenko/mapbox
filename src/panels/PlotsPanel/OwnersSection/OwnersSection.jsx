@@ -9,8 +9,6 @@ import Tooltip from '../../../components/Tooltip/Tooltip'
 const OwnersSection = ({ plotInfo }) => {
   const { t } = useLocale('panels.plots')
 
-  console.log(plotInfo?.owners)
-
   if (!plotInfo?.owners?.length) return null
   return (
     <List title={t('owners')}>

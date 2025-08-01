@@ -9,10 +9,10 @@ const FilteredWithoutCounty = ({ filtersResult }) => {
   const { hoveredFeature, clickedFeature } = useEventStore()
 
   const getFillColor = () => {
-    if (clickedFeature?.properties?.EGID) {
+    if (clickedFeature?.properties?.EGRID) {
       return [
         'case',
-        ['==', ['get', 'EGID'], clickedFeature?.properties?.EGID],
+        ['==', ['get', 'EGRID'], clickedFeature?.properties?.EGRID],
         '#ff8c00',
         '#00C0F0',
       ]
@@ -24,10 +24,10 @@ const FilteredWithoutCounty = ({ filtersResult }) => {
   const getFillOpacity = () => {
     const baseOpacity = opacity[1] / 100
     const hoverOpacity = Math.min((opacity[1] + 40) / 100, 1)
-    const hoveredEgid = hoveredFeature?.properties?.EGID
+    const hoveredEgid = hoveredFeature?.properties?.EGRID
 
     if (hoveredEgid) {
-      return ['match', ['get', 'EGID'], hoveredEgid, hoverOpacity, baseOpacity]
+      return ['match', ['get', 'EGRID'], hoveredEgid, hoverOpacity, baseOpacity]
     }
 
     return baseOpacity

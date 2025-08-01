@@ -208,8 +208,10 @@
     }
   },
 
-  "publicPlotsSwitcher": {
-    "text": "Parcelles publiques",
-    "tooltip": "Afficher ou masquer les parcelles publiques telles que les routes et les terres communales"
+  "buttons": {
+    "publicPlotsSwitcher": {
+      "text": "Parcelles publiques",
+      "tooltip": "Afficher ou masquer les parcelles publiques telles que les routes et les terres communales"
+    }
   }
 }
