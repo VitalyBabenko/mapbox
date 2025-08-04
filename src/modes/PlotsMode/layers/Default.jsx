@@ -5,15 +5,19 @@ import { usePaintStore } from '../../../store/paintStore'
 import { useEventStore } from '../../../store/eventStore'
 import { PUBLIC_PLOTS_TYPES } from '../../../constants/mapSources'
 
-const Default = ({ county }) => {
+const Default = ({
+  county,
+  halfOpacity = false,
+  hideFiltersResult = false,
+}) => {
   const { opacity } = usePaintStore()
-  const filter = usePlotsFilter(county)
-
+  const filter = usePlotsFilter(county, hideFiltersResult)
   const { hoveredFeature, clickedFeature } = useEventStore()
 
   const getFillOpacity = () => {
-    const baseOpacity = opacity[1] / 100
-    const hoverOpacity = Math.min((opacity[1] + 40) / 100, 1)
+    const divisor = halfOpacity ? 2 : 1
+    const baseOpacity = opacity[1] / 100 / divisor
+    const hoverOpacity = Math.min((opacity[1] + 40) / 100 / divisor, 1)
     const hoveredEgrid = hoveredFeature?.properties?.EGRID
 
     if (hoveredEgrid) {

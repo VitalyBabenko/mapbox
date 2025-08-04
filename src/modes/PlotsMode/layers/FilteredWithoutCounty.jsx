@@ -2,6 +2,9 @@ import { Layer, Source } from 'react-map-gl'
 import { usePaintStore } from '../../../store/paintStore'
 import { useMemo } from 'react'
 import { useEventStore } from '../../../store/eventStore'
+import Default from './Default'
+import { useMap } from 'react-map-gl'
+import { getCountyByName } from '../../../utils/getCountyByName'
 
 const FilteredWithoutCounty = ({ filtersResult }) => {
   const { opacity } = usePaintStore()
@@ -41,19 +44,29 @@ const FilteredWithoutCounty = ({ filtersResult }) => {
     [filtersResult],
   )
 
+  const county = useMemo(() => {
+    if (clickedFeature?.properties?.COMMUNE) {
+      return getCountyByName(clickedFeature?.properties?.COMMUNE)
+    }
+    return null
+  }, [clickedFeature])
+
   return (
-    <Source id='filteredPlotsSource' type='geojson' data={geojson}>
-      <Layer
-        id='filteredPlots'
-        type='fill'
-        paint={{
-          'fill-color': getFillColor(),
-          'fill-outline-color': 'rgba(256,256,256,1)',
-          'fill-opacity': getFillOpacity(),
-        }}
-        beforeId='poi-label'
-      />
-    </Source>
+    <>
+      {county && <Default county={county} halfOpacity hideFiltersResult />}
+      <Source id='filteredPlotsSource' type='geojson' data={geojson}>
+        <Layer
+          id='filteredPlots'
+          type='fill'
+          paint={{
+            'fill-color': getFillColor(),
+            'fill-outline-color': 'rgba(256,256,256,1)',
+            'fill-opacity': getFillOpacity(),
+          }}
+          beforeId='poi-label'
+        />
+      </Source>
+    </>
   )
 }
 

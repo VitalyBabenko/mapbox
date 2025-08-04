@@ -1,6 +1,11 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import { IoFilter as FilterIcon } from 'react-icons/io5'
-import { useFilterStore, useModeStore, useToastStore } from '../../store'
+import {
+  useEventStore,
+  useFilterStore,
+  useModeStore,
+  useToastStore,
+} from '../../store'
 import FiltersResult from './FiltersResult/FiltersResult'
 import { TbZoomCancel as StopIcon } from 'react-icons/tb'
 import { Panel, Tooltip } from '../../components'
@@ -33,6 +38,7 @@ const FiltersPanel = ({
   const { t } = useLocale('panels.filters')
   const toast = useToastStore()
   const { current: map } = useMap()
+  const { clickedFeature } = useEventStore()
   const {
     filters,
     setFilters,
@@ -90,7 +96,7 @@ const FiltersPanel = ({
       const searchedCounty = countyFilter?.value?.[0]?.label
 
       if (searchedCounty) {
-        const countyFeature = getCountyByName(map, searchedCounty)
+        const countyFeature = getCountyByName(searchedCounty)
 
         await delay(1000)
 
