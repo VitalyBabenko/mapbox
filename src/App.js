@@ -11,7 +11,7 @@ import { ProtectedMode, ZonesMode } from './modes/index.js'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useLocaleStore } from './store/localeStore.js'
 import Sidebar from './components/Sidebar/Sidebar.jsx'
-import { useMouseEvents } from './hooks'
+import { useMouseEvents, useVisibleFeatures } from './hooks'
 
 function App() {
   const mapRef = useRef(null)
@@ -21,6 +21,7 @@ function App() {
   const { isPrimary: isZonesPrimary } = useZoneStore()
   const { initializeLocale } = useLocaleStore()
   const mouse = useMouseEvents(isMapLoading)
+  useVisibleFeatures(mapRef.current)
 
   const onMapLoad = () => {
     const pathname = window.location.pathname
@@ -88,8 +89,9 @@ function App() {
           <FullscreenControl position='top-right' />
           <NavigationControl />
           <Toast />
-          <Sidebar />
         </Map>
+
+        <Sidebar />
       </div>
     </BrowserRouter>
   )

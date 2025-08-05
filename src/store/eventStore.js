@@ -15,4 +15,7 @@ export const useEventStore = create(set => ({
 
   clickedPlotInfo: null,
   setClickedPlotInfo: clickedPlotInfo => set({ clickedPlotInfo }),
+
+  renderedFeatures: [],
+  setRenderedFeatures: renderedFeatures => set({ renderedFeatures }),
 }))

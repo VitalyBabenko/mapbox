@@ -210,6 +210,12 @@
     }
   },
 
+  "sidebar": {
+    "counties": "Communes",
+    "plots": "Plots",
+    "buildings": "Buildings"
+  },
+
   "buttons": {
     "publicPlotsSwitcher": {
       "text": "Public plots",

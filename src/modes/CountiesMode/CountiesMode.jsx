@@ -18,10 +18,10 @@ const CountiesMode = ({ isActive, modeOnCountyClick }) => {
 
   const getFillOpacity = () => {
     const hoverOpacity = (opacity[1] + 40) / 100
-    if (hoveredFeature?.properties?.NO_COMM) {
+    if (hoveredFeature?.properties?.COMMUNE) {
       return [
         'case',
-        ['==', ['get', 'NO_COMM'], hoveredFeature?.properties?.NO_COMM],
+        ['==', ['get', 'COMMUNE'], hoveredFeature?.properties?.COMMUNE],
         hoverOpacity > 1 ? 1 : hoverOpacity,
         opacity[1] / 100,
       ]

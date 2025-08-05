@@ -208,6 +208,12 @@
     }
   },
 
+  "sidebar": {
+    "counties": "Communes",
+    "plots": "Parcelles",
+    "buildings": "Bâtiments"
+  },
+
   "buttons": {
     "publicPlotsSwitcher": {
       "text": "Parcelles publiques",
