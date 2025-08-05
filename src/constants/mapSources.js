@@ -34,6 +34,14 @@ const POOLS_SOURCE = {
   sourceLayer: 'CAD_PISCINE_WGS84-9w9qvd',
 }
 
+const PUBLIC_PLOTS_TYPES = [
+  'DP communal',
+  'DP communal (hors indice)',
+  'DP cantonal',
+  'chemin vicinal',
+  'dépendance',
+]
+
 export {
   COUNTIES_SOURCE,
   PLOTS_SOURCE,
@@ -41,4 +49,5 @@ export {
   ZONES_SOURCE,
   PROTECTED_SOURCE,
   POOLS_SOURCE,
+  PUBLIC_PLOTS_TYPES,
 }

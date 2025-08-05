@@ -33,7 +33,7 @@ const BuildingsList = ({ plotInfo, address, buildings }) => {
 
     return (
       <p className={style.certs}>
-        {t('sadLink')}{' '}
+        {t('sadLink')}:{' '}
         <div className={style.list}>
           {' '}
           {certs.map((cert, i) => (

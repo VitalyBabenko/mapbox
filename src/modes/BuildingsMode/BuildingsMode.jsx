@@ -1,136 +1,74 @@
-import { Layer, Popup, Source } from 'react-map-gl'
-import { BUILDINGS_SOURCE } from '../../constants'
 import {
   useEventStore,
   useFilterStore,
   useModeStore,
   usePaintStore,
 } from '../../store'
-import getBuildingHoverPopupText from '../../utils/getBuildingHoverPopup'
+import { BuildingsPopup } from './components/BuildingsPopup'
+import Default from './layers/Default'
+import FilteredWithCounty from './layers/FilteredWithCounty'
+import FilteredWithoutCounty from './layers/FilteredWithoutCounty'
 
-const BuildingsMode = ({ isActive }) => {
+/**
+ * BuildingsMode
+ *
+ * This component manages the rendering of building layers on the map based on three distinct scenarios:
+ *
+ * 1. **Default Mode (No Search Active)**
+ *    Renders all buildings filtered by the selected county (commune).
+ *    This is the standard view when there is no active search query.
+ *
+ * 2. **Search Mode (Search Active without County Selected)**
+ *    Renders only the buildings that match the current search results, regardless of county.
+ *    This mode highlights filtered buildings across all counties.
+ *
+ * 3. **Search Mode with County Selected (Search Active with County Selected)**
+ *    Renders buildings filtered by both the search results and the selected county.
+ *    This mode restricts the search results to those buildings within the currently selected county.
+ *
+ * Additionally, when a building is hovered, a popup with detailed information is displayed.
+ * The component only renders when the map mode is set to "buildings".
+ */
+const BuildingsMode = () => {
   const { county, switcher } = useModeStore()
-  const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
-  const { activePaint, opacity } = usePaintStore()
+  const { activePaint } = usePaintStore()
   const { filtersResult } = useFilterStore()
+  const { hoveredFeature, hoverEvent } = useEventStore()
+
+  const isActive = switcher === 'buildings'
+  if (!isActive) return null
+
   const isSearch = Boolean(filtersResult?.length)
+  const hasCounty = Boolean(county)
 
-  const buildingsFilter = [
-    'match',
-    ['get', 'NO_COMM'],
-    county?.properties?.NO_COMM || '',
-    true,
-    false,
-  ]
+  let layer = null
 
-  const getFillOpacity = () => {
-    const hoverOpacity = Math.min((opacity[1] + 40) / 100, 1)
-    const baseOpacity = opacity[1] / 100
-    const highlightedOpacity = Math.min(baseOpacity + 0.7, 1)
+  switch (true) {
+    case isSearch && hasCounty:
+      layer = (
+        <FilteredWithCounty filtersResult={filtersResult} county={county} />
+      )
+      break
 
-    const searchedEgids = isSearch
-      ? filtersResult.map(f => f?.properties?.EGID?.trim?.()).filter(Boolean)
-      : []
+    case isSearch && !hasCounty:
+      layer = <FilteredWithoutCounty filtersResult={filtersResult} />
+      break
 
-    const hoveredEgid = hoveredFeature?.properties?.EGID?.trim?.()
-
-    if (!searchedEgids.length && !hoveredEgid) {
-      return baseOpacity
-    }
-
-    const opacityCase = ['match', ['get', 'EGID']]
-
-    searchedEgids.forEach(id => {
-      opacityCase.push(id, highlightedOpacity)
-    })
-
-    if (hoveredEgid) {
-      opacityCase.push(hoveredEgid, hoverOpacity)
-    }
-
-    opacityCase.push(baseOpacity)
-
-    return opacityCase
-  }
-
-  // const getFillOpacity = () => {
-  //   const hoverOpacity = (opacity[1] + 40) / 100
-  //   if (hoveredFeature?.properties?.EGID) {
-  //     return [
-  //       'case',
-  //       ['==', ['get', 'EGID'], hoveredFeature?.properties?.EGID],
-  //       hoverOpacity > 1 ? 1 : hoverOpacity,
-  //       opacity[1] / 100,
-  //     ]
-  //   }
-  //   return opacity[1] / 100
-  // }
-
-  const getFillColor = () => {
-    if (clickedFeature?.properties?.EGID) {
-      return [
-        'case',
-        ['==', ['get', 'EGID'], clickedFeature?.properties?.EGID],
-        '#ed0e2c',
-        activePaint['fill-color'],
-      ]
-    }
-    return activePaint['fill-color']
-  }
-
-  const isFilteredFeaturesActive =
-    switcher === 'buildings' && filtersResult?.[0]?.properties?.EGID
-
-  const geojson = {
-    type: 'FeatureCollection',
-    features: filtersResult,
+    default:
+      layer = <Default county={county} />
   }
 
   return (
     <>
-      <Source id='filteredBuildingsSource' type='geojson' data={geojson}>
-        <Layer
-          id='filteredBuildings'
-          type='fill'
-          paint={{
-            'fill-color': getFillColor(),
-            'fill-outline-color': 'rgba(256,256,256,1)',
-            'fill-opacity': getFillOpacity(),
-          }}
-          beforeId='poi-label'
-          layout={{
-            visibility: isFilteredFeaturesActive ? 'visible' : 'none',
-          }}
-        />
-      </Source>
+      {layer}
 
-      <Source id={BUILDINGS_SOURCE.id} type='vector' url={BUILDINGS_SOURCE.url}>
-        <Layer
-          id='buildings'
-          type='fill'
-          source-layer={BUILDINGS_SOURCE.sourceLayer}
-          paint={{
-            'fill-opacity': getFillOpacity(),
-            'fill-outline-color': 'rgba(256,256,256,1)',
-            'fill-color': getFillColor(),
-          }}
-          filter={buildingsFilter}
-          beforeId='poi-label'
-          layout={{ visibility: isActive ? 'visible' : 'none' }}
+      {hoveredFeature?.properties && (
+        <BuildingsPopup
+          hoveredFeature={hoveredFeature}
+          hoverEvent={hoverEvent}
+          activePaint={activePaint}
         />
-
-        {hoveredFeature?.properties && isActive && (
-          <Popup
-            longitude={hoverEvent.lngLat.lng}
-            latitude={hoverEvent.lngLat.lat}
-            offset={[0, -5]}
-            closeButton={false}
-            className='hover-popup'
-          >
-            {getBuildingHoverPopupText(activePaint, hoveredFeature?.properties)}
-          </Popup>
-        )}
-      </Source>
+      )}
     </>
   )
 }

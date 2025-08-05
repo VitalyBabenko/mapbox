@@ -79,17 +79,20 @@ const CountiesMode = ({ isActive, modeOnCountyClick }) => {
         beforeId='poi-label'
         layout={{ visibility: getIsActive() ? 'visible' : 'none' }}
       />
-      {hoveredFeature?.properties?.COMMUNE && isActive && (
-        <Popup
-          longitude={hoverEvent.lngLat.lng}
-          latitude={hoverEvent.lngLat.lat}
-          offset={[0, -5]}
-          closeButton={false}
-          className='hover-popup'
-        >
-          {hoveredFeature?.properties?.COMMUNE}
-        </Popup>
-      )}
+
+      {hoveredFeature?.properties?.COMMUNE &&
+        isActive &&
+        !filtersResult?.length && (
+          <Popup
+            longitude={hoverEvent.lngLat.lng}
+            latitude={hoverEvent.lngLat.lat}
+            offset={[0, -5]}
+            closeButton={false}
+            className='hover-popup'
+          >
+            {hoveredFeature?.properties?.COMMUNE}
+          </Popup>
+        )}
     </Source>
   )
 }

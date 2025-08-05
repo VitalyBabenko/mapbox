@@ -1,6 +1,6 @@
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
-import { useLocale } from '../../../hooks/useLocale'
+import { useLocale } from '../../../hooks'
 
 const OwnersSection = ({ owners }) => {
   const { t } = useLocale('panels.buildings')

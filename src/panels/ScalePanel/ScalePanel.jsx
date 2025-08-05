@@ -2,7 +2,7 @@ import style from './ScalePanel.module.scss'
 import { usePaintStore, useZoneStore } from '../../store'
 import { DEFAULT_PAINT, PAINT_BY_ZONE } from '../../constants'
 import { memo } from 'react'
-import useDraggable from '../../hooks/useDraggable'
+import { useDraggable } from '../../hooks'
 
 const ScalePanel = ({
   initialPosition = { x: -401, y: 10 },

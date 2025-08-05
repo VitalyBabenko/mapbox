@@ -1,121 +1,59 @@
-import { useMemo } from 'react'
-import { Layer, Popup, Source } from 'react-map-gl'
-import { PLOTS_SOURCE } from '../../constants'
-import {
-  useEventStore,
-  useFilterStore,
-  useModeStore,
-  usePaintStore,
-} from '../../store'
+import { memo } from 'react'
+import { Popup } from 'react-map-gl'
+import { useModeStore, useEventStore, useFilterStore } from '../../store'
+import { PlotsPopup } from './components/PlotsPopup'
+import Default from './layers/Default'
+import FilteredWithoutCounty from './layers/FilteredWithoutCounty'
+import FilteredWithCounty from './layers/FilteredWithCounty'
+import PublicPlotsSwitcher from './components/PublicPlotsSwitcher/PublicPlotsSwitcher'
 
-const PlotsMode = ({ isActive }) => {
-  const { county } = useModeStore()
-  const { opacity } = usePaintStore()
-  const { hoverEvent, hoveredFeature, clickedFeature } = useEventStore()
-  const { filtersResult, filters } = useFilterStore()
-  const isSearch = Boolean(filtersResult?.length)
+/**
+ * PlotsMode — land plots display mode.
+ *
+ * It has three scenarios:
+ * 1. Default — displays all plots for the selected county without search.
+ * 2. Search without county — search is active, but no county is selected.
+ * 3. Search with county — search is active and a county is selected; only plots within this county are displayed.
+ *
+ * Also displays hover popups for plots and a special popup for "Pool".
+ */
+const PlotsMode = () => {
+  const { county, switcher } = useModeStore()
+  const { hoveredFeature, hoverEvent } = useEventStore()
+  const { filtersResult } = useFilterStore()
 
-  const plotsFilter = useMemo(() => {
-    const countyName = county?.properties?.COMMUNE || ''
-    return ['all', ['match', ['get', 'COMMUNE'], countyName, true, false]]
-  }, [isActive, county])
+  const isActive = switcher === 'plots'
+  const isSearch = Boolean(filtersResult?.length && isActive)
+  const hasCounty = Boolean(county)
 
-  const getFillOpacity = () => {
-    const hoverOpacity = Math.min((opacity[1] + 40) / 100, 1)
-    const baseOpacity = opacity[1] / 100
-    const highlightedOpacity = Math.min(baseOpacity + 0.4, 1)
+  if (!isActive) return null
 
-    const searchedEgrids = isSearch
-      ? filtersResult.map(f => f?.properties?.EGRID?.trim?.()).filter(Boolean)
-      : []
-
-    const hoveredEgrid = hoveredFeature?.properties?.EGRID?.trim?.()
-
-    if (!searchedEgrids.length && !hoveredEgrid) {
-      return baseOpacity
-    }
-
-    const opacityCase = ['match', ['get', 'EGRID']]
-
-    searchedEgrids.forEach(id => {
-      opacityCase.push(id, highlightedOpacity)
-    })
-
-    if (hoveredEgrid) {
-      opacityCase.push(hoveredEgrid, hoverOpacity)
-    }
-
-    opacityCase.push(baseOpacity)
-
-    return opacityCase
-  }
-
-  const getFillColor = () => {
-    if (!clickedFeature?.properties?.EGRID) return '#58dca6'
-
-    return [
-      'case',
-      ['==', ['get', 'EGRID'], clickedFeature?.properties?.EGRID],
-      '#ed0e2c',
-      '#58dca6',
-    ]
-  }
-
-  const geojson = {
-    type: 'FeatureCollection',
-    features: filtersResult,
+  let layer = null
+  switch (true) {
+    case isSearch && hasCounty:
+      layer = (
+        <FilteredWithCounty county={county} filtersResult={filtersResult} />
+      )
+      break
+    case isSearch && !hasCounty:
+      layer = <FilteredWithoutCounty filtersResult={filtersResult} />
+      break
+    default:
+      layer = <Default county={county} />
+      break
   }
 
   return (
     <>
-      <Source id='filteredPlotsSource' type='geojson' data={geojson}>
-        <Layer
-          id='filteredPlots'
-          type='fill'
-          paint={{
-            'fill-color': getFillColor(),
-            'fill-outline-color': '#337f5f',
-            'fill-opacity': getFillOpacity(),
-          }}
-          beforeId='poi-label'
-          layout={{
-            visibility: !filters[3]?.value?.length ? 'visible' : 'none',
-          }}
-        />
-      </Source>
+      {layer}
 
-      <Source id={PLOTS_SOURCE.id} type='vector' url={PLOTS_SOURCE.url}>
-        <Layer
-          id='plots'
-          type='fill'
-          source={PLOTS_SOURCE.id}
-          source-layer={PLOTS_SOURCE.sourceLayer}
-          filter={plotsFilter}
-          paint={{
-            'fill-color': getFillColor(),
-            'fill-outline-color': '#337f5f',
-            'fill-opacity': getFillOpacity(),
-          }}
-          beforeId='poi-label'
-          layout={{
-            visibility: isActive ? 'visible' : 'none',
-          }}
-        />
-      </Source>
+      <PlotsPopup
+        hoveredFeature={hoveredFeature}
+        hoverEvent={hoverEvent}
+        isActive={isActive}
+      />
 
-      {Boolean(hoveredFeature?.properties?.IDEDDP) && isActive && (
-        <Popup
-          longitude={hoverEvent.lngLat.lng}
-          latitude={hoverEvent.lngLat.lat}
-          offset={[0, -5]}
-          closeButton={false}
-          className='hover-popup'
-        >
-          Plot: {hoveredFeature?.properties?.IDEDDP?.replace(':', '/')}
-        </Popup>
-      )}
-
-      {hoveredFeature?.properties?.MUTCOM && isActive && (
+      {hoveredFeature?.properties?.MUTCOM && (
         <Popup
           longitude={hoverEvent.lngLat.lng}
           latitude={hoverEvent.lngLat.lat}
@@ -126,8 +64,10 @@ const PlotsMode = ({ isActive }) => {
           Pool
         </Popup>
       )}
+
+      <PublicPlotsSwitcher />
     </>
   )
 }
 
-export default PlotsMode
+export default memo(PlotsMode)

@@ -1,4 +1,4 @@
-import useDraggable from '../../hooks/useDraggable'
+import { useDraggable } from '../../hooks'
 import style from './Panel.module.scss'
 import Tooltip from '../Tooltip/Tooltip'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
@@ -87,4 +87,4 @@ const Panel = props => {
   )
 }
 
-export default memo(Panel)
+export default Panel

@@ -2,7 +2,7 @@ import { plotService } from '../../../service/plotService'
 import { useToastStore } from '../../../store'
 import style from './FeatureItem.module.scss'
 import { BiTrashAlt as DeleteIcon } from 'react-icons/bi'
-import { useLocale } from '../../../hooks/useLocale'
+import { useLocale } from '../../../hooks'
 
 const FeatureItem = ({ isActive, feature, handleItemClick }) => {
   const { t } = useLocale('panels.features')

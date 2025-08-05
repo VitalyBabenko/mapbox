@@ -14,6 +14,7 @@ import DDPSection from './DDPSection/DDPSection'
 import { Panel, Tooltip } from '../../components'
 import CertsSection from './CertsSection/CertsSection'
 import { useLocale } from '../../hooks/useLocale'
+import LinksSection from './LinksSection/LinksSection'
 
 const PlotsPanel = ({ activePlotId }) => {
   const [plotInfo, setPlotInfo] = useState(null)
@@ -75,6 +76,11 @@ const PlotsPanel = ({ activePlotId }) => {
       )}
 
       <SpecsSection plotInfo={plotInfo} />
+
+      <LinksSection
+        landRegistryUrl={plotInfo?.lien_rf_url}
+        rdppfUrl={plotInfo?.extrait_rdppf_pdf}
+      />
 
       <NotesSection plotInfo={plotInfo} />
 

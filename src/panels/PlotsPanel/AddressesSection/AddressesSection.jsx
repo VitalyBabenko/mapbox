@@ -5,6 +5,9 @@ import Tooltip from '../../../components/Tooltip/Tooltip'
 import List from '../../../components/List/List'
 import ListItem from '../../../components/List/ListItem/ListItem'
 import { useLocale } from '../../../hooks/useLocale'
+import style from './AddressesSection.module.scss'
+import { SiGooglemaps as GoogleMapsIcon } from 'react-icons/si'
+import { HiOutlineViewGrid as StigIcon } from 'react-icons/hi'
 
 const AddressesSection = ({ info }) => {
   const { t } = useLocale('panels.plots')
@@ -35,6 +38,10 @@ const AddressesSection = ({ info }) => {
     )
   }
 
+  const isHasLinks = item => {
+    return Boolean(item?.lien_google_maps_url || item?.lien_map_sitg_url)
+  }
+
   if (!availableAddresses?.length) return null
   return (
     <List title={t('addresses')}>
@@ -62,6 +69,34 @@ const AddressesSection = ({ info }) => {
             address={item}
             buildings={item.buildings}
           />
+
+          {isHasLinks(item) && (
+            <div className={style.links}>
+              {item?.lien_google_maps_url && (
+                <a
+                  href={item?.lien_google_maps_url}
+                  target='_blank'
+                  rel='noreferrer'
+                  className={style.link}
+                >
+                  <GoogleMapsIcon />
+                  Google Maps
+                </a>
+              )}
+
+              {item?.lien_map_sitg_url && (
+                <a
+                  href={item?.lien_map_sitg_url}
+                  target='_blank'
+                  rel='noreferrer'
+                  className={style.link}
+                >
+                  <StigIcon />
+                  STIG
+                </a>
+              )}
+            </div>
+          )}
         </ListItem>
       ))}
     </List>

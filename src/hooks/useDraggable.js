@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const useDraggable = initialPosition => {
+export const useDraggable = initialPosition => {
   const [position, setPosition] = useState(initialPosition)
   const [isDragging, setIsDragging] = useState(false)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
@@ -46,5 +46,3 @@ const useDraggable = initialPosition => {
     handleMouseDown,
   }
 }
-
-export default useDraggable

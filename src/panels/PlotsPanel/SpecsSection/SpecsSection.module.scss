@@ -1,11 +1,11 @@
-@import "../../../styles/variables";
-@import "../../../styles/mixins";
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
 
 .section {
   display: flex;
   justify-content: space-around;
   gap: 8px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 
   li {
     width: 100%;

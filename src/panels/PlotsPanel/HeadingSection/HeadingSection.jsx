@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import IconButton from '../../../components/IconButton/IconButton'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import style from './HeadingSection.module.scss'
-import { BiFileBlank as FileIcon } from 'react-icons/bi'
 import { useQuery } from '../../../hooks/useQuery'
 import {
   BiBell as BellIcon,
@@ -162,19 +161,6 @@ const HeadingSection = ({ plotInfo }) => {
             <TagIcon onClick={openTagsModal} />
           </IconButton>
         </Tooltip>
-
-        {plotInfo?.extrait_rdppf_pdf && (
-          <a
-            className={style.fileLink}
-            href={plotInfo.extrait_rdppf_pdf}
-            target='_blank'
-            rel='noreferrer'
-          >
-            <Tooltip text='RDPPF' bottom='-40px'>
-              <FileIcon />
-            </Tooltip>
-          </a>
-        )}
       </div>
     </>
   )
