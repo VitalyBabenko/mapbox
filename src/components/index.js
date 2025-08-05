@@ -14,6 +14,7 @@ import ResetViewButton from './ResetViewButton/ResetViewButton'
 import TransactionsSwitcher from './TransactionsSwitcher/TransactionsSwitcher'
 import Panel from './Panel/Panel'
 import Switch from './Switch/Switch'
+import Drawer from './Drawer/Drawer'
 
 export {
   Checkbox,
@@ -32,4 +33,5 @@ export {
   PoolsLayer,
   TransactionsSwitcher,
   Switch,
+  Drawer,
 }

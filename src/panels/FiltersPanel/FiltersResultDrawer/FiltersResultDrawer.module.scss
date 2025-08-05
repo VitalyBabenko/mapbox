@@ -1,0 +1,52 @@
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $blue-600;
+  position: absolute;
+  border: none;
+  color: $white;
+  height: 56px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding: 10px 7px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+
+  &:hover {
+    background-color: darken($blue-600, 5%);
+  }
+}
+
+.tooltip {
+  position: absolute;
+  top: calc(50% + 28px);
+  right: 0px;
+  width: 34px;
+  height: 56px;
+
+  .openButton {
+    @extend .toggleButton;
+  }
+}
+
+.closeButton {
+  @extend .toggleButton;
+  top: 50%;
+  left: -34px;
+  max-width: 34px;
+  padding: 8px 6px;
+
+  svg {
+    height: 100%;
+  }
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

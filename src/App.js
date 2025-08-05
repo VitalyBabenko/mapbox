@@ -10,6 +10,7 @@ import AppRoutes from './routes/AppRoutes.jsx'
 import { ProtectedMode, ZonesMode } from './modes/index.js'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useLocaleStore } from './store/localeStore.js'
+import FiltersResultDrawer from './panels/FiltersPanel/FiltersResultDrawer/FiltersResultDrawer.jsx'
 
 function App() {
   const mapRef = useRef(null)
@@ -116,6 +117,8 @@ function App() {
           <FullscreenControl position='top-right' />
           <NavigationControl />
           <Toast />
+
+          <FiltersResultDrawer isOpen={true} />
         </Map>
       </div>
     </BrowserRouter>

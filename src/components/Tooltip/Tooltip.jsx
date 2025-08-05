@@ -2,7 +2,7 @@ import React from 'react'
 import style from './Tooltip.module.scss'
 
 const Tooltip = props => {
-  const { children, text, top, left, right, bottom } = props
+  const { className, children, text, top, left, right, bottom } = props
 
   const textPosition = {
     top,
@@ -18,7 +18,7 @@ const Tooltip = props => {
   const formattedText = text ? text.replace(/\n/g, '<br />') : ''
 
   return (
-    <div className={style.tooltipWrapper}>
+    <div className={`${style.tooltipWrapper} ${className}`}>
       <div className={style.childrenWrapper}>{children}</div>
       <p
         className={style.text}
