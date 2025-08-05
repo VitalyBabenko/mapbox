@@ -38,7 +38,6 @@ const FiltersPanel = ({
   const { t } = useLocale('panels.filters')
   const toast = useToastStore()
   const { current: map } = useMap()
-  const { clickedFeature } = useEventStore()
   const {
     filters,
     setFilters,

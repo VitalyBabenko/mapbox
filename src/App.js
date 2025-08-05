@@ -1,54 +1,26 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import globalStyle from './styles/global.module.scss'
 import { TagsModal, Toast } from './components'
 import { INITIAL_VIEW, INTERACTIVE_LAYER_IDS, MAP_STYLES } from './constants'
 
-import { useEventStore, useModeStore, useZoneStore } from './store'
+import { useModeStore, useZoneStore } from './store'
 import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes.jsx'
 import { ProtectedMode, ZonesMode } from './modes/index.js'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useLocaleStore } from './store/localeStore.js'
+import Sidebar from './components/Sidebar/Sidebar.jsx'
+import { useMouseEvents } from './hooks'
 
 function App() {
   const mapRef = useRef(null)
   const wrapperRef = useRef(null)
-  const [cursor, setCursor] = useState(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
   const { toggleSwitcher } = useModeStore()
-  const { setClickEvent, setHoverEvent, setClickedFeature, setHoveredFeature } =
-    useEventStore()
   const { isPrimary: isZonesPrimary } = useZoneStore()
   const { initializeLocale } = useLocaleStore()
-
-  const onMouseEnter = function () {
-    setCursor('pointer')
-  }
-
-  const onMouseLeave = useCallback(() => setCursor(null), [])
-
-  const onHover = event => {
-    if (isMapLoading) return
-    setHoverEvent(event)
-    const feature = event?.features?.[0]
-    if (feature) {
-      setHoveredFeature(event?.features?.[0])
-    } else {
-      setHoveredFeature(null)
-    }
-  }
-
-  const onClick = event => {
-    if (isMapLoading) return
-    setClickEvent(event)
-    const feature = event?.features?.[0]
-    if (feature) {
-      setClickedFeature(event?.features?.[0])
-    } else {
-      setClickedFeature(null)
-    }
-  }
+  const mouse = useMouseEvents(isMapLoading)
 
   const onMapLoad = () => {
     const pathname = window.location.pathname
@@ -89,12 +61,12 @@ function App() {
       <div ref={wrapperRef} className={globalStyle.appWrapper}>
         <Map
           ref={mapRef}
-          onClick={onClick}
-          onMouseMove={onHover}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
+          cursor={mouse.cursor}
+          onClick={mouse.onClick}
+          onMouseMove={mouse.onMove}
+          onMouseEnter={mouse.onEnter}
+          onMouseLeave={mouse.onLeave}
           onLoad={onMapLoad}
-          cursor={cursor}
           interactiveLayerIds={[
             ...INTERACTIVE_LAYER_IDS,
             isZonesPrimary ? 'zones' : '',
@@ -116,10 +88,11 @@ function App() {
           <FullscreenControl position='top-right' />
           <NavigationControl />
           <Toast />
+          <Sidebar />
         </Map>
       </div>
     </BrowserRouter>
   )
 }
 
-export default memo(App)
+export default App
