@@ -1,0 +1,57 @@
+@import '../../../styles/variables.scss';
+
+.pagination {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 11px;
+  padding: 10px 0 10px;
+  border-top: 1px solid $grey-200;
+
+  button {
+    background-color: transparent;
+    border: 1px solid #e5e7eb;
+    color: #4f5a69;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+      rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s,
+      color 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: #f9fafb;
+      border-color: #d1d5db;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+      cursor: pointer;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+      box-shadow: none;
+    }
+  }
+
+  .activePage {
+    background-color: $blue-600;
+    color: #fff;
+    border-color: $blue-600;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+    &:hover {
+      background-color: darken($blue-600, 3%) !important;
+      border-color: darken($blue-600, 3%) !important;
+    }
+  }
+
+  .dots {
+    padding: 0 8px;
+    color: #9ca3af;
+    font-weight: 500;
+  }
+}

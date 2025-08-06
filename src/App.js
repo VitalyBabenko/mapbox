@@ -91,7 +91,7 @@ function App() {
           <Toast />
         </Map>
 
-        <Sidebar />
+        <Sidebar map={mapRef.current} />
       </div>
     </BrowserRouter>
   )
