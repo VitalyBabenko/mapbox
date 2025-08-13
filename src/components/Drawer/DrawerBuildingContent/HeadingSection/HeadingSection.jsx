@@ -1,14 +1,16 @@
 import style from './HeadingSection.module.scss'
 import Tooltip from '../../../../components/Tooltip/Tooltip'
 import { BiFileBlank as FileIcon } from 'react-icons/bi'
-import { useLocale } from '../../../../hooks'
+import { useLocale, useDrawer } from '../../../../hooks'
+import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 
-const HeadingSection = ({ plotId, buildingId, rdppf, isLoading }) => {
+const HeadingSection = ({ buildingId, rdppf, isLoading }) => {
   const { t } = useLocale('panels.buildings')
+  const { closeDrawer } = useDrawer()
 
   const getHeading = () => {
     if (isLoading) return t('loading') || 'Loading...'
-    return plotId ? `${t('plot')} ${plotId}` : `${t('building')} ${buildingId}`
+    return `${t('building')} ${buildingId}`
   }
 
   return (
@@ -27,6 +29,8 @@ const HeadingSection = ({ plotId, buildingId, rdppf, isLoading }) => {
           </Tooltip>
         </a>
       )}
+
+      <CrossIcon onClick={closeDrawer} size={24} className={style.crossIcon} />
     </div>
   )
 }
