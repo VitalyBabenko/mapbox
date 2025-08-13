@@ -2,7 +2,7 @@ import style from './CountyCard.module.scss'
 import { BsPeople as PopulationIcon } from 'react-icons/bs'
 import { RiSignpostLine as PostIcon } from 'react-icons/ri'
 import { RiRuler2Line as RulerIcon } from 'react-icons/ri'
-import { useEventStore } from '../../../store'
+import { useEventStore } from '@store'
 
 const CountyCard = ({ item }) => {
   const { setHoveredFeature, setClickedFeature } = useEventStore()

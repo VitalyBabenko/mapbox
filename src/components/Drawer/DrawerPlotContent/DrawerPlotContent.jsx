@@ -29,6 +29,8 @@ const DrawerPlotContent = ({ activePlotId }) => {
     toast.success(t('copiedToClipboard'))
   }
 
+  console.log('activePlotId', activePlotId)
+
   useEffect(() => {
     const getData = async () => {
       setError(null)

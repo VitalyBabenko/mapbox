@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useEventStore, useModeStore } from '../../store'
+import { useEventStore, useModeStore } from '@store'
 import style from './Sidebar.module.scss'
-import { counties } from '../../constants/countiesSource'
+import { counties } from '@constants/countiesSource'
 import CountyCard from './CountyCard/CountyCard'
 import PlotCard from './PlotCard/PlotCard'
 import BuildingCard from './BuildingCard/BuildingCard'
-import { useLocale } from '../../hooks'
+import { useLocale } from '@hooks'
 import Pagination from './Pagination/Pagination'
 
 const ITEMS_PER_PAGE = 50

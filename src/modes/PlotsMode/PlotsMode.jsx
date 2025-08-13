@@ -1,13 +1,13 @@
-import { memo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Popup } from 'react-map-gl'
-import { useModeStore, useEventStore, useFilterStore } from '../../store'
-import { PlotsPopup } from './components/PlotsPopup'
-import Default from './layers/Default'
-import FilteredWithoutCounty from './layers/FilteredWithoutCounty'
-import FilteredWithCounty from './layers/FilteredWithCounty'
+import { useModeStore, useEventStore, useFilterStore } from '@store'
+import { PlotsPopup } from '@modes/PlotsMode/components/PlotsPopup'
+import Default from '@modes/PlotsMode/layers/Default'
+import FilteredWithoutCounty from '@modes/PlotsMode/layers/FilteredWithoutCounty'
+import FilteredWithCounty from '@modes/PlotsMode/layers/FilteredWithCounty'
 import PublicPlotsSwitcher from './components/PublicPlotsSwitcher/PublicPlotsSwitcher'
-import { useDrawer } from '../../hooks'
-import DrawerPlotContent from '../../components/Drawer/DrawerPlotContent/DrawerPlotContent'
+import { useDrawer } from '@hooks'
+import DrawerPlotContent from '@components/Drawer/DrawerPlotContent/DrawerPlotContent'
 
 /**
  * PlotsMode — land plots display mode.
@@ -30,13 +30,13 @@ const PlotsMode = () => {
 
   useEffect(() => {
     const handlePlotClick = () => {
-      console.log('clickedFeature', clickedFeature)
-
       const egrid = clickedFeature?.properties?.EGRID
 
       if (egrid) {
         openDrawer(DrawerPlotContent, { activePlotId: egrid })
-      } else {
+      }
+
+      if (clickedFeature === null) {
         closeDrawer()
       }
     }
@@ -88,4 +88,4 @@ const PlotsMode = () => {
   )
 }
 
-export default memo(PlotsMode)
+export default PlotsMode

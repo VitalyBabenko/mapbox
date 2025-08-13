@@ -1,8 +1,9 @@
-@import '../../../styles/mixins';
-@import '../../../styles/variables';
+@import '@styles/mixins';
+@import '@styles/variables';
 
 .buildingContent {
   background: $grey-50;
+  width: 456px;
 
   .address {
     font-size: 18px;

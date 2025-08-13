@@ -4,8 +4,8 @@ import { HiOutlineClipboardDocumentList as DocsIcon } from 'react-icons/hi2'
 import { MdOutlineContentCopy as CopyIcon } from 'react-icons/md'
 import { FaRegCalendar as CalendarIcon } from 'react-icons/fa6'
 import { FiHash as HashIcon } from 'react-icons/fi'
-import { Tooltip } from '../../../components'
-import { useEventStore, useToastStore } from '../../../store'
+import { Tooltip } from '@components'
+import { useEventStore, useToastStore } from '@store'
 import bbox from '@turf/bbox'
 
 const formatRecordDate = dateStr => {

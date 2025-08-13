@@ -4,13 +4,13 @@ import {
   useFilterStore,
   useModeStore,
   usePaintStore,
-} from '../../store'
-import { BuildingsPopup } from './components/BuildingsPopup'
-import Default from './layers/Default'
-import FilteredWithCounty from './layers/FilteredWithCounty'
-import FilteredWithoutCounty from './layers/FilteredWithoutCounty'
-import DrawerBuildingContent from '../../components/Drawer/DrawerBuildingContent/DrawerBuildingContent'
-import { useDrawer } from '../../hooks'
+} from '@store'
+import { BuildingsPopup } from '@modes/BuildingsMode/components/BuildingsPopup'
+import Default from '@modes/BuildingsMode/layers/Default'
+import FilteredWithCounty from '@modes/BuildingsMode/layers/FilteredWithCounty'
+import FilteredWithoutCounty from '@modes/BuildingsMode/layers/FilteredWithoutCounty'
+import DrawerBuildingContent from '@components/Drawer/DrawerBuildingContent/DrawerBuildingContent'
+import { useDrawer } from '@hooks'
 
 /**
  * BuildingsMode
@@ -47,8 +47,6 @@ const BuildingsMode = () => {
 
       if (egid) {
         openDrawer(DrawerBuildingContent, { activeBuildingId: egid })
-      } else {
-        closeDrawer()
       }
     }
 

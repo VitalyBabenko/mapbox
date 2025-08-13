@@ -1,19 +1,13 @@
 import style from './BuildingCard.module.scss'
-import { RiRuler2Line as RulerIcon } from 'react-icons/ri'
 import { HiOutlineClipboardDocumentList as DocsIcon } from 'react-icons/hi2'
-import { MdOutlineContentCopy as CopyIcon } from 'react-icons/md'
 import { FaRegCalendar as CalendarIcon } from 'react-icons/fa6'
 import { FiHash as HashIcon } from 'react-icons/fi'
 import { FiHome as HomeIcon } from 'react-icons/fi'
-import { Tooltip } from '../../../components'
-import { useEventStore, useToastStore } from '../../../store'
+import { useEventStore } from '@store'
 import bbox from '@turf/bbox'
-import { useDrawer } from '../../../hooks'
 
 const BuildingCard = ({ item, map }) => {
   const { setHoveredFeature, setClickedFeature } = useEventStore()
-  const toast = useToastStore()
-  const { openDrawer } = useDrawer()
 
   const {
     ADDR_NAME,
