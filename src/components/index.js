@@ -17,6 +17,7 @@ import Switch from './Switch/Switch'
 import Drawer from './Drawer/Drawer'
 import Sidebar from './Sidebar/Sidebar'
 import SkeletonBlock from './SkeletonBlock/SkeletonBlock'
+import EmptyState from './EmptyState/EmptyState'
 
 export {
   Checkbox,
@@ -38,4 +39,5 @@ export {
   Sidebar,
   Drawer,
   SkeletonBlock,
+  EmptyState,
 }

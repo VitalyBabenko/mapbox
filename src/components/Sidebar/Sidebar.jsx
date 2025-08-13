@@ -7,6 +7,7 @@ import PlotCard, { PlotCardSkeleton } from './PlotCard/PlotCard'
 import BuildingCard, { BuildingCardSkeleton } from './BuildingCard/BuildingCard'
 import { useLocale } from '@hooks'
 import Pagination from './Pagination/Pagination'
+import { EmptyState } from '@components'
 
 const ITEMS_PER_PAGE = 50
 
@@ -76,7 +77,10 @@ const Sidebar = ({ map }) => {
           ))}
         </ul>
       ) : (
-        <p className={style.empty}>No objects found on the map</p>
+        <EmptyState
+          message='No objects found on the map'
+          className={style.empty}
+        />
       )}
 
       {totalPages > 1 && (
