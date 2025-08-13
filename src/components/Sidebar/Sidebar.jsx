@@ -7,12 +7,13 @@ import PlotCard from './PlotCard/PlotCard'
 import BuildingCard from './BuildingCard/BuildingCard'
 import { useLocale } from '@hooks'
 import Pagination from './Pagination/Pagination'
+import { Loader } from '@components'
 
 const ITEMS_PER_PAGE = 50
 
 const Sidebar = ({ map }) => {
   const { mode } = useModeStore()
-  const { renderedFeatures } = useEventStore()
+  const { renderedFeatures, renderedFeaturesLoading } = useEventStore()
   const [page, setPage] = useState(1)
   const { t } = useLocale('sidebar')
 
@@ -47,7 +48,7 @@ const Sidebar = ({ map }) => {
     <div className={style.sidebar}>
       <h3 className={style.title}>{t(mode)}</h3>
 
-      {paginatedItems.length > 0 ? (
+      {paginatedItems.length || renderedFeaturesLoading ? (
         <ul className={style.cards}>
           {paginatedItems.map((item, index) => (
             <CardComponent
@@ -63,7 +64,7 @@ const Sidebar = ({ map }) => {
           ))}
         </ul>
       ) : (
-        <p className={style.empty}>No data</p>
+        <p className={style.empty}>No objects found on the map</p>
       )}
 
       {totalPages > 1 && (

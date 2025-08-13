@@ -1,3 +1,4 @@
+import { useBuildingsFilter } from './useBuildingsFilter'
 import { useDraggable } from './useDraggable'
 import { useLocale } from './useLocale'
 import { useQuery } from './useQuery'
@@ -8,6 +9,7 @@ import { useDrawer } from './useDrawer'
 import { usePlotsFilter } from './usePlotsFilter'
 
 export {
+  useBuildingsFilter,
   useDraggable,
   useLocale,
   useQuery,

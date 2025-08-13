@@ -1,7 +1,7 @@
 import { Layer, Source } from 'react-map-gl'
-import { BUILDINGS_SOURCE } from '../../../constants'
-import { useEventStore, usePaintStore } from '../../../store'
-import useBuildingsFilter from '../hooks/useBuildingsFilter'
+import { BUILDINGS_SOURCE } from '@constants'
+import { useEventStore, usePaintStore } from '@store'
+import { useBuildingsFilter } from '@hooks'
 
 const Default = ({ county }) => {
   const { activePaint } = usePaintStore()

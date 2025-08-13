@@ -18,4 +18,8 @@ export const useEventStore = create(set => ({
 
   renderedFeatures: [],
   setRenderedFeatures: renderedFeatures => set({ renderedFeatures }),
+
+  renderedFeaturesLoading: false,
+  setRenderedFeaturesLoading: renderedFeaturesLoading =>
+    set({ renderedFeaturesLoading }),
 }))

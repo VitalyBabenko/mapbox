@@ -1,14 +1,16 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { BUILDINGS_SOURCE, COUNTIES_SOURCE, PLOTS_SOURCE } from '../constants'
 import { useEventStore, useModeStore } from '../store'
 import { usePlotsFilter } from './usePlotsFilter'
+import { useBuildingsFilter } from './useBuildingsFilter'
 
 export function useVisibleFeatures(map, delay = 250) {
   const { mode, county, isPublicPlots } = useModeStore()
-  const { renderedFeatures, setRenderedFeatures } = useEventStore()
+  const { renderedFeatures, setRenderedFeatures, setRenderedFeaturesLoading } =
+    useEventStore()
   const plotsFilter = usePlotsFilter(county)
+  const buildingsFilter = useBuildingsFilter(county)
 
-  const [isLoading, setIsLoading] = useState(false)
   const timer = useRef(null)
 
   const updateFeatures = () => {
@@ -23,6 +25,7 @@ export function useVisibleFeatures(map, delay = 250) {
       buildings: {
         source: BUILDINGS_SOURCE.id,
         sourceLayer: BUILDINGS_SOURCE.sourceLayer,
+        filter: buildingsFilter,
       },
       counties: {
         source: COUNTIES_SOURCE.id,
@@ -60,7 +63,7 @@ export function useVisibleFeatures(map, delay = 250) {
     }
 
     setRenderedFeatures(unique)
-    setIsLoading(false)
+    setRenderedFeaturesLoading(false)
   }
 
   useEffect(() => {
@@ -68,7 +71,7 @@ export function useVisibleFeatures(map, delay = 250) {
 
     const debouncedUpdate = () => {
       clearTimeout(timer.current)
-      setIsLoading(true)
+      setRenderedFeaturesLoading(true)
       timer.current = setTimeout(updateFeatures, delay)
     }
 
@@ -82,5 +85,5 @@ export function useVisibleFeatures(map, delay = 250) {
     }
   }, [map, delay, mode, isPublicPlots])
 
-  return { renderedFeatures, isLoading }
+  return { renderedFeatures, setRenderedFeaturesLoading }
 }
