@@ -16,6 +16,7 @@ import Panel from './Panel/Panel'
 import Switch from './Switch/Switch'
 import Drawer from './Drawer/Drawer'
 import Sidebar from './Sidebar/Sidebar'
+import SkeletonBlock from './SkeletonBlock/SkeletonBlock'
 
 export {
   Checkbox,
@@ -36,4 +37,5 @@ export {
   Switch,
   Sidebar,
   Drawer,
+  SkeletonBlock,
 }

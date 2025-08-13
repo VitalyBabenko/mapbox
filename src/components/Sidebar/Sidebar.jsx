@@ -3,11 +3,10 @@ import { useEventStore, useModeStore } from '@store'
 import style from './Sidebar.module.scss'
 import { counties } from '@constants/countiesSource'
 import CountyCard from './CountyCard/CountyCard'
-import PlotCard from './PlotCard/PlotCard'
-import BuildingCard from './BuildingCard/BuildingCard'
+import PlotCard, { PlotCardSkeleton } from './PlotCard/PlotCard'
+import BuildingCard, { BuildingCardSkeleton } from './BuildingCard/BuildingCard'
 import { useLocale } from '@hooks'
 import Pagination from './Pagination/Pagination'
-import { Loader } from '@components'
 
 const ITEMS_PER_PAGE = 50
 
@@ -21,18 +20,25 @@ const Sidebar = ({ map }) => {
     counties: {
       items: counties || [],
       component: CountyCard,
+      skeleton: null,
     },
     plots: {
       items: renderedFeatures.filter(f => f?.properties?.EGRID) || [],
       component: PlotCard,
+      skeleton: PlotCardSkeleton,
     },
     buildings: {
       items: renderedFeatures.filter(f => f?.properties?.EGID) || [],
       component: BuildingCard,
+      skeleton: BuildingCardSkeleton,
     },
   }
 
-  const { items, component: CardComponent } = cards[mode]
+  const {
+    items,
+    component: CardComponent,
+    skeleton: SkeletonComponent,
+  } = cards[mode]
   const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE)
 
   const paginatedItems = items.slice(
@@ -48,7 +54,13 @@ const Sidebar = ({ map }) => {
     <div className={style.sidebar}>
       <h3 className={style.title}>{t(mode)}</h3>
 
-      {paginatedItems.length || renderedFeaturesLoading ? (
+      {renderedFeaturesLoading && SkeletonComponent ? (
+        <ul className={style.cards}>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <SkeletonComponent key={`skeleton-${index}`} />
+          ))}
+        </ul>
+      ) : paginatedItems.length > 0 ? (
         <ul className={style.cards}>
           {paginatedItems.map((item, index) => (
             <CardComponent

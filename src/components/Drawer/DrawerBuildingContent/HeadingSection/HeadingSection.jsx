@@ -1,16 +1,23 @@
 import style from './HeadingSection.module.scss'
-import Tooltip from '../../../../components/Tooltip/Tooltip'
+import Tooltip from '@components/Tooltip/Tooltip'
 import { BiFileBlank as FileIcon } from 'react-icons/bi'
-import { useLocale, useDrawer } from '../../../../hooks'
+import { useLocale, useDrawer } from '@hooks'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
+import { useEventStore } from '@store'
 
 const HeadingSection = ({ buildingId, rdppf, isLoading }) => {
   const { t } = useLocale('panels.buildings')
   const { closeDrawer } = useDrawer()
+  const { setClickedFeature } = useEventStore()
 
   const getHeading = () => {
     if (isLoading) return t('loading') || 'Loading...'
     return `${t('building')} ${buildingId}`
+  }
+
+  const handleClose = () => {
+    closeDrawer()
+    setClickedFeature(true)
   }
 
   return (
@@ -30,7 +37,7 @@ const HeadingSection = ({ buildingId, rdppf, isLoading }) => {
         </a>
       )}
 
-      <CrossIcon onClick={closeDrawer} size={24} className={style.crossIcon} />
+      <CrossIcon onClick={handleClose} size={24} className={style.crossIcon} />
     </div>
   )
 }

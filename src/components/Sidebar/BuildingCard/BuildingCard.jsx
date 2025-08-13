@@ -4,6 +4,7 @@ import { FaRegCalendar as CalendarIcon } from 'react-icons/fa6'
 import { FiHash as HashIcon } from 'react-icons/fi'
 import { FiHome as HomeIcon } from 'react-icons/fi'
 import { useEventStore } from '@store'
+import { SkeletonBlock } from '@components'
 import bbox from '@turf/bbox'
 
 const BuildingCard = ({ item, map }) => {
@@ -116,6 +117,74 @@ const BuildingCard = ({ item, map }) => {
         <button className={style.analyzeButton} onClick={handleAnalyze}>
           Analyze
         </button>
+      </div>
+    </li>
+  )
+}
+
+export const BuildingCardSkeleton = () => {
+  return (
+    <li className={style.buildingCard}>
+      <div className={style.heading}>
+        <div>
+          <SkeletonBlock
+            width='190px'
+            height='24px'
+            variant='text'
+            marginBottom='5px'
+          />
+          <SkeletonBlock
+            width='80px'
+            height='12px'
+            variant='text'
+            marginBottom='5px'
+          />
+        </div>
+
+        <div className={style.price}>
+          <SkeletonBlock
+            width='130px'
+            height='14px'
+            variant='text'
+            marginBottom='4px'
+          />
+          <SkeletonBlock width='150px' height='22px' variant='text' />
+        </div>
+      </div>
+
+      <div className={style.divider} />
+
+      <ul className={style.info}>
+        <div className={style.infoRow}>
+          {[1, 2, 3].map(item => (
+            <li key={item} className={style.infoItem}>
+              <SkeletonBlock
+                width='100px'
+                height='13px'
+                variant='text'
+                marginTop='4px'
+              />
+              <div className={style.infoItemValue}>
+                <SkeletonBlock
+                  width='60px'
+                  height='14px'
+                  variant='text'
+                  marginTop='4px'
+                  marginBottom='2px'
+                />
+              </div>
+            </li>
+          ))}
+        </div>
+      </ul>
+
+      <div className={style.buttons}>
+        <SkeletonBlock
+          width='74px'
+          height='30px'
+          variant='button'
+          className={style.analyzeButtonSkeleton}
+        />
       </div>
     </li>
   )

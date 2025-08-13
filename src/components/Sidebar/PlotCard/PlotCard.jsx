@@ -4,7 +4,7 @@ import { HiOutlineClipboardDocumentList as DocsIcon } from 'react-icons/hi2'
 import { MdOutlineContentCopy as CopyIcon } from 'react-icons/md'
 import { FaRegCalendar as CalendarIcon } from 'react-icons/fa6'
 import { FiHash as HashIcon } from 'react-icons/fi'
-import { Tooltip } from '@components'
+import { Tooltip, SkeletonBlock } from '@components'
 import { useEventStore, useToastStore } from '@store'
 import bbox from '@turf/bbox'
 
@@ -146,6 +146,85 @@ const PlotCard = ({ item, map }) => {
         <button className={style.analyzeButton} onClick={handleAnalyze}>
           Analyze
         </button>
+      </div>
+    </li>
+  )
+}
+
+export const PlotCardSkeleton = () => {
+  return (
+    <li className={style.plotCard}>
+      <div className={style.heading}>
+        <div>
+          <SkeletonBlock
+            width='100px'
+            height='18px'
+            variant='text'
+            marginBottom='4px'
+          />
+          <SkeletonBlock
+            width='80px'
+            height='13px'
+            variant='text'
+            className={style.countySkeleton}
+          />
+        </div>
+
+        <div className={style.egrid}>
+          <SkeletonBlock
+            width='40px'
+            height='10px'
+            variant='text'
+            marginBottom='4px'
+          />
+          <div className={style.egridValue}>
+            <SkeletonBlock
+              width='150px'
+              height='16px'
+              variant='text'
+              marginBottom='4px'
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className={style.divider} />
+
+      <ul className={style.info}>
+        {Array.from({ length: 3 }).map(item => (
+          <li key={item} className={style.infoItem}>
+            <SkeletonBlock
+              width='100px'
+              height='12px'
+              variant='text'
+              marginTop='6px'
+              marginBottom='6px'
+            />
+            <div className={style.infoItemValue}>
+              <SkeletonBlock
+                width='60px'
+                height='12px'
+                variant='text'
+                className={style.infoItemValueTextSkeleton}
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div className={style.buttons}>
+        <SkeletonBlock
+          width='123px'
+          height='30px'
+          variant='button'
+          className={style.cadastralExtractButtonSkeleton}
+        />
+        <SkeletonBlock
+          width='74px'
+          height='30px'
+          variant='button'
+          className={style.analyzeButtonSkeleton}
+        />
       </div>
     </li>
   )
