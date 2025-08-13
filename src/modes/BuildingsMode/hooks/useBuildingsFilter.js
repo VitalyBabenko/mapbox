@@ -2,9 +2,9 @@ import { useMemo } from 'react'
 
 const useBuildingsFilter = county => {
   return useMemo(() => {
-    const noComm = county?.properties?.NO_COMM || ''
+    const commune = county?.properties?.COMMUNE || ''
 
-    return ['all', ['match', ['get', 'NO_COMM'], noComm, true, false]]
+    return ['all', ['match', ['get', 'COMMUNE'], commune, true, false]]
   }, [county])
 }
 

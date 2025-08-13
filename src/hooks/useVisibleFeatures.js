@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { BUILDINGS_SOURCE, COUNTIES_SOURCE, PLOTS_SOURCE } from '../constants'
 import { useEventStore, useModeStore } from '../store'
+import { usePlotsFilter } from './usePlotsFilter'
 
 export function useVisibleFeatures(map, delay = 250) {
-  const { mode, isPublicPlots } = useModeStore()
+  const { mode, county, isPublicPlots } = useModeStore()
   const { renderedFeatures, setRenderedFeatures } = useEventStore()
+  const plotsFilter = usePlotsFilter(county)
 
   const [isLoading, setIsLoading] = useState(false)
   const timer = useRef(null)
@@ -16,6 +18,7 @@ export function useVisibleFeatures(map, delay = 250) {
       plots: {
         source: PLOTS_SOURCE.id,
         sourceLayer: PLOTS_SOURCE.sourceLayer,
+        filter: plotsFilter,
       },
       buildings: {
         source: BUILDINGS_SOURCE.id,
@@ -30,6 +33,7 @@ export function useVisibleFeatures(map, delay = 250) {
     const rendered = map.queryRenderedFeatures({
       source: renderProperties[mode].source,
       sourceLayer: renderProperties[mode].sourceLayer,
+      filter: renderProperties[mode]?.filter || [],
     })
 
     const unique = []

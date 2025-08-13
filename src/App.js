@@ -1,7 +1,7 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { useEffect, useRef, useState } from 'react'
 import globalStyle from './styles/global.module.scss'
-import { TagsModal, Toast } from './components'
+import { TagsModal, Toast, Sidebar, Drawer } from './components'
 import { INITIAL_VIEW, INTERACTIVE_LAYER_IDS, MAP_STYLES } from './constants'
 
 import { useModeStore, useZoneStore } from './store'
@@ -9,8 +9,8 @@ import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes.jsx'
 import { ProtectedMode, ZonesMode } from './modes/index.js'
 import 'react-datepicker/dist/react-datepicker.css'
-import { useLocaleStore } from './store/localeStore.js'
-import Sidebar from './components/Sidebar/Sidebar.jsx'
+import { useLocaleStore } from './store'
+
 import { useMouseEvents, useVisibleFeatures } from './hooks'
 
 function App() {
@@ -92,6 +92,7 @@ function App() {
         </Map>
 
         <Sidebar map={mapRef.current} />
+        <Drawer />
       </div>
     </BrowserRouter>
   )

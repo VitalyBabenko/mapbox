@@ -1,11 +1,10 @@
 import { Popup } from 'react-map-gl'
 import centroid from '@turf/centroid'
 
-export const PlotsPopup = ({ hoveredFeature, isActive }) => {
-  if (!isActive || !hoveredFeature?.properties?.IDEDDP) return null
+const CountiesPopup = ({ feature }) => {
+  if (!feature?.properties?.COMMUNE || !feature.geometry) return null
 
-  const center = centroid(hoveredFeature)?.geometry?.coordinates
-
+  const center = centroid(feature)?.geometry?.coordinates
   if (!center) return null
 
   return (
@@ -16,7 +15,9 @@ export const PlotsPopup = ({ hoveredFeature, isActive }) => {
       closeButton={false}
       className='hover-popup'
     >
-      Plot: {hoveredFeature.properties.IDEDDP.replace(':', '/')}
+      {feature.properties.COMMUNE}
     </Popup>
   )
 }
+
+export default CountiesPopup

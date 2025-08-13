@@ -12,7 +12,6 @@ import {
   BuildingsPanel,
   FiltersPanel,
   MapDataPanel,
-  PlotsPanel,
   ScalePanel,
 } from '../../panels'
 import { MODES } from '../../constants'
@@ -47,7 +46,7 @@ const MainPage = () => {
       />
       <MapDataPanel />
       <ScalePanel />
-      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
+
       <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
     </>
   )

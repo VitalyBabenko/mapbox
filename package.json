@@ -6,6 +6,7 @@
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "@turf/bbox": "^6.5.0",
+    "@turf/centroid": "^7.2.0",
     "axios": "^1.6.8",
     "mapbox-gl": "^3.3.0",
     "react": "^18.3.1",

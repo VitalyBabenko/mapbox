@@ -7,6 +7,8 @@ import { FiHash as HashIcon } from 'react-icons/fi'
 import { Tooltip } from '../../../components'
 import { useEventStore, useToastStore } from '../../../store'
 import bbox from '@turf/bbox'
+import { useDrawer } from '../../../hooks'
+import DrawerPlotContent from '../../Drawer/DrawerPlotContent/DrawerPlotContent'
 
 const formatRecordDate = dateStr => {
   if (!dateStr || dateStr.length !== 14) return ''
@@ -21,6 +23,7 @@ const formatRecordDate = dateStr => {
 const PlotCard = ({ item, map }) => {
   const { setHoveredFeature, setClickedFeature } = useEventStore()
   const toast = useToastStore()
+  const { openDrawer } = useDrawer()
 
   const {
     IDEDDP,
@@ -80,7 +83,7 @@ const PlotCard = ({ item, map }) => {
     toast.success('EGRID copied to clipboard')
   }
 
-  const handleClick = () => {
+  const handleAnalyze = () => {
     setClickedFeature(item)
 
     if (map && item.geometry) {
@@ -94,7 +97,6 @@ const PlotCard = ({ item, map }) => {
       className={style.plotCard}
       onMouseEnter={() => setHoveredFeature(item)}
       onMouseLeave={() => setHoveredFeature(null)}
-      onClick={handleClick}
     >
       <div className={style.heading}>
         <div>
@@ -144,7 +146,9 @@ const PlotCard = ({ item, map }) => {
             Cadastral extract
           </button>
         </a>
-        <button className={style.analyzeButton}>Analyze</button>
+        <button className={style.analyzeButton} onClick={handleAnalyze}>
+          Analyze
+        </button>
       </div>
     </li>
   )
