@@ -3,9 +3,11 @@ import { BsPeople as PopulationIcon } from 'react-icons/bs'
 import { RiSignpostLine as PostIcon } from 'react-icons/ri'
 import { RiRuler2Line as RulerIcon } from 'react-icons/ri'
 import { useEventStore } from '@store'
+import { useLocale } from '@hooks'
 
 const CountyCard = ({ item }) => {
   const { setHoveredFeature, setClickedFeature } = useEventStore()
+  const { t } = useLocale('countyCard')
 
   return (
     <li
@@ -18,7 +20,7 @@ const CountyCard = ({ item }) => {
 
       <ul className={style.info}>
         <li className={style.infoItem}>
-          <span className={style.infoItemTitle}>Post code</span>
+          <span className={style.infoItemTitle}>{t('postCode')}</span>
           <div className={style.infoItemValue}>
             <PostIcon size={14} />
             <p className={style.infoItemValueText}>
@@ -28,17 +30,17 @@ const CountyCard = ({ item }) => {
         </li>
 
         <li className={style.infoItem}>
-          <span className={style.infoItemTitle}>Area</span>
+          <span className={style.infoItemTitle}>{t('area')}</span>
           <div className={style.infoItemValue}>
             <RulerIcon size={14} />
             <p className={style.infoItemValueText}>
-              {item.properties?.AREA_KM2} <span>km²</span>
+              {item.properties?.AREA_KM2} <span>{t('squareKilometers')}</span>
             </p>
           </div>
         </li>
 
         <li className={style.infoItem}>
-          <span className={style.infoItemTitle}>Population</span>
+          <span className={style.infoItemTitle}>{t('population')}</span>
           <div className={style.infoItemValue}>
             <PopulationIcon size={14} />
             <p className={style.infoItemValueText}>

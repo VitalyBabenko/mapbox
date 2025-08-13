@@ -6,6 +6,7 @@ import { FaRegCalendar as CalendarIcon } from 'react-icons/fa6'
 import { FiHash as HashIcon } from 'react-icons/fi'
 import { Tooltip, SkeletonBlock } from '@components'
 import { useEventStore, useToastStore } from '@store'
+import { useLocale } from '@hooks'
 import bbox from '@turf/bbox'
 
 const formatRecordDate = dateStr => {
@@ -21,6 +22,7 @@ const formatRecordDate = dateStr => {
 const PlotCard = ({ item, map }) => {
   const { setHoveredFeature, setClickedFeature } = useEventStore()
   const toast = useToastStore()
+  const { t } = useLocale('plotCard')
 
   const {
     IDEDDP,
@@ -48,26 +50,26 @@ const PlotCard = ({ item, map }) => {
 
   const infoItems = [
     {
-      label: 'Surface',
+      label: t('surface'),
       icon: <RulerIcon size={14} />,
       value: plotData.surface && (
         <>
-          {plotData.surface} <span>m²</span>
+          {plotData.surface} <span>{t('squareMeters')}</span>
         </>
       ),
     },
     {
-      label: 'Ownership type',
+      label: t('ownershipType'),
       icon: <DocsIcon size={14} />,
       value: plotData.typology,
     },
     {
-      label: 'Last update',
+      label: t('lastUpdate'),
       icon: <CalendarIcon className={style.calendarIcon} size={13} />,
       value: formatRecordDate(plotData.date),
     },
     {
-      label: 'Parcel No.',
+      label: t('parcelNo'),
       icon: <HashIcon size={13} />,
       value: plotData.parcelNo,
     },
@@ -77,7 +79,7 @@ const PlotCard = ({ item, map }) => {
     e.stopPropagation()
     if (!plotData.egrid) return
     navigator.clipboard.writeText(plotData.egrid)
-    toast.success('EGRID copied to clipboard')
+    toast.success(t('egridCopied'))
   }
 
   const handleAnalyze = () => {
@@ -97,14 +99,16 @@ const PlotCard = ({ item, map }) => {
     >
       <div className={style.heading}>
         <div>
-          <p className={style.id}>Plot: {plotData.id}</p>
+          <p className={style.id}>
+            {t('plot')}: {plotData.id}
+          </p>
           <span className={style.county}>{plotData.county}</span>
         </div>
 
         <div className={style.egrid}>
-          <span className={style.egridLabel}>EGRID</span>
+          <span className={style.egridLabel}>{t('egrid')}</span>
           <div className={style.egridValue}>
-            <Tooltip text='Copy to clipboard' top='-35px'>
+            <Tooltip text={t('copyToClipboard')} top='-35px'>
               <CopyIcon
                 className={style.copyIcon}
                 onClick={copyEgrid}
@@ -140,11 +144,11 @@ const PlotCard = ({ item, map }) => {
           rel='noopener noreferrer'
         >
           <button className={style.cadastralExtractButton}>
-            Cadastral extract
+            {t('cadastralExtract')}
           </button>
         </a>
         <button className={style.analyzeButton} onClick={handleAnalyze}>
-          Analyze
+          {t('analyze')}
         </button>
       </div>
     </li>

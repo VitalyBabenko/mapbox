@@ -77,10 +77,7 @@ const Sidebar = ({ map }) => {
           ))}
         </ul>
       ) : (
-        <EmptyState
-          message='No objects found on the map'
-          className={style.empty}
-        />
+        <EmptyState message={t(`emptyState.${mode}`)} className={style.empty} />
       )}
 
       {totalPages > 1 && (

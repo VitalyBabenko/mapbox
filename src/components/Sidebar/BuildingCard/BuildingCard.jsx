@@ -5,10 +5,12 @@ import { FiHash as HashIcon } from 'react-icons/fi'
 import { FiHome as HomeIcon } from 'react-icons/fi'
 import { useEventStore } from '@store'
 import { SkeletonBlock } from '@components'
+import { useLocale } from '@hooks'
 import bbox from '@turf/bbox'
 
 const BuildingCard = ({ item, map }) => {
   const { setHoveredFeature, setClickedFeature } = useEventStore()
+  const { t } = useLocale('buildingCard')
 
   const {
     ADDR_NAME,
@@ -34,27 +36,27 @@ const BuildingCard = ({ item, map }) => {
 
   const infoItems = [
     {
-      label: 'Apartments',
+      label: t('apartments'),
       icon: <HomeIcon size={14} />,
       value: buildingData.apartments,
     },
     {
-      label: 'Class',
+      label: t('class'),
       icon: <HashIcon size={13} />,
       value: buildingData.class,
     },
     {
-      label: 'Construction year',
+      label: t('constructionYear'),
       icon: <CalendarIcon className={style.calendarIcon} size={13} />,
       value: buildingData.constructionYear,
     },
     {
-      label: 'Typology',
+      label: t('typology'),
       icon: <DocsIcon size={14} />,
       value: buildingData.typology,
     },
     {
-      label: 'Transaction date',
+      label: t('transactionDate'),
       icon: <CalendarIcon className={style.calendarIcon} size={13} />,
       value: buildingData.lastTransactionDate,
     },
@@ -83,7 +85,9 @@ const BuildingCard = ({ item, map }) => {
 
         {buildingData.lastTransactionPrice && (
           <div className={style.price}>
-            <span className={style.priceLabel}>Last transaction price</span>
+            <span className={style.priceLabel}>
+              {t('lastTransactionPrice')}
+            </span>
             <p className={style.priceValue}>
               {buildingData.lastTransactionPrice
                 .toString()
@@ -115,7 +119,7 @@ const BuildingCard = ({ item, map }) => {
 
       <div className={style.buttons}>
         <button className={style.analyzeButton} onClick={handleAnalyze}>
-          Analyze
+          {t('analyze')}
         </button>
       </div>
     </li>

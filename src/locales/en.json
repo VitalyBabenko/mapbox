@@ -213,7 +213,43 @@
   "sidebar": {
     "counties": "Communes",
     "plots": "Plots",
-    "buildings": "Buildings"
+    "buildings": "Buildings",
+    "emptyState": {
+      "counties": "No communes available",
+      "plots": "No plots found on the map",
+      "buildings": "No buildings found on the map"
+    }
+  },
+
+  "plotCard": {
+    "plot": "Plot",
+    "surface": "Surface",
+    "ownershipType": "Ownership type",
+    "lastUpdate": "Last update",
+    "parcelNo": "Parcel No.",
+    "egrid": "EGRID",
+    "copyToClipboard": "Copy to clipboard",
+    "egridCopied": "EGRID copied to clipboard",
+    "cadastralExtract": "Cadastral extract",
+    "analyze": "Analyze",
+    "squareMeters": "m²"
+  },
+
+  "buildingCard": {
+    "apartments": "Apartments",
+    "class": "Class",
+    "constructionYear": "Construction year",
+    "typology": "Typology",
+    "transactionDate": "Transaction date",
+    "lastTransactionPrice": "Last transaction price",
+    "analyze": "Analyze"
+  },
+
+  "countyCard": {
+    "postCode": "Post code",
+    "area": "Area",
+    "population": "Population",
+    "squareKilometers": "km²"
   },
 
   "buttons": {
