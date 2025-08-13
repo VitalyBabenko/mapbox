@@ -1,0 +1,126 @@
+@import '../../../styles/mixins';
+@import '../../../styles/variables';
+
+.buildingCard {
+  position: relative;
+  @include sidebar-card;
+  border-color: $grey-300;
+  cursor: auto;
+  width: 408px;
+
+  &:hover {
+    border-color: $blue-600;
+  }
+
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .address {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      max-width: 250px;
+    }
+
+    span.county {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #9da4b1;
+      margin-bottom: 2px;
+    }
+
+    .price {
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+      gap: 4px;
+
+      .priceLabel {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+        color: $grey-400;
+        margin-left: auto;
+      }
+
+      .priceValue {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        color: #059669;
+      }
+    }
+  }
+
+  .divider {
+    @include divider;
+    margin: 8px 0 8px;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .infoRow {
+      display: flex;
+      gap: 20px;
+    }
+
+    .infoItem {
+      display: flex;
+      flex-direction: column;
+
+      .infoItemTitle {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        color: #9da4b1;
+      }
+
+      .infoItemValue {
+        display: flex;
+        align-items: center;
+
+        .infoItemValueText {
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          color: #3b4556;
+
+          span {
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16px;
+            color: #9da4b1;
+          }
+        }
+
+        svg {
+          color: #9da4b1;
+          margin-right: 2px;
+        }
+
+        svg.calendarIcon {
+          padding: 0.5px;
+          margin-bottom: 1px;
+        }
+      }
+    }
+  }
+
+  .buttons {
+    padding: 12px 0 6px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    button {
+      height: 30px;
+      @include button-primary;
+    }
+  }
+}

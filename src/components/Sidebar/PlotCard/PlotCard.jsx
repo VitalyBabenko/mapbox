@@ -7,8 +7,6 @@ import { FiHash as HashIcon } from 'react-icons/fi'
 import { Tooltip } from '../../../components'
 import { useEventStore, useToastStore } from '../../../store'
 import bbox from '@turf/bbox'
-import { useDrawer } from '../../../hooks'
-import DrawerPlotContent from '../../Drawer/DrawerPlotContent/DrawerPlotContent'
 
 const formatRecordDate = dateStr => {
   if (!dateStr || dateStr.length !== 14) return ''
@@ -23,7 +21,6 @@ const formatRecordDate = dateStr => {
 const PlotCard = ({ item, map }) => {
   const { setHoveredFeature, setClickedFeature } = useEventStore()
   const toast = useToastStore()
-  const { openDrawer } = useDrawer()
 
   const {
     IDEDDP,

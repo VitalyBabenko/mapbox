@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import {
   useEventStore,
   useFilterStore,
@@ -8,6 +9,8 @@ import { BuildingsPopup } from './components/BuildingsPopup'
 import Default from './layers/Default'
 import FilteredWithCounty from './layers/FilteredWithCounty'
 import FilteredWithoutCounty from './layers/FilteredWithoutCounty'
+import DrawerBuildingContent from '../../components/Drawer/DrawerBuildingContent/DrawerBuildingContent'
+import { useDrawer } from '../../hooks'
 
 /**
  * BuildingsMode
@@ -33,9 +36,25 @@ const BuildingsMode = () => {
   const { county, switcher } = useModeStore()
   const { activePaint } = usePaintStore()
   const { filtersResult } = useFilterStore()
-  const { hoveredFeature, hoverEvent } = useEventStore()
+  const { hoveredFeature, clickedFeature } = useEventStore()
+  const { openDrawer, closeDrawer } = useDrawer()
 
   const isActive = switcher === 'buildings'
+
+  useEffect(() => {
+    const handlePlotClick = () => {
+      const egid = clickedFeature?.properties?.EGID
+
+      if (egid) {
+        openDrawer(DrawerBuildingContent, { activeBuildingId: egid })
+      } else {
+        closeDrawer()
+      }
+    }
+
+    handlePlotClick()
+  }, [clickedFeature])
+
   if (!isActive) return null
 
   const isSearch = Boolean(filtersResult?.length)
@@ -65,7 +84,7 @@ const BuildingsMode = () => {
       {hoveredFeature?.properties && (
         <BuildingsPopup
           hoveredFeature={hoveredFeature}
-          hoverEvent={hoverEvent}
+          isActive={isActive}
           activePaint={activePaint}
         />
       )}

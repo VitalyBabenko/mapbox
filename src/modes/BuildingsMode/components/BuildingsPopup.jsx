@@ -1,4 +1,5 @@
 import { Popup } from 'react-map-gl'
+import centroid from '@turf/centroid'
 import {
   PAINT_BY_APARTS_QTY,
   PAINT_BY_CONSTRUCTION_PERIOD,
@@ -9,7 +10,16 @@ import {
   PAINT_BY_TYPE,
 } from '../../../constants'
 
-export const BuildingsPopup = ({ hoveredFeature, hoverEvent, activePaint }) => {
+export const BuildingsPopup = ({ hoveredFeature, isActive, activePaint }) => {
+  if (!isActive || !hoveredFeature?.properties?.ADDR_NAME) return null
+
+  if (!hoveredFeature.properties.APARTS_QTY && !hoveredFeature.properties.EGID)
+    return null
+
+  const center = centroid(hoveredFeature)?.geometry?.coordinates
+
+  if (!center) return null
+
   const getBuildingHoverPopupText = (activePaint, hoverBuilding) => {
     if (hoverBuilding?.DATEDT) {
       return 'Pool'
@@ -57,18 +67,14 @@ export const BuildingsPopup = ({ hoveredFeature, hoverEvent, activePaint }) => {
   }
 
   return (
-    <>
-      {hoveredFeature?.properties && (
-        <Popup
-          longitude={hoverEvent.lngLat.lng}
-          latitude={hoverEvent.lngLat.lat}
-          offset={[0, -5]}
-          closeButton={false}
-          className='hover-popup'
-        >
-          {getBuildingHoverPopupText(activePaint, hoveredFeature?.properties)}
-        </Popup>
-      )}
-    </>
+    <Popup
+      longitude={center[0]}
+      latitude={center[1]}
+      offset={[0, -5]}
+      closeButton={false}
+      className='hover-popup'
+    >
+      {getBuildingHoverPopupText(activePaint, hoveredFeature?.properties)}
+    </Popup>
   )
 }

@@ -8,12 +8,7 @@ import {
   ZonesMode,
 } from '../../modes'
 import { ModeSwitcher, PoolsLayer } from '../../components'
-import {
-  BuildingsPanel,
-  FiltersPanel,
-  MapDataPanel,
-  ScalePanel,
-} from '../../panels'
+import { FiltersPanel, MapDataPanel, ScalePanel } from '../../panels'
 import { MODES } from '../../constants'
 import { useEventStore, useModeStore, useZoneStore } from '../../store'
 import { useRef } from 'react'
@@ -46,8 +41,6 @@ const MainPage = () => {
       />
       <MapDataPanel />
       <ScalePanel />
-
-      <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
     </>
   )
 }

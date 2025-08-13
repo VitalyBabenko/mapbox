@@ -39,11 +39,23 @@ export function useVisibleFeatures(map, delay = 250) {
     const unique = []
     const seen = new Set()
 
-    for (const f of rendered) {
-      const id = f.properties?.EGRID
-      if (!seen.has(id)) {
-        seen.add(id)
-        unique.push(f)
+    if (mode === 'plots') {
+      for (const f of rendered) {
+        const id = f.properties?.EGRID
+        if (!seen.has(id)) {
+          seen.add(id)
+          unique.push(f)
+        }
+      }
+    }
+
+    if (mode === 'buildings') {
+      for (const f of rendered) {
+        const id = f.properties?.EGID
+        if (!seen.has(id)) {
+          seen.add(id)
+          unique.push(f)
+        }
       }
     }
 
