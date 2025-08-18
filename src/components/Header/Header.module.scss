@@ -25,7 +25,6 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    width: 430px;
 
     .tableViewButton {
       display: flex;
@@ -55,143 +54,112 @@
   .rightSection {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 10px;
     flex-shrink: 0;
-  }
-
-  .languageToggle,
-  .themeToggle,
-  .notificationsButton {
-    padding: 8px 12px;
-    background: $grey-100;
-    border: 1px solid $grey-200;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    color: $grey-700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    min-width: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-
-    &:hover {
-      background: $grey-200;
-      border-color: $grey-300;
-    }
-
-    &:active {
-      transform: translateY(1px);
-    }
-  }
-
-  .languageToggle {
-    .languageIcon {
-      font-size: 18px;
-      color: $grey-700;
-    }
-
-    .languageText {
-      font-size: 16px;
-      font-weight: bold;
-      color: $grey-700;
-    }
-  }
-
-  .notificationsButton {
-    position: relative;
-
-    .bellIcon {
-      font-size: 18px;
-      color: $grey-700;
-    }
-
-    .notificationDot {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 8px;
-      height: 8px;
-      background: $red;
-      border-radius: 50%;
-      border: 2px solid $white;
-    }
-  }
-
-  .userSection {
-    position: relative;
-  }
-
-  .avatarButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-  }
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: $blue-100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    position: relative;
-
-    .avatarIcon {
-      font-size: 20px;
-      color: $blue-600;
-    }
-
-    .onlineDot {
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 12px;
-      height: 12px;
-      background: $green;
-      border-radius: 50%;
-      border: 2px solid $white;
-    }
-  }
-
-  // Responsive design
-  @media (max-width: 768px) {
-    .headerContent {
-      padding: 0 16px;
-    }
-
-    .centerSection {
-      margin: 0 16px;
-      max-width: 200px;
-    }
-
-    .rightSection {
-      gap: 12px;
-    }
-
-    .tableViewButton {
-      padding: 6px 12px;
-      font-size: 13px;
-    }
 
     .languageToggle,
+    .themeToggle,
     .notificationsButton {
-      padding: 6px 8px;
-      font-size: 13px;
-      min-width: 40px;
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: $grey-700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 50%;
+    }
+
+    .languageToggle {
+      .languageIcon {
+        font-size: 18px;
+        color: $grey-700;
+      }
+
+      .languageText {
+        font-size: 16px;
+        font-weight: bold;
+        color: $grey-700;
+      }
+    }
+
+    .userSection {
+      position: relative;
+    }
+
+    .avatarButton {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
     }
 
     .avatar {
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: $blue-100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      position: relative;
+
+      .avatarIcon {
+        font-size: 20px;
+        color: $blue-600;
+      }
+
+      .onlineDot {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 12px;
+        height: 12px;
+        background: $green;
+        border-radius: 50%;
+        border: 2px solid $white;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .headerContent {
+        padding: 0 16px;
+      }
+
+      .centerSection {
+        margin: 0 16px;
+        max-width: 200px;
+      }
+
+      .rightSection {
+        gap: 12px;
+      }
+
+      .tableViewButton {
+        padding: 6px 12px;
+        font-size: 13px;
+      }
+
+      .languageToggle,
+      .notificationsButton {
+        padding: 6px 8px;
+        font-size: 13px;
+        min-width: 40px;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
     }
   }
 }

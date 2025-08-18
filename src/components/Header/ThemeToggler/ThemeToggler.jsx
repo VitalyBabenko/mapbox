@@ -29,9 +29,9 @@ const ThemeToggler = () => {
       aria-label='Toggle theme'
     >
       {isDarkTheme ? (
-        <HiSun className={styles.themeIcon} />
+        <HiSun className={styles.themeIcon} size={21} />
       ) : (
-        <HiMoon className={styles.themeIcon} />
+        <HiMoon className={styles.themeIcon} size={21} />
       )}
     </button>
   )

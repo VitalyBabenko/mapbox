@@ -29,15 +29,9 @@ const FiltersModal = ({
   const { t } = useLocale('panels.filters')
   const toast = useToastStore()
   const { current: map } = useMap()
-  const {
-    filters,
-    setFilters,
-    filtersResult,
-    setFiltersResult,
-    setFilterValue,
-  } = useFilterStore()
-  const { county, switcher, switchToPlotsMode, switchToBuildingsMode } =
-    useModeStore()
+  const { filters, setFilters, setFiltersResult, setFilterValue } =
+    useFilterStore()
+  const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
 
   const clearQueryParamsOnClose = () => {
     const url = window.location.href
