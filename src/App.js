@@ -1,7 +1,7 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { useEffect, useRef, useState } from 'react'
 import globalStyle from './styles/global.module.scss'
-import { TagsModal, Toast, Sidebar, Drawer } from './components'
+import { TagsModal, Toast, Sidebar, Drawer, Header } from './components'
 import { INITIAL_VIEW, INTERACTIVE_LAYER_IDS, MAP_STYLES } from './constants'
 
 import { useModeStore, useZoneStore } from './store'
@@ -60,6 +60,7 @@ function App() {
   return (
     <BrowserRouter>
       <div ref={wrapperRef} className={globalStyle.appWrapper}>
+        <Header />
         <Map
           ref={mapRef}
           cursor={mouse.cursor}

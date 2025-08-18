@@ -1,0 +1,41 @@
+@import '../../../styles/variables';
+
+.themeToggle {
+  padding: 8px 12px;
+  background: $grey-100;
+  border: 1px solid $grey-200;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $grey-700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  &:hover {
+    background: $grey-200;
+    border-color: $grey-300;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  .themeIcon {
+    font-size: 18px;
+    color: $grey-700;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .themeToggle {
+    padding: 6px 8px;
+    font-size: 13px;
+    min-width: 40px;
+  }
+}

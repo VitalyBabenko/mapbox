@@ -1,6 +1,7 @@
 import Checkbox from './Checkbox/Checkbox'
 import ColorPickerPopup from './ColorPickerPopup/ColorPickerPopup'
 import ErrorMessage from './ErrorMessage/ErrorMessage'
+import Header from './Header/Header'
 import IconButton from './IconButton/IconButton'
 import List from './List/List'
 import ListItem from './List/ListItem/ListItem'
@@ -19,11 +20,14 @@ import Drawer from './Drawer/Drawer'
 import Sidebar from './Sidebar/Sidebar'
 import SkeletonBlock from './SkeletonBlock/SkeletonBlock'
 import EmptyState from './EmptyState/EmptyState'
+import ThemeToggler from './Header/ThemeToggler/ThemeToggler'
+import Search from './Header/Search/Search'
 
 export {
   Checkbox,
   ColorPickerPopup,
   ErrorMessage,
+  Header,
   IconButton,
   ResetViewButton,
   List,
@@ -42,4 +46,6 @@ export {
   Drawer,
   SkeletonBlock,
   EmptyState,
+  ThemeToggler,
+  Search,
 }

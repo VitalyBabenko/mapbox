@@ -7,6 +7,7 @@ import { useThrottle } from './useTrottle'
 import { useVisibleFeatures } from './useVisibleFeatures'
 import { useDrawer } from './useDrawer'
 import { usePlotsFilter } from './usePlotsFilter'
+import useLocalStorage from './useLocalStorage'
 
 export {
   useBuildingsFilter,
@@ -18,4 +19,5 @@ export {
   useThrottle,
   useDrawer,
   usePlotsFilter,
+  useLocalStorage,
 }

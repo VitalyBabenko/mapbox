@@ -2,8 +2,8 @@
 @import './reset';
 
 .appWrapper {
-  // min-height: calc(100vh - 180px);
-  height: 99vh;
+  height: 100vh;
+  padding-top: 56px;
   display: flex;
 
   :global {
