@@ -1,7 +1,6 @@
 import { memo, useEffect, useState } from 'react'
 import { IoFilter as FilterIcon } from 'react-icons/io5'
 import { useFilterStore, useModeStore, useToastStore } from '../../store'
-import FiltersResult from './FiltersResult/FiltersResult'
 import { TbZoomCancel as StopIcon } from 'react-icons/tb'
 import { Modal, Tooltip, Loader } from '../../components'
 import style from './FiltersModal.module.scss'
@@ -180,8 +179,6 @@ const FiltersModal = ({
               </button>
             )}
           </div>
-        ) : filtersResult.length ? (
-          <FiltersResult filtersFor={filtersFor} />
         ) : (
           filters.length && (
             <div className={style.filtersContent}>

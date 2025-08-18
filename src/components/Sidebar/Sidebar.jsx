@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useEventStore, useModeStore } from '@store'
+import { useEventStore, useModeStore, useFilterStore } from '@store'
 import style from './Sidebar.module.scss'
 import { counties } from '@constants/countiesSource'
 import CountyCard from './CountyCard/CountyCard'
 import PlotCard, { PlotCardSkeleton } from './PlotCard/PlotCard'
 import BuildingCard, { BuildingCardSkeleton } from './BuildingCard/BuildingCard'
+import FilterResults from './FilterResults/FilterResults'
 import { useLocale } from '@hooks'
 import Pagination from './Pagination/Pagination'
 import { EmptyState } from '@components'
@@ -12,8 +13,9 @@ import { EmptyState } from '@components'
 const ITEMS_PER_PAGE = 50
 
 const Sidebar = ({ map }) => {
-  const { mode } = useModeStore()
+  const { mode, switcher } = useModeStore()
   const { renderedFeatures, renderedFeaturesLoading } = useEventStore()
+  const { filtersResult } = useFilterStore()
   const [page, setPage] = useState(1)
   const { t } = useLocale('sidebar')
 
@@ -50,6 +52,18 @@ const Sidebar = ({ map }) => {
   useEffect(() => {
     setPage(1)
   }, [renderedFeatures])
+
+  // If there are filter results, show them instead of regular content
+  if (filtersResult.length > 0) {
+    return (
+      <div className={style.sidebar}>
+        <FilterResults
+          filtersFor={switcher === 'plots' ? 'plots' : 'buildings'}
+          map={map}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className={style.sidebar}>
