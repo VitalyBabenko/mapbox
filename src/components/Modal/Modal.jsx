@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
 import style from './Modal.module.scss'
 
@@ -41,12 +41,10 @@ const Modal = ({
             <CrossIcon size={20} />
           </button>
         </div>
-        <div className={style.content}>
-          {children}
-        </div>
+        <div className={style.content}>{children}</div>
       </div>
     </div>
   )
 }
 
-export default memo(Modal)
+export default Modal
