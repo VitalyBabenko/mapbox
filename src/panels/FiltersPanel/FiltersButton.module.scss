@@ -1,0 +1,14 @@
+@import '../../styles/mixins';
+
+.filtersButton {
+  @include button-mapbox;
+  position: absolute;
+  height: 29px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  z-index: 1;
+}

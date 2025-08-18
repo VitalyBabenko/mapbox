@@ -76,6 +76,8 @@
       "buttons": {
         "reset": "Réinitialiser",
         "apply": "Appliquer",
+        "cancel": "Annuler",
+        "loading": "Chargement...",
         "cancelSearch": "Annuler la recherche"
       },
       "toast": {

@@ -6,6 +6,7 @@ import List from './List/List'
 import ListItem from './List/ListItem/ListItem'
 import Loader from './Loader/Loader'
 import ModeSwitcher from './ModeSwitcher/ModeSwitcher'
+import Modal from './Modal/Modal'
 import TagsModal from './TagsModal/TagsModal'
 import Toast from './Toast/Toast'
 import Tooltip from './Tooltip/Tooltip'
@@ -29,6 +30,7 @@ export {
   ListItem,
   Loader,
   ModeSwitcher,
+  Modal,
   Panel,
   TagsModal,
   Toast,

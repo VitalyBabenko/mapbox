@@ -3,7 +3,7 @@ import { MODES } from '../../constants'
 import { BuildingsMode, CountiesMode, PlotsMode } from '../../modes'
 import {
   BuildingsPanel,
-  FiltersPanel,
+  FiltersContainer,
   PlotsPanel,
   SettingsPanel,
 } from '../../panels'
@@ -33,7 +33,7 @@ const CertsPage = () => {
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
       <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
       <SettingsPanel />
-      <FiltersPanel filtersFor='construction-certs' />
+      <FiltersContainer filtersFor='construction-certs' />
 
       <ResetViewButton top={10} right={175} isVisible={isResetButtonVisible} />
     </>

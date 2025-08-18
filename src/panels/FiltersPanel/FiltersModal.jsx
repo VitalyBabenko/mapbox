@@ -1,10 +1,10 @@
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { IoFilter as FilterIcon } from 'react-icons/io5'
 import { useFilterStore, useModeStore, useToastStore } from '../../store'
 import FiltersResult from './FiltersResult/FiltersResult'
 import { TbZoomCancel as StopIcon } from 'react-icons/tb'
-import { Panel, Tooltip } from '../../components'
-import style from './FiltersPanel.module.scss'
+import { Modal, Tooltip, Loader } from '../../components'
+import style from './FiltersModal.module.scss'
 import { filterService } from '../../service/filtersService'
 import FilterAccordion from '../../components/Filters/FilterAccordion/FilterAccordion'
 import { IoIosInformationCircleOutline as InfoIcon } from 'react-icons/io'
@@ -17,19 +17,16 @@ import { useMap } from 'react-map-gl'
 import bbox from '@turf/bbox'
 import { delay } from '../../utils/delay'
 
-const FiltersPanel = ({
+const FiltersModal = ({
   filtersFor = 'plots',
-  panelPosition = { x: 10, y: 50 },
-  panelSide = 'left',
-  buttonPosition = { top: 49, left: 10 },
+  isOpen = false,
+  onClose,
   resetViewButtonRef,
 }) => {
-  const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [mapLoading, setMapLoading] = useState(false)
   const [error, setError] = useState('')
   const [controller, setController] = useState(null)
-  const submitBtnRef = useRef(null)
   const { t } = useLocale('panels.filters')
   const toast = useToastStore()
   const { current: map } = useMap()
@@ -49,14 +46,23 @@ const FiltersPanel = ({
     window.history.replaceState({}, '', cleanedUrl)
   }
 
-  const handleSubmit = async e => {
-    e.preventDefault()
+  const handleClose = () => {
+    clearQueryParamsOnClose()
+    onClose()
+  }
 
-    if (county) {
-      resetViewButtonRef?.current?.click()
-      await delay(500)
+  const handleCancel = () => {
+    if (filters.length) {
+      filters.forEach(filter => {
+        if (filter.value !== false) {
+          setFilterValue(filter.id, false)
+        }
+      })
     }
+    onClose()
+  }
 
+  const handleApply = async () => {
     try {
       setLoading(true)
       setMapLoading(true)
@@ -78,6 +84,11 @@ const FiltersPanel = ({
       } else {
         setFiltersResult(resp?.features)
         toast.success(t('toast.success', { count: resp?.features?.length }))
+
+        // Close modal if there are results
+        if (resp?.features?.length > 0) {
+          onClose()
+        }
       }
     } catch (err) {
       toast.error(t('toast.error'))
@@ -129,46 +140,51 @@ const FiltersPanel = ({
       setLoading(false)
     }
 
-    fetchFilters()
-  }, [filtersFor, open, filtersResult])
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-
-    if (params.size && filters.length) {
-      setOpen(true)
-      submitBtnRef?.current?.click()
+    if (isOpen) {
+      fetchFilters()
     }
-  }, [filters])
+  }, [filtersFor, isOpen, setFilters])
+
+  const modalTitle = (
+    <>
+      <FilterIcon size={20} />
+      {t('title')}
+    </>
+  )
 
   return (
     <>
-      <Panel
-        open={open}
-        setOpen={value => {
-          setOpen(value)
-          if (!value) clearQueryParamsOnClose()
-        }}
-        loading={loading}
-        error={error}
-        className={style.filterPanel}
-        panelPosition={panelPosition}
-        panelSide={panelSide}
-        buttonText='Filters'
-        buttonIcon={<FilterIcon size={19} />}
-        buttonPosition={buttonPosition}
-        heading={
-          <>
-            <FilterIcon size={20} />
-            <h2>{t('title')}</h2>
-          </>
-        }
+      <Modal
+        isOpen={isOpen}
+        onClose={handleClose}
+        title={modalTitle}
+        size='medium'
+        className={style.filtersModal}
       >
-        {filtersResult.length ? (
+        {error ? (
+          <div className={style.errorContainer}>
+            <p>{error}</p>
+          </div>
+        ) : loading ? (
+          <div className={style.loadingContainer}>
+            <div className={style.loaderWrapper}>
+              <Loader />
+            </div>
+            {mapLoading && (
+              <button
+                onClick={cancelSearch}
+                className={style.cancelSearchButton}
+              >
+                <StopIcon />
+                {t('buttons.cancelSearch')}
+              </button>
+            )}
+          </div>
+        ) : filtersResult.length ? (
           <FiltersResult filtersFor={filtersFor} />
         ) : (
           filters.length && (
-            <form onSubmit={handleSubmit}>
+            <div className={style.filtersContent}>
               <div className={style.checkboxesContainer}>
                 <p className={style.checkboxesTitle}>{t('checkboxes.title')}</p>
                 <Tooltip
@@ -197,24 +213,29 @@ const FiltersPanel = ({
                 />
               ))}
 
-              <div>
-                <button ref={submitBtnRef} type='submit'>
-                  {t('buttons.apply')}
+              <div className={style.buttonsContainer}>
+                <button
+                  type='button'
+                  onClick={handleCancel}
+                  className={style.cancelButton}
+                >
+                  {t('buttons.cancel')}
+                </button>
+                <button
+                  type='button'
+                  onClick={handleApply}
+                  className={style.applyButton}
+                  disabled={loading}
+                >
+                  {loading ? t('buttons.loading') : t('buttons.apply')}
                 </button>
               </div>
-            </form>
+            </div>
           )
         )}
-      </Panel>
-
-      {mapLoading && (
-        <button onClick={cancelSearch} className={style.stopQuery}>
-          <StopIcon />
-          {t('buttons.cancelSearch')}
-        </button>
-      )}
+      </Modal>
     </>
   )
 }
 
-export default memo(FiltersPanel)
+export default memo(FiltersModal)

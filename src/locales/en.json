@@ -76,6 +76,8 @@
       "buttons": {
         "reset": "Reset",
         "apply": "Apply",
+        "cancel": "Cancel",
+        "loading": "Loading...",
         "cancelSearch": "Cancel search"
       },
       "toast": {
