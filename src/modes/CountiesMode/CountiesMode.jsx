@@ -1,6 +1,7 @@
-import { Layer, Popup, Source, useMap } from 'react-map-gl'
+import { Layer, Source, useMap } from 'react-map-gl'
 import { memo, useEffect } from 'react'
 import bbox from '@turf/bbox'
+import CountiesPopup from './components/CountiesPopup'
 import {
   useEventStore,
   useFilterStore,
@@ -12,16 +13,16 @@ import { COUNTIES_SOURCE } from '../../constants'
 const CountiesMode = ({ isActive, modeOnCountyClick }) => {
   const { current: map } = useMap()
   const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
-  const { clickedFeature, hoveredFeature, hoverEvent } = useEventStore()
+  const { clickedFeature, hoveredFeature } = useEventStore()
   const { opacity } = usePaintStore()
   const { filtersResult } = useFilterStore()
 
   const getFillOpacity = () => {
     const hoverOpacity = (opacity[1] + 40) / 100
-    if (hoveredFeature?.properties?.NO_COMM) {
+    if (hoveredFeature?.properties?.COMMUNE) {
       return [
         'case',
-        ['==', ['get', 'NO_COMM'], hoveredFeature?.properties?.NO_COMM],
+        ['==', ['get', 'COMMUNE'], hoveredFeature?.properties?.COMMUNE],
         hoverOpacity > 1 ? 1 : hoverOpacity,
         opacity[1] / 100,
       ]
@@ -30,9 +31,7 @@ const CountiesMode = ({ isActive, modeOnCountyClick }) => {
   }
 
   useEffect(() => {
-    if (!isActive) return
-    if (clickedFeature === null) return
-    if (!clickedFeature?.properties?.ABREVIATIO) return
+    if (!isActive || !clickedFeature?.properties?.ABREVIATIO) return
 
     const [minLng, minLat, maxLng, maxLat] = bbox(clickedFeature)
     map.fitBounds(
@@ -52,15 +51,11 @@ const CountiesMode = ({ isActive, modeOnCountyClick }) => {
         ? switchToPlotsMode(clickedFeature)
         : switchToBuildingsMode(clickedFeature)
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickedFeature])
 
   const getIsActive = () => {
-    if (filtersResult?.length) {
-      return false
-    }
-
+    if (filtersResult?.length) return false
     return isActive
   }
 
@@ -82,17 +77,7 @@ const CountiesMode = ({ isActive, modeOnCountyClick }) => {
 
       {hoveredFeature?.properties?.COMMUNE &&
         isActive &&
-        !filtersResult?.length && (
-          <Popup
-            longitude={hoverEvent.lngLat.lng}
-            latitude={hoverEvent.lngLat.lat}
-            offset={[0, -5]}
-            closeButton={false}
-            className='hover-popup'
-          >
-            {hoveredFeature?.properties?.COMMUNE}
-          </Popup>
-        )}
+        !filtersResult?.length && <CountiesPopup feature={hoveredFeature} />}
     </Source>
   )
 }

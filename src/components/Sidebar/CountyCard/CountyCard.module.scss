@@ -1,0 +1,52 @@
+@import '@styles/mixins';
+@import '@styles/variables';
+
+.countyCard {
+  @include sidebar-card;
+  border-color: $grey-300;
+
+  &:hover {
+    border-color: $blue-600;
+  }
+
+  .info {
+    display: flex;
+    gap: 16px;
+
+    .infoItem {
+      display: flex;
+      flex-direction: column;
+
+      .infoItemTitle {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        color: #9da4b1;
+      }
+
+      .infoItemValue {
+        display: flex;
+        align-items: center;
+
+        .infoItemValueText {
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 20px;
+          color: #3b4556;
+
+          span {
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16px;
+            color: #9da4b1;
+          }
+        }
+
+        svg {
+          color: #9da4b1;
+          margin-right: 2px;
+        }
+      }
+    }
+  }
+}

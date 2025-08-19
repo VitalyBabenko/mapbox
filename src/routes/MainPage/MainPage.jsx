@@ -8,13 +8,7 @@ import {
   ZonesMode,
 } from '../../modes'
 import { ModeSwitcher, PoolsLayer } from '../../components'
-import {
-  BuildingsPanel,
-  FiltersPanel,
-  MapDataPanel,
-  PlotsPanel,
-  ScalePanel,
-} from '../../panels'
+import { FiltersContainer, MapDataPanel, ScalePanel } from '../../panels'
 import { MODES } from '../../constants'
 import { useEventStore, useModeStore, useZoneStore } from '../../store'
 import { useRef } from 'react'
@@ -41,14 +35,12 @@ const MainPage = () => {
       <ZonesMode />
       <PoolsLayer />
       <ModeSwitcher resetViewButtonRef={resetViewButtonRef} />
-      <FiltersPanel
+      <FiltersContainer
         filtersFor={switcher === MODES.PLOTS ? 'plots' : 'buildings'}
         resetViewButtonRef={resetViewButtonRef}
       />
       <MapDataPanel />
       <ScalePanel />
-      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
-      <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
     </>
   )
 }

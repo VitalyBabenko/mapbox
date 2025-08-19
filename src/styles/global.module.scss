@@ -2,16 +2,23 @@
 @import './reset';
 
 .appWrapper {
-  display: grid;
-  min-height: calc(100vh - 180px);
+  height: 100vh;
+  padding-top: 56px;
+  display: flex;
 
   :global {
     .mapboxgl-map {
       position: relative;
+      width: 100%;
+      height: 100%;
     }
 
     .mapboxgl-popup-content {
       padding: 2.5px 10px;
+    }
+
+    .mapboxgl-canvas {
+      width: 100%;
     }
 
     .mapboxgl-ctrl-geocoder {

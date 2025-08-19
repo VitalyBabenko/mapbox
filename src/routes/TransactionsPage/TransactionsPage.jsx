@@ -3,7 +3,7 @@ import { MODES } from '../../constants'
 import { BuildingsMode, CountiesMode, PlotsMode } from '../../modes'
 import {
   BuildingsPanel,
-  FiltersPanel,
+  FiltersContainer,
   PlotsPanel,
   ScalePanel,
   SettingsPanel,
@@ -25,9 +25,7 @@ const TransactionsPage = () => {
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
       <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
 
-      <FiltersPanel
-        panelPosition={{ x: 10, y: 50 }}
-        panelSide='left'
+      <FiltersContainer
         buttonPosition={{ top: 50, left: 10 }}
         filtersFor='transactions'
       />

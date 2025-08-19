@@ -1,7 +1,7 @@
 import { FullscreenControl, Map, NavigationControl } from 'react-map-gl'
 import { useEffect, useRef, useState } from 'react'
 import globalStyle from './styles/global.module.scss'
-import { TagsModal, Toast } from './components'
+import { TagsModal, Toast, Sidebar, Drawer, Header } from './components'
 import { INITIAL_VIEW, INTERACTIVE_LAYER_IDS, MAP_STYLES } from './constants'
 
 import { useModeStore, useZoneStore } from './store'
@@ -9,9 +9,9 @@ import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes.jsx'
 import { ProtectedMode, ZonesMode } from './modes/index.js'
 import 'react-datepicker/dist/react-datepicker.css'
-import { useLocaleStore } from './store/localeStore.js'
-import Sidebar from './components/Sidebar/Sidebar.jsx'
-import { useMouseEvents } from './hooks'
+import { useLocaleStore } from './store'
+
+import { useMouseEvents, useVisibleFeatures } from './hooks'
 
 function App() {
   const mapRef = useRef(null)
@@ -21,6 +21,7 @@ function App() {
   const { isPrimary: isZonesPrimary } = useZoneStore()
   const { initializeLocale } = useLocaleStore()
   const mouse = useMouseEvents(isMapLoading)
+  useVisibleFeatures(mapRef.current)
 
   const onMapLoad = () => {
     const pathname = window.location.pathname
@@ -59,6 +60,7 @@ function App() {
   return (
     <BrowserRouter>
       <div ref={wrapperRef} className={globalStyle.appWrapper}>
+        <Header />
         <Map
           ref={mapRef}
           cursor={mouse.cursor}
@@ -88,8 +90,10 @@ function App() {
           <FullscreenControl position='top-right' />
           <NavigationControl />
           <Toast />
-          <Sidebar />
         </Map>
+
+        <Sidebar map={mapRef.current} />
+        <Drawer />
       </div>
     </BrowserRouter>
   )

@@ -50,6 +50,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Cr',
       COMMUNE: 'Corsier',
+      POST_CODE: '1246',
+      POPULATION: 2200,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.7,
     },
     id: 1,
     tile: {
@@ -104,6 +108,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Bl',
       COMMUNE: 'Bellevue',
+      POST_CODE: '1293',
+      POPULATION: 2400,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.4,
     },
     id: 2,
     tile: {
@@ -159,6 +167,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'G.S.',
       COMMUNE: 'Grand-Saconnex',
+      POST_CODE: '1215',
+      POPULATION: 12000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.4,
     },
     id: 3,
     tile: {
@@ -229,6 +241,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Ru',
       COMMUNE: 'Russin',
+      POST_CODE: '1281',
+      POPULATION: 1800,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.9,
     },
     id: 4,
     tile: {
@@ -274,6 +290,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Py',
       COMMUNE: 'Pregny-Chambésy',
+      POST_CODE: '1292',
+      POPULATION: 3900,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.2,
     },
     id: 5,
     tile: {
@@ -349,6 +369,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Mr',
       COMMUNE: 'Meinier',
+      POST_CODE: '1252',
+      POPULATION: 2300,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 6.9,
     },
     id: 6,
     tile: {
@@ -423,6 +447,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'As',
       COMMUNE: 'Avusy',
+      POST_CODE: '1285',
+      POPULATION: 1600,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 5.2,
     },
     id: 7,
     tile: {
@@ -465,6 +493,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'P.C.',
       COMMUNE: 'Perly-Certoux',
+      POST_CODE: '1258',
+      POPULATION: 3200,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.5,
     },
     id: 8,
     tile: {
@@ -516,6 +548,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Lx',
       COMMUNE: 'Laconnex',
+      POST_CODE: '1287',
+      POPULATION: 1700,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.9,
     },
     id: 9,
     tile: {
@@ -568,6 +604,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Va',
       COMMUNE: 'Vandoeuvres',
+      POST_CODE: '1253',
+      POPULATION: 2600,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.7,
     },
     id: 10,
     tile: {
@@ -633,6 +673,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'C.Bg',
       COMMUNE: 'Chêne-Bourg',
+      POST_CODE: '1225',
+      POPULATION: 8900,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 5.1,
     },
     id: 11,
     tile: {
@@ -671,6 +715,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Gd',
       COMMUNE: 'Genthod',
+      POST_CODE: '1294',
+      POPULATION: 2800,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.9,
     },
     id: 12,
     tile: {
@@ -726,6 +774,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Co',
       COMMUNE: 'Cologny',
+      POST_CODE: '1223',
+      POPULATION: 5200,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.7,
     },
     id: 13,
     tile: {
@@ -808,6 +860,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'C.Bs',
       COMMUNE: 'Chêne-Bougeries',
+      POST_CODE: '1224',
+      POPULATION: 12000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.8,
     },
     id: 14,
     tile: {
@@ -883,6 +939,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Ch',
       COMMUNE: 'Choulex',
+      POST_CODE: '1244',
+      POPULATION: 1100,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.9,
     },
     id: 15,
     tile: {
@@ -940,6 +1000,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'C.Be',
       COMMUNE: 'Collonge-Bellerive',
+      POST_CODE: '1245',
+      POPULATION: 8200,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 6.1,
     },
     id: 16,
     tile: {
@@ -1014,6 +1078,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'PLO',
       COMMUNE: 'Plan-les-Ouates',
+      POST_CODE: '1228',
+      POPULATION: 10500,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 5.9,
     },
     id: 17,
     tile: {
@@ -1083,6 +1151,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Pr',
       COMMUNE: 'Presinge',
+      POST_CODE: '1243',
+      POPULATION: 1000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.8,
     },
     id: 18,
     tile: {
@@ -1143,6 +1215,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'An',
       COMMUNE: 'Anières',
+      POST_CODE: '1247',
+      POPULATION: 2500,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.8,
     },
     id: 19,
     tile: {
@@ -1207,6 +1283,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'He',
       COMMUNE: 'Hermance',
+      POST_CODE: '1248',
+      POPULATION: 1100,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 1.4,
     },
     id: 20,
     tile: {
@@ -1309,6 +1389,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Vs',
       COMMUNE: 'Versoix',
+      POST_CODE: '1290',
+      POPULATION: 13000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 10.5,
     },
     id: 21,
     tile: {
@@ -1395,6 +1479,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Cx',
       COMMUNE: 'Collex-Bossy',
+      POST_CODE: '1239',
+      POPULATION: 7800,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 6.9,
     },
     id: 23,
     tile: {
@@ -1489,6 +1577,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Da',
       COMMUNE: 'Dardagny',
+      POST_CODE: '1281',
+      POPULATION: 1600,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 8.6,
     },
     id: 24,
     tile: {
@@ -1552,6 +1644,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Ca',
       COMMUNE: 'Carouge',
+      POST_CODE: '1227',
+      POPULATION: 22000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.7,
     },
     id: 25,
     tile: {
@@ -1611,6 +1707,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Al',
       COMMUNE: 'Avully',
+      POST_CODE: '1237',
+      POPULATION: 1700,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 5.6,
     },
     id: 26,
     tile: {
@@ -1720,6 +1820,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Sy',
       COMMUNE: 'Satigny',
+      POST_CODE: '1242',
+      POPULATION: 4200,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 18.9,
     },
     id: 27,
     tile: {
@@ -1827,6 +1931,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Bx',
       COMMUNE: 'Bernex',
+      POST_CODE: '1233',
+      POPULATION: 10200,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 12.9,
     },
     id: 28,
     tile: {
@@ -1877,6 +1985,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'A.V.',
       COMMUNE: 'Aire-la-Ville',
+      POST_CODE: '1288',
+      POPULATION: 1000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.9,
     },
     id: 29,
     tile: {
@@ -1927,6 +2039,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Ct',
       COMMUNE: 'Cartigny',
+      POST_CODE: '1236',
+      POPULATION: 900,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.4,
     },
     id: 30,
     tile: {
@@ -1999,6 +2115,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Cn',
       COMMUNE: 'Confignon',
+      POST_CODE: '1234',
+      POPULATION: 4500,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.8,
     },
     id: 31,
     tile: {
@@ -2066,6 +2186,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Ox',
       COMMUNE: 'Onex',
+      POST_CODE: '1213',
+      POPULATION: 18000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.8,
     },
     id: 32,
     tile: {
@@ -2147,6 +2271,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Mn',
       COMMUNE: 'Meyrin',
+      POST_CODE: '1217',
+      POPULATION: 26000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 9.9,
     },
     id: 33,
     tile: {
@@ -2226,6 +2354,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Gy',
       COMMUNE: 'Gy',
+      POST_CODE: '1251',
+      POPULATION: 3100,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.3,
     },
     id: 34,
     tile: {
@@ -2275,6 +2407,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Tr',
       COMMUNE: 'Troinex',
+      POST_CODE: '1256',
+      POPULATION: 2400,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.4,
     },
     id: 35,
     tile: {
@@ -2345,6 +2481,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Ba',
       COMMUNE: 'Bardonnex',
+      POST_CODE: '1257',
+      POPULATION: 2300,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 5.0,
     },
     id: 36,
     tile: {
@@ -2407,6 +2547,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Cy',
       COMMUNE: 'Chancy',
+      POST_CODE: '1284',
+      POPULATION: 1200,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 5.4,
     },
     id: 37,
     tile: {
@@ -2492,6 +2636,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Ju',
       COMMUNE: 'Jussy',
+      POST_CODE: '1254',
+      POPULATION: 1300,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 11.3,
     },
     id: 38,
     tile: {
@@ -2557,6 +2705,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Sl',
       COMMUNE: 'Soral',
+      POST_CODE: '1286',
+      POPULATION: 800,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.9,
     },
     id: 39,
     tile: {
@@ -2633,6 +2785,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Vy',
       COMMUNE: 'Veyrier',
+      POST_CODE: '1255',
+      POPULATION: 12000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 6.9,
     },
     id: 40,
     tile: {
@@ -2745,6 +2901,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Th',
       COMMUNE: 'Thônex',
+      POST_CODE: '1226',
+      POPULATION: 15000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.8,
     },
     id: 41,
     tile: {
@@ -2811,6 +2971,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Pu',
       COMMUNE: 'Puplinge',
+      POST_CODE: '1241',
+      POPULATION: 2200,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.7,
     },
     id: 42,
     tile: {
@@ -2895,6 +3059,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Vn',
       COMMUNE: 'Vernier',
+      POST_CODE: '1214',
+      POPULATION: 35000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 7.7,
     },
     id: 43,
     tile: {
@@ -2978,6 +3146,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'P.S',
       COMMUNE: 'Genève-Petit-Saconnex',
+      POST_CODE: '1211',
+      POPULATION: 45000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.9,
     },
     id: 44,
     tile: {
@@ -3040,6 +3212,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'V.G.',
       COMMUNE: 'Genève-Cité',
+      POST_CODE: '1201',
+      POPULATION: 20000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 1.6,
     },
     id: 45,
     tile: {
@@ -3132,6 +3308,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Ly',
       COMMUNE: 'Lancy',
+      POST_CODE: '1212',
+      POPULATION: 32000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 4.8,
     },
     id: 46,
     tile: {
@@ -3185,6 +3365,10 @@ export const counties = [
     properties: {
       ABREVIATIO: 'E.V.',
       COMMUNE: 'Genève-Eaux-Vives',
+      POST_CODE: '1207',
+      POPULATION: 47000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 3.4,
     },
     id: 47,
     tile: {
@@ -3258,196 +3442,15 @@ export const counties = [
     properties: {
       ABREVIATIO: 'Pl.',
       COMMUNE: 'Genève-Plainpalais',
+      POST_CODE: '1205',
+      POPULATION: 52000,
+      POPULATION_YEAR: 2023,
+      AREA_KM2: 2.6,
     },
     id: 48,
     tile: {
       z: 10,
       x: 529,
-      y: 363,
-    },
-  },
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Polygon',
-      coordinates: [
-        [
-          [5.987548828125, 46.151832257008635],
-          [5.987548828125, 46.14303159426717],
-          [5.986948013305664, 46.14255584268378],
-          [5.985918045043945, 46.14285318790516],
-          [5.985574722290039, 46.143388405256786],
-          [5.984888076782227, 46.143388405256786],
-          [5.982484817504883, 46.14231796535037],
-          [5.9827423095703125, 46.14469669243357],
-          [5.983772277832031, 46.14570762032105],
-          [5.984458923339844, 46.14874029259667],
-          [5.985660552978516, 46.14975114622635],
-          [5.985746383666992, 46.151178202099146],
-          [5.987548828125, 46.151832257008635],
-        ],
-      ],
-    },
-    properties: {
-      ABREVIATIO: 'As',
-      COMMUNE: 'Avusy',
-    },
-    id: 7,
-    tile: {
-      z: 10,
-      x: 528,
-      y: 363,
-    },
-  },
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Polygon',
-      coordinates: [
-        [
-          [5.979137420654297, 46.217257885985305],
-          [5.982913970947266, 46.21684216517119],
-          [5.98480224609375, 46.21713910893101],
-          [5.987548828125, 46.21648583053985],
-          [5.987548828125, 46.18797156808944],
-          [5.983772277832031, 46.18886286280082],
-          [5.981969833374023, 46.19005123326781],
-          [5.982828140258789, 46.190764243215256],
-          [5.963687896728516, 46.197002685706195],
-          [5.964632034301758, 46.198784967775794],
-          [5.965662002563477, 46.199557272053084],
-          [5.967550277709961, 46.20027015867424],
-          [5.968236923217773, 46.200032530828224],
-          [5.968751907348633, 46.200626598516266],
-          [5.969181060791016, 46.20050778549253],
-          [5.969266891479492, 46.20122065978114],
-          [5.969781875610352, 46.2010424420761],
-          [5.970554351806641, 46.20175530942768],
-          [5.971498489379883, 46.201577093456905],
-          [5.972099304199219, 46.20217114444466],
-          [5.972700119018555, 46.20217114444466],
-          [5.972528457641602, 46.20240876304129],
-          [5.973472595214844, 46.20258697631431],
-          [5.972871780395508, 46.203596840608725],
-          [5.970726013183594, 46.20436907724988],
-          [5.97081184387207, 46.20496309804872],
-          [5.969266891479492, 46.20668572204252],
-          [5.971670150756836, 46.21131871854038],
-          [5.974674224853516, 46.215001078019895],
-          [5.979137420654297, 46.217257885985305],
-        ],
-      ],
-    },
-    properties: {
-      ABREVIATIO: 'Da',
-      COMMUNE: 'Dardagny',
-    },
-    id: 24,
-    tile: {
-      z: 10,
-      x: 528,
-      y: 363,
-    },
-  },
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Polygon',
-      coordinates: [
-        [
-          [5.982828140258789, 46.173768322673936],
-          [5.9841156005859375, 46.173708887160785],
-          [5.9854888916015625, 46.17293621964427],
-          [5.986261367797852, 46.17168804149361],
-          [5.9868621826171875, 46.17061815196092],
-          [5.987548828125, 46.17067759081431],
-          [5.987548828125, 46.159799210942225],
-          [5.986261367797852, 46.15855073467608],
-          [5.984029769897461, 46.15783730694818],
-          [5.983943939208984, 46.158312926461235],
-          [5.983085632324219, 46.15855073467608],
-          [5.980253219604492, 46.15825347424692],
-          [5.979909896850586, 46.15866963839812],
-          [5.978536605834961, 46.15890744507132],
-          [5.975790023803711, 46.160928760297224],
-          [5.980081558227539, 46.16616005488925],
-          [5.980939865112305, 46.17133141396184],
-          [5.9820556640625, 46.17341170863142],
-          [5.982828140258789, 46.173768322673936],
-        ],
-      ],
-    },
-    properties: {
-      ABREVIATIO: 'Al',
-      COMMUNE: 'Avully',
-    },
-    id: 26,
-    tile: {
-      z: 10,
-      x: 528,
-      y: 363,
-    },
-  },
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Polygon',
-      coordinates: [
-        [
-          [5.975790023803711, 46.160928760297224],
-          [5.976905822753906, 46.16039371349336],
-          [5.976991653442383, 46.159858661486396],
-          [5.978536605834961, 46.15890744507132],
-          [5.979909896850586, 46.15866963839812],
-          [5.9799957275390625, 46.158312926461235],
-          [5.983085632324219, 46.15855073467608],
-          [5.984458923339844, 46.15789675961213],
-          [5.986776351928711, 46.158847993499364],
-          [5.987548828125, 46.15962085892426],
-          [5.987548828125, 46.151832257008635],
-          [5.985746383666992, 46.151178202099146],
-          [5.985660552978516, 46.14975114622635],
-          [5.984458923339844, 46.14874029259667],
-          [5.983772277832031, 46.14570762032105],
-          [5.9827423095703125, 46.14469669243357],
-          [5.98231315612793, 46.141544856918614],
-          [5.982913970947266, 46.14130697521705],
-          [5.981969833374023, 46.13738177875308],
-          [5.97905158996582, 46.13553802928712],
-          [5.977163314819336, 46.133396823404155],
-          [5.972957611083984, 46.13161242157264],
-          [5.9717559814453125, 46.13214774819261],
-          [5.969438552856445, 46.13202878717118],
-          [5.969181060791016, 46.131433978209714],
-          [5.965232849121094, 46.12970899589473],
-          [5.964803695678711, 46.1301848584811],
-          [5.961112976074219, 46.13077968093259],
-          [5.95733642578125, 46.128578805774936],
-          [5.956821441650391, 46.12875725838822],
-          [5.956478118896484, 46.13179086435744],
-          [5.955877304077148, 46.132326189242974],
-          [5.958538055419922, 46.13411056794874],
-          [5.964975357055664, 46.136430173834015],
-          [5.966348648071289, 46.13797652347657],
-          [5.966348648071289, 46.13910652075373],
-          [5.964374542236328, 46.14184220760018],
-          [5.964031219482422, 46.14410202029836],
-          [5.965232849121094, 46.14654013523014],
-          [5.966863632202148, 46.14802673768088],
-          [5.968751907348633, 46.15171333851231],
-          [5.973215103149414, 46.15617260627761],
-          [5.975790023803711, 46.160928760297224],
-        ],
-      ],
-    },
-    properties: {
-      ABREVIATIO: 'Cy',
-      COMMUNE: 'Chancy',
-    },
-    id: 37,
-    tile: {
-      z: 10,
-      x: 528,
       y: 363,
     },
   },

@@ -76,6 +76,8 @@
       "buttons": {
         "reset": "Réinitialiser",
         "apply": "Appliquer",
+        "cancel": "Annuler",
+        "loading": "Chargement...",
         "cancelSearch": "Annuler la recherche"
       },
       "toast": {
@@ -206,6 +208,48 @@
       "RDPPF": "RDPPF",
       "searchLink": "Trouver le propriétaire sur search.ch"
     }
+  },
+
+  "sidebar": {
+    "counties": "Communes",
+    "plots": "Parcelles",
+    "buildings": "Bâtiments",
+    "emptyState": {
+      "counties": "Aucune commune disponible",
+      "plots": "Aucune parcelle trouvée sur la carte",
+      "buildings": "Aucun bâtiment trouvé sur la carte"
+    }
+  },
+
+  "plotCard": {
+    "plot": "Parcelle",
+    "surface": "Surface",
+    "ownershipType": "Type",
+    "lastUpdate": "Mise à jour",
+    "parcelNo": "N° parcelle",
+    "egrid": "EGRID",
+    "copyToClipboard": "Copier",
+    "egridCopied": "EGRID copié",
+    "cadastralExtract": "Extrait",
+    "analyze": "Analyser",
+    "squareMeters": "m²"
+  },
+
+  "buildingCard": {
+    "apartments": "Apparts",
+    "class": "Classe",
+    "constructionYear": "Année",
+    "typology": "Type",
+    "transactionDate": "Date",
+    "lastTransactionPrice": "Prix",
+    "analyze": "Analyser"
+  },
+
+  "countyCard": {
+    "postCode": "Code",
+    "area": "Surface",
+    "population": "Pop.",
+    "squareKilometers": "km²"
   },
 
   "buttons": {

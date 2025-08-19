@@ -1,0 +1,179 @@
+@import '../../styles/variables';
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: $white;
+  border-bottom: 1px solid #e0e0e0;
+  z-index: 1000;
+  font-family: Arial, Helvetica, sans-serif;
+
+  .headerContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .leftSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .tableViewButton {
+      display: flex;
+      justify-content: center;
+      min-width: 99px;
+      height: 28px;
+      padding: 7px 14px;
+      background: $blue-600;
+      color: $white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: $blue-700;
+      }
+
+      &.active {
+        background: $blue-700;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      }
+    }
+  }
+
+  .rightSection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+
+    .languageToggle,
+    .themeToggle,
+    .notificationsButton {
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: $grey-700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 50%;
+    }
+
+    .languageToggle {
+      .languageIcon {
+        font-size: 18px;
+        color: $grey-700;
+      }
+
+      .languageText {
+        font-size: 16px;
+        font-weight: bold;
+        color: $grey-700;
+      }
+    }
+
+    .userSection {
+      position: relative;
+    }
+
+    .avatarButton {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: $blue-100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      position: relative;
+
+      .avatarIcon {
+        font-size: 20px;
+        color: $blue-600;
+      }
+
+      .onlineDot {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 12px;
+        height: 12px;
+        background: $green;
+        border-radius: 50%;
+        border: 2px solid $white;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .headerContent {
+        padding: 0 16px;
+      }
+
+      .centerSection {
+        margin: 0 16px;
+        max-width: 200px;
+      }
+
+      .rightSection {
+        gap: 12px;
+      }
+
+      .tableViewButton {
+        padding: 6px 12px;
+        font-size: 13px;
+      }
+
+      .languageToggle,
+      .notificationsButton {
+        padding: 6px 8px;
+        font-size: 13px;
+        min-width: 40px;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .centerSection {
+    display: none;
+  }
+
+  .rightSection {
+    gap: 8px;
+  }
+
+  .tableViewButton {
+    display: none;
+  }
+}

@@ -1,5 +1,5 @@
 import { Layer, Source } from 'react-map-gl'
-import usePlotsFilter from '../hooks/usePlotsFilter'
+import { usePlotsFilter } from '../../../hooks'
 import { PLOTS_SOURCE } from '../../../constants'
 import { useEventStore, usePaintStore } from '../../../store'
 import { PUBLIC_PLOTS_TYPES } from '../../../constants/mapSources'

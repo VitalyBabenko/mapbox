@@ -1,0 +1,30 @@
+@import '../../../../../styles/variables';
+
+.certs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    .link {
+      border-radius: 4px;
+      padding: 1px 7px;
+      text-decoration: none;
+      background: lighten($blue-600, 3%);
+      transition: background 0.15s ease-in;
+
+      b {
+        color: $white;
+      }
+
+      &:hover {
+        background: lighten($blue-600, 10%);
+      }
+    }
+  }
+}

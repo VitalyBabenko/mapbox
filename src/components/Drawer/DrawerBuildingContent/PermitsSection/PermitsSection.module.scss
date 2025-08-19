@@ -1,0 +1,13 @@
+.hgroup {
+  position: relative;
+
+  a {
+    position: absolute;
+    top: 0px;
+    right: 0;
+  }
+
+  & + ul {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,35 @@
+@import '../../../styles/variables';
+
+.themeToggle {
+  border: none;
+  background: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $grey-700;
+  cursor: pointer;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  .themeIcon {
+    font-size: 18px;
+    color: $grey-700;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: $blue-600 !important;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .themeToggle {
+    padding: 6px 8px;
+    font-size: 13px;
+    min-width: 40px;
+  }
+}
