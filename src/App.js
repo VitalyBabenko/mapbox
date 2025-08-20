@@ -12,6 +12,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { useLocaleStore } from './store'
 
 import { useMouseEvents, useVisibleFeatures } from './hooks'
+import CountyStatsButton from './panels/CountyStatsPanel/CountyStatsButton/CountyStatsButton'
 
 function App() {
   const mapRef = useRef(null)
@@ -83,6 +84,7 @@ function App() {
             zoom: INITIAL_VIEW.ZOOM,
           }}
         >
+          <CountyStatsButton />
           <AppRoutes isMapLoading={isMapLoading} />
 
           <ProtectedMode />

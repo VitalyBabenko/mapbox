@@ -3,10 +3,13 @@ import Popup from '../../Popup'
 import styles from './LocaleMenu.module.scss'
 import enFlag from '../../../assets/svg/great-britain-flag.svg'
 import frFlag from '../../../assets/svg/france-flag.svg'
+import { Link } from 'react-router-dom'
+import { useLocale } from '@/hooks'
 
 const LocaleMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [currentLanguage, setCurrentLanguage] = useState('en')
+  const { locale } = useLocale()
+
   const menuRef = useRef(null)
 
   useEffect(() => {
@@ -23,18 +26,11 @@ const LocaleMenu = () => {
   }, [])
 
   const languages = [
-    { code: 'en', name: 'English', flag: enFlag },
-    { code: 'fr', name: 'French', flag: frFlag },
+    { code: 'en', name: 'English', flag: enFlag, link: '/lang/en' },
+    { code: 'fr', name: 'French', flag: frFlag, link: '/lang/fr' },
   ]
 
-  const currentLang = languages.find(lang => lang.code === currentLanguage)
-
-  const handleLanguageChange = languageCode => {
-    setCurrentLanguage(languageCode)
-    setIsOpen(false)
-    // Here you can add logic to change the app language
-    document.documentElement.lang = languageCode
-  }
+  const currentLang = languages.find(lang => lang.code === locale)
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
@@ -62,11 +58,11 @@ const LocaleMenu = () => {
         className={styles.dropdown}
       >
         {languages.map(language => (
-          <button
+          <Link
             key={language.code}
-            onClick={() => handleLanguageChange(language.code)}
+            to={language.link}
             className={`${styles.languageOption} ${
-              language.code === currentLanguage ? styles.active : ''
+              language.code === currentLang ? styles.active : ''
             }`}
           >
             <img
@@ -75,7 +71,7 @@ const LocaleMenu = () => {
               className={styles.flag}
             />
             <span className={styles.languageName}>{language.name}</span>
-          </button>
+          </Link>
         ))}
       </Popup>
     </div>
