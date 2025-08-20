@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { IoLanguage as LanguageIcon } from 'react-icons/io5'
+import Popup from '../../Popup'
 import styles from './LocaleMenu.module.scss'
 import enFlag from '../../../assets/svg/great-britain-flag.svg'
 import frFlag from '../../../assets/svg/france-flag.svg'
@@ -55,26 +55,29 @@ const LocaleMenu = () => {
         <span className={styles.languageName}>{currentLang.name}</span>
       </button>
 
-      {isOpen && (
-        <div className={styles.dropdown}>
-          {languages.map(language => (
-            <button
-              key={language.code}
-              onClick={() => handleLanguageChange(language.code)}
-              className={`${styles.languageOption} ${
-                language.code === currentLanguage ? styles.active : ''
-              }`}
-            >
-              <img
-                src={language.flag}
-                alt={language.name}
-                className={styles.flag}
-              />
-              <span className={styles.languageName}>{language.name}</span>
-            </button>
-          ))}
-        </div>
-      )}
+      <Popup
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        position='bottom-right'
+        className={styles.dropdown}
+      >
+        {languages.map(language => (
+          <button
+            key={language.code}
+            onClick={() => handleLanguageChange(language.code)}
+            className={`${styles.languageOption} ${
+              language.code === currentLanguage ? styles.active : ''
+            }`}
+          >
+            <img
+              src={language.flag}
+              alt={language.name}
+              className={styles.flag}
+            />
+            <span className={styles.languageName}>{language.name}</span>
+          </button>
+        ))}
+      </Popup>
     </div>
   )
 }
