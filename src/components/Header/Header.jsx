@@ -50,6 +50,8 @@ const Header = () => {
           >
             Table view
           </Link>
+
+          <button className={styles.mapViewButton}>Map view</button>
         </div>
 
         <div className={styles.rightSection}>
