@@ -1,15 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { IoLanguage as LanguageIcon } from 'react-icons/io5'
 import UserMenu from './UserMenu/UserMenu'
 import ThemeToggler from './ThemeToggler/ThemeToggler'
+import LocaleMenu from './LocaleMenu'
 import Search from './Search/Search'
 import { FiltersButton } from '../Filters'
 import styles from './Header.module.scss'
 
 const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-  const [currentLanguage, setCurrentLanguage] = useState('en')
   const userMenuRef = useRef(null)
   const location = useLocation()
 
@@ -25,10 +24,6 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-
-  const toggleLanguage = () => {
-    setCurrentLanguage(currentLanguage === 'en' ? 'fr' : 'en')
-  }
 
   return (
     <header className={styles.header}>
@@ -55,13 +50,7 @@ const Header = () => {
         </div>
 
         <div className={styles.rightSection}>
-          <button
-            onClick={toggleLanguage}
-            className={styles.languageToggle}
-            aria-label='Toggle language'
-          >
-            <LanguageIcon className={styles.languageIcon} />
-          </button>
+          <LocaleMenu />
 
           <ThemeToggler />
 

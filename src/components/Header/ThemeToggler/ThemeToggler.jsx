@@ -1,5 +1,5 @@
 import React from 'react'
-import { HiMoon, HiSun } from 'react-icons/hi'
+import { IoMoonOutline, IoSunnyOutline } from 'react-icons/io5'
 import { useLocalStorage } from '@hooks'
 import styles from './ThemeToggler.module.scss'
 
@@ -29,9 +29,9 @@ const ThemeToggler = () => {
       aria-label='Toggle theme'
     >
       {isDarkTheme ? (
-        <HiSun className={styles.themeIcon} size={21} />
+        <IoSunnyOutline className={styles.themeIcon} size={21} />
       ) : (
-        <HiMoon className={styles.themeIcon} size={21} />
+        <IoMoonOutline className={styles.themeIcon} size={21} />
       )}
     </button>
   )
