@@ -57,18 +57,22 @@
     }
   }
 
-  .rbt-spinner {
-    position: absolute;
-    right: 36px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    border: 2px solid $grey-300;
-    border-top: 2px solid $blue-500;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  a[aria-selected='true'] {
+    background-color: $blue-100;
   }
+
+  // :global(.rbt-spinner) {
+  //   position: absolute;
+  //   right: 36px;
+  //   top: 50%;
+  //   transform: translateY(-50%);
+  //   width: 16px;
+  //   height: 16px;
+  //   border: 2px solid $grey-300;
+  //   border-top: 2px solid $blue-500;
+  //   border-radius: 50%;
+  //   animation: spin 1s linear infinite;
+  // }
 
   @keyframes spin {
     0% {

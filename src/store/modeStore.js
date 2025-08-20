@@ -16,12 +16,14 @@ export const useModeStore = create(set => ({
   switcher: MODES.PLOTS,
 
   toggleSwitcher: value => {
-    value === 'undefined'
-      ? set({ switcher: value })
-      : set(state => ({
-          switcher:
-            state.switcher === MODES.PLOTS ? MODES.BUILDINGS : MODES.PLOTS,
-        }))
+    if (typeof value === 'string') {
+      set({ switcher: value })
+    } else {
+      set(state => ({
+        switcher:
+          state.switcher === MODES.PLOTS ? MODES.BUILDINGS : MODES.PLOTS,
+      }))
+    }
   },
 
   switchToCountiesMode: () => set({ mode: MODES.COUNTIES, county: null }),

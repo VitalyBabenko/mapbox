@@ -78,7 +78,6 @@ const FiltersModal = ({
         setFiltersResult(resp?.features)
         toast.success(t('toast.success', { count: resp?.features?.length }))
 
-        // Close modal if there are results
         if (resp?.features?.length > 0) {
           onClose()
         }

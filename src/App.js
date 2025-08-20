@@ -61,6 +61,7 @@ function App() {
     <BrowserRouter>
       <div ref={wrapperRef} className={globalStyle.appWrapper}>
         <Header />
+        <Toast />
         <Map
           ref={mapRef}
           cursor={mouse.cursor}
@@ -89,7 +90,6 @@ function App() {
           <TagsModal />
           <FullscreenControl position='top-right' />
           <NavigationControl />
-          <Toast />
         </Map>
 
         <Sidebar map={mapRef.current} />
