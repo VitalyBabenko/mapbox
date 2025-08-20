@@ -1,8 +1,7 @@
-@import '../../styles/mixins';
+@import '@/styles/mixins';
+@import '@/styles/variables';
 
 .filtersButton {
-  @include button-mapbox;
-  position: absolute;
   height: 29px;
   padding: 0 10px;
   display: flex;
@@ -10,5 +9,6 @@
   align-items: center;
   gap: 5px;
   font-size: 18px;
-  z-index: 1;
+  background-color: $blue-600 !important;
+  color: $white !important;
 }

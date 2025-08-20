@@ -2,7 +2,6 @@ import { MODES } from '../../constants'
 import { BuildingsMode, CountiesMode } from '../../modes'
 import {
   BuildingsPanel,
-  FiltersContainer,
   PlotsPanel,
   ScalePanel,
   SettingsPanel,
@@ -27,8 +26,6 @@ const EnergyPage = () => {
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
       <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
 
-      {/* TODO: change filtersFor = 'energies', when backend is ready */}
-      <FiltersContainer filtersFor='plots' />
       <SettingsPanel />
       <ScalePanel initialPosition={{ x: 10, y: 88 }} side='left' />
     </>

@@ -4,6 +4,7 @@ import { IoLanguage as LanguageIcon } from 'react-icons/io5'
 import UserMenu from './UserMenu/UserMenu'
 import ThemeToggler from './ThemeToggler/ThemeToggler'
 import Search from './Search/Search'
+import { FiltersButton } from '../Filters'
 import styles from './Header.module.scss'
 
 const Header = () => {
@@ -33,7 +34,13 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.headerContent}>
         <div className={styles.leftSection}>
-          <Search />
+          <div className={styles.searchFiltersGroup}>
+            <Search />
+            <FiltersButton
+              filtersFor='plots'
+              className={styles.filtersButton}
+            />
+          </div>
 
           <Link
             to='/explore/table/plots'
