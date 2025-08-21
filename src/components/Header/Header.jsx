@@ -37,14 +37,14 @@ const Header = () => {
             />
           </div>
 
-          <Link
-            to='/explore/table/plots'
+          <a
+            href='/explore/table/plots'
             className={`${styles.tableViewButton} ${
               location.pathname === '/explore/table/plots' ? styles.active : ''
             }`}
           >
             Table view
-          </Link>
+          </a>
 
           <button className={styles.mapViewButton}>Map view</button>
         </div>

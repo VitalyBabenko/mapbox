@@ -58,9 +58,9 @@ const LocaleMenu = () => {
         className={styles.dropdown}
       >
         {languages.map(language => (
-          <Link
+          <a
             key={language.code}
-            to={language.link}
+            href={language.link}
             className={`${styles.languageOption} ${
               language.code === currentLang ? styles.active : ''
             }`}
@@ -71,7 +71,7 @@ const LocaleMenu = () => {
               className={styles.flag}
             />
             <span className={styles.languageName}>{language.name}</span>
-          </Link>
+          </a>
         ))}
       </Popup>
     </div>
