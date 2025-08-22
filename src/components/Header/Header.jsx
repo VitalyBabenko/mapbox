@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { IoLanguage as LanguageIcon } from 'react-icons/io5'
 import UserMenu from './UserMenu/UserMenu'
 import ThemeToggler from './ThemeToggler/ThemeToggler'
+import LocaleMenu from './LocaleMenu/LocaleMenu'
 import Search from './Search/Search'
+import { FiltersButton } from '../Filters'
 import styles from './Header.module.scss'
 
 const Header = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-  const [currentLanguage, setCurrentLanguage] = useState('en')
   const userMenuRef = useRef(null)
   const location = useLocation()
 
@@ -25,34 +25,32 @@ const Header = () => {
     }
   }, [])
 
-  const toggleLanguage = () => {
-    setCurrentLanguage(currentLanguage === 'en' ? 'fr' : 'en')
-  }
-
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
         <div className={styles.leftSection}>
-          <Search />
+          <div className={styles.searchFiltersGroup}>
+            <Search />
+            <FiltersButton
+              filtersFor='plots'
+              className={styles.filtersButton}
+            />
+          </div>
 
-          <Link
-            to='/explore/table/plots'
+          <a
+            href='/explore/table/plots'
             className={`${styles.tableViewButton} ${
               location.pathname === '/explore/table/plots' ? styles.active : ''
             }`}
           >
             Table view
-          </Link>
+          </a>
+
+          <button className={styles.mapViewButton}>Map view</button>
         </div>
 
         <div className={styles.rightSection}>
-          <button
-            onClick={toggleLanguage}
-            className={styles.languageToggle}
-            aria-label='Toggle language'
-          >
-            <LanguageIcon className={styles.languageIcon} />
-          </button>
+          <LocaleMenu />
 
           <ThemeToggler />
 

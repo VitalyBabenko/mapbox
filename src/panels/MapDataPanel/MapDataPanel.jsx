@@ -29,7 +29,7 @@ const MapDataPanel = () => {
       open={open}
       setOpen={setOpen}
       heading={heading}
-      buttonIcon={<MapDataIcon size={24} />}
+      buttonIcon={<MapDataIcon size={20} />}
       buttonText={t('title')}
       buttonPosition={{ top: 10, right: 50 }}
       panelPosition={{ x: -50, y: 10 }}

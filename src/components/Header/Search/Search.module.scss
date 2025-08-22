@@ -14,8 +14,9 @@
   input {
     width: 330px !important;
     padding-left: 32px;
-    border-radius: 6px;
+    border-radius: 6px 0 0 6px;
     border: 1px solid $grey-200;
+    border-right: none;
     color: rgb(51, 51, 51);
     height: 34px;
     font-size: 14px;
@@ -24,6 +25,8 @@
 
     &:focus {
       border: 1px solid $blue-600;
+      border-right: none;
+      outline: none;
     }
   }
 
@@ -54,18 +57,22 @@
     }
   }
 
-  .rbt-spinner {
-    position: absolute;
-    right: 36px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    border: 2px solid $grey-300;
-    border-top: 2px solid $blue-500;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  a[aria-selected='true'] {
+    background-color: $blue-100;
   }
+
+  // :global(.rbt-spinner) {
+  //   position: absolute;
+  //   right: 36px;
+  //   top: 50%;
+  //   transform: translateY(-50%);
+  //   width: 16px;
+  //   height: 16px;
+  //   border: 2px solid $grey-300;
+  //   border-top: 2px solid $blue-500;
+  //   border-radius: 50%;
+  //   animation: spin 1s linear infinite;
+  // }
 
   @keyframes spin {
     0% {

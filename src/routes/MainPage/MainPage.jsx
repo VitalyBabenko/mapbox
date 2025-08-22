@@ -8,16 +8,15 @@ import {
   ZonesMode,
 } from '../../modes'
 import { ModeSwitcher, PoolsLayer } from '../../components'
-import { FiltersContainer, MapDataPanel, ScalePanel } from '../../panels'
+import { MapDataPanel, ScalePanel } from '../../panels'
 import { MODES } from '../../constants'
-import { useEventStore, useModeStore, useZoneStore } from '../../store'
+import { useModeStore, useZoneStore } from '../../store'
 import { useRef } from 'react'
 
 const MainPage = () => {
   const resetViewButtonRef = useRef(null)
-  const { clickedFeature } = useEventStore()
   const { isZonesActive, isZonesPrimary } = useZoneStore()
-  const { mode, switcher } = useModeStore()
+  const { mode } = useModeStore()
 
   const getIsModeActive = currentMode => {
     if (isZonesPrimary && isZonesActive) return false
@@ -35,10 +34,6 @@ const MainPage = () => {
       <ZonesMode />
       <PoolsLayer />
       <ModeSwitcher resetViewButtonRef={resetViewButtonRef} />
-      <FiltersContainer
-        filtersFor={switcher === MODES.PLOTS ? 'plots' : 'buildings'}
-        resetViewButtonRef={resetViewButtonRef}
-      />
       <MapDataPanel />
       <ScalePanel />
     </>

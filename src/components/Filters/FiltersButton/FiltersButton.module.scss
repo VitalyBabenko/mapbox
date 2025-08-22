@@ -1,0 +1,14 @@
+@import '@/styles/mixins';
+@import '@/styles/variables';
+
+.filtersButton {
+  height: 29px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-size: 18px;
+  background-color: $blue-600 !important;
+  color: $white !important;
+}

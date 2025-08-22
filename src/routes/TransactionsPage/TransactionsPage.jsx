@@ -25,10 +25,6 @@ const TransactionsPage = () => {
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
       <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
 
-      <FiltersContainer
-        buttonPosition={{ top: 50, left: 10 }}
-        filtersFor='transactions'
-      />
       <SettingsPanel />
 
       <ScalePanel initialPosition={{ x: -50, y: 89 }} side='left' />

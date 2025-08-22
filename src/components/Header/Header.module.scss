@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 
 .header {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -9,7 +9,9 @@
   background: $white;
   border-bottom: 1px solid #e0e0e0;
   z-index: 1000;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
 
   .headerContent {
     display: flex;
@@ -17,7 +19,6 @@
     justify-content: space-between;
     height: 100%;
     padding: 0 24px;
-    max-width: 1400px;
     margin: 0 auto;
   }
 
@@ -26,27 +27,70 @@
     align-items: center;
     gap: 16px;
 
-    .tableViewButton {
+    .searchFiltersGroup {
       display: flex;
-      justify-content: center;
-      min-width: 99px;
-      height: 28px;
-      padding: 7px 14px;
-      background: $blue-600;
-      color: $white;
-      text-decoration: none;
-      border-radius: 6px;
+      align-items: center;
+    }
+
+    .filtersButton {
+      height: 34px;
+      padding: 0 12px;
+      background: $white;
+      border: 1px solid $grey-200;
+      border-left: none;
+      border-radius: 0 6px 6px 0;
+      color: $grey-700;
       font-size: 14px;
       font-weight: 500;
       transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
 
       &:hover {
-        background: $blue-700;
+        border-color: $blue-600;
       }
 
-      &.active {
-        background: $blue-700;
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      &:focus {
+        border-color: $blue-600;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+      }
+    }
+
+    .tableViewButton,
+    .mapViewButton {
+      border: 1px solid $blue-600;
+      border-radius: 5px;
+      padding: 6.8px 14px;
+      height: 28.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12.6px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: none;
+    }
+
+    .tableViewButton {
+      background-color: transparent;
+      color: $blue-600;
+
+      &:hover {
+        background-color: rgba(59, 130, 246, 0.06);
+      }
+    }
+
+    .mapViewButton {
+      background: $blue-600;
+      color: $white;
+
+      &:hover {
+        box-shadow: 0 8px 25px -8px #3b82f6;
       }
     }
   }
@@ -54,7 +98,6 @@
   .rightSection {
     display: flex;
     align-items: center;
-    gap: 10px;
     flex-shrink: 0;
 
     .languageToggle,

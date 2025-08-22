@@ -14,7 +14,7 @@ const PublicPlotsSwitcher = () => {
     <div className={styles.wrapper}>
       <Tooltip text={t('tooltip')} bottom='-40px' right='-1px'>
         <button className={styles.switcher} onClick={togglePublicPlots}>
-          <TbRoad size={20} />
+          <TbRoad size={18} />
           <p className={styles.text}>{t('text')}</p>
 
           <Switch checked={isPublicPlots} onChange={togglePublicPlots} />

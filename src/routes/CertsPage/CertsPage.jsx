@@ -1,12 +1,7 @@
 import { ModeSwitcher, ResetViewButton } from '../../components'
 import { MODES } from '../../constants'
 import { BuildingsMode, CountiesMode, PlotsMode } from '../../modes'
-import {
-  BuildingsPanel,
-  FiltersContainer,
-  PlotsPanel,
-  SettingsPanel,
-} from '../../panels'
+import { BuildingsPanel, PlotsPanel, SettingsPanel } from '../../panels'
 import { useEventStore, useFilterStore, useModeStore } from '../../store'
 
 const CertsPage = () => {
@@ -33,7 +28,6 @@ const CertsPage = () => {
       <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
       <BuildingsPanel activeBuildingId={clickedFeature?.properties?.EGID} />
       <SettingsPanel />
-      <FiltersContainer filtersFor='construction-certs' />
 
       <ResetViewButton top={10} right={175} isVisible={isResetButtonVisible} />
     </>

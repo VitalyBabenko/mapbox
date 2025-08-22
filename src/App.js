@@ -12,6 +12,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { useLocaleStore } from './store'
 
 import { useMouseEvents, useVisibleFeatures } from './hooks'
+import CountyStatsButton from './panels/CountyStatsPanel/CountyStatsButton/CountyStatsButton'
 
 function App() {
   const mapRef = useRef(null)
@@ -61,6 +62,7 @@ function App() {
     <BrowserRouter>
       <div ref={wrapperRef} className={globalStyle.appWrapper}>
         <Header />
+        <Toast />
         <Map
           ref={mapRef}
           cursor={mouse.cursor}
@@ -82,6 +84,7 @@ function App() {
             zoom: INITIAL_VIEW.ZOOM,
           }}
         >
+          <CountyStatsButton />
           <AppRoutes isMapLoading={isMapLoading} />
 
           <ProtectedMode />
@@ -89,7 +92,6 @@ function App() {
           <TagsModal />
           <FullscreenControl position='top-right' />
           <NavigationControl />
-          <Toast />
         </Map>
 
         <Sidebar map={mapRef.current} />

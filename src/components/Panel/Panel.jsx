@@ -3,7 +3,6 @@ import style from './Panel.module.scss'
 import Tooltip from '../Tooltip/Tooltip'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
 import { AiOutlineClose as CrossIcon } from 'react-icons/ai'
-import { memo } from 'react'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
 import Loader from '../Loader/Loader'
 
