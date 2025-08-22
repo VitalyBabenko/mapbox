@@ -23,6 +23,11 @@
     background: $white;
     transition: ease 0.3s border-color;
 
+    &[autocomplete='off'] {
+      border-color: $grey-200 !important;
+      background: white !important;
+    }
+
     &:focus {
       border: 1px solid $blue-600;
       border-right: none;

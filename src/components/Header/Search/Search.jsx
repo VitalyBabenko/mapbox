@@ -21,7 +21,9 @@ const Search = () => {
       try {
         const filters = await filterService.fetchFilters('plots')
         if (!filters.error) {
-          const searchFilter = filters.find(filter => filter.id === 14)
+          const searchFilter = filters.find(
+            filter => filter.attribute === 'condensed_address',
+          )
           if (searchFilter && searchFilter.values) {
             const options = searchFilter.values.map(value => ({
               label: value,
@@ -85,7 +87,7 @@ const Search = () => {
         selected={searchValue}
         maxResults={20}
         allowNew
-        newSelectionPrefix='Custom address: '
+        newSelectionPrefix='Other: '
         placeholder='Search by address...'
         className={styles.searchTypeahead}
         minLength={1}

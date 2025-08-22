@@ -3,7 +3,6 @@ import bookmarksModePreview from '../../../assets/images/bookmarksModePreview.pn
 import tagsModePreview from '../../../assets/images/tagsModePreview.png'
 import alertsModePreview from '../../../assets/images/alertsModePreview.png'
 import notesModePreview from '../../../assets/images/notesModePreview.png'
-import { Link } from 'react-router-dom'
 import { useLocale } from '../../../hooks/useLocale'
 
 const MyMapsSection = () => {
@@ -45,9 +44,9 @@ const MyMapsSection = () => {
         <h3 className={style.title}>{t('myMaps')}</h3>
 
         {isResetShowed && (
-          <Link className={style.reset} to='/explore/map/plots'>
+          <a className={style.reset} href='/explore/map/plots'>
             {t('buttons.reset')}
-          </Link>
+          </a>
         )}
       </div>
 
@@ -57,10 +56,10 @@ const MyMapsSection = () => {
             key={link.href}
             className={pathname === link.href ? style.active : null}
           >
-            <Link to={link.href}>
+            <a href={link.href}>
               <img src={link.image} alt='placeholder' />
               <span>{link.title}</span>
-            </Link>
+            </a>
           </li>
         ))}
       </ul>

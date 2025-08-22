@@ -93,4 +93,5 @@
   overflow-y: auto;
   flex: 1;
   @include custom-scrollbar;
+  overflow-x: hidden;
 }

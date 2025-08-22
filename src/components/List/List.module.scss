@@ -1,11 +1,11 @@
-@import "../../styles/variables";
+@import '../../styles/variables';
 
 .listTitle {
   font-size: 18px;
   font-weight: 500;
   line-height: 30.6px;
   margin-bottom: 6px;
-  color: $grey-700;
+  color: $grey-700 !important;
 }
 
 .list {
