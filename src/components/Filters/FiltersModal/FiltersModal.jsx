@@ -15,13 +15,9 @@ import { getCountyByName } from '../../../utils/getCountyByName'
 import { useMap } from 'react-map-gl'
 import bbox from '@turf/bbox'
 import { delay } from '../../../utils/delay'
+import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue'
 
-const FiltersModal = ({
-  filtersFor = 'plots',
-  isOpen = false,
-  onClose,
-  resetViewButtonRef,
-}) => {
+const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
   const [loading, setLoading] = useState(true)
   const [mapLoading, setMapLoading] = useState(false)
   const [error, setError] = useState('')
@@ -37,6 +33,49 @@ const FiltersModal = ({
     const url = window.location.href
     const cleanedUrl = removeQueryParams(url)
     window.history.replaceState({}, '', cleanedUrl)
+  }
+
+  const hasAnyInput = () => {
+    if (!filters) return false
+
+    return filters.some(filter => {
+      const defaultValue = getFilterAttributeValue(filter.view, filter.values)
+
+      // Compare current value with default value
+      if (filter.view === 'range') {
+        return (
+          !Array.isArray(filter.value) ||
+          filter.value[0] !== defaultValue[0] ||
+          filter.value[1] !== defaultValue[1]
+        )
+      }
+
+      if (filter.view === 'date_range') {
+        return (
+          !filter.value ||
+          filter.value.start !== defaultValue.start ||
+          filter.value.end !== defaultValue.end
+        )
+      }
+
+      if (filter.view === 'multiple_dropdown') {
+        return Array.isArray(filter.value) && filter.value.length > 0
+      }
+
+      if (filter.view === 'typeahead_input') {
+        return Array.isArray(filter.value) && filter.value.length > 0
+      }
+
+      if (filter.view === 'input') {
+        return filter.value && filter.value.length > 0
+      }
+
+      if (filter.view === 'checkbox') {
+        return filter.value === true
+      }
+
+      return false
+    })
   }
 
   const handleClose = () => {
@@ -152,6 +191,7 @@ const FiltersModal = ({
         title={modalTitle}
         size='medium'
         className={style.filtersModal}
+        hasUnsavedChanges={hasAnyInput}
       >
         {error ? (
           <div className={style.errorContainer}>
