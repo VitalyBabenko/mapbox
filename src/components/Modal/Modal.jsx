@@ -9,6 +9,8 @@ const Modal = ({
   children,
   size = 'medium',
   className = '',
+  onOverlayMouseDown,
+  onModalMouseDown,
 }) => {
   useEffect(() => {
     const handleEscape = e => {
@@ -33,8 +35,16 @@ const Modal = ({
   const modalClassName = `${style.modal} ${style[size]} ${className}`
 
   return (
-    <div className={style.overlay} onClick={onClose}>
-      <div className={modalClassName} onClick={e => e.stopPropagation()}>
+    <div
+      className={style.overlay}
+      onClick={onClose}
+      onMouseDown={onOverlayMouseDown}
+    >
+      <div
+        className={modalClassName}
+        onMouseDown={onModalMouseDown}
+        onClick={e => e.stopPropagation()}
+      >
         <div className={style.header}>
           {title && <h2 className={style.title}>{title}</h2>}
           <button className={style.closeButton} onClick={onClose}>

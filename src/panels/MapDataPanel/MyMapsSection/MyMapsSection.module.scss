@@ -27,9 +27,11 @@
 
 ul.list {
   display: flex;
+  gap: 12px;
 
   li {
-    margin-bottom: 10px;
+    flex: 1;
+    margin-bottom: 0;
 
     a {
       display: flex;
@@ -37,12 +39,19 @@ ul.list {
       align-items: center;
       text-decoration: none !important;
 
-      img {
-        width: 80%;
+      .icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border: 1px solid #cfcece;
-        border-radius: 6px;
-        margin-bottom: 7px;
-        transition: box-shadow ease 0.3s;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        transition: all ease 0.3s;
+        background: #f8f9fa;
+        color: $grey-500;
+        font-size: 20px;
       }
 
       span {
@@ -52,22 +61,26 @@ ul.list {
         height: fit-content;
         line-height: 16px;
         text-align: center;
-        font-size: 14.5px;
-        font-weight: 400;
+        font-size: 13px;
+        font-weight: 500;
         color: $grey-600;
         transition: color ease 0.3s;
       }
 
       &:hover {
-        img {
+        .icon {
           box-shadow: $grey-600 0px 2px 7px;
+          background: #f0f0f0;
         }
       }
     }
 
     &.active {
-      img {
+      .icon {
         box-shadow: #3b82f6 0px 2px 7px;
+        background: #eff6ff;
+        color: #3b82f6;
+        border-color: #3b82f6;
       }
 
       span {

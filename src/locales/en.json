@@ -288,5 +288,12 @@
 
   "panel": {
     "movePanel": "Move the panel"
+  },
+
+  "myMaps": {
+    "tags": "Tags",
+    "bookmarks": "Bookmarks",
+    "alerts": "Alerts",
+    "notes": "Notes"
   }
 }

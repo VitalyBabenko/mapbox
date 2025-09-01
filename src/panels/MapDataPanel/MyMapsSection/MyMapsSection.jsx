@@ -1,34 +1,37 @@
 import style from './MyMapsSection.module.scss'
-import bookmarksModePreview from '../../../assets/images/bookmarksModePreview.png'
-import tagsModePreview from '../../../assets/images/tagsModePreview.png'
-import alertsModePreview from '../../../assets/images/alertsModePreview.png'
-import notesModePreview from '../../../assets/images/notesModePreview.png'
 import { useLocale } from '../../../hooks/useLocale'
+import {
+  FaTags as TagsIcon,
+  FaBookmark as BookmarksIcon,
+  FaBell as AlertsIcon,
+  FaStickyNote as NotesIcon,
+} from 'react-icons/fa'
 
 const MyMapsSection = () => {
   const { t } = useLocale('panels.mapData')
+  const { t: tMyMaps } = useLocale('myMaps')
   const pathname = window.location.pathname
 
   const links = [
     {
       href: '/explore/map/tags',
-      title: t('plotsWithTags'),
-      image: tagsModePreview,
+      title: tMyMaps('tags'),
+      icon: TagsIcon,
     },
     {
       href: '/explore/map/bookmarks',
-      title: t('plotsWithBookmarks'),
-      image: bookmarksModePreview,
+      title: tMyMaps('bookmarks'),
+      icon: BookmarksIcon,
     },
     {
       href: '/explore/map/alerts',
-      title: t('plotsWithAlerts'),
-      image: alertsModePreview,
+      title: tMyMaps('alerts'),
+      icon: AlertsIcon,
     },
     {
       href: '/explore/map/notes',
-      title: t('plotsWithNotes'),
-      image: notesModePreview,
+      title: tMyMaps('notes'),
+      icon: NotesIcon,
     },
   ]
 
@@ -51,17 +54,22 @@ const MyMapsSection = () => {
       </div>
 
       <ul className={style.list}>
-        {links.map(link => (
-          <li
-            key={link.href}
-            className={pathname === link.href ? style.active : null}
-          >
-            <a href={link.href}>
-              <img src={link.image} alt='placeholder' />
-              <span>{link.title}</span>
-            </a>
-          </li>
-        ))}
+        {links.map(link => {
+          const IconComponent = link.icon
+          return (
+            <li
+              key={link.href}
+              className={pathname === link.href ? style.active : null}
+            >
+              <a href={link.href}>
+                <div className={style.icon}>
+                  <IconComponent />
+                </div>
+                <span>{link.title}</span>
+              </a>
+            </li>
+          )
+        })}
       </ul>
     </>
   )

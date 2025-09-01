@@ -286,5 +286,12 @@
 
   "panel": {
     "movePanel": "Déplacer le panneau"
+  },
+
+  "myMaps": {
+    "tags": "Étiquettes",
+    "bookmarks": "Marque-pages",
+    "alerts": "Alertes",
+    "notes": "Remarques"
   }
 }
