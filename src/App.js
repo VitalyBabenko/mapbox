@@ -4,12 +4,11 @@ import globalStyle from './styles/global.module.scss'
 import { TagsModal, Toast, Sidebar, Drawer, Header } from './components'
 import { INITIAL_VIEW, INTERACTIVE_LAYER_IDS, MAP_STYLES } from './constants'
 
-import { useModeStore, useZoneStore } from './store'
+import { useModeStore, useZoneStore, useLocaleStore } from './store'
 import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes.jsx'
 import { ProtectedMode, ZonesMode } from './modes/index.js'
 import 'react-datepicker/dist/react-datepicker.css'
-import { useLocaleStore } from './store'
 
 import { useMouseEvents, useVisibleFeatures } from './hooks'
 import CountyStatsButton from './panels/CountyStatsPanel/CountyStatsButton/CountyStatsButton'

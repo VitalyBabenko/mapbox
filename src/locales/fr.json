@@ -1,4 +1,29 @@
 {
+  "header": {
+    "search": {
+      "placeholder": "Rechercher par adresse...",
+      "clearSearch": "Effacer la recherche",
+      "newSelectionPrefix": "Autre : "
+    },
+    "viewButtons": {
+      "tableView": "Vue tableau",
+      "mapView": "Vue carte"
+    },
+    "userMenu": {
+      "title": "Gérer le profil",
+      "myAccount": "Mon compte",
+      "logout": "Déconnexion",
+      "userMenu": "Menu utilisateur",
+      "selectLanguage": "Sélectionner la langue"
+    },
+    "theme": {
+      "toggleTheme": "Basculer le thème"
+    },
+    "languages": {
+      "english": "Anglais",
+      "french": "Français"
+    }
+  },
   "panels": {
     "buildings": {
       "error": "Les informations sur le bâtiment ne sont pas disponibles. Veuillez réessayer plus tard.",
@@ -257,5 +282,9 @@
       "text": "Parcelles publiques",
       "tooltip": "Afficher ou masquer les parcelles publiques telles que les routes et les terres communales"
     }
+  },
+
+  "panel": {
+    "movePanel": "Déplacer le panneau"
   }
 }

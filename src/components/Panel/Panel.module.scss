@@ -23,6 +23,7 @@
   background: $white;
   overflow: auto;
   @include custom-scrollbar;
+  overflow-x: hidden;
 
   .heading {
     display: flex;

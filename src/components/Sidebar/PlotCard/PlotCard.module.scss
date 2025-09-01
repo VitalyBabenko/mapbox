@@ -127,6 +127,10 @@
       @include button-primary;
     }
 
+    .analyzeButton {
+      padding: 0 12px !important;
+    }
+
     a button {
       background-color: transparent;
       border: 1px solid #e5e7eb;

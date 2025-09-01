@@ -14,7 +14,8 @@ const Search = () => {
   const { setFiltersResult } = useFilterStore()
   const toast = useToastStore()
   const { toggleSwitcher, switchToCountiesMode } = useModeStore()
-  const { t } = useLocale('panels.filters')
+  const { t: tFilters } = useLocale('panels.filters')
+  const { t: tHeader } = useLocale('header')
 
   useEffect(() => {
     const fetchSearchOptions = async () => {
@@ -58,16 +59,16 @@ const Search = () => {
       })
 
       if (resp?.error) {
-        toast.error(t('toast.error'))
+        toast.error(tFilters('toast.error'))
       } else {
         setFiltersResult(resp?.features)
         toast.success(
-          t('toast.success', { count: resp?.features?.length || 0 }),
+          tFilters('toast.success', { count: resp?.features?.length || 0 }),
         )
       }
     } catch (err) {
       console.error('Search error:', err)
-      toast.error(t('toast.error'))
+      toast.error(tFilters('toast.error'))
     }
   }
 
@@ -87,8 +88,8 @@ const Search = () => {
         selected={searchValue}
         maxResults={20}
         allowNew
-        newSelectionPrefix='Other: '
-        placeholder='Search by address...'
+        newSelectionPrefix={tHeader('search.newSelectionPrefix')}
+        placeholder={tHeader('search.placeholder')}
         className={styles.searchTypeahead}
         minLength={1}
       />
@@ -96,7 +97,7 @@ const Search = () => {
         <button
           onClick={clearSearch}
           className={styles.clearSearchButton}
-          aria-label='Clear search'
+          aria-label={tHeader('search.clearSearch')}
         >
           ✕
         </button>

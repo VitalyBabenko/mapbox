@@ -11,6 +11,11 @@
 .searchTypeahead {
   width: 100%;
 
+  div[role='listbox'] {
+    min-width: 423px;
+    overflow-x: hidden;
+  }
+
   input {
     width: 330px !important;
     padding-left: 32px;

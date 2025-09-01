@@ -8,7 +8,7 @@ import { useLocale } from '@/hooks'
 
 const LocaleMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { locale } = useLocale()
+  const { locale, t } = useLocale('header')
 
   const menuRef = useRef(null)
 
@@ -26,8 +26,8 @@ const LocaleMenu = () => {
   }, [])
 
   const languages = [
-    { code: 'en', name: 'English', flag: enFlag, link: '/lang/en' },
-    { code: 'fr', name: 'French', flag: frFlag, link: '/lang/fr' },
+    { code: 'en', name: t('languages.english'), flag: enFlag, link: '/lang/en' },
+    { code: 'fr', name: t('languages.french'), flag: frFlag, link: '/lang/fr' },
   ]
 
   const currentLang = languages.find(lang => lang.code === locale)
@@ -41,7 +41,7 @@ const LocaleMenu = () => {
       <button
         onClick={toggleMenu}
         className={styles.localeToggle}
-        aria-label='Select language'
+        aria-label={t('userMenu.selectLanguage')}
       >
         <img
           src={currentLang.flag}

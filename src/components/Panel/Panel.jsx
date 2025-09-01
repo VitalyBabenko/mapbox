@@ -1,4 +1,4 @@
-import { useDraggable } from '../../hooks'
+import { useDraggable, useLocale } from '../../hooks'
 import style from './Panel.module.scss'
 import Tooltip from '../Tooltip/Tooltip'
 import { RiDraggable as DraggableIcon } from 'react-icons/ri'
@@ -22,6 +22,7 @@ const Panel = props => {
     buttonPosition = { top: 0, left: 0, right: 0, bottom: 0 },
   } = props
   const { position, handleMouseDown } = useDraggable(panelPosition)
+  const { t } = useLocale('panel')
 
   const panelInlineStyle = {
     top: position.y,
@@ -65,7 +66,7 @@ const Panel = props => {
         {error ? <h2>Error</h2> : heading}
 
         <div className={style.controls}>
-          <Tooltip text='Move the panel' bottom='-40px'>
+          <Tooltip text={t('movePanel')} right='-35px' bottom='-40px'>
             <DraggableIcon
               size={24}
               className={style.draggableIcon}

@@ -1,4 +1,29 @@
 {
+  "header": {
+    "search": {
+      "placeholder": "Search by address...",
+      "clearSearch": "Clear search",
+      "newSelectionPrefix": "Other: "
+    },
+    "viewButtons": {
+      "tableView": "Table view",
+      "mapView": "Map view"
+    },
+    "userMenu": {
+      "title": "Manage Profile",
+      "myAccount": "My Account",
+      "logout": "Logout",
+      "userMenu": "User menu",
+      "selectLanguage": "Select language"
+    },
+    "theme": {
+      "toggleTheme": "Toggle theme"
+    },
+    "languages": {
+      "english": "English",
+      "french": "French"
+    }
+  },
   "panels": {
     "buildings": {
       "error": "Building information is unavailable. Please try again later.",
@@ -259,5 +284,9 @@
       "text": "Public plots",
       "tooltip": "Show or hide public plots such as roads and municipal lands"
     }
+  },
+
+  "panel": {
+    "movePanel": "Move the panel"
   }
 }

@@ -1,9 +1,10 @@
 import React from 'react'
 import { IoMoonOutline, IoSunnyOutline } from 'react-icons/io5'
-import { useLocalStorage } from '@hooks'
+import { useLocalStorage, useLocale } from '@/hooks'
 import styles from './ThemeToggler.module.scss'
 
 const ThemeToggler = () => {
+  const { t } = useLocale('header')
   const [currentSkin, setCurrentSkin] = useLocalStorage(
     'light-layout-current-skin',
     'light-layout',
@@ -26,7 +27,7 @@ const ThemeToggler = () => {
     <button
       onClick={handleToggle}
       className={styles.themeToggle}
-      aria-label='Toggle theme'
+      aria-label={t('theme.toggleTheme')}
     >
       {isDarkTheme ? (
         <IoSunnyOutline className={styles.themeIcon} size={21} />
