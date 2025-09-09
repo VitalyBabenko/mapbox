@@ -17,7 +17,7 @@ import bbox from '@turf/bbox'
 import { delay } from '../../../utils/delay'
 import { getFilterAttributeValue } from '../../../utils/getFilterAttributeValue'
 
-const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
+const FiltersModal = ({ isOpen = false, onClose }) => {
   const [loading, setLoading] = useState(true)
   const [mapLoading, setMapLoading] = useState(false)
   const [error, setError] = useState('')
@@ -27,7 +27,8 @@ const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
   const { current: map } = useMap()
   const { filters, setFilters, setFiltersResult, setFilterValue } =
     useFilterStore()
-  const { switcher, switchToPlotsMode, switchToBuildingsMode } = useModeStore()
+  const { switcher, mode, switchToPlotsMode, switchToBuildingsMode } =
+    useModeStore()
 
   const clearQueryParamsOnClose = () => {
     const url = window.location.href
@@ -41,7 +42,6 @@ const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
     return filters.some(filter => {
       const defaultValue = getFilterAttributeValue(filter.view, filter.values)
 
-      // Compare current value with default value
       if (filter.view === 'range') {
         return (
           !Array.isArray(filter.value) ||
@@ -103,7 +103,7 @@ const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
       setController(newController)
       const signal = newController.signal
 
-      const resp = await filterService.fetchResults(filtersFor, filters, signal)
+      const resp = await filterService.fetchResults(switcher, filters, signal)
 
       if (resp?.error) {
         if (resp?.error?.message === 'canceled') {
@@ -131,7 +131,7 @@ const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
       const countyFilter = filters.find(f => f.attribute === 'commune_name')
       const searchedCounty = countyFilter?.value?.[0]?.label
 
-      if (searchedCounty) {
+      if (searchedCounty && map) {
         const countyFeature = getCountyByName(searchedCounty)
 
         await delay(1000)
@@ -145,10 +145,12 @@ const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
           { padding: 0, duration: 1500, zoom: 13 },
         )
 
-        if (switcher === MODES.PLOTS) {
-          switchToPlotsMode(countyFeature)
-        } else {
-          switchToBuildingsMode(countyFeature)
+        if (mode !== MODES.FILTER) {
+          if (switcher === MODES.PLOTS) {
+            switchToPlotsMode(countyFeature)
+          } else {
+            switchToBuildingsMode(countyFeature)
+          }
         }
       }
     }
@@ -165,7 +167,7 @@ const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
     const fetchFilters = async () => {
       setError('')
       setLoading(true)
-      const resp = await filterService.fetchFilters(filtersFor)
+      const resp = await filterService.fetchFilters(switcher)
       resp?.error ? setError(resp.error) : setFilters(resp)
 
       setLoading(false)
@@ -174,7 +176,7 @@ const FiltersModal = ({ filtersFor = 'plots', isOpen = false, onClose }) => {
     if (isOpen) {
       fetchFilters()
     }
-  }, [filtersFor, isOpen, setFilters])
+  }, [switcher, isOpen, setFilters])
 
   const modalTitle = (
     <>

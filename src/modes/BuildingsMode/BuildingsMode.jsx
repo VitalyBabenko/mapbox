@@ -37,7 +37,7 @@ const BuildingsMode = () => {
   const { activePaint } = usePaintStore()
   const { filtersResult } = useFilterStore()
   const { hoveredFeature, clickedFeature } = useEventStore()
-  const { openDrawer, closeDrawer } = useDrawer()
+  const { openDrawer } = useDrawer()
 
   const isActive = switcher === 'buildings'
 
