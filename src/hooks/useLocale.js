@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useLocaleStore } from '../store/localeStore'
 
 export const useLocale = (namespace = '') => {
-  const { locale, translations } = useLocaleStore()
+  const { locale, translations, isInitialized } = useLocaleStore()
 
   const getNestedTranslation = (obj, path) => {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj)
@@ -10,6 +10,10 @@ export const useLocale = (namespace = '') => {
 
   const t = useCallback(
     (key, params = {}) => {
+      if (!isInitialized) {
+        return key
+      }
+
       let finalTranslations = translations
 
       if (namespace) {
@@ -52,7 +56,7 @@ export const useLocale = (namespace = '') => {
 
       return message
     },
-    [locale, translations, namespace],
+    [locale, translations, namespace, isInitialized],
   )
 
   return { t, locale }

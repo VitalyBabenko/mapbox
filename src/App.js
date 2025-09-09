@@ -5,6 +5,7 @@ import { TagsModal, Toast, Sidebar, Drawer, Header } from './components'
 import { INITIAL_VIEW, INTERACTIVE_LAYER_IDS, MAP_STYLES } from './constants'
 
 import { useModeStore, useZoneStore, useLocaleStore } from './store'
+import { useDrawer } from './hooks'
 import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes.jsx'
 import { ProtectedMode, ZonesMode } from './modes/index.js'
@@ -14,6 +15,8 @@ import { useMouseEvents, useVisibleFeatures } from './hooks'
 import CountyStatsButton from './panels/CountyStatsPanel/CountyStatsButton/CountyStatsButton'
 
 function App() {
+  // Initialize Drawer click handling globally
+  useDrawer()
   const mapRef = useRef(null)
   const wrapperRef = useRef(null)
   const [isMapLoading, setIsMapLoading] = useState(true)
@@ -42,13 +45,14 @@ function App() {
       handleResize()
     })
 
-    if (wrapperRef.current) {
-      observer.observe(wrapperRef.current)
+    const currentWrapper = wrapperRef.current
+    if (currentWrapper) {
+      observer.observe(currentWrapper)
     }
 
     return () => {
-      if (wrapperRef.current) {
-        observer.unobserve(wrapperRef.current)
+      if (currentWrapper) {
+        observer.unobserve(currentWrapper)
       }
     }
   }, [])
@@ -73,6 +77,10 @@ function App() {
           interactiveLayerIds={[
             ...INTERACTIVE_LAYER_IDS,
             isZonesPrimary ? 'zones' : '',
+            'tagsLayer',
+            'bookmarksLayer',
+            'notesLayer',
+            'alertsLayer',
           ]}
           mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
           mapStyle={MAP_STYLES[0].url}

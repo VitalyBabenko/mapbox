@@ -195,8 +195,8 @@ export const PlotCardSkeleton = () => {
       <div className={style.divider} />
 
       <ul className={style.info}>
-        {Array.from({ length: 3 }).map(item => (
-          <li key={item} className={style.infoItem}>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <li key={index} className={style.infoItem}>
             <SkeletonBlock
               width='100px'
               height='12px'
