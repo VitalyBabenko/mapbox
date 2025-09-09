@@ -33,6 +33,7 @@ export const MODES = {
   FILTER: 'filter',
   TAGS: 'tags',
   BOOKMARKS: 'bookmarks',
+  FEATURES: 'features',
 }
 
 export const DEFAULT_TAG_COLORS = [

@@ -239,10 +239,12 @@
     "counties": "Communes",
     "plots": "Parcelles",
     "buildings": "Bâtiments",
+    "features": "Fonctionnalités",
     "emptyState": {
       "counties": "Aucune commune disponible",
       "plots": "Aucune parcelle trouvée sur la carte",
-      "buildings": "Aucun bâtiment trouvé sur la carte"
+      "buildings": "Aucun bâtiment trouvé sur la carte",
+      "features": "Aucune fonctionnalité disponible"
     }
   },
 

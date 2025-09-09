@@ -241,10 +241,12 @@
     "counties": "Communes",
     "plots": "Plots",
     "buildings": "Buildings",
+    "features": "Features",
     "emptyState": {
       "counties": "No communes available",
       "plots": "No plots found on the map",
-      "buildings": "No buildings found on the map"
+      "buildings": "No buildings found on the map",
+      "features": "No features available"
     }
   },
 
