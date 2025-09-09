@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { BUILDINGS_SOURCE, COUNTIES_SOURCE, PLOTS_SOURCE } from '../constants'
 import { useEventStore, useModeStore } from '../store'
 import { usePlotsFilter } from './usePlotsFilter'
@@ -13,7 +13,7 @@ export function useVisibleFeatures(map, delay = 250) {
 
   const timer = useRef(null)
 
-  const updateFeatures = () => {
+  const updateFeatures = useCallback(() => {
     if (!map) return
 
     const renderProperties = {
@@ -33,11 +33,19 @@ export function useVisibleFeatures(map, delay = 250) {
       },
     }
 
-    const rendered = map.queryRenderedFeatures({
+    const queryOptions = {
       source: renderProperties[mode].source,
       sourceLayer: renderProperties[mode].sourceLayer,
-      filter: renderProperties[mode]?.filter || [],
-    })
+    }
+
+    if (
+      renderProperties[mode]?.filter &&
+      renderProperties[mode].filter.length > 0
+    ) {
+      queryOptions.filter = renderProperties[mode].filter
+    }
+
+    const rendered = map.queryRenderedFeatures(queryOptions)
 
     const unique = []
     const seen = new Set()
@@ -64,7 +72,14 @@ export function useVisibleFeatures(map, delay = 250) {
 
     setRenderedFeatures(unique)
     setRenderedFeaturesLoading(false)
-  }
+  }, [
+    map,
+    mode,
+    plotsFilter,
+    buildingsFilter,
+    setRenderedFeatures,
+    setRenderedFeaturesLoading,
+  ])
 
   useEffect(() => {
     if (!map) return
@@ -83,7 +98,14 @@ export function useVisibleFeatures(map, delay = 250) {
       map.off('move', debouncedUpdate)
       clearTimeout(timer.current)
     }
-  }, [map, delay, mode, isPublicPlots])
+  }, [
+    map,
+    delay,
+    mode,
+    isPublicPlots,
+    updateFeatures,
+    setRenderedFeaturesLoading,
+  ])
 
   return { renderedFeatures, setRenderedFeaturesLoading }
 }
