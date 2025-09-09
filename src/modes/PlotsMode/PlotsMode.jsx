@@ -28,6 +28,8 @@ const PlotsMode = () => {
   const isSearch = Boolean(filtersResult?.length && isActive)
   const hasCounty = Boolean(county)
 
+  console.log(clickedFeature)
+
   useEffect(() => {
     const handlePlotClick = () => {
       const egrid = clickedFeature?.properties?.EGRID

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { PlotsPanel, FeaturesPanel, SettingsPanel } from '../../panels'
+import { FeaturesPanel, SettingsPanel } from '../../panels'
 import { useEventStore } from '../../store'
 import {
   FaRegNoteSticky as NoteIcon,
@@ -30,8 +30,6 @@ const NotesPage = () => {
         geojson={plotsWithNotes}
         isActive={true}
       />
-
-      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
 
       <FeaturesPanel
         icon={<NoteIconSolid />}

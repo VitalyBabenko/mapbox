@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
-import { PlotsPanel, FeaturesPanel, SettingsPanel } from '../../panels'
-import { useEventStore } from '../../store'
+import { FeaturesPanel, SettingsPanel } from '../../panels'
 import { FaRegBell as BellIcon, FaBell as BellIconSolid } from 'react-icons/fa'
 import { plotService } from '../../service/plotService'
 import GeojsonRenderer from '../../components/GeojsonRenderer/GeojsonRenderer'
 
 const AlertsPage = () => {
   const [plotsWithAlerts, setPlotsWithAlerts] = useState([])
-  const { clickedFeature } = useEventStore()
 
   useEffect(() => {
     const getPlotsWithAlerts = async () => {
@@ -27,8 +25,6 @@ const AlertsPage = () => {
         isActive={true}
         geojson={plotsWithAlerts}
       />
-
-      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
 
       <FeaturesPanel
         icon={<BellIconSolid />}

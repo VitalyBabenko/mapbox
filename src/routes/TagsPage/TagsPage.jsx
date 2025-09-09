@@ -1,5 +1,4 @@
-import { PlotsPanel, SettingsPanel, FeaturesPanel } from '../../panels'
-import { useEventStore } from '../../store'
+import { SettingsPanel, FeaturesPanel } from '../../panels'
 import { PiTagBold as TagIcon } from 'react-icons/pi'
 import { PiTagFill as TagIconFill } from 'react-icons/pi'
 import { useEffect, useState } from 'react'
@@ -8,7 +7,6 @@ import GeojsonRenderer from '../../components/GeojsonRenderer/GeojsonRenderer'
 
 const TagsPage = () => {
   const [plotsWithTags, setPlotsWithTags] = useState([])
-  const { clickedFeature } = useEventStore()
 
   useEffect(() => {
     const getPlotsWithTags = async () => {
@@ -28,8 +26,6 @@ const TagsPage = () => {
         geojson={plotsWithTags}
         isActive={true}
       />
-
-      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
 
       <FeaturesPanel
         icon={<TagIconFill />}

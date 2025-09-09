@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BookmarksMode } from '../../modes'
-import { PlotsPanel, FeaturesPanel, SettingsPanel } from '../../panels'
+import { FeaturesPanel, SettingsPanel } from '../../panels'
 import { useEventStore } from '../../store'
 import { FaRegBookmark as BookmarkIcon } from 'react-icons/fa6'
 import { FaBookmark as BookmarkIconSolid } from 'react-icons/fa6'
@@ -31,8 +31,6 @@ const BookmarksPage = () => {
       />
 
       <BookmarksMode isActive={true} />
-
-      <PlotsPanel activePlotId={clickedFeature?.properties?.EGRID} />
 
       <FeaturesPanel
         icon={<BookmarkIconSolid />}
